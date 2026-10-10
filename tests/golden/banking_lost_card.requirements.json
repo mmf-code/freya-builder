@@ -1,0 +1,522 @@
+[
+  {
+    "id": "R-d5201958",
+    "modality": "must",
+    "statement": "The assistant must verify the caller's identity before discussing any account details.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L13",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Identity verification"
+      ],
+      "quote": "The assistant must verify the caller's identity before discussing any account details."
+    },
+    "actor": "the assistant",
+    "preconditions": [
+      "before discussing any account details"
+    ],
+    "required_actions": [
+      "verify the caller's identity"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-65179ed1",
+    "modality": "must",
+    "statement": "Verify identity with the caller's date of birth and the last four digits of the card.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L14",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Identity verification"
+      ],
+      "quote": "Verify identity with the caller's date of birth and the last four digits of the card."
+    },
+    "actor": null,
+    "preconditions": [],
+    "required_actions": [
+      "verify identity with the caller's date of birth and the last four digits of the card"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-ebe482f8",
+    "modality": "may",
+    "statement": "The caller may retry verification up to three times.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L15",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Identity verification"
+      ],
+      "quote": "The caller may retry verification up to three times."
+    },
+    "actor": "the caller",
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [
+      "retry verification up to three times"
+    ],
+    "forbidden_actions": [],
+    "counters": [
+      {
+        "subject": "retry verification",
+        "limit": 3,
+        "kind": "max"
+      }
+    ],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-7287a246",
+    "modality": "must",
+    "statement": "After three failed verification attempts, the assistant must transfer the caller to a human agent.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L16",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Identity verification"
+      ],
+      "quote": "After three failed verification attempts, the assistant must transfer the caller to a human agent."
+    },
+    "actor": "the assistant",
+    "preconditions": [
+      "After three failed verification attempts"
+    ],
+    "required_actions": [
+      "transfer the caller to a human agent"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [
+      {
+        "subject": "failed verification attempts",
+        "limit": 3,
+        "kind": "threshold"
+      }
+    ],
+    "terminations": [
+      {
+        "kind": "handoff",
+        "outcome": "transfer the caller to a human agent",
+        "conditions": [
+          "After three failed verification attempts"
+        ]
+      }
+    ],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-0394a244",
+    "modality": "must_not",
+    "statement": "Never ask for the full card number, the PIN, or the online banking password.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L17",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Identity verification"
+      ],
+      "quote": "Never ask for the full card number, the PIN, or the online banking password."
+    },
+    "actor": null,
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [],
+    "forbidden_actions": [
+      "ask for the full card number, the PIN, or the online banking password"
+    ],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-96b40453",
+    "modality": "must",
+    "statement": "Once the caller is verified, block the card immediately.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L21",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Blocking the card"
+      ],
+      "quote": "Once the caller is verified, block the card immediately."
+    },
+    "actor": null,
+    "preconditions": [
+      "Once the caller is verified"
+    ],
+    "required_actions": [
+      "block the card immediately"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-6f7f27a3",
+    "modality": "must",
+    "statement": "The assistant must read back the last four digits of the card before blocking it.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L22",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Blocking the card"
+      ],
+      "quote": "The assistant must read back the last four digits of the card before blocking it."
+    },
+    "actor": "the assistant",
+    "preconditions": [
+      "before blocking it"
+    ],
+    "required_actions": [
+      "read back the last four digits of the card"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-7bbcaed6",
+    "modality": "must",
+    "statement": "If the caller reports transactions they do not recognise, transfer the call to the fraud team.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L23",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Blocking the card"
+      ],
+      "quote": "If the caller reports transactions they do not recognise, transfer the call to the fraud team."
+    },
+    "actor": null,
+    "preconditions": [
+      "If the caller reports transactions they do not recognise"
+    ],
+    "required_actions": [
+      "transfer the call to the fraud team"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [
+      {
+        "kind": "handoff",
+        "outcome": "transfer the call to the fraud team",
+        "conditions": [
+          "If the caller reports transactions they do not recognise"
+        ]
+      }
+    ],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-1cabe163",
+    "modality": "may",
+    "statement": "The assistant may offer a replacement card after the block is confirmed.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L24",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Blocking the card"
+      ],
+      "quote": "The assistant may offer a replacement card after the block is confirmed."
+    },
+    "actor": "the assistant",
+    "preconditions": [
+      "after the block is confirmed"
+    ],
+    "required_actions": [],
+    "allowed_actions": [
+      "offer a replacement card"
+    ],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-3fffc068",
+    "modality": "must_not",
+    "statement": "The assistant must not change the delivery address during this call.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L26",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Blocking the card"
+      ],
+      "quote": "The assistant must not change the delivery address during this call."
+    },
+    "actor": "the assistant",
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [],
+    "forbidden_actions": [
+      "change the delivery address during this call"
+    ],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-de87e40b",
+    "modality": "may",
+    "statement": "The assistant may repeat the replacement-card summary up to two times.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L27",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Blocking the card"
+      ],
+      "quote": "The assistant may repeat the replacement-card summary up to two times."
+    },
+    "actor": "the assistant",
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [
+      "repeat the replacement-card summary up to two times"
+    ],
+    "forbidden_actions": [],
+    "counters": [
+      {
+        "subject": "repeat the replacement-card summary",
+        "limit": 2,
+        "kind": "max"
+      }
+    ],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-91b62cb6",
+    "modality": "must_not",
+    "statement": "The assistant must not disclose the account balance or recent transactions.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L31-L33",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Disclosure rules"
+      ],
+      "quote": "The assistant must not disclose the account balance or recent transactions."
+    },
+    "actor": "the assistant",
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [],
+    "forbidden_actions": [
+      "disclose the account balance or recent transactions"
+    ],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-9d4f45cf",
+    "modality": "should_not",
+    "statement": "It should not speculate about how the card was compromised.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L31-L33",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Disclosure rules"
+      ],
+      "quote": "It should not speculate about how the card was compromised."
+    },
+    "actor": "it",
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [],
+    "forbidden_actions": [
+      "speculate about how the card was compromised"
+    ],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-56bbb5e9",
+    "modality": "must_not",
+    "statement": "Sharing internal fraud scores is not allowed.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L31-L33",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Disclosure rules"
+      ],
+      "quote": "Sharing internal fraud scores is not allowed."
+    },
+    "actor": null,
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [],
+    "forbidden_actions": [
+      "sharing internal fraud scores"
+    ],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-c63935a9",
+    "modality": "must",
+    "statement": "If the caller asks for a human at any point, transfer the call to a human agent.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L37",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Ending the call"
+      ],
+      "quote": "If the caller asks for a human at any point, transfer the call to a human agent."
+    },
+    "actor": null,
+    "preconditions": [
+      "If the caller asks for a human at any point"
+    ],
+    "required_actions": [
+      "transfer the call to a human agent"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [
+      {
+        "kind": "handoff",
+        "outcome": "transfer the call to a human agent",
+        "conditions": [
+          "If the caller asks for a human at any point"
+        ]
+      }
+    ],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-9dd5c689",
+    "modality": "must",
+    "statement": "End the call after the caller confirms they need nothing else.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L38",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Ending the call"
+      ],
+      "quote": "End the call after the caller confirms they need nothing else."
+    },
+    "actor": null,
+    "preconditions": [
+      "after the caller confirms they need nothing else"
+    ],
+    "required_actions": [
+      "end the call"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [
+      {
+        "kind": "end",
+        "outcome": "end the call",
+        "conditions": [
+          "after the caller confirms they need nothing else"
+        ]
+      }
+    ],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-2df731a0",
+    "modality": "must_not",
+    "statement": "Do not end the call while a card block is still pending.",
+    "source": {
+      "doc": "banking_lost_card.md",
+      "locator": "L39",
+      "section": [
+        "Northwind Bank: Lost or Stolen Card Line",
+        "Ending the call"
+      ],
+      "quote": "Do not end the call while a card block is still pending."
+    },
+    "actor": null,
+    "preconditions": [
+      "while a card block is still pending"
+    ],
+    "required_actions": [],
+    "allowed_actions": [],
+    "forbidden_actions": [
+      "end the call"
+    ],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  }
+]

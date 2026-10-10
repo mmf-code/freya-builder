@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+# Local secrets, generated IDs and outputs
+.env
+.env.*
+!env.example
+**/env.sh
+**/.freya-agents.json
+**/results/
+**/out/
+# Keep sanitized final traces under version control, never raw/private traces
+**/traces/raw/
+**/traces/*.secret.*
+# OS ZIP noise
+.DS_Store
+__MACOSX/
+# Kit run state written next to freya.py / run_cases.py (IDs, not secrets, but local)
+**/.personas.json
+# Raw SDK builder traces: may hold tool output; sanitize before committing
+docs/build-the-builder/traces/

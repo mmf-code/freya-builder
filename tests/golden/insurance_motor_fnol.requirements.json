@@ -1,0 +1,614 @@
+[
+  {
+    "id": "R-3117a3a5",
+    "modality": "must",
+    "statement": "If anyone is injured or still in danger, the assistant must tell the caller to contact emergency services first.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L13-L15",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Safety first"
+      ],
+      "quote": "If anyone is injured or still in danger, the assistant must tell the caller to contact emergency services first."
+    },
+    "actor": "the assistant",
+    "preconditions": [
+      "If anyone is injured or still in danger"
+    ],
+    "required_actions": [
+      "tell the caller to contact emergency services first"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-613fdda8",
+    "modality": "must",
+    "statement": "End the call once the emergency instruction has been given.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L13-L15",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Safety first"
+      ],
+      "quote": "End the call once the emergency instruction has been given."
+    },
+    "actor": null,
+    "preconditions": [
+      "once the emergency instruction has been given"
+    ],
+    "required_actions": [
+      "end the call"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [
+      {
+        "kind": "end",
+        "outcome": "end the call",
+        "conditions": [
+          "once the emergency instruction has been given"
+        ]
+      }
+    ],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-b8f576eb",
+    "modality": "must",
+    "statement": "Ask for the policy number or the vehicle registration.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L19",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Policy lookup"
+      ],
+      "quote": "Ask for the policy number or the vehicle registration."
+    },
+    "actor": null,
+    "preconditions": [],
+    "required_actions": [
+      "ask for the policy number or the vehicle registration"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-d1a75736",
+    "modality": "must",
+    "statement": "The assistant must confirm the policyholder's full name and postcode before opening a claim.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L20",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Policy lookup"
+      ],
+      "quote": "The assistant must confirm the policyholder's full name and postcode before opening a claim."
+    },
+    "actor": "the assistant",
+    "preconditions": [
+      "before opening a claim"
+    ],
+    "required_actions": [
+      "confirm the policyholder's full name and postcode"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-71f4cc6d",
+    "modality": "must",
+    "statement": "If the policy cannot be found after two attempts, transfer the caller to the claims team.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L21",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Policy lookup"
+      ],
+      "quote": "If the policy cannot be found after two attempts, transfer the caller to the claims team."
+    },
+    "actor": null,
+    "preconditions": [
+      "If the policy cannot be found after two attempts"
+    ],
+    "required_actions": [
+      "transfer the caller to the claims team"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [
+      {
+        "subject": "attempts",
+        "limit": 2,
+        "kind": "threshold"
+      }
+    ],
+    "terminations": [
+      {
+        "kind": "handoff",
+        "outcome": "transfer the caller to the claims team",
+        "conditions": [
+          "If the policy cannot be found after two attempts"
+        ]
+      }
+    ],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-55469103",
+    "modality": "may",
+    "statement": "The assistant may take the claim from a named driver if the policyholder is unavailable.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L22",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Policy lookup"
+      ],
+      "quote": "The assistant may take the claim from a named driver if the policyholder is unavailable."
+    },
+    "actor": "the assistant",
+    "preconditions": [
+      "if the policyholder is unavailable"
+    ],
+    "required_actions": [],
+    "allowed_actions": [
+      "take the claim from a named driver"
+    ],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-be06a500",
+    "modality": "must",
+    "statement": "Collect the date, time, and location of the incident.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L26",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Claim intake"
+      ],
+      "quote": "Collect the date, time, and location of the incident."
+    },
+    "actor": null,
+    "preconditions": [],
+    "required_actions": [
+      "collect the date, time, and location of the incident"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-3e160eb0",
+    "modality": "must",
+    "statement": "Ask whether a third party was involved.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L27",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Claim intake"
+      ],
+      "quote": "Ask whether a third party was involved."
+    },
+    "actor": null,
+    "preconditions": [],
+    "required_actions": [
+      "ask whether a third party was involved"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-c2cb79ed",
+    "modality": "should",
+    "statement": "The assistant should ask no more than five intake questions before summarising.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L28",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Claim intake"
+      ],
+      "quote": "The assistant should ask no more than five intake questions before summarising."
+    },
+    "actor": "the assistant",
+    "preconditions": [
+      "before summarising"
+    ],
+    "required_actions": [
+      "ask no more than five intake questions"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [
+      {
+        "subject": "intake questions",
+        "limit": 5,
+        "kind": "max"
+      }
+    ],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-efeed33a",
+    "modality": "must",
+    "statement": "Read the claim summary back to the caller before creating the claim reference.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L29",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Claim intake"
+      ],
+      "quote": "Read the claim summary back to the caller before creating the claim reference."
+    },
+    "actor": null,
+    "preconditions": [
+      "before creating the claim reference"
+    ],
+    "required_actions": [
+      "read the claim summary back to the caller"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-c9f09ffa",
+    "modality": "must",
+    "statement": "Give the caller the claim reference at the end of the call.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L30",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Claim intake"
+      ],
+      "quote": "Give the caller the claim reference at the end of the call."
+    },
+    "actor": null,
+    "preconditions": [],
+    "required_actions": [
+      "give the caller the claim reference at the end of the call"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-3329c11b",
+    "modality": "must_not",
+    "statement": "The assistant must never confirm or deny that the damage is covered.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L34",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Coverage statements"
+      ],
+      "quote": "The assistant must never confirm or deny that the damage is covered."
+    },
+    "actor": "the assistant",
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [],
+    "forbidden_actions": [
+      "confirm or deny that the damage is covered"
+    ],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-ead03d9f",
+    "modality": "must_not",
+    "statement": "Do not promise a payout amount or a repair timeline.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L35",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Coverage statements"
+      ],
+      "quote": "Do not promise a payout amount or a repair timeline."
+    },
+    "actor": null,
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [],
+    "forbidden_actions": [
+      "promise a payout amount or a repair timeline"
+    ],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-2bb28760",
+    "modality": "must_not",
+    "statement": "Admitting liability on the policyholder's behalf is prohibited.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L36",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Coverage statements"
+      ],
+      "quote": "Admitting liability on the policyholder's behalf is prohibited."
+    },
+    "actor": null,
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [],
+    "forbidden_actions": [
+      "admitting liability on the policyholder's behalf"
+    ],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-e7d55df9",
+    "modality": "may",
+    "statement": "The assistant may explain the general claims process.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L37",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Coverage statements"
+      ],
+      "quote": "The assistant may explain the general claims process."
+    },
+    "actor": "the assistant",
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [
+      "explain the general claims process"
+    ],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-5e52cfe7",
+    "modality": "must",
+    "statement": "When the caller mentions a total loss or a stolen vehicle, the assistant must transfer the call to a claims handler.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L41-L43",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Escalation"
+      ],
+      "quote": "When the caller mentions a total loss or a stolen vehicle, the assistant must transfer the call to a claims handler."
+    },
+    "actor": "the assistant",
+    "preconditions": [
+      "When the caller mentions a total loss or a stolen vehicle"
+    ],
+    "required_actions": [
+      "transfer the call to a claims handler"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [
+      {
+        "kind": "handoff",
+        "outcome": "transfer the call to a claims handler",
+        "conditions": [
+          "When the caller mentions a total loss or a stolen vehicle"
+        ]
+      }
+    ],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-38cc7a79",
+    "modality": "must",
+    "statement": "If the caller becomes abusive, give one warning.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L41-L43",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Escalation"
+      ],
+      "quote": "If the caller becomes abusive, give one warning."
+    },
+    "actor": null,
+    "preconditions": [
+      "If the caller becomes abusive"
+    ],
+    "required_actions": [
+      "give one warning"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [
+      {
+        "subject": "warning",
+        "limit": 1,
+        "kind": "count"
+      }
+    ],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-981ccb75",
+    "modality": "must",
+    "statement": "End the call if the abuse continues after the warning.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L41-L43",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Escalation"
+      ],
+      "quote": "End the call if the abuse continues after the warning."
+    },
+    "actor": null,
+    "preconditions": [
+      "if the abuse continues after the warning"
+    ],
+    "required_actions": [
+      "end the call"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [
+      {
+        "kind": "end",
+        "outcome": "end the call",
+        "conditions": [
+          "if the abuse continues after the warning"
+        ]
+      }
+    ],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-631fc745",
+    "modality": "should",
+    "statement": "The assistant should summarise the next steps before ending the call.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L47",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Closing"
+      ],
+      "quote": "The assistant should summarise the next steps before ending the call."
+    },
+    "actor": "the assistant",
+    "preconditions": [
+      "before ending the call"
+    ],
+    "required_actions": [
+      "summarise the next steps"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-5ce0b2d4",
+    "modality": "must_not",
+    "statement": "Do not end the call before the claim reference has been given.",
+    "source": {
+      "doc": "insurance_motor_fnol.md",
+      "locator": "L48",
+      "section": [
+        "Harbor Mutual: Motor Claim First Notice of Loss",
+        "Closing"
+      ],
+      "quote": "Do not end the call before the claim reference has been given."
+    },
+    "actor": null,
+    "preconditions": [
+      "before the claim reference has been given"
+    ],
+    "required_actions": [],
+    "allowed_actions": [],
+    "forbidden_actions": [
+      "end the call"
+    ],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  }
+]

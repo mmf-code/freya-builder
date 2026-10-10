@@ -1,0 +1,26 @@
+{
+  "_comment": "SYNTHETIC test brief. Not from Freya. Invented to test schema-independent JSON ingestion. The key names are arbitrary on purpose.",
+  "scenario": {
+    "title": "Harbor Mutual home insurance renewal reminder",
+    "channel": "outbound phone call",
+    "goal": "Remind the policyholder that their home policy renews in 30 days and confirm their contact details."
+  },
+  "guidelines": [
+    "Confirm you are speaking to the named policyholder before mentioning the policy.",
+    "If someone else answers, do not disclose why you are calling.",
+    "The assistant may offer to call back at a time that suits the policyholder.",
+    "If the policyholder asks to cancel, transfer the call to the retention team."
+  ],
+  "prohibited": [
+    "Quote a renewal premium",
+    "Recommend other insurers"
+  ],
+  "limits": {
+    "max_call_attempts": 3,
+    "maxCallbackOffers": 2,
+    "timeout_seconds": 600
+  },
+  "closing": {
+    "text": "End the call after confirming the contact details. Thank the policyholder before ending the call."
+  }
+}

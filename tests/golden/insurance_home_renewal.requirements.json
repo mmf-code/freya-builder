@@ -1,0 +1,334 @@
+[
+  {
+    "id": "R-b2e8dba3",
+    "modality": "must",
+    "statement": "Remind the policyholder that their home policy renews in 30 days and confirm their contact details.",
+    "source": {
+      "doc": "insurance_home_renewal.json",
+      "locator": "#/scenario/goal",
+      "section": [
+        "scenario",
+        "goal"
+      ],
+      "quote": "Remind the policyholder that their home policy renews in 30 days and confirm their contact details."
+    },
+    "actor": null,
+    "preconditions": [],
+    "required_actions": [
+      "remind the policyholder that their home policy renews in 30 days and confirm their contact details"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-e5d6680c",
+    "modality": "must",
+    "statement": "Confirm you are speaking to the named policyholder before mentioning the policy.",
+    "source": {
+      "doc": "insurance_home_renewal.json",
+      "locator": "#/guidelines/0",
+      "section": [
+        "guidelines"
+      ],
+      "quote": "Confirm you are speaking to the named policyholder before mentioning the policy."
+    },
+    "actor": null,
+    "preconditions": [
+      "before mentioning the policy"
+    ],
+    "required_actions": [
+      "confirm you are speaking to the named policyholder"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-cf4d7ccf",
+    "modality": "must_not",
+    "statement": "If someone else answers, do not disclose why you are calling.",
+    "source": {
+      "doc": "insurance_home_renewal.json",
+      "locator": "#/guidelines/1",
+      "section": [
+        "guidelines"
+      ],
+      "quote": "If someone else answers, do not disclose why you are calling."
+    },
+    "actor": null,
+    "preconditions": [
+      "If someone else answers"
+    ],
+    "required_actions": [],
+    "allowed_actions": [],
+    "forbidden_actions": [
+      "disclose why you are calling"
+    ],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-b542e9af",
+    "modality": "may",
+    "statement": "The assistant may offer to call back at a time that suits the policyholder.",
+    "source": {
+      "doc": "insurance_home_renewal.json",
+      "locator": "#/guidelines/2",
+      "section": [
+        "guidelines"
+      ],
+      "quote": "The assistant may offer to call back at a time that suits the policyholder."
+    },
+    "actor": "the assistant",
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [
+      "offer to call back at a time that suits the policyholder"
+    ],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [],
+    "extra": {}
+  },
+  {
+    "id": "R-322ae469",
+    "modality": "must",
+    "statement": "If the policyholder asks to cancel, transfer the call to the retention team.",
+    "source": {
+      "doc": "insurance_home_renewal.json",
+      "locator": "#/guidelines/3",
+      "section": [
+        "guidelines"
+      ],
+      "quote": "If the policyholder asks to cancel, transfer the call to the retention team."
+    },
+    "actor": null,
+    "preconditions": [
+      "If the policyholder asks to cancel"
+    ],
+    "required_actions": [
+      "transfer the call to the retention team"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [
+      {
+        "kind": "handoff",
+        "outcome": "transfer the call to the retention team",
+        "conditions": [
+          "If the policyholder asks to cancel"
+        ]
+      }
+    ],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-26903f58",
+    "modality": "must_not",
+    "statement": "Quote a renewal premium",
+    "source": {
+      "doc": "insurance_home_renewal.json",
+      "locator": "#/prohibited/0",
+      "section": [
+        "prohibited"
+      ],
+      "quote": "Quote a renewal premium"
+    },
+    "actor": null,
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [],
+    "forbidden_actions": [
+      "quote a renewal premium"
+    ],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [
+      "modality from key 'prohibited'"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-6f1eca1c",
+    "modality": "must_not",
+    "statement": "Recommend other insurers",
+    "source": {
+      "doc": "insurance_home_renewal.json",
+      "locator": "#/prohibited/1",
+      "section": [
+        "prohibited"
+      ],
+      "quote": "Recommend other insurers"
+    },
+    "actor": null,
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [],
+    "forbidden_actions": [
+      "recommend other insurers"
+    ],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [
+      "modality from key 'prohibited'"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-9f7eb9bb",
+    "modality": "must",
+    "statement": "limits.max_call_attempts = 3",
+    "source": {
+      "doc": "insurance_home_renewal.json",
+      "locator": "#/limits/max_call_attempts",
+      "section": [
+        "limits",
+        "max_call_attempts"
+      ],
+      "quote": "3"
+    },
+    "actor": null,
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [
+      {
+        "subject": "call attempts",
+        "limit": 3,
+        "kind": "max"
+      }
+    ],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [
+      "counter inferred from key 'max_call_attempts'"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-680b3772",
+    "modality": "must",
+    "statement": "limits.maxCallbackOffers = 2",
+    "source": {
+      "doc": "insurance_home_renewal.json",
+      "locator": "#/limits/maxCallbackOffers",
+      "section": [
+        "limits",
+        "maxCallbackOffers"
+      ],
+      "quote": "2"
+    },
+    "actor": null,
+    "preconditions": [],
+    "required_actions": [],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [
+      {
+        "subject": "callback offers",
+        "limit": 2,
+        "kind": "max"
+      }
+    ],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [
+      "counter inferred from key 'maxCallbackOffers'"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-e13d3aaa",
+    "modality": "must",
+    "statement": "End the call after confirming the contact details.",
+    "source": {
+      "doc": "insurance_home_renewal.json",
+      "locator": "#/closing/text",
+      "section": [
+        "closing",
+        "text"
+      ],
+      "quote": "End the call after confirming the contact details."
+    },
+    "actor": null,
+    "preconditions": [
+      "after confirming the contact details"
+    ],
+    "required_actions": [
+      "end the call"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [
+      {
+        "kind": "end",
+        "outcome": "end the call",
+        "conditions": [
+          "after confirming the contact details"
+        ]
+      }
+    ],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  },
+  {
+    "id": "R-5b487a40",
+    "modality": "must",
+    "statement": "Thank the policyholder before ending the call.",
+    "source": {
+      "doc": "insurance_home_renewal.json",
+      "locator": "#/closing/text",
+      "section": [
+        "closing",
+        "text"
+      ],
+      "quote": "Thank the policyholder before ending the call."
+    },
+    "actor": null,
+    "preconditions": [
+      "before ending the call"
+    ],
+    "required_actions": [
+      "thank the policyholder"
+    ],
+    "allowed_actions": [],
+    "forbidden_actions": [],
+    "counters": [],
+    "terminations": [],
+    "origin": "heuristic:en",
+    "notes": [
+      "implicit imperative"
+    ],
+    "extra": {}
+  }
+]

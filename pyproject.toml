@@ -1,0 +1,6 @@
+[project]
+name = "freya-builder"
+version = "0.1.0"
+description = "Hackathon prep: brief ingestion, requirement extraction, validation, JSON diff."
+requires-python = ">=3.11"
+dependencies = []
