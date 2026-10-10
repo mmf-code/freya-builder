@@ -47,3 +47,22 @@ Field observations from this repository's runs, with their evidence. They add to
 - Seen: 23 calls between 13:41 and 13:47 UTC produced no model output after the customer's first answer and no
   error event; the same agent version passed before and after. Classified as infrastructure-suspected, not
   confirmed (`runs/20261010-161811-candidate-ab/eval/OUTAGE.md`).
+
+## A bank answer with `ok: false` counts as a failure; the call's variable table shows the counters
+
+- Seen: in PUB-10 (agent b2df668d, `runs/20261010-185544-lowering-ab/eval/a-official-1.json`) the first
+  `create_promise` returned `{"ok": false, "error": "service unavailable, nothing was recorded"}` and the retry
+  succeeded. The last `variable_table` of the call held `create_promise_failure_count` 1 and
+  `create_promise_success_count` 1. In PUB-03 three wrong identity answers (each `ok: true`) left
+  `verify_identity_success_count` 3 and `verify_identity_response.data.wrong_answers_left` 0.
+- So `<tool>_success_count` counts bank calls that returned `ok: true`. The `route_evaluated` events of a call carry
+  the variable table, which is where these values can be read.
+
+## API key validation outage
+
+- Seen: first at 19:54 UTC, still at 19:57, over by 20:03, every API call, including `GET /api/v2/workspaces`, returned 503 "API key
+  validation is temporarily unavailable. Retry shortly." within 0.2 s. kitrun could not export the build that had
+  just saved (`runs/20261010-223940-blind-selfcheck-ab`, exit 3); the export succeeded after the outage, and the
+  saved versions were the ones the builder had written.
+- Consequence: a build that ends during such an outage is not lost; export it again afterwards. Do not start
+  simulations until a read call succeeds.
