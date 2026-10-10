@@ -40,6 +40,17 @@ UPDATE_GOLDEN=1 python3 -m unittest tests.test_golden # accept reviewed extracto
 
 `diff` exits 1 when the files differ, like `diff(1)`.
 
+## Secrets and cloud runs
+
+Secrets never go into git. `docs/build-the-builder/env.sh` is git-ignored and only exists on a local machine.
+
+- **Local:** `cp docs/build-the-builder/env.example docs/build-the-builder/env.sh` and fill it in.
+- **Cloud (Claude Code on the web):** set `FREYA_API_KEY`, `FREYA_BANK_TEAM_KEY` and `ANTHROPIC_API_KEY`
+  as environment variables in the cloud environment settings, and `scripts/setup.sh` as its setup script.
+  `FREYA_API_URL` is optional.
+
+`builder.kitrun` and `scripts/run_kit_builder.sh` read `env.sh` when it exists, else the environment.
+
 ## Finding codes
 
 Errors (`E-*`) break the IR or traceability. Warnings (`W-*`) need a decision.
