@@ -1,0 +1,60 @@
+[00:04]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/brief-a-raw.md briefs/brief-b-raw.md'}
+[00:05]   [Bash] {'command': 'date; ls -R briefs tools docs examples out 2>/dev/null | head -50; cat public-test-set.json | head -50', 'd
+[00:07] Start 22:39:46. Deadline for changes 23:01. No practice customers.
+[00:08]   [Bash] {'command': 'cat briefs/brief-a-raw.md; echo ======; cat briefs/brief-b-raw.md; echo =====; cat tools/openapi.json', 'de
+[00:10]   [Read] {'file_path': '<repo>/runs/20261010-223940-blind-self
+[00:11]   [Read] {'file_path': '<repo>/runs/20261010-223940-blind-self
+[00:12]   [Read] {'file_path': '<repo>/runs/20261010-223940-blind-self
+[00:14]   [Read] {'file_path': '<repo>/runs/20261010-223940-blind-self
+[00:15]   [Bash] {'command': 'cat docs/workflow-format.md docs/tools-and-code.md examples/base-agent.json', 'description': 'Read format d
+[00:17]   [Bash] {'command': 'wc -c docs/*.md examples/base-agent.json; cat docs/workflow-format.md', 'description': 'Show doc sizes and
+[00:19]   [Read] {'file_path': '<repo>/runs/20261010-223940-blind-self
+[00:21]   [Read] {'file_path': '<repo>/runs/20261010-223940-blind-self
+[00:22]   [Read] {'file_path': '<repo>/runs/20261010-223940-blind-self
+[01:15] I've read the briefs, tool API and docs. Now I'm checking the validator and dry-run tool, then I'll generate both workflows from one script.
+[01:16]   [Bash] {'command': 'date; wc -l tools/check_workflow.py tools/dryrun.py; grep -n "ERROR\\|WARN" tools/check_workflow.py | head
+[01:18]   [Bash] {'command': 'sed -n 1,60p tools/check_workflow.py; grep -n "def \\|err(\\|warn(" tools/check_workflow.py | head -80', 'd
+[01:19] Writing the generator for both workflows now.
+[03:05]   [Write] {'file_path': '<repo>/runs/20261010-223940-blind-self
+[03:12]   [Edit] {'replace_all': False, 'file_path': '<repo>/runs/2026
+[03:13]   [Bash] {'command': 'date; python3 out/gen.py && for s in brief-a-raw brief-b-raw; do python3 tools/check_workflow.py out/$s.wor
+[03:17] Both pass the check with 0 errors. Now the dry run of the code steps on sample dates and account results.
+[03:20]   [Bash] {'command': 'mkdir -p out/samples && cat > out/samples/s.json <<\'EOF\'\n[\n {"now":"2026-10-16T11:00","products":[{"pro
+[03:28] The dry-run dates match my hand count for every sample: deadlines, the Founders' Day skip, the first-attempt date and the callback next business day. Saving both workflows.
+[03:29]   [Bash] {'command': 'date; for s in brief-a-raw brief-b-raw; do python3 -c "import freya,json,sys; print(json.dumps(freya.save_w
+[03:32]   [Bash] {'command': 'grep -n -i -A30 "chat/message" docs/api.md | head -60', 'description': 'Look up chat message API'}
+[03:37]   [Bash] {'command': 'grep -n "UA=\\|User-Agent\\|FREYA_API_URL=" docs/api.md | head -5; env | grep -c FREYA; for W in bc4bdb6a-c
+[05:41]   [Bash] {'command': 'for W in bc4bdb6a-cc2d-4ce2-8923-feda5dbd3abe; do R=$(curl -s -m 90 -X POST "$FREYA_API_URL/api/v2/chat/mes
+[06:20] Brief A starts correctly. Checking the next turn of A and the start of B.
+[06:24]   [Bash] {'command': 'H=(-H "Authorization: Bearer $FREYA_API_KEY" -H "Content-Type: application/json" -H "User-Agent: Mozilla/5.
+[08:30]   [Bash] {'command': 'H=(-H "Authorization: Bearer $FREYA_API_KEY" -H "Content-Type: application/json" -H "User-Agent: Mozilla/5.
+[10:24]   [Bash] {'command': 'grep -n "^### \\|^\\`GET\\|^\\`POST" docs/api.md', 'description': 'List API endpoints in docs'}
+[10:27]   [Bash] {'command': 'H=(-H "Authorization: Bearer $FREYA_API_KEY" -H "User-Agent: Mozilla/5.0 (my-builder)"); curl -s "$FREYA_AP
+[10:31]   [Bash] {'command': 'H=(-H "Authorization: Bearer $FREYA_API_KEY" -H "User-Agent: Mozilla/5.0 (my-builder)"); curl -s "$FREYA_AP
+[10:35]   [Bash] {'command': 'H=(-H "Authorization: Bearer $FREYA_API_KEY" -H "User-Agent: Mozilla/5.0 (my-builder)"); curl -s "$FREYA_AP
+[10:42]   [Bash] {'command': 'cd out && python3 - <<\'EOF\'\np=\'gen.py\'; s=open(p).read()\ns=s.replace(\'nodes["prepare_account"] = cod
+[10:44] The account step alone now gives the same dates. Saving again.
+[10:45]   [Bash] {'command': 'for s in brief-a-raw brief-b-raw; do python3 -c "import freya,json,sys; print(json.dumps(freya.save_workflo
+[10:59] Rule-by-rule walk-through: one gap. CP-4 2.8 d says a request for a human applies before verification too, and the opening step had no transfer tool. Adding it.
+[11:02]   [Bash] {'command': 'cd out && python3 - <<\'EOF\'\np=\'gen.py\'; s=open(p).read()\nold=\'\'\'- If they ask why you are calling,
+[11:11]   [Bash] {'command': 'H=(-H "Authorization: Bearer $FREYA_API_KEY" -H "Content-Type: application/json" -H "User-Agent: Mozilla/5.
+[13:12]   [Bash] {'command': 'H=(-H "Authorization: Bearer $FREYA_API_KEY" -H "Content-Type: application/json" -H "User-Agent: Mozilla/5.
+[14:15] I built and saved both agents. Neither brief has practice customers (`public-test-set.json` is empty), so `run_cases.py` was not run and no customer pass count exists.
+[14:15] 
+[14:15] **What was checked**
+[14:15] - **Checker:** `check_workflow.py` reports 0 errors and 0 warnings on both workflows, including the terminal-tool rules.
+[14:15] - **Dates:** I ran the code steps on five `now` values: a Friday, a Saturday, the Friday before Founders' Day (26 Oct), the day before 11 Nov, and a Wednesday. Every deadline, first-attempt date and callback date matched my hand count. That includes the 7th business day for the late stage and skipping 26 Oct.
+[14:15] - **Account results:** the same dry run covered one product, two products, and an empty product list.
+[14:15] - **Chat test:** brief A's agent opens with the right sentence. On brief B an earlier save got through "yes, that's me" into the security step and asked for the date of birth. The final save of B did not answer: one gateway timeout, then "API key validation is temporarily unavailable". It differs from the version that worked only in the opening step.
+[14:15] - **Rule walk-through:** I matched every policy section, memo item, close-code row and change-notice item to a step, prompt line or route. It found one gap, a human request before verification, which I fixed.
+[14:15] 
+[14:15] **Things to know**
+[14:15] - **Opening sentence:** it says "we keep a recording of this call" instead of "the call is recorded". The brief reserves "recorded" for a saved promise. If the bank needs the literal word in the opening, change that line.
+[14:15] - **Date fallback:** the chat route skipped the first code step, so the date facts were empty in the chat test. The step after `get_account` now works out the dates again, so the deadlines do not depend on the first step running.
+[14:15] - **Call ending:** `close_call` is offered only in its own final step. The agent chooses the outcome and reason there from the brief's close-code rules, and the hang-up is reached only from that step.
+[14:15] - **Generator:** both workflows come from `out/gen.py`. Change that file and run it again rather than editing the JSON.
+[14:15] 
+[14:15] brief-a-raw: workflow_id `bc4bdb6a-cc2d-4ce2-8923-feda5dbd3abe`, agent_id `c584abf9-faf4-4af9-90d1-04c0640d947b`, 0 customers tested (none listed).
+[14:15] brief-b-raw: workflow_id `71f82de3-86dc-4eb2-9314-13cffaffbca1`, agent_id `b8f57aa1-eeed-4305-ad3b-9e220dae13bd`, 0 customers tested (none listed).
+[14:15] 
+[14:15] done: 35 turns, 853 s, $1.63. Trace: <repo>/runs/20261010-223940-blind-selfcheck-ab/workspace/traces/20261010-223941.jsonl

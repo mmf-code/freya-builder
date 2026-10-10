@@ -1,0 +1,287 @@
+{
+ "run": "20261010-223940-blind-selfcheck-ab",
+ "start": "2026-10-10T19:39:40+00:00",
+ "end": "2026-10-10T19:53:56+00:00",
+ "seconds": 856,
+ "limit_minutes": 30.0,
+ "timed_out": false,
+ "exit_code": 0,
+ "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill <repo>/builder/skills/build-phone-agent-selfcheck (sha256:64896af74fcb)",
+ "builder_model": "claude-opus-5-5 (agent_builder.py default)",
+ "agent_model": {
+  "provider": "experimental-5",
+  "model": "experimental-5"
+ },
+ "repo_commit": "95d4d00efe7037b1e4c604f5c70eeacbcbbf44a4",
+ "repo_dirty": false,
+ "isolation": {
+  "CLAUDE_CONFIG_DIR": "<repo>/.claude-builder",
+  "HOME": "<repo>/.claude-builder/home",
+  "state": "<repo>/state/exp-blind-selfcheck-ab"
+ },
+ "inputs": {
+  "briefs": [
+   {
+    "name": "brief-a-raw.md",
+    "sha256": "5ebf283ab00fc6a09cf6bf71983635b6624424788d58d2533dad9d9ef65ca3a0"
+   },
+   {
+    "name": "brief-b-raw.md",
+    "sha256": "e0fd3205c7ec1dcc37c77864a0f22b3c32dfdfe1ba8779b0b0b8874028d22434"
+   }
+  ],
+  "tools": {
+   "name": "openapi.json",
+   "sha256": "9a8410b12e5c82b6c6a30e9ed7030574d6f919cafdb1e035cef7bd876b0badb8"
+  }
+ },
+ "practice_cases": [],
+ "freya": [
+  {
+   "slot": "brief-a-raw",
+   "workflow_id": "bc4bdb6a-cc2d-4ce2-8923-feda5dbd3abe",
+   "agent_id": "c584abf9-faf4-4af9-90d1-04c0640d947b",
+   "version": 3,
+   "created": true,
+   "export": "export failed: GET /api/v2/workspaces -> 503: {\"success\":false,\"data\":{\"message\":\"API key validation is temporarily unavailable. Retry shortly.\",\"result\":null}}"
+  },
+  {
+   "slot": "brief-b-raw",
+   "workflow_id": "71f82de3-86dc-4eb2-9314-13cffaffbca1",
+   "agent_id": "b8f57aa1-eeed-4305-ad3b-9e220dae13bd",
+   "version": 3,
+   "created": true,
+   "export": "export failed: GET /api/v2/workspaces -> 503: {\"success\":false,\"data\":{\"message\":\"API key validation is temporarily unavailable. Retry shortly.\",\"result\":null}}"
+  }
+ ],
+ "tests": [],
+ "written": [
+  "<repo>/runs/20261010-223940-blind-selfcheck-ab/workspace/out/gen.py"
+ ],
+ "cost_usd": 1.6321283999999998,
+ "num_turns": 35,
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1211,
+   "outputTokens": 23,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.00013260000000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  },
+  "claude-opus-5-5": {
+   "inputTokens": 58,
+   "outputTokens": 31238,
+   "cacheReadInputTokens": 2228769,
+   "cacheCreationInputTokens": 112250,
+   "webSearchRequests": 0,
+   "costUSD": 1.6319957999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 7788,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "model_calls": [
+  {
+   "n": 1,
+   "model": "claude-opus-5-5",
+   "at_s": 4.1,
+   "purpose": "Skill: {\"skill\": \"build-phone-agent\", \"args\": \"briefs/brief-a-raw.md briefs/brief-b-raw.md\"}"
+  },
+  {
+   "n": 2,
+   "model": "claude-opus-5-5",
+   "at_s": 5.8,
+   "purpose": "Bash: Note start time and list kit files"
+  },
+  {
+   "n": 3,
+   "model": "claude-opus-5-5",
+   "at_s": 8.0,
+   "purpose": "Start 22:39:46. Deadline for changes 23:01. No practice customers.; Bash: Read briefs and tool API"
+  },
+  {
+   "n": 4,
+   "model": "claude-opus-5-5",
+   "at_s": 10.2,
+   "purpose": "Read: briefs/brief-a-raw.md; Read: briefs/brief-b-raw.md; Read: tools/openapi.json"
+  },
+  {
+   "n": 5,
+   "model": "claude-opus-5-5",
+   "at_s": 14.1,
+   "purpose": "Read: briefs/brief-a-raw.md; Bash: Read format docs and example agent"
+  },
+  {
+   "n": 6,
+   "model": "claude-opus-5-5",
+   "at_s": 17.7,
+   "purpose": "Bash: Show doc sizes and workflow format doc"
+  },
+  {
+   "n": 7,
+   "model": "claude-opus-5-5",
+   "at_s": 20.0,
+   "purpose": "Read: docs/workflow-format.md"
+  },
+  {
+   "n": 8,
+   "model": "claude-opus-5-5",
+   "at_s": 22.3,
+   "purpose": "Read: docs/tools-and-code.md; Read: examples/base-agent.json"
+  },
+  {
+   "n": 9,
+   "model": "claude-opus-5-5",
+   "at_s": 75.9,
+   "purpose": "I've read the briefs, tool API and docs. Now I'm checking the validator and dry-run tool, then I'll generate both workflows from one script.; Bash: Check time and inspect checker and dryrun"
+  },
+  {
+   "n": 10,
+   "model": "claude-opus-5-5",
+   "at_s": 78.2,
+   "purpose": "Bash: Inspect checker rules"
+  },
+  {
+   "n": 11,
+   "model": "claude-opus-5-5",
+   "at_s": 80.0,
+   "purpose": "Writing the generator for both workflows now.; Write: out/gen.py"
+  },
+  {
+   "n": 12,
+   "model": "claude-opus-5-5",
+   "at_s": 190.7,
+   "purpose": "Edit: out/gen.py; Bash: Generate workflows and run the checker on both"
+  },
+  {
+   "n": 13,
+   "model": "claude-opus-5-5",
+   "at_s": 197.5,
+   "purpose": "Both pass the check with 0 errors. Now the dry run of the code steps on sample dates and account results.; Bash: Dry-run code steps on sample dates and accounts"
+  },
+  {
+   "n": 14,
+   "model": "claude-opus-5-5",
+   "at_s": 209.0,
+   "purpose": "The dry-run dates match my hand count for every sample: deadlines, the Founders' Day skip, the first-attempt date and the callback next busi; Bash: Save both workflows to the platform"
+  },
+  {
+   "n": 15,
+   "model": "claude-opus-5-5",
+   "at_s": 213.0,
+   "purpose": "Bash: Look up chat message API"
+  },
+  {
+   "n": 16,
+   "model": "claude-opus-5-5",
+   "at_s": 217.6,
+   "purpose": "Bash: Send one chat turn to each workflow"
+  },
+  {
+   "n": 17,
+   "model": "claude-opus-5-5",
+   "at_s": 340.1,
+   "purpose": "Bash: Retry one chat turn with browser user agent"
+  },
+  {
+   "n": 18,
+   "model": "claude-opus-5-5",
+   "at_s": 380.7,
+   "purpose": "Brief A starts correctly. Checking the next turn of A and the start of B.; Bash: Send second turn to A and first turn to B"
+  },
+  {
+   "n": 19,
+   "model": "claude-opus-5-5",
+   "at_s": 507.1,
+   "purpose": "Bash: Retry B start and send a confirmation turn"
+  },
+  {
+   "n": 20,
+   "model": "claude-opus-5-5",
+   "at_s": 624.5,
+   "purpose": "Bash: List API endpoints in docs"
+  },
+  {
+   "n": 21,
+   "model": "claude-opus-5-5",
+   "at_s": 627.9,
+   "purpose": "Bash: Fetch B test call transcript"
+  },
+  {
+   "n": 22,
+   "model": "claude-opus-5-5",
+   "at_s": 631.7,
+   "purpose": "Bash: Show call transcript fields"
+  },
+  {
+   "n": 23,
+   "model": "claude-opus-5-5",
+   "at_s": 635.1,
+   "purpose": "Bash: Summarize messages and node path of B test call"
+  },
+  {
+   "n": 24,
+   "model": "claude-opus-5-5",
+   "at_s": 641.4,
+   "purpose": "Bash: Add date fallback, regenerate, check, dry-run account step alone"
+  },
+  {
+   "n": 25,
+   "model": "claude-opus-5-5",
+   "at_s": 645.3,
+   "purpose": "The account step alone now gives the same dates. Saving again.; Bash: Save both updated workflows"
+  },
+  {
+   "n": 26,
+   "model": "claude-opus-5-5",
+   "at_s": 659.6,
+   "purpose": "Rule-by-rule walk-through: one gap. CP-4 2.8 d says a request for a human applies before verification too, and the opening step had no trans; Bash: Add human transfer to opening, regenerate, check and save"
+  },
+  {
+   "n": 27,
+   "model": "claude-opus-5-5",
+   "at_s": 669.3,
+   "purpose": "Bash: Confirm both saved versions start a call"
+  },
+  {
+   "n": 28,
+   "model": "claude-opus-5-5",
+   "at_s": 790.1,
+   "purpose": "Bash: Retry B start check"
+  },
+  {
+   "n": 29,
+   "model": "claude-opus-5-5",
+   "at_s": 854.0,
+   "purpose": "I built and saved both agents. Neither brief has practice customers (`public-test-set.json` is empty), so `run_cases.py` was not run and no "
+  }
+ ],
+ "checks": [
+  {
+   "slot": "brief-a-raw",
+   "contract": null,
+   "errors": [
+    "no export of this workflow, so it was not checked"
+   ],
+   "warnings": 0
+  },
+  {
+   "slot": "brief-b-raw",
+   "contract": null,
+   "errors": [
+    "no export of this workflow, so it was not checked"
+   ],
+   "warnings": 0
+  }
+ ]
+}

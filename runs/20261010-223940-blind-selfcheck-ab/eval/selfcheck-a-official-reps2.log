@@ -1,0 +1,62 @@
+FAIL PUB-01 easy   Happy path     | verify > verify > get_account > close_call
+       - outcome ('no_promise', 'service_error'), expected ('promise', None)
+       - promises [], expected [('p1', 420.0, '2026-10-14')]
+       - conversation: While the identity verification process was completed successfully before the 'get_account' call and the word 'collections' was never mentioned, the agent failed on two critical success criteria. Specifically, 'create_promise' was never called, a
+PASS PUB-02 medium Third party    | schedule_callback > close_call
+PASS PUB-03 medium Identity       | verify > verify > verify > verify > close_call
+FAIL PUB-04 medium Dates          | verify > verify > get_account > close_call
+       - outcome ('no_promise', 'service_error'), expected ('promise', None)
+       - promises [], expected [('p1', 1250.0, '2026-10-23')]
+       - conversation: The agent failed to meet the success criteria because it prematurely ended the call after successfully retrieving the account details. Specifically, it claimed it could not see the account details in [Message 6] despite the 'get_account' tool cal
+FAIL PUB-05 medium Hardship       | verify > verify > get_account > close_call
+       - outcome ('no_promise', 'service_error'), expected ('no_promise', 'hardship')
+       - conversation: The conversation failed to meet multiple success criteria. Specifically, the agent did not offer the support team at any point during the interaction, which was a required action. Additionally, no sentence of sympathy was provided to the customer
+FAIL PUB-06 hard   Amounts        | verify > verify > get_account > promise > close_call
+       - conversation: The agent failed two success criteria. First, the agent asked the customer how much they could pay in Message 10 ('Could you please tell me the exact amount you can pay this Friday?'), which violates the first criterion. Second, the minimum payme
+FAIL PUB-07 hard   Dates          | verify > verify > get_account > promise > close_call
+       - promises [('p1', 540.0, '2026-11-02')], expected [('p1', 540.0, '2026-10-27')]
+       - conversation: - The agent asked for the exact day in [Message 8]. - The agent did not accept 26 October, but instead of offering the next business day (Tuesday 27 October), the agent offered Monday, November 2nd in [Message 10]. - The promise was recorded for 
+PASS PUB-08 medium Already paid   | verify > verify > get_account > close_call
+FAIL PUB-09 medium Restructuring  | verify > verify > get_account > transfer_to_agent
+       - outcome (None, None), expected ('transferred', 'restructuring')
+       - the call was not closed with close_call
+PASS PUB-10 hard   Tool failure   | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 3 s, worst 13 s. Failed calls where the customer hung up: 6.
+-- run 1 of 2: 4 / 10 passed, 228 s
+
+PASS PUB-01 easy   Happy path     | verify > verify > get_account > promise > close_call
+PASS PUB-02 medium Third party    | schedule_callback > close_call
+FAIL PUB-03 medium Identity       | verify > verify
+       - outcome (None, None), expected ('not_verified', 'failed')
+       - the call was not closed with close_call
+       - conversation: The conversation failed for several reasons. First, the agent never told the customer to use the bank's app or visit a branch, which was a required success criterion. Second, the agent got stuck in a repetitive loop starting at Message 12, repeat
+FAIL PUB-04 medium Dates          | verify > verify > get_account > promise > close_call
+       - promises [('p1', 1250.0, '2026-11-02')], expected [('p1', 1250.0, '2026-10-23')]
+       - conversation: - The agent correctly identified as a digital assistant in Message 0 and Message 8. - The agent correctly handled the user's initial date without treating it as a refusal. - However, the success criteria required a promise date of 23 October (the
+PASS PUB-05 medium Hardship       | verify > verify > get_account > close_call
+PASS PUB-06 hard   Amounts        | verify > verify > get_account > promise > close_call
+FAIL PUB-07 hard   Dates          | verify > verify > get_account > promise > close_call
+       - promises [('p1', 540.0, '2026-11-02')], expected [('p1', 540.0, '2026-10-27')]
+       - conversation: The agent failed on multiple counts: 1. It did not offer the next business day (Tuesday 27 October) when the user suggested October 26th; instead, it skipped ahead to November 2nd. 2. Consequently, the promise was not recorded for Tuesday 27 Octo
+PASS PUB-08 medium Already paid   | verify > verify > get_account > close_call
+FAIL PUB-09 medium Restructuring  | verify > verify > get_account > transfer_to_agent
+       - outcome (None, None), expected ('transferred', 'restructuring')
+       - the call was not closed with close_call
+PASS PUB-10 hard   Tool failure   | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 2 s, worst 4 s. Failed calls where the customer hung up: 3.
+-- run 2 of 2: 6 / 10 passed, 217 s
+
+FAIL PUB-01 1/2
+PASS PUB-02 2/2
+FAIL PUB-03 1/2
+FAIL PUB-04 0/2
+FAIL PUB-05 1/2
+FAIL PUB-06 1/2
+FAIL PUB-07 0/2
+PASS PUB-08 2/2
+FAIL PUB-09 0/2
+PASS PUB-10 2/2
+
+3 / 10 passed (bank records and conversation checks), a customer counts with 2 of 2 runs. Last simulation 4ab80949-100b-4ae1-9969-8ca79a34e133, status completed, 445 s.

@@ -1,0 +1,19 @@
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+PASS PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise > add_note > add_note > close_call
+PASS PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 3 s, worst 3 s. Failed calls where the customer hung up: 0.
+-- run 1 of 2: 3 / 3 passed, 145 s
+
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+PASS PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise > add_note > add_note > close_call
+PASS PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 4 s, worst 6 s. Failed calls where the customer hung up: 0.
+-- run 2 of 2: 3 / 3 passed, 155 s
+
+PASS PUB-11 2/2
+PASS PUB-12 2/2
+PASS PUB-13 2/2
+
+3 / 3 passed (bank records and conversation checks), a customer counts with 2 of 2 runs. Last simulation ca87d44d-ca55-4586-968e-b393dcde9f67, status completed, 299 s.
