@@ -1,0 +1,100 @@
+[
+ {
+  "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g1-calendar-clean/inputs/pl-g1-calendar-clean-a.md --tools tools/persona_lab/generated/blind/g1-calendar-clean/inputs/openapi.json --label pl-g1-calendar-clean",
+  "dir": "g1-calendar-clean",
+  "family": "deadlines and holidays",
+  "form": "clean",
+  "scenario": "g1-calendar"
+ },
+ {
+  "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g1-calendar-raw/inputs/pl-g1-calendar-raw.md --tools tools/persona_lab/generated/blind/g1-calendar-raw/inputs/openapi.json --label pl-g1-calendar-raw",
+  "dir": "g1-calendar-raw",
+  "family": "deadlines and holidays",
+  "form": "raw",
+  "scenario": "g1-calendar"
+ },
+ {
+  "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g2-identity-clean/inputs/pl-g2-identity-clean-a.md --tools tools/persona_lab/generated/blind/g2-identity-clean/inputs/openapi.json --label pl-g2-identity-clean",
+  "dir": "g2-identity-clean",
+  "family": "authentication rules + verify_identity enum",
+  "form": "clean",
+  "scenario": "g2-identity"
+ },
+ {
+  "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g2-identity-raw/inputs/pl-g2-identity-raw.md --tools tools/persona_lab/generated/blind/g2-identity-raw/inputs/openapi.json --label pl-g2-identity-raw",
+  "dir": "g2-identity-raw",
+  "family": "authentication rules + verify_identity enum",
+  "form": "raw",
+  "scenario": "g2-identity"
+ },
+ {
+  "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g3-limits-clean/inputs/pl-g3-limits-clean-a.md --tools tools/persona_lab/generated/blind/g3-limits-clean/inputs/openapi.json --label pl-g3-limits-clean",
+  "dir": "g3-limits-clean",
+  "family": "per-product floors, attempts and amount cap",
+  "form": "clean",
+  "scenario": "g3-limits"
+ },
+ {
+  "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g3-limits-raw/inputs/pl-g3-limits-raw.md --tools tools/persona_lab/generated/blind/g3-limits-raw/inputs/openapi.json --label pl-g3-limits-raw",
+  "dir": "g3-limits-raw",
+  "family": "per-product floors, attempts and amount cap",
+  "form": "raw",
+  "scenario": "g3-limits"
+ },
+ {
+  "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g4-outcomes-clean/inputs/pl-g4-outcomes-clean-a.md --tools tools/persona_lab/generated/blind/g4-outcomes-clean/inputs/openapi.json --label pl-g4-outcomes-clean",
+  "dir": "g4-outcomes-clean",
+  "family": "outcome table + close_call enums",
+  "form": "clean",
+  "scenario": "g4-outcomes"
+ },
+ {
+  "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g4-outcomes-raw/inputs/pl-g4-outcomes-raw.md --tools tools/persona_lab/generated/blind/g4-outcomes-raw/inputs/openapi.json --label pl-g4-outcomes-raw",
+  "dir": "g4-outcomes-raw",
+  "family": "outcome table + close_call enums",
+  "form": "raw",
+  "scenario": "g4-outcomes"
+ },
+ {
+  "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g5-memo-clean/inputs/pl-g5-memo-clean-a.md --tools tools/persona_lab/generated/blind/g5-memo-clean/inputs/openapi.json --label pl-g5-memo-clean",
+  "dir": "g5-memo-clean",
+  "family": "memo precedence: newer memo wins, older memo loses",
+  "form": "clean",
+  "scenario": "g5-memo"
+ },
+ {
+  "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g5-memo-raw/inputs/pl-g5-memo-raw.md --tools tools/persona_lab/generated/blind/g5-memo-raw/inputs/openapi.json --label pl-g5-memo-raw",
+  "dir": "g5-memo-raw",
+  "family": "memo precedence: newer memo wins, older memo loses",
+  "form": "raw",
+  "scenario": "g5-memo"
+ },
+ {
+  "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g6-contract-clean/inputs/pl-g6-contract-clean-a.md --tools tools/persona_lab/generated/blind/g6-contract-clean/inputs/openapi.json --label pl-g6-contract-clean",
+  "dir": "g6-contract-clean",
+  "family": "OpenAPI field renames, new required field, enum values",
+  "form": "clean",
+  "scenario": "g6-contract"
+ },
+ {
+  "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g6-contract-raw/inputs/pl-g6-contract-raw.md --tools tools/persona_lab/generated/blind/g6-contract-raw/inputs/openapi.json --label pl-g6-contract-raw",
+  "dir": "g6-contract-raw",
+  "family": "OpenAPI field renames, new required field, enum values",
+  "form": "raw",
+  "scenario": "g6-contract"
+ },
+ {
+  "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g7-multi-clean/inputs/pl-g7-multi-clean-a.md tools/persona_lab/generated/blind/g7-multi-clean/inputs/pl-g7-multi-clean-b.md --tools tools/persona_lab/generated/blind/g7-multi-clean/inputs/openapi.json --label pl-g7-multi-clean",
+  "dir": "g7-multi-clean",
+  "family": "multi-product: per-type deadline cap, note enum rename",
+  "form": "clean",
+  "scenario": "g7-multi"
+ },
+ {
+  "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g7-multi-raw/inputs/pl-g7-multi-raw.md --tools tools/persona_lab/generated/blind/g7-multi-raw/inputs/openapi.json --label pl-g7-multi-raw",
+  "dir": "g7-multi-raw",
+  "family": "multi-product: per-type deadline cap, note enum rename",
+  "form": "raw",
+  "scenario": "g7-multi"
+ }
+]

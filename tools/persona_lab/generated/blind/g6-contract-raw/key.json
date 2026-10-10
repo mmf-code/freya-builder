@@ -1,0 +1,120 @@
+{
+ "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g6-contract-raw/inputs/pl-g6-contract-raw.md --tools tools/persona_lab/generated/blind/g6-contract-raw/inputs/openapi.json --label pl-g6-contract-raw",
+ "derived_deadlines_at_now": {
+  "early": "2026-11-02",
+  "late": "2026-10-23",
+  "now": "2026-10-14T11:00"
+ },
+ "edits": [
+  {
+   "doc": "a",
+   "new": "Freya Bank is fictional. Every customer, debt and payment here is synthetic. The tool API was revised in October 2026; its file is the only source for field nam",
+   "via": "inline"
+  }
+ ],
+ "family": "OpenAPI field renames, new required field, enum values",
+ "form": "raw",
+ "inputs": {
+  "openapi.json": "1b10e50efacb8844535d92431e3e797767f111fa205258c486b58dcf215254d9",
+  "pl-g6-contract-raw.md": "d5822ee11646c3d25344d930bfe51a9bcdb5d9b65c67cbbd193b354972f0746a"
+ },
+ "openapi_ops": [
+  {
+   "new": "promise_date",
+   "old": "date",
+   "op": "rename_field",
+   "path": "/create_promise"
+  },
+  {
+   "new": "amount_eur",
+   "old": "amount",
+   "op": "rename_field",
+   "path": "/create_promise"
+  },
+  {
+   "field": "channel",
+   "op": "add_field",
+   "path": "/create_promise",
+   "required": true,
+   "schema": {
+    "enum": [
+     "voice"
+    ],
+    "type": "string"
+   }
+  },
+  {
+   "new": "slot_time",
+   "old": "time",
+   "op": "rename_field",
+   "path": "/schedule_callback"
+  },
+  {
+   "field": "queue",
+   "op": "set_enum",
+   "path": "/transfer_to_agent",
+   "values": [
+    "restructuring",
+    "general",
+    "customer_support"
+   ]
+  },
+  {
+   "field": "channel",
+   "op": "add_field",
+   "path": "/close_call",
+   "required": true,
+   "schema": {
+    "enum": [
+     "voice"
+    ],
+    "type": "string"
+   }
+  }
+ ],
+ "policy": {},
+ "probes": [
+  {
+   "any": [
+    "customer_support"
+   ],
+   "id": "queue-new",
+   "kind": "found",
+   "strong": false,
+   "why": "renamed queue value"
+  }
+ ],
+ "required_tools": [
+  "verify_identity",
+  "get_account",
+  "create_promise",
+  "schedule_callback",
+  "transfer_to_agent",
+  "close_call"
+ ],
+ "scenario": "g6-contract",
+ "scoring": "offline contract validation and text evidence only; no ledger score, no official prediction",
+ "stale_api": {
+  "create_promise": {
+   "enum": {},
+   "fields": [
+    "date",
+    "amount"
+   ]
+  },
+  "schedule_callback": {
+   "enum": {},
+   "fields": [
+    "time"
+   ]
+  },
+  "transfer_to_agent": {
+   "enum": {
+    "queue": [
+     "support"
+    ]
+   },
+   "fields": []
+  }
+ }
+}

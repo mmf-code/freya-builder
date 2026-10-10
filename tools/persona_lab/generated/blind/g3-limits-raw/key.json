@@ -1,0 +1,85 @@
+{
+ "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g3-limits-raw/inputs/pl-g3-limits-raw.md --tools tools/persona_lab/generated/blind/g3-limits-raw/inputs/openapi.json --label pl-g3-limits-raw",
+ "derived_deadlines_at_now": {
+  "early": "2026-11-02",
+  "late": "2026-10-23",
+  "now": "2026-10-14T11:00"
+ },
+ "edits": [
+  {
+   "doc": "a",
+   "new": "25. The **floor** is `minimum_payment` for a credit card, `instalment_amount` for a personal loan, and half of `past_due`, rounded down to whole euros, for a ca",
+   "via": "memo"
+  },
+  {
+   "doc": "a",
+   "new": "If the customer does not accept the floor, treat it as a flat refusal (rule 30). No single promise may be above 2000.00 for one product; if the past-due amount ",
+   "via": "inline"
+  },
+  {
+   "doc": "a",
+   "new": "| 1 to 7 | early | the 12th business day after today | 2 |",
+   "via": "inline"
+  },
+  {
+   "doc": "a",
+   "new": "| 8 to 45 | late | the 7th business day after today | 3 |",
+   "via": "inline"
+  }
+ ],
+ "family": "per-product floors, attempts and amount cap",
+ "form": "raw",
+ "inputs": {
+  "openapi.json": "dc55f04983d65296214560231c33e64acfdeb64f0fa21f75da2bf6d4aaaa9c7e",
+  "pl-g3-limits-raw.md": "e94c1d59a86c437f187b6d11ba038abb39a4df0d1bfb41217848f0cc1d73dd88"
+ },
+ "openapi_ops": [],
+ "policy": {
+  "attempts": {
+   "early": 2,
+   "late": 3
+  },
+  "floors": {
+   "car_loan": "half_past_due",
+   "credit_card": "minimum_payment",
+   "personal_loan": "instalment_amount"
+  },
+  "max_promise_amount": 2000.0
+ },
+ "probes": [
+  {
+   "any": [
+    "half of",
+    "half the",
+    "/ 2",
+    "* 0.5",
+    "/2"
+   ],
+   "id": "floor-car-half",
+   "kind": "found",
+   "strong": false,
+   "why": "car-loan floor is half of past due"
+  },
+  {
+   "any": [
+    "2000",
+    "2,000"
+   ],
+   "id": "cap-2000",
+   "kind": "found",
+   "strong": false,
+   "why": "per-promise cap"
+  }
+ ],
+ "required_tools": [
+  "verify_identity",
+  "get_account",
+  "create_promise",
+  "schedule_callback",
+  "transfer_to_agent",
+  "close_call"
+ ],
+ "scenario": "g3-limits",
+ "scoring": "offline contract validation and text evidence only; no ledger score, no official prediction",
+ "stale_api": {}
+}

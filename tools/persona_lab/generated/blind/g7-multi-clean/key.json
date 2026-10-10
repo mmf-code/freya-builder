@@ -1,0 +1,131 @@
+{
+ "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g7-multi-clean/inputs/pl-g7-multi-clean-a.md tools/persona_lab/generated/blind/g7-multi-clean/inputs/pl-g7-multi-clean-b.md --tools tools/persona_lab/generated/blind/g7-multi-clean/inputs/openapi.json --label pl-g7-multi-clean",
+ "derived_deadlines_at_now": {
+  "early": "2026-11-02",
+  "late": "2026-10-26",
+  "now": "2026-10-14T11:00"
+ },
+ "edits": [
+  {
+   "doc": "a",
+   "new": "Freya Bank holidays: 2026-10-21, 2026-11-11, 2026-11-26, 2026-12-25, 2027-01-01.",
+   "via": "inline"
+  },
+  {
+   "doc": "b",
+   "new": "Two products of the same customer can have different deadlines. A car loan's deadline is never later than the 5th business day after today, whatever its band.",
+   "via": "inline"
+  },
+  {
+   "doc": "b",
+   "new": "reason: `refused`, `hardship`, `dispute`, `already_paid` or `service_error`",
+   "via": "inline"
+  },
+  {
+   "doc": "b",
+   "new": "if every product is noted `already_paid`, close as `paid`",
+   "via": "inline"
+  },
+  {
+   "doc": "b",
+   "new": "whose note is not `already_paid`",
+   "via": "inline"
+  }
+ ],
+ "family": "multi-product: per-type deadline cap, note enum rename",
+ "form": "clean",
+ "inputs": {
+  "openapi.json": "eb5678bcb20fb5470228c28aa563619ab10667178b2a11954f17e2a46fbdb408",
+  "pl-g7-multi-clean-a.md": "490538c64c07e5a5726a866c03205a5ab63df72d30a5fda879c4242308acf23c",
+  "pl-g7-multi-clean-b.md": "a38fbc62d0df5363ca5e74c941ec7a0621e9639a3ac674e65edba1d150c23555"
+ },
+ "openapi_ops": [
+  {
+   "field": "reason",
+   "op": "set_enum",
+   "path": "/add_note",
+   "values": [
+    "refused",
+    "hardship",
+    "dispute",
+    "already_paid",
+    "service_error"
+   ]
+  }
+ ],
+ "policy": {
+  "deadline_cap_by_type": {
+   "car_loan": 5
+  },
+  "holidays": [
+   "2026-10-21",
+   "2026-11-11",
+   "2026-11-26",
+   "2026-12-25",
+   "2027-01-01"
+  ]
+ },
+ "probes": [
+  {
+   "any": [
+    "already_paid"
+   ],
+   "id": "note-already-paid",
+   "kind": "found",
+   "strong": false,
+   "why": "renamed note reason"
+  },
+  {
+   "any": [
+    "5th business day",
+    "fifth business day",
+    "5 business days"
+   ],
+   "id": "car-cap",
+   "kind": "found",
+   "strong": false,
+   "why": "car-loan cap"
+  },
+  {
+   "any": [
+    "2026-10-21",
+    "21 october",
+    "october 21"
+   ],
+   "id": "holiday-21",
+   "kind": "found",
+   "strong": false,
+   "why": "new holiday"
+  },
+  {
+   "any": [
+    "2026-10-26"
+   ],
+   "id": "holiday-removed",
+   "kind": "stale",
+   "strong": true,
+   "why": "26 October is no longer a holiday"
+  }
+ ],
+ "required_tools": [
+  "verify_identity",
+  "get_account",
+  "create_promise",
+  "add_note",
+  "schedule_callback",
+  "transfer_to_agent",
+  "close_call"
+ ],
+ "scenario": "g7-multi",
+ "scoring": "offline contract validation and text evidence only; no ledger score, no official prediction",
+ "stale_api": {
+  "add_note": {
+   "enum": {
+    "reason": [
+     "paid"
+    ]
+   },
+   "fields": []
+  }
+ }
+}

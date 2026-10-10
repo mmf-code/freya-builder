@@ -1,0 +1,139 @@
+{
+ "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g2-identity-raw/inputs/pl-g2-identity-raw.md --tools tools/persona_lab/generated/blind/g2-identity-raw/inputs/openapi.json --label pl-g2-identity-raw",
+ "derived_deadlines_at_now": {
+  "early": "2026-11-02",
+  "late": "2026-10-23",
+  "now": "2026-10-14T11:00"
+ },
+ "edits": [
+  {
+   "doc": "a",
+   "new": "first the postcode of the registered address, then the year of birth. Call `verify_identity` with the answer. Send a postcode in capitals without spaces. Send a",
+   "via": "memo"
+  },
+  {
+   "doc": "a",
+   "new": "13. A postcode given with spaces or in lower case is normalized before the call. That is not a wrong answer.",
+   "via": "memo"
+  },
+  {
+   "doc": "a",
+   "new": "Two wrong answers in total end the check",
+   "via": "memo"
+  },
+  {
+   "doc": "a",
+   "new": "14. After two wrong answers",
+   "via": "memo"
+  }
+ ],
+ "family": "authentication rules + verify_identity enum",
+ "form": "raw",
+ "inputs": {
+  "openapi.json": "6f008ae80c756fed78fa55f5b420e1106fd94678f2ef295c09286a384dcb6120",
+  "pl-g2-identity-raw.md": "13486149f860725ba4a27ff5c1c685f2d597bd8b6f32cef66d8b3de83faa8185"
+ },
+ "openapi_ops": [
+  {
+   "field": "field",
+   "op": "set_enum",
+   "path": "/verify_identity",
+   "values": [
+    "postcode",
+    "birth_year"
+   ]
+  },
+  {
+   "field": "answer",
+   "op": "set_description",
+   "path": "/verify_identity",
+   "text": "For postcode: capitals, no spaces. For birth_year: four digits."
+  }
+ ],
+ "policy": {
+  "identity_fields": [
+   "postcode",
+   "birth_year"
+  ],
+  "wrong_answer_limit": 2
+ },
+ "probes": [
+  {
+   "any": [
+    "postcode"
+   ],
+   "id": "auth-postcode",
+   "kind": "found",
+   "strong": false,
+   "why": "the new first question"
+  },
+  {
+   "any": [
+    "birth_year",
+    "year of birth"
+   ],
+   "id": "auth-year",
+   "kind": "found",
+   "strong": false,
+   "why": "the new second question"
+  },
+  {
+   "any": [
+    "date_of_birth"
+   ],
+   "id": "auth-dob-field",
+   "kind": "stale",
+   "strong": true,
+   "why": "date of birth is no longer a verify_identity field"
+  },
+  {
+   "any": [
+    "phone_last4"
+   ],
+   "id": "auth-phone-field",
+   "kind": "stale",
+   "strong": true,
+   "why": "phone digits are no longer a verify_identity field"
+  },
+  {
+   "any": [
+    "date of birth",
+    "last four digits"
+   ],
+   "id": "auth-old-wording",
+   "kind": "stale",
+   "strong": false,
+   "why": "old questions mentioned"
+  },
+  {
+   "any": [
+    "day_month_swapped"
+   ],
+   "id": "auth-swap-hint",
+   "kind": "stale",
+   "strong": false,
+   "why": "the swap hint is gone"
+  }
+ ],
+ "required_tools": [
+  "verify_identity",
+  "get_account",
+  "create_promise",
+  "schedule_callback",
+  "transfer_to_agent",
+  "close_call"
+ ],
+ "scenario": "g2-identity",
+ "scoring": "offline contract validation and text evidence only; no ledger score, no official prediction",
+ "stale_api": {
+  "verify_identity": {
+   "enum": {
+    "field": [
+     "date_of_birth",
+     "phone_last4"
+    ]
+   },
+   "fields": []
+  }
+ }
+}

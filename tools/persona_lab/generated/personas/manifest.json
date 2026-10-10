@@ -1,0 +1,196 @@
+{
+ "compiler_version": "persona-lab-1",
+ "suite_hash": "6fe8302886bcdbc7f3e673b573a5498f03b809d666fd5206433af9e8e2d3186f",
+ "variants": {
+  "D01": {
+   "base_case": "PUB-01",
+   "base_frozen_hash": "0af46e2e2c920fdab9b4fd8756d54acedbaacd32ba8af0638e7bf810486bc74d",
+   "brief": "A",
+   "compiler_version": "persona-lab-1",
+   "families": [
+    "social_engineering",
+    "auth_order"
+   ],
+   "layer": "diagnostic",
+   "ledger_scored": false,
+   "persona_hash": "a16756438202054d75d074b8bce09276c295b1a8a60865da30ad786a45a9d355",
+   "persona_key": "PUB-01:969423c343",
+   "rank": 9,
+   "seed": 101,
+   "spec_hash": "a59df607c0031c11cd8efa3fcdc9c2404632691dab3fdd206ec8f36ca5aa7bce",
+   "variant": "D01"
+  },
+  "D02": {
+   "base_case": "PUB-08",
+   "base_frozen_hash": "05d9420a29ba96f6b0452ad202f1b9f52f8f009d4ddd5bafce8c1cf9dd40d49e",
+   "brief": "A",
+   "compiler_version": "persona-lab-1",
+   "families": [
+    "honesty",
+    "no_invention"
+   ],
+   "layer": "diagnostic",
+   "ledger_scored": false,
+   "persona_hash": "a49a9554feaab0c9cd446085ec1c12ac9672b6e339ea4d39c418c870dbd42b95",
+   "persona_key": "PUB-08:cb81e0df6a",
+   "rank": 10,
+   "seed": 102,
+   "spec_hash": "3881c3dc25262feeb692a0846da5657d6f32ed49dc4a3639325fd68fe4d88f24",
+   "variant": "D02"
+  },
+  "V01": {
+   "base_case": "PUB-01",
+   "base_frozen_hash": "0af46e2e2c920fdab9b4fd8756d54acedbaacd32ba8af0638e7bf810486bc74d",
+   "brief": "A",
+   "compiler_version": "persona-lab-1",
+   "families": [
+    "value_capture",
+    "identity",
+    "interrupted_numbers",
+    "numbers_in_words"
+   ],
+   "layer": "official",
+   "ledger_scored": true,
+   "persona_hash": "04dd46e1f5db9c2e275b8b9b2f42e0056050c77ae0112b932483ff085ad7c3a8",
+   "persona_key": "PUB-01:5cb6c09607",
+   "rank": 4,
+   "seed": 1,
+   "spec_hash": "4e84ee553dd01d0aaefd5b50f7b5ce376ff1d4954cc098fdb7933f2022d4b02b",
+   "variant": "V01"
+  },
+  "V02": {
+   "base_case": "PUB-01",
+   "base_frozen_hash": "0af46e2e2c920fdab9b4fd8756d54acedbaacd32ba8af0638e7bf810486bc74d",
+   "brief": "A",
+   "compiler_version": "persona-lab-1",
+   "families": [
+    "pre_auth_disclosure",
+    "question_back"
+   ],
+   "layer": "official",
+   "ledger_scored": true,
+   "persona_hash": "568ed90b1dbd2742362c41768655d8cae88f2e7321d8911d8e195ab5b04ec013",
+   "persona_key": "PUB-01:b9f10df849",
+   "rank": 8,
+   "seed": 2,
+   "spec_hash": "9b72d4cc8886bed1559e0835e0e1d93e369b6f0e0489095e3878288222cc2361",
+   "variant": "V02"
+  },
+  "V04": {
+   "base_case": "PUB-07",
+   "base_frozen_hash": "eb0266a02da1722a8b12fcf230bcd55b99677837a62a176bfb6cfdaab0b28d80",
+   "brief": "A",
+   "compiler_version": "persona-lab-1",
+   "families": [
+    "date_policy",
+    "holiday",
+    "correction",
+    "repeat_request"
+   ],
+   "layer": "official",
+   "ledger_scored": true,
+   "persona_hash": "91e555fdb55cfdd0021bf8d3fe45ba93ef850c5f84b5825d6051d08d9d2af961",
+   "persona_key": "PUB-07:46c5b8cbe2",
+   "rank": 6,
+   "seed": 4,
+   "spec_hash": "5324481fc121e3085df03f61cea1dd317d2a444bd3060f7e1e425e8d9c4cc307",
+   "variant": "V04"
+  },
+  "V06": {
+   "base_case": "PUB-10",
+   "base_frozen_hash": "dec6d7d365e2f6c306e4f3afc8a8c4331f56b73e1aef61f56fb963f8bb53582a",
+   "brief": "A",
+   "compiler_version": "persona-lab-1",
+   "families": [
+    "blind_retry",
+    "honesty",
+    "tool_failure"
+   ],
+   "layer": "official",
+   "ledger_scored": true,
+   "persona_hash": "376c327cadb1e8c211c050873cf14ea08f30d8d7b8b7f08158cb4c6e469f8633",
+   "persona_key": "PUB-10:0abd106f77",
+   "rank": 2,
+   "seed": 6,
+   "spec_hash": "e747e13897f854fa54161a4ec8425fe7d4f48baf248e4fb70e6b3ab4db76ecdf",
+   "variant": "V06"
+  },
+  "V07": {
+   "base_case": "PUB-11",
+   "base_frozen_hash": "bb3ef2ecbed8a1306ac6460d0b048e66b340f8e1ec8bfa209e30419b7f5f4f3c",
+   "brief": "B",
+   "compiler_version": "persona-lab-1",
+   "families": [
+    "per_product_state",
+    "topic_switch",
+    "question_back"
+   ],
+   "layer": "official",
+   "ledger_scored": true,
+   "persona_hash": "e4eddd867dcb5f752923ad85aaa33de9eb36177db25a0feed7757199e97885e8",
+   "persona_key": "PUB-11:04c9cf3b46",
+   "rank": 3,
+   "seed": 7,
+   "spec_hash": "1427f0156d8d20dff9372d04275ec52aaeb53c52ce0ec0a5b2f9a64f06d5e55f",
+   "variant": "V07"
+  },
+  "V08": {
+   "base_case": "PUB-13",
+   "base_frozen_hash": "28b0575bcf3d1b781a8b2f4ac44250415b61cf6bf7d333dca2d8424d4c1e85cb",
+   "brief": "B",
+   "compiler_version": "persona-lab-1",
+   "families": [
+    "per_product_deadline",
+    "numbers_in_words",
+    "distractor",
+    "question_back"
+   ],
+   "layer": "official",
+   "ledger_scored": true,
+   "persona_hash": "f4ec4f260641a876b0ae561cf4ef5d0629df80422809f5ca755e0e2236128ae3",
+   "persona_key": "PUB-13:0267bead30",
+   "rank": 5,
+   "seed": 8,
+   "spec_hash": "dee7f3515c6c64fc210ae383d7457ebcac99d250ccd4c16548320759e0269614",
+   "variant": "V08"
+  },
+  "V09": {
+   "base_case": "PUB-12",
+   "base_frozen_hash": "f727ed09fb734fbf71e54b81fd218d2f7f306a0ed9a86cf99929190eb89b6154",
+   "brief": "B",
+   "compiler_version": "persona-lab-1",
+   "families": [
+    "attempt_counting",
+    "per_product_state",
+    "topic_switch",
+    "pressure"
+   ],
+   "layer": "official",
+   "ledger_scored": true,
+   "persona_hash": "a010bcc83e3b5b5161a3638bc90831215dfa28b2821937b57f62fe1a664def14",
+   "persona_key": "PUB-12:9773678968",
+   "rank": 1,
+   "seed": 9,
+   "spec_hash": "50a781fbfbb9e615aef21c83f329b0cfbeb92078a27d89440224bc01b2fa3233",
+   "variant": "V09"
+  },
+  "V12": {
+   "base_case": "PUB-02",
+   "base_frozen_hash": "c629d70970dcf95ce494f880c97b4194650946325aa52720002c3a4b78d1d778",
+   "brief": "A",
+   "compiler_version": "persona-lab-1",
+   "families": [
+    "third_party_disclosure",
+    "pressure"
+   ],
+   "layer": "official",
+   "ledger_scored": true,
+   "persona_hash": "ed3b62d959a8c005bf5cd6653071f26b0c49d844d9d959b5ee932209e6884d9d",
+   "persona_key": "PUB-02:bd0e372af4",
+   "rank": 7,
+   "seed": 12,
+   "spec_hash": "7240bfb5084f73fd3bc12816512e5aefb723d1c581747c3cbaf953fe454d67ce",
+   "variant": "V12"
+  }
+ }
+}

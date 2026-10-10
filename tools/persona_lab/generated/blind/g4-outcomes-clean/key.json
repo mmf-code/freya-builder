@@ -1,0 +1,148 @@
+{
+ "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g4-outcomes-clean/inputs/pl-g4-outcomes-clean-a.md --tools tools/persona_lab/generated/blind/g4-outcomes-clean/inputs/openapi.json --label pl-g4-outcomes-clean",
+ "derived_deadlines_at_now": {
+  "early": "2026-11-02",
+  "late": "2026-10-23",
+  "now": "2026-10-14T11:00"
+ },
+ "edits": [
+  {
+   "doc": "a",
+   "new": "| `not_reached` | `callback`, `no_callback`, `wrong_number`, `deceased`, `unclear`, `language` | rules 6, 7, 8, 8a, 9, 3 |",
+   "via": "inline"
+  },
+  {
+   "doc": "a",
+   "new": "8. If the person says the number does not belong to the customer, close as `not_reached` / `wrong_number`.\n8a. If the person on the line cannot speak English, d",
+   "via": "inline"
+  },
+  {
+   "doc": "a",
+   "new": "no_contact",
+   "via": "inline"
+  },
+  {
+   "doc": "a",
+   "new": "identity_failed",
+   "via": "inline"
+  }
+ ],
+ "family": "outcome table + close_call enums",
+ "form": "clean",
+ "inputs": {
+  "openapi.json": "2c7fbafad625faa1afd46e083f546682d3eb7d1c5a231ced38fcd97c26764500",
+  "pl-g4-outcomes-clean-a.md": "537cad0050116d686c3c13a6841641e43619b4c5c71ff30e6c67dd875d300223"
+ },
+ "openapi_ops": [
+  {
+   "field": "outcome",
+   "op": "set_enum",
+   "path": "/close_call",
+   "values": [
+    "promise",
+    "paid",
+    "transferred",
+    "no_promise",
+    "identity_failed",
+    "no_contact"
+   ]
+  },
+  {
+   "field": "reason",
+   "op": "set_enum",
+   "path": "/close_call",
+   "values": [
+    "restructuring",
+    "human",
+    "support",
+    "refused",
+    "hardship",
+    "dispute",
+    "service_error",
+    "failed",
+    "declined",
+    "callback",
+    "no_callback",
+    "wrong_number",
+    "deceased",
+    "unclear",
+    "language"
+   ]
+  }
+ ],
+ "policy": {
+  "outcomes_renamed": {
+   "not_reached": "no_contact",
+   "not_verified": "identity_failed"
+  },
+  "reason_added": "language"
+ },
+ "probes": [
+  {
+   "any": [
+    "no_contact"
+   ],
+   "id": "outcome-no-contact",
+   "kind": "found",
+   "strong": false,
+   "why": "renamed outcome"
+  },
+  {
+   "any": [
+    "identity_failed"
+   ],
+   "id": "outcome-identity-failed",
+   "kind": "found",
+   "strong": false,
+   "why": "renamed outcome"
+  },
+  {
+   "any": [
+    "language"
+   ],
+   "id": "reason-language",
+   "kind": "found",
+   "strong": false,
+   "why": "new reason"
+  },
+  {
+   "any": [
+    "not_reached"
+   ],
+   "id": "outcome-not-reached",
+   "kind": "stale",
+   "strong": true,
+   "why": "removed outcome value"
+  },
+  {
+   "any": [
+    "not_verified"
+   ],
+   "id": "outcome-not-verified",
+   "kind": "stale",
+   "strong": true,
+   "why": "removed outcome value"
+  }
+ ],
+ "required_tools": [
+  "verify_identity",
+  "get_account",
+  "create_promise",
+  "schedule_callback",
+  "transfer_to_agent",
+  "close_call"
+ ],
+ "scenario": "g4-outcomes",
+ "scoring": "offline contract validation and text evidence only; no ledger score, no official prediction",
+ "stale_api": {
+  "close_call": {
+   "enum": {
+    "outcome": [
+     "not_verified",
+     "not_reached"
+    ]
+   },
+   "fields": []
+  }
+ }
+}

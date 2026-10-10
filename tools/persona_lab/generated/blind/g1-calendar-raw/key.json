@@ -1,0 +1,111 @@
+{
+ "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g1-calendar-raw/inputs/pl-g1-calendar-raw.md --tools tools/persona_lab/generated/blind/g1-calendar-raw/inputs/openapi.json --label pl-g1-calendar-raw",
+ "derived_deadlines_at_now": {
+  "early": "2026-10-29",
+  "late": "2026-10-22",
+  "now": "2026-10-14T11:00"
+ },
+ "edits": [
+  {
+   "doc": "a",
+   "new": "Freya Bank holidays: 2026-10-19, 2026-10-23, 2026-11-11, 2026-12-25, 2027-01-01.",
+   "via": "memo"
+  },
+  {
+   "doc": "a",
+   "new": "| 1 to 7 | early | the 9th business day after today | 1 |",
+   "via": "inline"
+  },
+  {
+   "doc": "a",
+   "new": "| 8 to 45 | late | the 5th business day after today | 2 |",
+   "via": "inline"
+  }
+ ],
+ "family": "deadlines and holidays",
+ "form": "raw",
+ "inputs": {
+  "openapi.json": "dc55f04983d65296214560231c33e64acfdeb64f0fa21f75da2bf6d4aaaa9c7e",
+  "pl-g1-calendar-raw.md": "4cc3fd99526daddc7eab6dcad39db2fe14f33dbaa56f3f4f25cb4eb821f4cae1"
+ },
+ "openapi_ops": [],
+ "policy": {
+  "deadline_business_days": {
+   "early": 9,
+   "late": 5
+  },
+  "holidays": [
+   "2026-10-19",
+   "2026-10-23",
+   "2026-11-11",
+   "2026-12-25",
+   "2027-01-01"
+  ]
+ },
+ "probes": [
+  {
+   "any": [
+    "2026-10-19",
+    "19 october",
+    "october 19"
+   ],
+   "id": "holiday-new",
+   "kind": "found",
+   "strong": false,
+   "why": "a new holiday is known"
+  },
+  {
+   "any": [
+    "2026-10-26"
+   ],
+   "id": "holiday-removed",
+   "kind": "stale",
+   "strong": true,
+   "why": "26 October is no longer a holiday"
+  },
+  {
+   "any": [
+    "12th business day",
+    "twelfth business day",
+    "12 business days"
+   ],
+   "id": "early-deadline-old",
+   "kind": "stale",
+   "strong": false,
+   "why": "early deadline was 12, now 9"
+  },
+  {
+   "any": [
+    "9th business day",
+    "ninth business day",
+    "9 business days"
+   ],
+   "id": "early-deadline-new",
+   "kind": "found",
+   "strong": false,
+   "why": "early deadline 9"
+  },
+  {
+   "any": [
+    "5th business day",
+    "fifth business day",
+    "5 business days"
+   ],
+   "id": "late-deadline-new",
+   "kind": "found",
+   "strong": false,
+   "why": "late deadline 5"
+  }
+ ],
+ "required_tools": [
+  "verify_identity",
+  "get_account",
+  "create_promise",
+  "schedule_callback",
+  "transfer_to_agent",
+  "close_call"
+ ],
+ "scenario": "g1-calendar",
+ "scoring": "offline contract validation and text evidence only; no ledger score, no official prediction",
+ "stale_api": {}
+}

@@ -1,0 +1,106 @@
+{
+ "build": ".venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g5-memo-raw/inputs/pl-g5-memo-raw.md --tools tools/persona_lab/generated/blind/g5-memo-raw/inputs/openapi.json --label pl-g5-memo-raw",
+ "derived_deadlines_at_now": {
+  "early": "2026-11-02",
+  "late": "2026-10-22",
+  "now": "2026-10-14T11:00"
+ },
+ "edits": [
+  {
+   "doc": "a",
+   "new": "from 09:00 to 17:00, both included",
+   "via": "memo"
+  },
+  {
+   "doc": "a",
+   "new": "| 8 to 45 | late | the 6th business day after today | 2 |",
+   "via": "memo"
+  }
+ ],
+ "family": "memo precedence: newer memo wins, older memo loses",
+ "form": "raw",
+ "inputs": {
+  "openapi.json": "dc55f04983d65296214560231c33e64acfdeb64f0fa21f75da2bf6d4aaaa9c7e",
+  "pl-g5-memo-raw.md": "076103a1bb35a4e42da4e45d43f66d885bd7138f3189a7172a3f8dc239361932"
+ },
+ "openapi_ops": [],
+ "policy": {
+  "callback_window": [
+   "09:00",
+   "17:00"
+  ],
+  "deadline_business_days": {
+   "early": 12,
+   "late": 6
+  }
+ },
+ "probes": [
+  {
+   "any": [
+    "17:00",
+    "5 pm",
+    "5pm"
+   ],
+   "id": "callback-new-end",
+   "kind": "found",
+   "strong": false,
+   "why": "new callback end"
+  },
+  {
+   "any": [
+    "19:00",
+    "7 pm",
+    "7pm"
+   ],
+   "id": "callback-old-end",
+   "kind": "stale",
+   "strong": true,
+   "why": "the extract's end time is superseded"
+  },
+  {
+   "any": [
+    "20:00",
+    "8 pm",
+    "10th business day",
+    "tenth business day"
+   ],
+   "id": "old-memo-decoy",
+   "kind": "stale",
+   "strong": true,
+   "why": "the older memo is superseded by the extract"
+  },
+  {
+   "any": [
+    "6th business day",
+    "sixth business day",
+    "6 business days"
+   ],
+   "id": "late-deadline-new",
+   "kind": "found",
+   "strong": false,
+   "why": "new late deadline"
+  },
+  {
+   "any": [
+    "7th business day",
+    "seventh business day",
+    "7 business days"
+   ],
+   "id": "late-deadline-old",
+   "kind": "stale",
+   "strong": false,
+   "why": "old late deadline"
+  }
+ ],
+ "required_tools": [
+  "verify_identity",
+  "get_account",
+  "create_promise",
+  "schedule_callback",
+  "transfer_to_agent",
+  "close_call"
+ ],
+ "scenario": "g5-memo",
+ "scoring": "offline contract validation and text evidence only; no ledger score, no official prediction",
+ "stale_api": {}
+}
