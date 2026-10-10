@@ -21,3 +21,5 @@ __MACOSX/
 **/.personas.json
 # Raw SDK builder traces: may hold tool output; sanitize before committing
 docs/build-the-builder/traces/
+# Isolated Claude Code config used by builder runs
+.claude-builder/
