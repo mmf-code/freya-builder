@@ -5,11 +5,16 @@ Branch `builder-integration` on GitHub. Read with `docs/START_HERE.md`, `docs/PL
 
 ## Builders
 
+Updated at 23:45: every candidate skill now has its own directory under `builder/skills/`, with source commit,
+sha256, status and measured results in `docs/BUILDERS.md`. Recommended: `--skill builder/skills/reference` with a
+fresh `--state` directory per run. The blind comparison (raw A+B, no practice customers) and the experiments of the
+evening are summarized there.
+
 | Builder | How to run | Notes |
 |---|---|---|
 | Kit example builder, unchanged | `.venv/bin/python -m builder.kitrun BRIEF... --tools OPENAPI` | Reference from the kit |
-| Candidate, reference skill (92a695a) | `git show 92a695a:builder/skills/build-phone-agent/SKILL.md` into a directory as `SKILL.md`, then `--skill DIR` | Terminal-tool ordering, static check, hidden-brief-safe testing. Best measured. |
-| Candidate, current HEAD skill (with d4bc3c1 "Counted and ordered rules") | `--skill builder/skills/build-phone-agent` | Experiment. Inconclusive: tested during a platform outage. Build hit the 30-minute limit. |
+| Candidate, reference skill (92a695a) | `--skill builder/skills/reference` | Terminal-tool ordering, static check, hidden-brief-safe testing. Best measured, also in the blind test (11/13). |
+| Candidate, counted rules (d4bc3c1) | `--skill builder/skills/counted-rules` | Experiment. Inconclusive: tested during a platform outage. Build hit the 30-minute limit. |
 
 Every `kitrun` run: isolated Claude config, only the input briefs in the workspace, practice customers only for kit
 briefs identical to an input, static checks of the exports (exit 3 on errors), trace in `runs/<stamp>-<label>/`.
