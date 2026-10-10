@@ -87,3 +87,35 @@ class BaselineTraceTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CandidateSkillTest(unittest.TestCase):
+    def test_skill_overlay_and_checker_in_workspace_only(self):
+        from builder.kitrun import KIT, make_workspace
+        kit_skill = KIT / ".claude" / "skills" / "build-phone-agent" / "SKILL.md"
+        before = kit_skill.read_text()
+        with tempfile.TemporaryDirectory() as d:
+            skill = Path(d) / "skill"
+            skill.mkdir()
+            (skill / "SKILL.md").write_text("---\nname: build-phone-agent\n---\ncandidate")
+            ws = make_workspace(Path(d) / "run", [KIT / "briefs" / "brief-a.md"], KIT / "tools" / "openapi.json", skill)
+            self.assertEqual((ws / ".claude" / "skills" / "build-phone-agent" / "SKILL.md").read_text().splitlines()[-1], "candidate")
+            self.assertTrue((ws / "tools" / "check_workflow.py").is_file())
+            self.assertEqual(sorted(p.name for p in (ws / "briefs").iterdir()), ["brief-a.md"])
+        self.assertEqual(kit_skill.read_text(), before)
+
+    @unittest.skipUnless((ROOT / "runs" / "20261010-154045-kit-ab" / "brief-b.workflow.json").exists(), "A+B run not present")
+    def test_check_exports_reports_the_shared_terminal_step(self):
+        import shutil
+        from builder.kitrun import KIT, check_exports
+        with tempfile.TemporaryDirectory() as d:
+            run_dir, ws = Path(d), Path(d) / "workspace"
+            (ws / "tools").mkdir(parents=True)
+            (ws / "out").mkdir()
+            shutil.copy2(KIT / "tools" / "openapi.json", ws / "tools" / "openapi.json")
+            shutil.copy2(ROOT / "runs" / "20261010-154045-kit-ab" / "brief-b.workflow.json", run_dir / "brief-b.workflow.json")
+            self.assertEqual(check_exports(run_dir, ws, [{"slot": "brief-b"}])[0]["errors"], [])   # no contract: ordering not checked
+            (ws / "out" / "brief-b.contract.json").write_text(json.dumps({"terminal_tools": [{"tool": "close_call", "evidence": [
+                {"source": "tools/openapi.json", "quote": "Always the last tool call."}]}]}))
+            errors = check_exports(run_dir, ws, [{"slot": "brief-b"}])[0]["errors"]
+            self.assertTrue(any("E-TERMINAL-SHARED" in e and "negotiate" in e for e in errors))

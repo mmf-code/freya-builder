@@ -1,6 +1,6 @@
 """Run the kit's example builder once, isolated and traced, and export what it built.
 
-    .venv/bin/python -m builder.kitrun BRIEF [BRIEF ...] --tools OPENAPI [--label NAME] [--model ID] [--minutes 30]
+    .venv/bin/python -m builder.kitrun BRIEF [BRIEF ...] --tools OPENAPI [--label NAME] [--model ID] [--minutes 30] [--skill DIR]
 
 The kit builder (examples/agent_builder.py with its skill build-phone-agent) runs unchanged in a fresh copy of the
 kit under runs/<stamp>-<label>/workspace/. Only the given briefs are in workspace/briefs/. The given tool API file
@@ -12,7 +12,11 @@ Claude Code gets its own CLAUDE_CONFIG_DIR and HOME: no personal memory, mods or
 Output in runs/<stamp>-<label>/: trace.txt (the trace to submit), trace.jsonl (sanitized SDK messages),
 summary.json, console.log, one <slot>.workflow.json per workflow the run saved (exported from Freya),
 and copies of out/, results/ and every file the builder wrote. Secrets are redacted and the run dir is scanned.
-Exit status: 0 done, 1 builder failed or timed out, 2 a secret was found in the output.
+With --skill DIR the given skill replaces the kit's skill in the workspace and tools/check_workflow.py is added.
+After the build every exported workflow is checked statically (builder/workflow_check.py), with the builder's
+out/<slot>.contract.json when it wrote one.
+Exit status: 0 done, 1 builder failed or timed out, 2 a secret was found in the output,
+3 an exported workflow has static check errors.
 """
 from __future__ import annotations
 
@@ -154,9 +158,16 @@ def summarize_trace(records: list[dict], arrivals: list[float] | None = None, wo
 
 # ---------------------------------------------------------------- run
 
-def make_workspace(run_dir: Path, briefs: list[Path], tools: Path) -> Path:
+def make_workspace(run_dir: Path, briefs: list[Path], tools: Path, skill: Path | None = None) -> Path:
+    """A fresh copy of the kit. With `skill`, that skill replaces the kit's build-phone-agent skill and the
+    workflow checker is added as tools/check_workflow.py. The vendored kit itself is never changed."""
     ws = run_dir / "workspace"
     shutil.copytree(KIT, ws, ignore=lambda d, names: [n for n in names if n in KIT_SKIP])
+    if skill:
+        target = ws / ".claude" / "skills" / "build-phone-agent"
+        shutil.rmtree(target)
+        shutil.copytree(skill, target)
+        shutil.copy2(Path(__file__).with_name("workflow_check.py"), ws / "tools" / "check_workflow.py")
     (ws / "briefs").mkdir()
     for b in briefs:
         shutil.copy2(b, ws / "briefs" / b.name)
@@ -189,7 +200,7 @@ def _tail(path_glob_dir: Path, t0: float, stop: threading.Event, out: list) -> N
         time.sleep(0.5)
 
 
-def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes: float) -> int:
+def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes: float, skill: Path | None = None) -> int:
     if importlib.util.find_spec("claude_agent_sdk") is None:
         sys.exit("claude_agent_sdk is not installed for this Python. Use .venv/bin/python -m builder.kitrun ...")
     env_file = KIT / "env.sh"
@@ -203,7 +214,7 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     run_dir = ROOT / "runs" / f"{stamp}-{label}"
     run_dir.mkdir(parents=True)
-    ws = make_workspace(run_dir, briefs, tools)
+    ws = make_workspace(run_dir, briefs, tools, skill)
     state_before = json.loads((STATE / "freya-agents.json").read_text())
 
     (ISOLATED / "home").mkdir(parents=True, exist_ok=True)
@@ -257,6 +268,8 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
                 exported = f"export failed: {e}"
             freya_objects.append({"slot": slot, **s, "created": slot not in state_before, "export": exported})
 
+    checks = check_exports(run_dir, ws, freya_objects)
+
     for sub in ("out", "results"):
         if (ws / sub).exists():
             shutil.copytree(ws / sub, run_dir / sub)
@@ -271,13 +284,14 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     info = {
         "run": run_dir.name, "start": start.isoformat(timespec="seconds"), "end": end.isoformat(timespec="seconds"),
         "seconds": round((end - start).total_seconds()), "limit_minutes": minutes, "timed_out": timed_out.is_set(), "exit_code": code,
-        "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill build-phone-agent",
+        "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill "
+                   + (f"{redact(str(skill), {})} (sha256:{sha256(skill / 'SKILL.md')[:12]})" if skill else "build-phone-agent from the kit"),
         "builder_model": model or "claude-opus-5-5 (agent_builder.py default)", "agent_model": freya.AGENT_LLM,
         "repo_commit": commit, "repo_dirty": dirty, "isolation": {"CLAUDE_CONFIG_DIR": "<repo>/.claude-builder", "HOME": "<repo>/.claude-builder/home"},
         "inputs": {"briefs": [{"name": b.name, "sha256": sha256(b)} for b in briefs], "tools": {"name": tools.name, "sha256": sha256(tools)}},
         "freya": freya_objects, "tests": summary["tests"], "written": summary["written"],
         "cost_usd": res.get("total_cost_usd"), "num_turns": res.get("num_turns"), "model_usage": res.get("model_usage"),
-        "model_calls": summary["model_calls"],
+        "model_calls": summary["model_calls"], "checks": checks,
     }
     (run_dir / "summary.json").write_text(redact(json.dumps(info, indent=1, default=str), secrets))
     (run_dir / "trace.txt").write_text(redact(render_trace(info), secrets))
@@ -287,7 +301,26 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     if leaks:
         print(f"SECRET FOUND and redacted in {leaks}. Check how it got there before using this run.", file=sys.stderr)
         return 2
-    return 0 if code == 0 and not timed_out.is_set() else 1
+    if code != 0 or timed_out.is_set():
+        return 1
+    return 3 if any(c["errors"] for c in checks) else 0
+
+
+def check_exports(run_dir: Path, ws: Path, freya_objects: list[dict]) -> list[dict]:
+    """Static checks of every exported workflow against the run's tool API, with the builder's contract if it wrote one."""
+    from .workflow_check import check
+    api = json.loads((ws / "tools" / "openapi.json").read_text())
+    out = []
+    for f in freya_objects:
+        path = run_dir / f"{f['slot']}.workflow.json"
+        if not path.is_file():
+            continue
+        cpath = ws / "out" / f"{f['slot']}.contract.json"
+        contract = json.loads(cpath.read_text()) if cpath.is_file() else None
+        found = check(json.loads(path.read_text()), api, contract, ws)
+        out.append({"slot": f["slot"], "contract": cpath.name if contract is not None else None,
+                    "errors": [str(x) for x in found if x.level == "error"], "warnings": sum(x.level == "warning" for x in found)})
+    return out
 
 
 def render_result(info: dict) -> str:
@@ -322,6 +355,11 @@ def render_trace(info: dict) -> str:
         L += [f"     {l}" for l in t["fail_lines"]]
     if not info["tests"]:
         L.append("  none")
+    L += ["", "static checks of the exported workflows (graph properties only, not runtime behaviour):"]
+    for c in info.get("checks") or []:
+        L.append(f"  {c['slot']}: {len(c['errors'])} errors, {c['warnings']} warnings, "
+                 + (f"contract {c['contract']}" if c["contract"] else "no contract, so terminal-tool ordering was not checked"))
+        L += [f"     {e}" for e in c["errors"]]
     L += ["", f"files the builder wrote: {', '.join(info['written']) or 'none'}", f"result: {render_result(info)}", ""]
     return "\n".join(L)
 
@@ -333,11 +371,14 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--label", default="kit", help="suffix of the run directory name")
     p.add_argument("--model", help="builder model (BUILDER_MODEL); default: agent_builder.py's own default")
     p.add_argument("--minutes", type=float, default=30, help="hard time limit for the whole build (default 30)")
+    p.add_argument("--skill", type=Path, help="skill directory that replaces the kit's build-phone-agent skill in the workspace")
     a = p.parse_args(argv)
     for f in [*a.briefs, a.tools]:
         if not f.is_file():
             p.error(f"no such file: {f}")
-    return run([b.resolve() for b in a.briefs], a.tools.resolve(), a.label, a.model, a.minutes)
+    if a.skill and not (a.skill / "SKILL.md").is_file():
+        p.error(f"no SKILL.md in {a.skill}")
+    return run([b.resolve() for b in a.briefs], a.tools.resolve(), a.label, a.model, a.minutes, a.skill.resolve() if a.skill else None)
 
 
 if __name__ == "__main__":
