@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from builder.kitrun import ROOT, load_env, redact, render_trace, scrub, secrets_of, summarize_trace
+from builder.kitrun import ROOT, load_env, resolve_env, redact, render_trace, scrub, secrets_of, summarize_trace
 
 BASELINE = ROOT / "runs" / "20261010-kit-builder-brief-a" / "trace.sanitized.jsonl"
 
@@ -17,6 +17,18 @@ class EnvTest(unittest.TestCase):
             env = load_env(f)
         self.assertEqual(env, {"FREYA_API_KEY": "fak_abcdefgh12345", "FREYA_API_URL": "https://example.test", "PLAIN_TOKEN": "tok_123456789"})
         self.assertEqual(set(secrets_of(env)), {"FREYA_API_KEY", "PLAIN_TOKEN"})
+
+    def test_resolve_env_uses_environment_without_env_file(self):
+        with tempfile.TemporaryDirectory() as d:
+            env = resolve_env(Path(d) / "env.sh", {"FREYA_API_KEY": "fak_fromenv12345", "PATH": "/bin"})
+        self.assertEqual(env, {"FREYA_API_KEY": "fak_fromenv12345"})
+
+    def test_resolve_env_prefers_env_file(self):
+        with tempfile.TemporaryDirectory() as d:
+            f = Path(d) / "env.sh"
+            f.write_text("export FREYA_API_KEY=fak_fromfile12345\n")
+            env = resolve_env(f, {"FREYA_API_KEY": "fak_fromenv12345", "FREYA_BANK_TEAM_KEY": "team_fromenv12345"})
+        self.assertEqual(env, {"FREYA_API_KEY": "fak_fromfile12345", "FREYA_BANK_TEAM_KEY": "team_fromenv12345"})
 
     def test_scrub_redacts_outputs_but_not_the_workspace(self):
         with tempfile.TemporaryDirectory() as d:

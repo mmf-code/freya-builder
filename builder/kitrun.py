@@ -52,6 +52,18 @@ def load_env(path: Path) -> dict[str, str]:
     return env
 
 
+REQUIRED_ENV = ("FREYA_API_KEY", "FREYA_BANK_TEAM_KEY", "ANTHROPIC_API_KEY")
+OPTIONAL_ENV = ("FREYA_API_URL", "FREYA_WORKSPACE_ID", "FREYA_BANK_HOST")
+
+
+def resolve_env(env_file: Path, environ: dict[str, str]) -> dict[str, str]:
+    """Kit settings: env.sh when it exists (local), else the process environment (cloud). env.sh wins per name."""
+    env = {k: environ[k] for k in (*REQUIRED_ENV, *OPTIONAL_ENV) if environ.get(k)}
+    if env_file.exists():
+        env.update(load_env(env_file))
+    return env
+
+
 def secrets_of(env: dict[str, str]) -> dict[str, str]:
     return {k: v for k, v in env.items() if SECRET_NAME.search(k) and len(v) >= 8}
 
@@ -181,11 +193,11 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     if importlib.util.find_spec("claude_agent_sdk") is None:
         sys.exit("claude_agent_sdk is not installed for this Python. Use .venv/bin/python -m builder.kitrun ...")
     env_file = KIT / "env.sh"
-    file_env = load_env(env_file)
+    file_env = resolve_env(env_file, dict(os.environ))
     secrets = secrets_of(file_env)
-    for need in ("FREYA_API_KEY", "FREYA_BANK_TEAM_KEY", "ANTHROPIC_API_KEY"):
+    for need in REQUIRED_ENV:
         if not file_env.get(need):
-            sys.exit(f"{need} is missing in {env_file}")
+            sys.exit(f"{need} is missing: set it in {env_file} or in the environment")
     os.environ.update(file_env)
 
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")

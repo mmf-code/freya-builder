@@ -8,11 +8,14 @@
 #   scripts/run_kit_builder.sh briefs/brief-a.md [briefs/brief-b.md]
 #   BUILDER_MODEL=claude-sonnet-5-5 scripts/run_kit_builder.sh briefs/brief-a.md
 #
-# Needs docs/build-the-builder/env.sh with FREYA_API_KEY, FREYA_BANK_TEAM_KEY and ANTHROPIC_API_KEY.
+# Needs FREYA_API_KEY, FREYA_BANK_TEAM_KEY and ANTHROPIC_API_KEY, from docs/build-the-builder/env.sh when it
+# exists (local) or from the environment (cloud).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 KIT="$ROOT/docs/build-the-builder"
-source "$KIT/env.sh"
+if [ -f "$KIT/env.sh" ]; then source "$KIT/env.sh"; fi
+: "${FREYA_API_KEY:?FREYA_API_KEY must be set}"
+: "${FREYA_BANK_TEAM_KEY:?FREYA_BANK_TEAM_KEY must be set}"
 : "${ANTHROPIC_API_KEY:?ANTHROPIC_API_KEY must be set: the isolated config has no Claude login}"
 export CLAUDE_CONFIG_DIR="$ROOT/.claude-builder"   # empty, git-ignored, owned by the builder only
 # Personal mods load from ~/.claude/mods whatever CLAUDE_CONFIG_DIR says, so HOME is isolated too.
