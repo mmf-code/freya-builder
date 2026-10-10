@@ -1,0 +1,36 @@
+Freya builder trace: 20261010-171132-candidate-a-raw
+start 2026-10-10T14:11:32+00:00  end 2026-10-10T14:17:20+00:00  (348 s, limit 30 min)
+builder: docs/build-the-builder/examples/agent_builder.py (unchanged), skill <repo>/builder/skills/build-phone-agent (sha256:7659a7bd2e6c); model claude-opus-5-5 (agent_builder.py default)
+phone agent model: experimental-5/experimental-5 (set by freya.py)
+repo commit d5a28d182a47574fbebdfd51d88d5a6df4b31660
+inputs: brief-a-raw.md sha256:5ebf283ab00f; tools openapi.json sha256:9a8410b12e5c
+practice customers in the workspace: none (no kit brief matches the input)
+
+model calls (13 in the message log):
+  001 +00:03 claude-opus-5-5: Skill: {"skill": "build-phone-agent", "args": "briefs/brief-a-raw.md"}
+  002 +00:05 claude-opus-5-5: Bash: List kit and read brief and test set
+  003 +00:06 claude-opus-5-5: Bash: Read tool API, docs, example
+  004 +00:08 claude-opus-5-5: Bash: Summarize openapi paths
+  005 +00:11 claude-opus-5-5: Read: docs/workflow-format.md; Read: docs/tools-and-code.md; Read: examples/base-agent.json
+  006 +00:15 claude-opus-5-5: I've read the brief, the tool API, the docs and the example. Next I'm checking the checker script and README, then I'll write the workflow.; Bash: Read README and the workflow checker
+  007 +00:18 claude-opus-5-5: Bash: Read first part of checker
+  008 +03:08 claude-opus-5-5: Bash: Read contract check and save function
+  009 +03:11 claude-opus-5-5: Now writing a generator script that produces the workflow JSON, so the code snippets can be tested locally first.; Write: out/gen_brief-a-raw.py
+  010 +05:08 claude-opus-5-5: Now the contract file and a local test of the two code snippets.; Bash: Generate workflow, run checker, test code snippets
+  011 +05:23 claude-opus-5-5: Bash: Regenerate, check and save the workflow
+  012 +05:28 claude-opus-5-5: Saved. Next I'm checking that the platform kept the key parts of the stored copy (hooks, tool-call transitions, close steps).; Bash: Export saved workflow and inspect key fields
+  013 +05:44 claude-opus-5-5: I built and saved the phone agent for `brief-a-raw`, but it has not been run against any customers. `public-test-set.json` is empty for this
+  totals claude-haiku-5-5: in 1198 out 29 cache-read 0 cache-write 0 cost $0.0001  (Claude Code's own helper calls, not in the message log)
+  totals claude-opus-5-5: in 26 out 37667 cache-read 769072 cache-write 118144 cost $1.4980
+
+created or updated on Freya:
+  slot brief-a-raw: workflow ded64a3a-6045-494c-b06a-06f65f69046e, agent 5313a08c-4fa7-4874-a669-7c742eb97892, version 1, created, exported to brief-a-raw.workflow.json
+
+tests the builder ran on its agent:
+  none
+
+static checks of the exported workflows (graph properties only, not runtime behaviour):
+  brief-a-raw: 0 errors, 0 warnings, contract brief-a-raw.contract.json
+
+files the builder wrote: <repo>/runs/20261010-171132-candidate-a-raw/workspace/out/gen_brief-a-raw.py
+result: 348 s, cost $1.50, builder tests: none, exit 0
