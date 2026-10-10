@@ -119,3 +119,21 @@ class CandidateSkillTest(unittest.TestCase):
                 {"source": "tools/openapi.json", "quote": "Always the last tool call."}]}]}))
             errors = check_exports(run_dir, ws, [{"slot": "brief-b"}])[0]["errors"]
             self.assertTrue(any("E-TERMINAL-SHARED" in e and "negotiate" in e for e in errors))
+
+
+class FailClosedTest(unittest.TestCase):
+    def test_nothing_saved_missing_export_and_missing_contract_are_errors(self):
+        import shutil
+        from builder.kitrun import KIT, check_exports
+        with tempfile.TemporaryDirectory() as d:
+            run_dir, ws = Path(d), Path(d) / "workspace"
+            (ws / "tools").mkdir(parents=True)
+            (ws / "out").mkdir()
+            shutil.copy2(KIT / "tools" / "openapi.json", ws / "tools" / "openapi.json")
+            self.assertTrue(check_exports(run_dir, ws, [])[0]["errors"])
+            self.assertTrue(check_exports(run_dir, ws, [{"slot": "x"}])[0]["errors"])
+            (run_dir / "x.workflow.json").write_text(json.dumps({"workflow": {"initial_node": "e", "nodes": {"e": {"node_type": "end_call", "transitions": []}}}}))
+            self.assertEqual(check_exports(run_dir, ws, [{"slot": "x"}])[0]["errors"], [])
+            self.assertTrue(any("missing" in e for e in check_exports(run_dir, ws, [{"slot": "x"}], contract_required=True)[0]["errors"]))
+            (ws / "out" / "x.contract.json").write_text("{not json")
+            self.assertTrue(any("not valid JSON" in e for e in check_exports(run_dir, ws, [{"slot": "x"}])[0]["errors"]))

@@ -268,7 +268,7 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
                 exported = f"export failed: {e}"
             freya_objects.append({"slot": slot, **s, "created": slot not in state_before, "export": exported})
 
-    checks = check_exports(run_dir, ws, freya_objects)
+    checks = check_exports(run_dir, ws, freya_objects, contract_required=skill is not None)
 
     for sub in ("out", "results"):
         if (ws / sub).exists():
@@ -306,20 +306,36 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     return 3 if any(c["errors"] for c in checks) else 0
 
 
-def check_exports(run_dir: Path, ws: Path, freya_objects: list[dict]) -> list[dict]:
-    """Static checks of every exported workflow against the run's tool API, with the builder's contract if it wrote one."""
+def check_exports(run_dir: Path, ws: Path, freya_objects: list[dict], contract_required: bool = False) -> list[dict]:
+    """Static checks of every exported workflow against the run's tool API, with the builder's contract if it wrote one.
+
+    Fails closed: a run that saved nothing, a missing export, and (when the skill requires one) a missing or unreadable
+    contract are errors, so they cannot pass as a clean check."""
     from .workflow_check import check
+    if not freya_objects:
+        return [{"slot": "(none)", "contract": None, "errors": ["the run saved no workflow on Freya"], "warnings": 0}]
     api = json.loads((ws / "tools" / "openapi.json").read_text())
     out = []
     for f in freya_objects:
+        entry = {"slot": f["slot"], "contract": None, "errors": [], "warnings": 0}
+        out.append(entry)
         path = run_dir / f"{f['slot']}.workflow.json"
         if not path.is_file():
+            entry["errors"].append("no export of this workflow, so it was not checked")
             continue
         cpath = ws / "out" / f"{f['slot']}.contract.json"
-        contract = json.loads(cpath.read_text()) if cpath.is_file() else None
+        contract = None
+        if cpath.is_file():
+            try:
+                contract = json.loads(cpath.read_text())
+                entry["contract"] = cpath.name
+            except ValueError as e:
+                entry["errors"].append(f"{cpath.name} is not valid JSON: {e}")
+        elif contract_required:
+            entry["errors"].append(f"{cpath.name} is missing, so terminal-tool ordering could not be checked")
         found = check(json.loads(path.read_text()), api, contract, ws)
-        out.append({"slot": f["slot"], "contract": cpath.name if contract is not None else None,
-                    "errors": [str(x) for x in found if x.level == "error"], "warnings": sum(x.level == "warning" for x in found)})
+        entry["errors"] += [str(x) for x in found if x.level == "error"]
+        entry["warnings"] = sum(x.level == "warning" for x in found)
     return out
 
 
