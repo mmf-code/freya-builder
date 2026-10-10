@@ -1,6 +1,9 @@
 # Experiment: "Counted and ordered rules" skill section (commit d4bc3c1), Brief A + B
 
-Result: worse than the previous candidate skill, and the build hit the 30-minute limit.
+Result: inconclusive for policy quality. Most of the builder's tests ran during a platform sandbox outage that
+another team reported in the event channel with the same error ("Failed to reach snekbox: Cannot connect to host
+snekbox-svc.staging.local:8060 ... Name or service not known"). Two findings stand regardless: the design is far
+more exposed to sandbox outages (unbounded re-entry when code fails), and the build hit the 30-minute limit.
 
 | | Previous candidate (fb88831 skill) | This run (d4bc3c1 skill) |
 |---|---|---|
@@ -30,5 +33,7 @@ for A as well, which has one product per customer.
 Agents saved (version 4, last versions not fully tested): brief-a workflow d325c61a, brief-b workflow a9d0f98f.
 No outside evaluation was run on them.
 
-Recommendation: do not use the d4bc3c1 skill section as the default. The best measured skill is the one before it
-(92a695a: terminal-tool ordering, static check, hidden-brief-safe testing).
+Decision: keep the previous candidate (skill 92a695a, agents 6a9597ac and 3aa5a39a) as the reference, and keep
+this experiment separate; nothing is reverted. Next, once the sandbox is healthy and without a new build: one run of
+the existing B agent (agent 4f317fbf, workflow a9d0f98f v4) on the three B cases. A run whose failed calls record
+sandbox errors does not count. That measures this agent only, not whether the builder reproduces it.

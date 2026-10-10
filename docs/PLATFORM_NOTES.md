@@ -36,7 +36,11 @@ Field observations from this repository's runs, with their evidence. They add to
   every failed call logged `function_call_error` "Failed to reach snekbox" while the bank answered `ok` to the
   same request. The agent then treated a passed identity check as failed and sent `create_promise` again after it
   had succeeded.
-- Consequence: an agent whose every tool depends on a hook inherits the sandbox's availability.
+- Seen again at 17:37 to 17:57 (UTC+3), in 15 of 18 failed calls of a build's own tests. Another team reported
+  the same error text in the event channel at about that time, so the outage was platform-wide, not ours.
+- Consequence: an agent whose every tool depends on a hook inherits the sandbox's availability. A design that runs
+  code on every customer answer, with steps that re-enter each other when code fails, turned one outage into
+  hundreds of errors per call (316 in one call, then "maximum recursion depth exceeded"). Bound every loop.
 
 ## Silent stalls at the first model turn
 
