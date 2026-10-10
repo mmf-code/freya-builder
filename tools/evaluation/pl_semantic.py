@@ -79,7 +79,33 @@ for path in exports:
         hit_new, hit_old = any(f in near for f in forms(want)), any(f in near for f in forms(old))
         verdict = ("MATCH" if hit_new and (not hit_old or want == old) else "OLD VALUE" if hit_old else "NOT FOUND in code output")
         print(f"  {band:5} deadline at {now}: key {want} (official rule would give {old}) -> {verdict}" + (f"; code errors {errors}" if errors else ""))
-    window = (key.get("policy") or {}).get("callback_window")
+    policy = key.get("policy") or {}
+    if policy.get("floors") or policy.get("attempts") or policy.get("max_promise_amount"):
+        for band, days_late in (("early", 5), ("late", 16)):
+            car = {"product_id": "p1", "type": "car_loan", "past_due": 2500.0, "days_late": days_late, "instalment_amount": 300.0}
+            data = {"ok": True, "products": [car]}
+            sample = {"now": now, "customer_id": "c_test", "title": "Mr", "first_name": "Ann", "last_name": "Lee"}
+            for n in names:
+                if n and n.endswith("_response"):
+                    sample.update({f"{n}.data": data, f"{n}.data.products": [car], f"{n}.data.ok": True, n: {"data": data}})
+                elif n:
+                    sample[n] = [car] if "product" in n else data
+            report = dry_run(wf, sample)
+            text = " ".join(f"{k}: " + (v if isinstance(v, str) else json.dumps(v)) for r in report for k, v in r["written"].items())
+            floor_near = " ".join(m.group(0) for m in re.finditer(r"(?i)(floor|minimum)[^\n]{0,80}", text))
+            cap_near = " ".join(m.group(0) for m in re.finditer(r"(?i)(cap|max|above|more than|at most|up to|limit)[^\n]{0,80}", text))
+            att = sorted({int(x) for m in re.finditer(r"(?i)attempts?[^\n.;]{0,30}?(?:allowed|:|=)\s*(\d)|(\d)\s+(?:persuasion\s+)?attempts", text) for x in m.groups() if x})
+            want_att, old_att = (policy.get("attempts") or {}).get(band), {"early": 1, "late": 2}[band]
+            parts = []
+            if (policy.get("floors") or {}).get("car_loan") == "half_past_due":
+                parts.append(f"car floor 1250: {'yes' if re.search(r'1,?250', floor_near) else 'no'} (instalment 300 near floor: {'yes' if '300' in floor_near else 'no'})")
+            if policy.get("max_promise_amount"):
+                parts.append(f"cap 2000: {'yes' if re.search(r'2,?000', cap_near) else 'no'}")
+            if want_att:
+                parts.append(f"attempts {want_att}: {'yes' if want_att in att else 'no'} (numbers seen near 'attempt': {att}; official {old_att})")
+            errors = [f"{r['step']}: {r['error']}" for r in report if r["error"]]
+            print(f"  {band:5} car loan 2500.00: " + "; ".join(parts) + (f"; code errors {errors}" if errors else ""))
+    window = policy.get("callback_window")
     if window:
         report = dry_run(wf, {"now": now, "customer_id": "c_test"})
         text = " ".join(v if isinstance(v, str) else json.dumps(v) for r in report for v in r["written"].values())

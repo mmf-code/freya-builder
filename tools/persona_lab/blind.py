@@ -147,7 +147,10 @@ SCENARIOS = [
         "policy": {"callback_window": ["09:00", "17:00"], "deadline_business_days": {"early": 12, "late": 6}},
         "probes": [
             found("callback-new-end", ["17:00", "5 pm", "5pm"], "new callback end"),
-            stale("callback-old-end", ["19:00", "7 pm", "7pm"], "the extract's end time is superseded"),
+            # Weak, not strong: the raw form says memos apply "from their date on", so code that keeps 19:00 for dates
+            # before the memo is a correct reading (seen in a 2026-10-11 build). Whether the export applies 17:00 at
+            # `now` is checked on what its code computes (tools/evaluation/pl_semantic.py), not on text.
+            stale("callback-old-end", ["19:00", "7 pm", "7pm"], "the extract's end time is superseded", strong=False),
             stale("old-memo-decoy", ["20:00", "8 pm", "10th business day", "tenth business day"], "the older memo is superseded by the extract"),
             found("late-deadline-new", ["6th business day", "sixth business day", "6 business days"], "new late deadline"),
             stale("late-deadline-old", ["7th business day", "seventh business day", "7 business days"], "old late deadline", strong=False),

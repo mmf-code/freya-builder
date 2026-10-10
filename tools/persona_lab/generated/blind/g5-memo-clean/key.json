@@ -54,7 +54,7 @@
    ],
    "id": "callback-old-end",
    "kind": "stale",
-   "strong": true,
+   "strong": false,
    "why": "the extract's end time is superseded"
   },
   {
