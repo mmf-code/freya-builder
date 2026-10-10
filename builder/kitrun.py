@@ -62,6 +62,21 @@ def redact(text: str, secrets: dict[str, str]) -> str:
     return text.replace(str(ROOT), "<repo>").replace(str(Path.home()), "~")
 
 
+def scrub(run_dir: Path, workspace: Path, secrets: dict[str, str]) -> list[str]:
+    """Redact secret values in every output file outside the (git-ignored) workspace. Returns the files that had one."""
+    leaks = []
+    for p in run_dir.rglob("*"):
+        if not p.is_file() or p.is_relative_to(workspace):
+            continue
+        data = p.read_bytes()
+        if any(v.encode() in data for v in secrets.values()):
+            leaks.append(str(p.relative_to(run_dir)))
+            for name, v in secrets.items():
+                data = data.replace(v.encode(), f"<redacted:{name}>".encode())
+            p.write_bytes(data)
+    return leaks
+
+
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -255,11 +270,10 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     (run_dir / "summary.json").write_text(redact(json.dumps(info, indent=1, default=str), secrets))
     (run_dir / "trace.txt").write_text(redact(render_trace(info), secrets))
 
-    leaks = [str(p.relative_to(run_dir)) for p in run_dir.rglob("*") if p.is_file() and not p.is_relative_to(ws)
-             and any(v in p.read_text(errors="ignore") for v in secrets.values())]
+    leaks = scrub(run_dir, ws, secrets)
     print(f"\n{render_result(info)}\noutput: {run_dir.relative_to(ROOT)}", flush=True)
     if leaks:
-        print(f"SECRET FOUND in {leaks}. Do not commit this run.", file=sys.stderr)
+        print(f"SECRET FOUND and redacted in {leaks}. Check how it got there before using this run.", file=sys.stderr)
         return 2
     return 0 if code == 0 and not timed_out.is_set() else 1
 

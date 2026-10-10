@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from builder.kitrun import ROOT, load_env, redact, render_trace, secrets_of, summarize_trace
+from builder.kitrun import ROOT, load_env, redact, render_trace, scrub, secrets_of, summarize_trace
 
 BASELINE = ROOT / "runs" / "20261010-kit-builder-brief-a" / "trace.sanitized.jsonl"
 
@@ -17,6 +17,19 @@ class EnvTest(unittest.TestCase):
             env = load_env(f)
         self.assertEqual(env, {"FREYA_API_KEY": "fak_abcdefgh12345", "FREYA_API_URL": "https://example.test", "PLAIN_TOKEN": "tok_123456789"})
         self.assertEqual(set(secrets_of(env)), {"FREYA_API_KEY", "PLAIN_TOKEN"})
+
+    def test_scrub_redacts_outputs_but_not_the_workspace(self):
+        with tempfile.TemporaryDirectory() as d:
+            run_dir, ws = Path(d), Path(d) / "workspace"
+            (run_dir / "out").mkdir(parents=True)
+            ws.mkdir()
+            (run_dir / "out" / "a.workflow.json").write_text('{"h": "fak_abcdefgh12345"}')
+            (run_dir / "clean.txt").write_text("nothing here")
+            (ws / "raw.jsonl").write_text("fak_abcdefgh12345")
+            leaks = scrub(run_dir, ws, {"FREYA_API_KEY": "fak_abcdefgh12345"})
+            self.assertEqual(leaks, ["out/a.workflow.json"])
+            self.assertEqual((run_dir / "out" / "a.workflow.json").read_text(), '{"h": "<redacted:FREYA_API_KEY>"}')
+            self.assertEqual((ws / "raw.jsonl").read_text(), "fak_abcdefgh12345")
 
     def test_redact_removes_secret_values_and_repo_path(self):
         text = redact(f"key fak_abcdefgh12345 at {ROOT}/runs/x", {"FREYA_API_KEY": "fak_abcdefgh12345"})
