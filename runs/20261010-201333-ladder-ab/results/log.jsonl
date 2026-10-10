@@ -1,0 +1,8 @@
+{"at": "2026-10-10 20:27:21", "agent_id": "b7c84f99-95b5-47af-88f2-690ca958e70a", "brief": "A", "runs": 1, "passed": 5, "total": 10, "seconds": 114, "failed": ["PUB-01", "PUB-04", "PUB-06", "PUB-07", "PUB-10"]}
+{"at": "2026-10-10 20:30:53", "agent_id": "b7c84f99-95b5-47af-88f2-690ca958e70a", "brief": "A", "runs": 1, "passed": 4, "total": 10, "seconds": 145, "failed": ["PUB-01", "PUB-03", "PUB-04", "PUB-06", "PUB-07", "PUB-10"]}
+{"at": "2026-10-10 20:33:54", "agent_id": "b7c84f99-95b5-47af-88f2-690ca958e70a", "brief": "A", "runs": 1, "passed": 9, "total": 10, "seconds": 84, "failed": ["PUB-06"]}
+{"at": "2026-10-10 20:36:38", "agent_id": "05d116e1-1a54-4849-819b-07f1801d8fc5", "brief": "B", "runs": 1, "passed": 0, "total": 3, "seconds": 135, "failed": ["PUB-11", "PUB-12", "PUB-13"]}
+{"at": "2026-10-10 20:39:58", "agent_id": "05d116e1-1a54-4849-819b-07f1801d8fc5", "brief": "B", "runs": 1, "passed": 2, "total": 3, "seconds": 74, "failed": ["PUB-12"]}
+{"at": "2026-10-10 20:41:20", "agent_id": "05d116e1-1a54-4849-819b-07f1801d8fc5", "brief": "B", "runs": 1, "passed": 2, "total": 3, "seconds": 52, "failed": ["PUB-12"]}
+{"at": "2026-10-10 20:43:12", "agent_id": "05d116e1-1a54-4849-819b-07f1801d8fc5", "brief": "B", "runs": 1, "passed": 3, "total": 3, "seconds": 53, "failed": []}
+{"at": "2026-10-10 20:44:38", "agent_id": "b7c84f99-95b5-47af-88f2-690ca958e70a", "brief": "A", "runs": 1, "passed": 10, "total": 10, "seconds": 76, "failed": []}

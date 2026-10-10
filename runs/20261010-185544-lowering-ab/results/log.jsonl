@@ -1,0 +1,5 @@
+{"at": "2026-10-10 19:07:43", "agent_id": "b2df668d-07da-4ca1-9487-7a9a23fbb550", "brief": "A", "runs": 1, "passed": 8, "total": 10, "seconds": 330, "failed": ["PUB-06", "PUB-07"]}
+{"at": "2026-10-10 19:11:35", "agent_id": "d6e35cf9-eb0e-4bd3-8ca3-8b7c0091ac07", "brief": "B", "runs": 1, "passed": 2, "total": 3, "seconds": 177, "failed": ["PUB-12"]}
+{"at": "2026-10-10 19:15:03", "agent_id": "b2df668d-07da-4ca1-9487-7a9a23fbb550", "brief": "A", "runs": 1, "passed": 9, "total": 10, "seconds": 166, "failed": ["PUB-10"]}
+{"at": "2026-10-10 19:16:56", "agent_id": "d6e35cf9-eb0e-4bd3-8ca3-8b7c0091ac07", "brief": "B", "runs": 1, "passed": 3, "total": 3, "seconds": 73, "failed": []}
+{"at": "2026-10-10 19:18:30", "agent_id": "b2df668d-07da-4ca1-9487-7a9a23fbb550", "brief": "A", "runs": 1, "passed": 10, "total": 10, "seconds": 83, "failed": []}

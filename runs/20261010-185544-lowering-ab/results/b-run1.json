@@ -1,0 +1,162 @@
+{
+ "agent_id": "d6e35cf9-eb0e-4bd3-8ca3-8b7c0091ac07",
+ "simulation_id": "61b918bf-fa36-450b-b68d-a1bf09fd4783",
+ "iteration_id": "a26db184-3a46-41e0-8bdd-609bb9919c1a",
+ "seconds": 177,
+ "passed": 2,
+ "total": 3,
+ "runs": 1,
+ "final": [
+  {
+   "id": "PUB-11",
+   "family": "Multi-product",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-12",
+   "family": "Multi-product",
+   "passes": 0,
+   "runs": 1,
+   "pass": false
+  },
+  {
+   "id": "PUB-13",
+   "family": "Multi-product",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  }
+ ],
+ "rows": [
+  {
+   "id": "PUB-11",
+   "level": "medium",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "170bf957-1483-4075-ba57-bd990268b472",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_76f63278-333",
+   "slowest_turn_s": 6.3,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-12",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": false,
+   "failed": [
+    "conversation: - The assistant successfully asked for the phone number again once and the date of birth only once. - Exactly one promise was created for the credit card product. - One 'refused' note was added for both the personal loan and the car loan as required. - While the assistant correctly made two attempts on the personal loan (16 days late/late band), it failed the criteria by making two attempts on the"
+   ],
+   "call_id": "07b82f02-fc32-48bf-a294-e1be3e022ce5",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "add_note",
+    "add_note",
+    "close_call"
+   ],
+   "customer_id": "c_7e0e79c8-30f",
+   "slowest_turn_s": 3.0,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-13",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "d1ceac68-1db5-48cb-8e47-5f2b24b00fb3",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_9caff6b5-f1e",
+   "slowest_turn_s": 3.3,
+   "ended": "assistant-ended-call"
+  }
+ ],
+ "all_rows": [
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "170bf957-1483-4075-ba57-bd990268b472",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_76f63278-333",
+    "slowest_turn_s": 6.3,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "conversation: - The assistant successfully asked for the phone number again once and the date of birth only once. - Exactly one promise was created for the credit card product. - One 'refused' note was added for both the personal loan and the car loan as required. - While the assistant correctly made two attempts on the personal loan (16 days late/late band), it failed the criteria by making two attempts on the"
+    ],
+    "call_id": "07b82f02-fc32-48bf-a294-e1be3e022ce5",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "add_note",
+     "add_note",
+     "close_call"
+    ],
+    "customer_id": "c_7e0e79c8-30f",
+    "slowest_turn_s": 3.0,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "d1ceac68-1db5-48cb-8e47-5f2b24b00fb3",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_9caff6b5-f1e",
+    "slowest_turn_s": 3.3,
+    "ended": "assistant-ended-call"
+   }
+  ]
+ ]
+}

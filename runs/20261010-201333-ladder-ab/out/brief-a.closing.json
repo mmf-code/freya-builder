@@ -1,0 +1,268 @@
+{
+ "terminal": {
+  "tool": "close_call",
+  "evidence": [
+   {
+    "source": "tools/openapi.json",
+    "quote": "End the call. Always the last tool call. Nothing is accepted after it."
+   },
+   {
+    "source": "briefs/brief-a.md",
+    "quote": "Every call ends with exactly one `close_call`, with an outcome and, where the table lists one, a reason. It is the last tool call."
+   }
+  ]
+ },
+ "fields": {
+  "customer_id": "{{customer_id}}"
+ },
+ "closings": {
+  "promise": {
+   "set": {
+    "outcome": "promise"
+   },
+   "say": "Your promise is recorded. You will receive a text message confirming this promise. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `promise` | none | at least one promise was recorded |"
+    }
+   ]
+  },
+  "paid": {
+   "set": {
+    "outcome": "paid"
+   },
+   "say": "Thank you. Payments can take one business day to appear. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `paid` | none | rule 39 |"
+    }
+   ]
+  },
+  "transferred/restructuring": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "restructuring"
+   },
+   "say": "I am connecting you with our restructuring team now. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `transferred` | `restructuring`, `human`, `support` | rules 41, 42, 32 |"
+    }
+   ]
+  },
+  "transferred/human": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "human"
+   },
+   "say": "I am connecting you with a colleague now. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `transferred` | `restructuring`, `human`, `support` | rules 41, 42, 32 |"
+    }
+   ]
+  },
+  "transferred/support": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "support"
+   },
+   "say": "I am connecting you with our customer support team now. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `transferred` | `restructuring`, `human`, `support` | rules 41, 42, 32 |"
+    }
+   ]
+  },
+  "no_promise/refused": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "refused"
+   },
+   "say": "I understand. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `no_promise` | `refused`, `hardship`, `dispute`, `service_error` | rules 31 and 45, 32, 40, 37 |"
+    }
+   ]
+  },
+  "no_promise/hardship": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "hardship"
+   },
+   "say": "I understand. Take care. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `no_promise` | `refused`, `hardship`, `dispute`, `service_error` | rules 31 and 45, 32, 40, 37 |"
+    }
+   ]
+  },
+  "no_promise/dispute": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "dispute"
+   },
+   "say": "I understand. I will not take a payment promise today. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `no_promise` | `refused`, `hardship`, `dispute`, `service_error` | rules 31 and 45, 32, 40, 37 |"
+    }
+   ]
+  },
+  "no_promise/service_error": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "service_error"
+   },
+   "say": "I am sorry, I could not record your promise because of a technical problem. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `no_promise` | `refused`, `hardship`, `dispute`, `service_error` | rules 31 and 45, 32, 40, 37 |"
+    }
+   ]
+  },
+  "no_promise/service_error_account": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "service_error"
+   },
+   "say": "I am sorry, I cannot reach your account details right now because of a technical problem. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `no_promise` | `refused`, `hardship`, `dispute`, `service_error` | rules 31 and 45, 32, 40, 37 |"
+    }
+   ]
+  },
+  "not_verified/failed": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "failed"
+   },
+   "say": "I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `not_verified` | `failed`, `declined` | rules 14, 15 |"
+    }
+   ]
+  },
+  "not_verified/declined": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "declined"
+   },
+   "say": "I understand. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `not_verified` | `failed`, `declined` | rules 14, 15 |"
+    }
+   ]
+  },
+  "not_reached/callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "callback"
+   },
+   "say": "Thank you, we will call back then. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `not_reached` | `callback`, `no_callback`, `wrong_number`, `deceased`, `unclear` | rules 6, 7, 8, 9, 3 |"
+    }
+   ]
+  },
+  "not_reached/no_callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "no_callback"
+   },
+   "say": "I understand. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `not_reached` | `callback`, `no_callback`, `wrong_number`, `deceased`, `unclear` | rules 6, 7, 8, 9, 3 |"
+    }
+   ]
+  },
+  "not_reached/wrong_number": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "wrong_number"
+   },
+   "say": "I apologise for the inconvenience. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `not_reached` | `callback`, `no_callback`, `wrong_number`, `deceased`, `unclear` | rules 6, 7, 8, 9, 3 |"
+    }
+   ]
+  },
+  "not_reached/deceased": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "deceased"
+   },
+   "say": "I am sorry for your loss. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `not_reached` | `callback`, `no_callback`, `wrong_number`, `deceased`, `unclear` | rules 6, 7, 8, 9, 3 |"
+    }
+   ]
+  },
+  "not_reached/unclear": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "unclear"
+   },
+   "say": "I am sorry, I could not confirm who I am speaking with. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `not_reached` | `callback`, `no_callback`, `wrong_number`, `deceased`, `unclear` | rules 6, 7, 8, 9, 3 |"
+    }
+   ]
+  }
+ },
+ "ladder": {
+  "template": "ladder",
+  "done": "after_offers",
+  "items": {
+   "count": "product_count",
+   "max": 1,
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "Freya Bank calls customers who are 1 to 45 days late on one product."
+    }
+   ]
+  },
+  "attempts": {
+   "allowed": "attempts_{i}",
+   "max": 2,
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| 1 to 7 | early | the 12th business day after today | 1 |"
+    },
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| 8 to 45 | late | the 7th business day after today | 2 |"
+    }
+   ]
+  },
+  "refusal": "refusal_{i}_{a}"
+ }
+}

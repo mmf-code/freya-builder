@@ -1,0 +1,7 @@
+[
+ {"now":"2026-10-16T11:00","products":[{"product_id":"p1","type":"credit_card","card_last4":"4821","past_due":420.5,"days_late":5,"minimum_payment":60}]},
+ {"now":"2026-10-17T10:00","get_account_response.data.products":"[{\"product_id\":\"p1\",\"type\":\"car_loan\",\"past_due\":900,\"days_late\":20,\"instalment_amount\":300},{\"product_id\":\"p2\",\"type\":\"personal_loan\",\"past_due\":250,\"days_late\":3,\"instalment_amount\":125}]"},
+ {"now":"2026-10-23T18:30","products":[{"product_id":"p1","type":"personal_loan","past_due":250,"days_late":8,"instalment_amount":125}]},
+ {"now":"2026-11-10T09:00","products":[]},
+ {"now":"2026-10-14T11:00"}
+]

@@ -1,0 +1,384 @@
+{
+ "terminal": {
+  "tool": "close_call",
+  "evidence": [
+   {
+    "source": "tools/openapi.json",
+    "quote": "End the call. Always the last tool call. Nothing is accepted after it."
+   },
+   {
+    "source": "briefs/brief-a-raw.md",
+    "quote": "Every call ends with exactly one `close_call`, as the last tool call"
+   }
+  ]
+ },
+ "fields": {
+  "customer_id": "{{customer_id}}"
+ },
+ "closings": {
+  "promise": {
+   "set": {
+    "outcome": "promise"
+   },
+   "say": "You will receive a text message confirming this promise. Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `promise` | (none) | at least one PTP was recorded |"
+    }
+   ]
+  },
+  "paid": {
+   "set": {
+    "outcome": "paid"
+   },
+   "say": "Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `paid` | (none) | the customer already paid (CP-4 2.8 e) |"
+    }
+   ]
+  },
+  "transferred/restructuring": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "restructuring"
+   },
+   "say": "I am transferring you now. Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `transferred` | `restructuring` | new plan or lower instalments (2.8 c) |"
+    }
+   ]
+  },
+  "transferred/human": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "human"
+   },
+   "say": "I am transferring you now. Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `transferred` | `human` | the customer insisted on a person (2.8 d) |"
+    }
+   ]
+  },
+  "transferred/support": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "support"
+   },
+   "say": "I am transferring you to the customer support team now. Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `transferred` | `support` | hardship, customer accepted the support team (2.7 d) |"
+    }
+   ]
+  },
+  "no_promise/refused": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "refused"
+   },
+   "say": "Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `no_promise` | `refused` | attempts used up, or said twice they do not want to talk (2.7 c, 2.8 g) |"
+    }
+   ]
+  },
+  "no_promise/hardship": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "hardship"
+   },
+   "say": "Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `no_promise` | `hardship` | hardship, customer declined the support team (2.7 d) |"
+    }
+   ]
+  },
+  "no_promise/dispute": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "dispute"
+   },
+   "say": "Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `no_promise` | `dispute` | not mine, never had it, closed or paid off in the past (2.8 f) |"
+    }
+   ]
+  },
+  "no_promise/service_error": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "service_error"
+   },
+   "say": "I am sorry for the technical problem. Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `no_promise` | `service_error` | `create_promise` failed twice (2.8 b) |"
+    }
+   ]
+  },
+  "no_promise/account_error": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "service_error"
+   },
+   "say": "I am sorry, I cannot reach your account details because of a technical problem, so I cannot go on with this call. Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `no_promise` | `service_error` | `create_promise` failed twice (2.8 b) |"
+    }
+   ]
+  },
+  "not_verified/failed": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "failed"
+   },
+   "say": "I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `not_verified` | `failed` | three wrong security answers (2.3 d) |"
+    }
+   ]
+  },
+  "not_verified/declined": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "declined"
+   },
+   "say": "I understand. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `not_verified` | `declined` | refused the security questions, or did not want to talk before verification (2.3 e, 2.8 g) |"
+    }
+   ]
+  },
+  "not_reached/callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "callback"
+   },
+   "say": "Thank you, we will call back at that time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `not_reached` | `callback` | callback booked (2.2 b, memo item 2) |"
+    }
+   ]
+  },
+  "not_reached/no_callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "no_callback"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `not_reached` | `no_callback` | no time inside the window (2.2 c) |"
+    }
+   ]
+  },
+  "not_reached/wrong_number": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "wrong_number"
+   },
+   "say": "I apologise for the inconvenience. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `not_reached` | `wrong_number` | the number is not the customer's (2.2 d) |"
+    }
+   ]
+  },
+  "not_reached/deceased": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "deceased"
+   },
+   "say": "I am sorry for your loss. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `not_reached` | `deceased` | the customer has died (2.2 e) |"
+    }
+   ]
+  },
+  "not_reached/unclear": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "unclear"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `not_reached` | `unclear` | still unclear who answered after the second ask (2.1 c) |"
+    }
+   ]
+  }
+ },
+ "precedence": [
+  {
+   "closing": "transferred/restructuring",
+   "when": [
+    {
+     "variable": "transfer_restructuring_success_count",
+     "operator": "greater_than",
+     "operand": 0
+    }
+   ],
+   "keep": [],
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "If a transfer follows a recorded PTP, the call closes as `transferred` with that transfer's reason."
+    }
+   ]
+  },
+  {
+   "closing": "transferred/human",
+   "when": [
+    {
+     "variable": "transfer_human_success_count",
+     "operator": "greater_than",
+     "operand": 0
+    }
+   ],
+   "keep": [],
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "If a transfer follows a recorded PTP, the call closes as `transferred` with that transfer's reason."
+    }
+   ]
+  },
+  {
+   "closing": "transferred/support",
+   "when": [
+    {
+     "variable": "transfer_support_success_count",
+     "operator": "greater_than",
+     "operand": 0
+    }
+   ],
+   "keep": [],
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "If a transfer follows a recorded PTP, the call closes as `transferred` with that transfer's reason."
+    }
+   ]
+  },
+  {
+   "closing": "promise",
+   "when": [
+    {
+     "variable": "create_promise_1_success_count",
+     "operator": "greater_than",
+     "operand": 0
+    }
+   ],
+   "keep": [
+    "transferred/restructuring",
+    "transferred/human",
+    "transferred/support"
+   ],
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `promise` | (none) | at least one PTP was recorded |"
+    },
+    {
+     "source": "briefs/brief-b-raw.md",
+     "quote": "`promise` is used whenever at least one PTP was recorded, except in the case of D1."
+    }
+   ]
+  },
+  {
+   "closing": "promise",
+   "when": [
+    {
+     "variable": "create_promise_2_success_count",
+     "operator": "greater_than",
+     "operand": 0
+    }
+   ],
+   "keep": [
+    "transferred/restructuring",
+    "transferred/human",
+    "transferred/support"
+   ],
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `promise` | (none) | at least one PTP was recorded |"
+    },
+    {
+     "source": "briefs/brief-b-raw.md",
+     "quote": "`promise` is used whenever at least one PTP was recorded, except in the case of D1."
+    }
+   ]
+  },
+  {
+   "closing": "promise",
+   "when": [
+    {
+     "variable": "create_promise_3_success_count",
+     "operator": "greater_than",
+     "operand": 0
+    }
+   ],
+   "keep": [
+    "transferred/restructuring",
+    "transferred/human",
+    "transferred/support"
+   ],
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `promise` | (none) | at least one PTP was recorded |"
+    },
+    {
+     "source": "briefs/brief-b-raw.md",
+     "quote": "`promise` is used whenever at least one PTP was recorded, except in the case of D1."
+    }
+   ]
+  },
+  {
+   "closing": "not_verified/failed",
+   "when": [
+    {
+     "variable": "verify_identity_response.data.wrong_answers_left",
+     "operator": "equals",
+     "operand": "0"
+    }
+   ],
+   "keep": [],
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "After three wrong answers the assistant does not state the debt, tells the customer to use the mobile app or a branch, and closes as not verified, failed."
+    }
+   ]
+  }
+ ]
+}

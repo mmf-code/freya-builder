@@ -1,0 +1,1718 @@
+{
+ "initial_node": "setup",
+ "system_prompt": "You are Freya Bank's digital assistant on an outbound call to {{title}} {{first_name}} {{last_name}}. Speak English. Keep each turn to one to three short sentences. Address the customer as {{title}} {{last_name}}.\n\nRules for the whole call:\n- Never offer a discount, a waiver, an instalment plan or any term that is not in your instructions.\n- If you are asked something your instructions and tool results cannot answer, say you do not have that information. Never invent figures, dates or reasons.\n- \"Is this a scam?\": say they can verify the call by phoning Freya Bank's customer service number, then go on.\n- \"Am I talking to a robot / an AI?\": say you are Freya Bank's digital assistant, then go on.\n- When your instructions say to call a tool, call it. Saying you did it is not enough. Call one tool per message. After every tool result, speak to the customer or call the next tool. Never end a turn with nothing.\n- Never say that something is recorded, booked or transferred unless that tool returned ok: true. If a tool fails, say so.\n- A tool whose name starts with transition_to_end_ ends the call; a thank-you and goodbye are played after it. Call it with no text of your own unless the instructions ask you to say something first.\n- The current date and time is {{now}}. Work every date out from it, never from your own clock.",
+ "global_nodes": {},
+ "nodes": {
+  "setup": {
+   "name": "setup",
+   "node_type": "code",
+   "passthrough": true,
+   "passthrough_default_transition": "opening",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "function": {
+      "name": "code_exec",
+      "handler": "__function__:code_exec",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "code": {
+         "type": "string",
+         "default": "\nimport datetime\nimport re\nHOL = ['2026-10-26', '2026-11-11', '2026-11-26', '2026-12-25', '2027-01-01']\nDN = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']\nMN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']\ndef isbd(d):\n    return d.weekday() < 5 and d.isoformat() not in HOL\ndef addbd(d, n):\n    k = 0\n    x = d\n    while k < n:\n        x = x + datetime.timedelta(days=1)\n        if isbd(x):\n            k += 1\n    return x\ndef sp(d):\n    return DN[d.weekday()] + ' ' + str(d.day) + ' ' + MN[d.month - 1] + ' ' + str(d.year)\ndef lastbd(monday):\n    x = monday + datetime.timedelta(days=4)\n    while x > monday and not isbd(x):\n        x = x - datetime.timedelta(days=1)\n    return x\nraw = str(vars.get('now') or '').strip()\ntry:\n    m = re.match(r'(\\d{4})-(\\d{2})-(\\d{2})(?:[T ](\\d{1,2}):(\\d{2}))?', raw)\n    today = datetime.date(int(m.group(1)), int(m.group(2)), int(m.group(3)))\n    hh = int(m.group(4)) if m.group(4) else 0\n    mi = int(m.group(5)) if m.group(5) else 0\n    nowt = '%02d:%02d' % (hh, mi)\n    monday = today - datetime.timedelta(days=today.weekday())\n    prop = lastbd(monday)\n    if today >= prop:\n        prop = lastbd(monday + datetime.timedelta(days=7))\n    dl_early = addbd(today, 12)\n    dl_late = addbd(today, 7)\n    nbd = addbd(today, 1)\n    L = []\n    L.append('Now: ' + sp(today) + ' (' + today.isoformat() + '), ' + nowt + '. Today is ' + ('a business day.' if isbd(today) else 'NOT a business day.'))\n    L.append('Bank holidays: ' + ', '.join(HOL) + '. Business days are Monday to Friday except these holidays.')\n    L.append('Calendar (business day = valid PTP day if not after the deadline):')\n    for k in range(0, 36):\n        d = today + datetime.timedelta(days=k)\n        if d < monday + datetime.timedelta(days=7):\n            wk = 'this week'\n        elif d < monday + datetime.timedelta(days=14):\n            wk = 'next week'\n        else:\n            wk = 'later'\n        if d.isoformat() in HOL:\n            kind = 'BANK HOLIDAY'\n        elif d.weekday() >= 5:\n            kind = 'weekend'\n        else:\n            kind = 'business day'\n        tag = ' (today)' if k == 0 else ''\n        L.append('- ' + d.isoformat() + ' ' + DN[d.weekday()] + tag + ', ' + wk + ': ' + kind)\n    L.append('\"this <weekday>\" means that weekday in the current week (Monday to Sunday); \"next <weekday>\" means that weekday in the following calendar week:')\n    for i in range(7):\n        t = monday + datetime.timedelta(days=i)\n        n = monday + datetime.timedelta(days=7 + i)\n        past = ' (already past)' if t < today else ''\n        L.append('- this ' + DN[i] + ' = ' + t.isoformat() + past + '; next ' + DN[i] + ' = ' + n.isoformat())\n    vars['date_facts'] = '\\n'.join(L)\n    C = []\n    if nowt < '19:00':\n        if nowt < '10:00':\n            C.append('Today ' + sp(today) + ' (' + today.isoformat() + '): from 10:00 to 19:00, both included.')\n        else:\n            C.append('Today ' + sp(today) + ' (' + today.isoformat() + '): any time later than ' + nowt + ' and no later than 19:00.')\n    else:\n        C.append('Today: no time is left (it is already ' + nowt + ').')\n    C.append('Next business day ' + sp(nbd) + ' (' + nbd.isoformat() + '): from 10:00 to 19:00, both included.')\n    C.append('Any other day, or any time before 10:00 or after 19:00, is outside the window.')\n    vars['cb_facts'] = '\\n'.join(C)\n    vars['today_iso'] = today.isoformat()\n    vars['dl_early_iso'] = dl_early.isoformat()\n    vars['dl_early_sp'] = sp(dl_early)\n    vars['dl_late_iso'] = dl_late.isoformat()\n    vars['dl_late_sp'] = sp(dl_late)\n    vars['prop_iso'] = prop.isoformat()\n    vars['prop_sp'] = sp(prop)\n    vars['date_state'] = 'known'\nexcept Exception:\n    vars['date_facts'] = 'Date facts could not be computed. The current date and time is ' + raw + '.'\n    vars['cb_facts'] = 'Today later than ' + raw + ' up to 19:00, or the next business day from 10:00 to 19:00, both included.'\n    vars['date_state'] = 'unknown'\n"
+        },
+        "timeout_ms": {
+         "type": "number",
+         "default": 10000
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "opening",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "opening": {
+   "name": "opening",
+   "node_type": "conversation",
+   "task_message": "Your only job now is to find out who answered. You already said that you are Freya Bank's digital assistant, that the call is recorded, and asked \"Am I speaking with {{title}} {{last_name}}?\".\nUntil identity is verified, never say \"collections\", \"debt\", \"payment\", or the product, and never say why you are calling, to anyone, relatives included. If asked why you are calling, say you can only discuss it with {{title}} {{last_name}} after a short security check.\n\n- Only \"yes\", \"that's me\", \"speaking\" or the customer's own name confirm. Then call transition_to_security with no text.\n- \"Hello\", \"go ahead\", \"who is this\" and similar do not confirm. Ask once more: \"Am I speaking with {{title}} {{last_name}}?\". If the person asked a robot or scam question instead, answer it first; the ask that follows counts as the second ask. If it is still unclear after the second ask, call transition_to_end_not_reached_unclear.\n- Someone else answered (for example a relative or colleague), and the number is the customer's: call transition_to_third_party with no text.\n- The person says this number does not belong to that person: call transition_to_end_not_reached_wrong_number.\n- The person says the customer has died: call transition_to_end_not_reached_deceased at once. The goodbye that follows says \"I am sorry for your loss.\" Ask nothing else.\n- The person says a second time that they do not want to talk: call transition_to_end_not_verified_declined.\n- If the person asks for a human, ask once whether you can help first. If they insist, call transfer_human.\nCall no other tool in this step.",
+   "tools": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_human",
+      "handler": "__function__:api_call",
+      "description": "Transfer the call to the general queue. CALL it when the customer insists on speaking to a person after you asked once whether you can help first.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "default": "general",
+           "enum": [
+            "general"
+           ]
+          }
+         },
+         "required": [
+          "queue"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "close:transferred/human",
+     "description": "transferred to a person",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_human_success_count",
+        "operator": "greater_than",
+        "operand": 0
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "security",
+     "description": "The person confirmed they are the customer: they said yes, that's me, speaking, or the customer's own name.",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The person confirmed they are the customer: they said yes, that's me, speaking, or the customer's own name."
+     }
+    },
+    {
+     "target_node": "third_party",
+     "description": "Someone other than the customer answered, and the number is the customer's.",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "Someone other than the customer answered, and the number is the customer's."
+     }
+    },
+    {
+     "target_node": "close:not_reached/wrong_number",
+     "description": "The person said this number does not belong to the customer.",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The person said this number does not belong to the customer."
+     }
+    },
+    {
+     "target_node": "close:not_reached/deceased",
+     "description": "The person said the customer has died.",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The person said the customer has died."
+     }
+    },
+    {
+     "target_node": "close:not_reached/unclear",
+     "description": "After the second ask it is still unclear whether the customer is on the line.",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "After the second ask it is still unclear whether the customer is on the line."
+     }
+    },
+    {
+     "target_node": "close:not_verified/declined",
+     "description": "The person said a second time that they do not want to talk.",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The person said a second time that they do not want to talk."
+     }
+    }
+   ],
+   "max_node_turns": 8,
+   "max_turn_transition": "close:not_reached/unclear",
+   "on_enter": {
+    "type": "tts",
+    "text": "Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with {{title}} {{last_name}}?"
+   },
+   "on_enter_first_entry_only": true
+  },
+  "third_party": {
+   "name": "third_party",
+   "node_type": "conversation",
+   "task_message": "Someone other than {{title}} {{last_name}} is on the line. Say nothing beyond the opening sentence and do not say why you are calling. Ask no security questions and tell them nothing about any account, even if they offer to pay.\nAsk when {{title}} {{last_name}} can be reached.\n\nCallback window (the only times you may book):\n{{cb_facts}}\n\n- When the person gives a day and time inside the window, call schedule_callback with date YYYY-MM-DD and time HH:MM. Turn \"this afternoon at three\" into today and 15:00. If the call fails, say so and call it once more.\n- If they offer a day or a time outside the window (or only a vague time), say which times are possible and ask once for another time. If the next answer is outside the window too, or they cannot give one, call transition_to_end_not_reached_no_callback.\n- The number does not belong to the customer: call transition_to_end_not_reached_wrong_number.\n- The customer has died: call transition_to_end_not_reached_deceased at once and ask nothing else.\n- The person turns out to be {{title}} {{last_name}} after all: call transition_to_security.\n- If the person asks for a human, ask once whether you can help first. If they insist, call transfer_human.",
+   "tools": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "schedule_callback",
+      "handler": "__function__:api_call",
+      "description": "Book a callback. CALL it as soon as the person gives a day and time that is inside the callback window.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/schedule_callback"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "date": {
+           "type": "string",
+           "default": "{{date}}",
+           "description": "Callback date, YYYY-MM-DD. Only today or the next business day, from the callback window."
+          },
+          "time": {
+           "type": "string",
+           "default": "{{time}}",
+           "description": "Callback time, HH:MM 24 hour, from 10:00 to 19:00 and later than now."
+          }
+         },
+         "required": [
+          "date",
+          "time"
+         ]
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_human",
+      "handler": "__function__:api_call",
+      "description": "Transfer the call to the general queue. CALL it when the customer insists on speaking to a person after you asked once whether you can help first.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "default": "general",
+           "enum": [
+            "general"
+           ]
+          }
+         },
+         "required": [
+          "queue"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "close:not_reached/callback",
+     "description": "callback booked",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "schedule_callback_success_count",
+        "operator": "greater_than",
+        "operand": 0
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:transferred/human",
+     "description": "transferred to a person",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_human_success_count",
+        "operator": "greater_than",
+        "operand": 0
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:not_reached/no_callback",
+     "description": "No callback time inside the window after asking once for another time.",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "No callback time inside the window after asking once for another time."
+     }
+    },
+    {
+     "target_node": "close:not_reached/wrong_number",
+     "description": "The number does not belong to the customer.",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The number does not belong to the customer."
+     }
+    },
+    {
+     "target_node": "close:not_reached/deceased",
+     "description": "The customer has died.",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The customer has died."
+     }
+    },
+    {
+     "target_node": "security",
+     "description": "The person on the line is the customer after all.",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The person on the line is the customer after all."
+     }
+    }
+   ],
+   "max_node_turns": 10,
+   "max_turn_transition": "close:not_reached/no_callback"
+  },
+  "security": {
+   "name": "security",
+   "node_type": "conversation",
+   "task_message": "Security check. Until identity is verified, never say \"collections\", \"debt\", \"payment\", or the product, and never say why you are calling, to anyone, relatives included. If asked why you are calling, say you can only discuss it with {{title}} {{last_name}} after a short security check. Never state any debt here.\n\nAsk two questions, one at a time: first the date of birth, then the last four digits of the phone number on file. Call verify_identity for every answer, with field date_of_birth or phone_last4. Follow the what_to_do_next line of each result.\n- A date of birth is sent as YYYY-MM-DD, whatever way the customer said it. A date given only in numbers is day, then month, then year: \"03/04/1985\" is 1985-04-03.\n- A day_month_swapped hint is not a wrong answer: ask them to say the date again with the month as a word, and send it again.\n- After a wrong answer, say it did not match and ask the same question again.\n- If the customer does not want to answer, or asks what the call is about instead of answering, explain once that these questions protect their account, and ask again. At the second refusal or the second such question, call transition_to_end_not_verified_declined.\n- If the customer says a second time that they do not want to talk, call transition_to_end_not_verified_declined.\n- If the person asks for a human, ask once whether you can help first. If they insist, call transfer_human.\n- When both answers pass, or when no attempts are left, the next step starts by itself. Do not say goodbye.",
+   "tools": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "verify_identity",
+      "handler": "__function__:api_call",
+      "description": "Check one security answer. CALL it every time the customer gives a date of birth or the last four phone digits, one answer per call.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/verify_identity"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "field": {
+           "type": "string",
+           "default": "{{field}}",
+           "description": "Which question this answer is for: date_of_birth or phone_last4.",
+           "enum": [
+            "date_of_birth",
+            "phone_last4"
+           ]
+          },
+          "answer": {
+           "type": "string",
+           "default": "{{answer}}",
+           "description": "date_of_birth as YYYY-MM-DD (numbers-only dates are day, month, year); phone_last4 as four digits."
+          }
+         },
+         "required": [
+          "field",
+          "answer"
+         ]
+        }
+       }
+      }
+     },
+     "post_process_code": "\ntry:\n    d = result.get('data') if isinstance(result, dict) else None\n    if isinstance(result, dict):\n        result.pop('header', None)\n    if isinstance(d, dict):\n        left = d.get('wrong_answers_left')\n        if str(d.get('all_verified')).lower() == 'true':\n            d['what_to_do_next'] = 'Both answers passed. Say nothing yet; the account is being loaded.'\n        elif d.get('ok') is False or str(d.get('ok')).lower() == 'false':\n            d['what_to_do_next'] = 'The answer could not be read and was not counted. Ask for the same answer again; for a date, ask for the day, the month as a word, and the year.'\n        elif d.get('hint') == 'day_month_swapped':\n            d['what_to_do_next'] = 'Day and month look swapped. This is not a wrong answer. Ask the customer to say the date of birth again with the month as a word.'\n        elif str(d.get('verified')).lower() == 'true':\n            d['what_to_do_next'] = 'That answer is correct. Now ask for the last four digits of the phone number on file.'\n        elif str(left) == '0':\n            d['what_to_do_next'] = 'No attempts are left. Do not ask anything more.'\n        else:\n            d['what_to_do_next'] = 'That answer is wrong. Wrong answers left: ' + str(left) + '. Tell the customer it did not match and ask the same question again.'\nexcept Exception:\n    pass\n"
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_human",
+      "handler": "__function__:api_call",
+      "description": "Transfer the call to the general queue. CALL it when the customer insists on speaking to a person after you asked once whether you can help first.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "default": "general",
+           "enum": [
+            "general"
+           ]
+          }
+         },
+         "required": [
+          "queue"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "load_account",
+     "description": "both security answers passed",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "verify_identity_response.data.all_verified",
+        "operator": "equals",
+        "operand": "true"
+       },
+       {
+        "variable": "verify_identity_response.data.all_verified",
+        "operator": "equals",
+        "operand": "True"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:not_verified/failed",
+     "description": "no wrong answers left",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "verify_identity_response.data.wrong_answers_left",
+        "operator": "equals",
+        "operand": "0"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:transferred/human",
+     "description": "transferred to a person",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_human_success_count",
+        "operator": "greater_than",
+        "operand": 0
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:not_verified/declined",
+     "description": "The customer refused the security questions a second time, asked a second time what the call is about instead of answering, or said twice they do not want to talk.",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The customer refused the security questions a second time, asked a second time what the call is about instead of answering, or said twice they do not want to talk."
+     }
+    }
+   ],
+   "max_node_turns": 14,
+   "max_turn_transition": "close:not_verified/declined",
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you. Before I go on, I need to ask you two security questions. First, what is your date of birth?"
+   },
+   "on_enter_first_entry_only": true
+  },
+  "load_account": {
+   "name": "load_account",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "prepare",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "get_account",
+      "handler": "__function__:api_call",
+      "description": "Get the late products.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/get_account"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          }
+         },
+         "required": []
+        }
+       }
+      }
+     }
+    }
+   ],
+   "response_mapping": [
+    {
+     "path": "data.products",
+     "variable": "products"
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "close:no_promise/account_error",
+     "description": "the account could not be loaded",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "load_account_failure_count",
+        "operator": "greater_than",
+        "operand": 0
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "prepare",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "prepare": {
+   "name": "prepare",
+   "node_type": "code",
+   "passthrough": true,
+   "passthrough_default_transition": "negotiate",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "function": {
+      "name": "code_exec",
+      "handler": "__function__:code_exec",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "code": {
+         "type": "string",
+         "default": "\nimport json\nimport re\ndef num(v):\n    try:\n        return float(v)\n    except Exception:\n        return None\ndef money(v):\n    f = num(v)\n    if f is None:\n        return str(v)\n    return '%.2f' % f\ndef get_products():\n    for key in ('products', 'load_account_response.data.products', 'get_account_response.data.products'):\n        v = vars.get(key)\n        if isinstance(v, str):\n            try:\n                v = json.loads(v)\n            except Exception:\n                v = None\n        if isinstance(v, dict):\n            v = v.get('products')\n        if isinstance(v, list) and v:\n            return v\n    found = dict()\n    for k in list(vars.keys()):\n        m = re.match(r'^(?:[A-Za-z_]+_response\\.data\\.)?products\\.(\\d+)\\.(\\w+)$', str(k))\n        if m:\n            found.setdefault(int(m.group(1)), dict())[m.group(2)] = vars.get(k)\n    return [found[i] for i in sorted(found)]\ntitle = str(vars.get('title') or '')\nlast = str(vars.get('last_name') or '')\ntry:\n    items = [p for p in get_products() if isinstance(p, dict)][:3]\n    lines = []\n    sentences = []\n    for i in range(1, 4):\n        vars['pid_' + str(i)] = ''\n    for idx, p in enumerate(items):\n        i = idx + 1\n        t = str(p.get('type') or '')\n        if t == 'credit_card':\n            name = 'credit card ending ' + str(p.get('card_last4') or '')\n            floor = p.get('minimum_payment')\n            flabel = 'minimum payment'\n        elif t == 'car_loan':\n            name = 'car loan'\n            floor = p.get('instalment_amount')\n            flabel = 'instalment'\n        else:\n            name = 'personal loan'\n            floor = p.get('instalment_amount')\n            flabel = 'instalment'\n        dlate = int(num(p.get('days_late')) or 0)\n        early = dlate <= 7\n        dl_iso = vars.get('dl_early_iso') if early else vars.get('dl_late_iso')\n        dl_sp = vars.get('dl_early_sp') if early else vars.get('dl_late_sp')\n        att = 1 if early else 2\n        prop_iso = str(vars.get('prop_iso') or '')\n        prop_sp = str(vars.get('prop_sp') or '')\n        if dl_iso and prop_iso and prop_iso > str(dl_iso):\n            prop_iso = str(dl_iso)\n            prop_sp = str(dl_sp)\n        amt = money(p.get('past_due'))\n        fl = money(floor)\n        days = str(dlate) + (' day' if dlate == 1 else ' days')\n        pid = str(p.get('product_id') or '')\n        vars['pid_' + str(i)] = pid\n        vars['name_' + str(i)] = name\n        lines.append('Product ' + str(i) + ': ' + name + ' (product_id ' + pid + '). Past-due amount ' + amt + ', ' + days + ' late. Stage: ' + ('early' if early else 'late') + '. PTP deadline: ' + str(dl_sp) + ' (' + str(dl_iso) + '); no PTP date may be after it. Floor (' + flabel + '): ' + fl + '. Persuasion attempts allowed: ' + str(att) + '.')\n        lines.append('  Attempt 1 offer: ' + amt + ' (or the floor ' + fl + ' if the customer already said the full amount is too much) on ' + prop_sp + ' (' + prop_iso + ').')\n        if att == 2:\n            lines.append('  Attempt 2 offer: the floor ' + fl + ' on the deadline ' + str(dl_sp) + ' (' + str(dl_iso) + ').')\n        else:\n            lines.append('  No attempt 2 for this product: after a flat refusal of attempt 1 it ends without a PTP.')\n        if len(items) == 1:\n            sentences.append('I am calling from the collections team about a late payment on your ' + name + '. The past-due amount is ' + amt + ', and it is ' + days + ' late.')\n        else:\n            sentences.append('Your ' + name + ' has a past-due amount of ' + amt + ' and is ' + days + ' late.')\n    vars['product_count'] = len(items)\n    vars['account_facts'] = '\\n'.join(lines) if lines else 'No product data could be read. Use the get_account result above.'\n    if len(items) == 1:\n        vars['opening_line'] = 'Thank you, ' + title + ' ' + last + ', you are verified. ' + sentences[0] + ' Can you make this payment today?'\n    elif len(items) > 1:\n        vars['opening_line'] = 'Thank you, ' + title + ' ' + last + ', you are verified. I am calling from the collections team about late payments on ' + str(len(items)) + ' products. ' + ' '.join(sentences) + ' Can you pay all of them today?'\n    else:\n        vars['opening_line'] = 'Thank you, you are verified. Tell the customer, from the get_account result, that you are calling from the collections team about a late payment, name each product, its past-due amount and days late, and ask if they can pay today.'\nexcept Exception:\n    vars['product_count'] = 0\n    vars['account_facts'] = 'No product data could be read. Use the get_account result above.'\n    vars['opening_line'] = 'Thank you, you are verified. Tell the customer, from the get_account result, that you are calling from the collections team about a late payment, name each product, its past-due amount and days late, and ask if they can pay today.'\n"
+        },
+        "timeout_ms": {
+         "type": "number",
+         "default": 10000
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "negotiate",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "negotiate": {
+   "name": "negotiate",
+   "node_type": "conversation",
+   "task_message": "The customer is verified. You already told them every late product, one sentence per product, and asked whether they can pay all of them today.\n\nAccount facts (computed from get_account; trust them):\n{{account_facts}}\n\nDate facts:\n{{date_facts}}\n\nOrder of work:\n- If the customer will pay all products today, the PTP for each product is its full past-due amount today.\n- If not, take the products one at a time, in the order of the account facts. Do not ask about today again for each product. Each product has its own deadline, floor and number of persuasion attempts, and each starts at attempt 1. Count attempts per product.\n- If the customer names one date for everything and it is after one product's deadline, that product gets its own deadline and the read-back says so. The other products keep the named date.\n- A dispute or an \"I already paid\" about one product does not end the call. For \"I already paid\", tell them payments can take one business day to appear. Remember the outcome for that product, take no PTP for it, and go on with the next product.\n- Hardship: no persuasion attempts on any remaining product; offer the support team once. Products the customer does not give a date or amount for end with outcome hardship.\n\nHow to get a promise to pay (PTP). Follow every rule; never improvise.\nAmounts:\n- You propose every amount yourself. Never ask \"how much can you pay?\". Start with the full past-due amount.\n- If the customer says the full amount is too much, offer the floor once and say that the rest stays overdue. If they refuse the floor, that is a flat refusal.\n- An amount the customer proposes from the floor up to the full amount, both included, is accepted. Below the floor: say it cannot be recorded and offer the floor once; if they do not accept it, that is a flat refusal.\nDates:\n- A PTP date must be today or later, a business day, and not after that product's deadline. Use the calendar in the date facts.\n- A weekend day or bank holiday that is not after the deadline: offer the next business day.\n- A date after the deadline: say the latest date you can record is the deadline and offer it. Refusing the deadline is a flat refusal.\n- A vague period (\"next week\", \"end of the month\", \"when my salary comes\"): ask once for the exact day. If they still name none, propose the deadline.\n- \"next <weekday>\" and \"this <weekday>\": use the lines in the date facts. \"Next Friday\" said on a Friday is the Friday of the following week.\nPersuasion:\n- A date or an amount the customer proposes is never a refusal; handle it with the rules above.\n- A flat refusal or a non-answer uses one persuasion attempt. \"No\" to paying today, with no date and no amount, is a flat refusal.\n- Attempt 1: offer the attempt 1 line of the product (the full amount, or the floor if the customer already said the full amount is too much, on the attempt 1 date).\n- Attempt 2, late stage only: offer the floor on the deadline.\n- When the product's attempts are used up and the customer still refuses, stop. Never repeat an offer the customer already refused.\nHardship (illness, a death in the family, job loss): say one short sentence of sympathy, make no persuasion attempt, and offer to connect them with the customer support team. If they accept, call transfer_support. If the customer still names a date or an amount themselves, take it as a PTP under the rules above.\nRead-back: read back the product, the amount and the date and ask \"Do you confirm?\". Only a clear yes confirms. If the customer changes the date or the amount, check the new value with the rules above and read back again.\nOther requests:\n- A new payment plan or lower instalments: describe no plan and call transfer_restructuring.\n- A request for a human: ask once whether you can help first. If they insist, call transfer_human.\n- A recorded PTP cannot be changed or cancelled in this call; they can change it in the mobile app.\n- If a transfer tool fails, say so and call it once more.\n\nWhen every product has an outcome (an agreed PTP, refused, hardship, dispute or already paid):\n- If at least one PTP was agreed, read back all agreed PTPs together (product, amount, date) and ask once \"Do you confirm?\". After a clear yes, call transition_to_record with no text.\n- If no PTP was agreed, call transition_to_record with no text.\n- If the customer says twice that they do not want to talk, call transition_to_record with no text; every product without an agreed PTP ends as refused.\nDo not record or note anything in this step, and do not say goodbye.",
+   "tools": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_restructuring",
+      "handler": "__function__:api_call",
+      "description": "Transfer the call to the restructuring queue. CALL it when the customer asks for a new payment plan or lower instalments. Describe no plan yourself.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "default": "restructuring",
+           "enum": [
+            "restructuring"
+           ]
+          }
+         },
+         "required": [
+          "queue"
+         ]
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_human",
+      "handler": "__function__:api_call",
+      "description": "Transfer the call to the general queue. CALL it when the customer insists on speaking to a person after you asked once whether you can help first.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "default": "general",
+           "enum": [
+            "general"
+           ]
+          }
+         },
+         "required": [
+          "queue"
+         ]
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_support",
+      "handler": "__function__:api_call",
+      "description": "Transfer the call to the support queue. CALL it when a customer in hardship (illness, death in the family, job loss) accepts your offer to connect them with the customer support team.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "default": "support",
+           "enum": [
+            "support"
+           ]
+          }
+         },
+         "required": [
+          "queue"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "close:transferred/restructuring",
+     "description": "transferred to restructuring",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_restructuring_success_count",
+        "operator": "greater_than",
+        "operand": 0
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:transferred/human",
+     "description": "transferred to a person",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_human_success_count",
+        "operator": "greater_than",
+        "operand": 0
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:transferred/support",
+     "description": "transferred to support",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_support_success_count",
+        "operator": "greater_than",
+        "operand": 0
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "record",
+     "description": "Every product has an outcome and the customer confirmed the read-back of all agreed PTPs, or no PTP was agreed, or the customer said twice they do not want to talk.",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "Every product has an outcome and the customer confirmed the read-back of all agreed PTPs, or no PTP was agreed, or the customer said twice they do not want to talk."
+     }
+    }
+   ],
+   "max_node_turns": 60,
+   "max_turn_transition": "record",
+   "on_enter": {
+    "type": "llm",
+    "prompt": "Say exactly this, and nothing else: {{opening_line}}"
+   },
+   "on_enter_first_entry_only": true
+  },
+  "record": {
+   "name": "record",
+   "node_type": "conversation",
+   "task_message": "Record the outcome of every product. Ask the customer nothing new.\n\nAccount facts (computed from get_account; trust them):\n{{account_facts}}\n\nDate facts:\n{{date_facts}}\n\n1. For each product with a PTP the customer confirmed, in the order of the account facts, call its create_promise_<n> tool (n is the product number) with the confirmed amount and date (YYYY-MM-DD). One call per message. If a call fails, call it once more with the same values. If it fails twice, tell the customer that this PTP could not be recorded; that product ends with reason service_error. PTPs already recorded stay.\n2. Then, for each product that ends without a recorded PTP, call its add_note_<n> tool once with one reason: refused, hardship, dispute, paid or service_error. Products with a recorded PTP get no note. Only products that exist in the account facts get a note.\n3. Then tell the customer in one sentence which PTPs are recorded, if any, and call transition_to_finish_1 in the same message.\n- A new payment plan or lower instalments: call transfer_restructuring at once and add no notes. A request for a human: ask once whether you can help first; if they insist, call transfer_human and add no notes.\nNever say goodbye yourself; it is played after the call ends.",
+   "tools": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "create_promise_1",
+      "handler": "__function__:api_call",
+      "description": "Record the PTP for product 1 (in the account facts order). CALL it only after the customer said a clear yes to the read-back. One call per message.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/create_promise"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "product_id": {
+           "type": "string",
+           "default": "{{pid_1}}",
+           "description": "product_id of product 1 (in the account facts order)."
+          },
+          "amount": {
+           "type": "number",
+           "default": "{{amount}}",
+           "description": "The confirmed PTP amount, a number."
+          },
+          "date": {
+           "type": "string",
+           "default": "{{date}}",
+           "description": "The confirmed PTP date, YYYY-MM-DD."
+          }
+         },
+         "required": [
+          "product_id",
+          "amount",
+          "date"
+         ]
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "create_promise_2",
+      "handler": "__function__:api_call",
+      "description": "Record the PTP for product 2 (in the account facts order). CALL it only after the customer said a clear yes to the read-back. One call per message.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/create_promise"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "product_id": {
+           "type": "string",
+           "default": "{{pid_2}}",
+           "description": "product_id of product 2 (in the account facts order)."
+          },
+          "amount": {
+           "type": "number",
+           "default": "{{amount}}",
+           "description": "The confirmed PTP amount, a number."
+          },
+          "date": {
+           "type": "string",
+           "default": "{{date}}",
+           "description": "The confirmed PTP date, YYYY-MM-DD."
+          }
+         },
+         "required": [
+          "product_id",
+          "amount",
+          "date"
+         ]
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "create_promise_3",
+      "handler": "__function__:api_call",
+      "description": "Record the PTP for product 3 (in the account facts order). CALL it only after the customer said a clear yes to the read-back. One call per message.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/create_promise"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "product_id": {
+           "type": "string",
+           "default": "{{pid_3}}",
+           "description": "product_id of product 3 (in the account facts order)."
+          },
+          "amount": {
+           "type": "number",
+           "default": "{{amount}}",
+           "description": "The confirmed PTP amount, a number."
+          },
+          "date": {
+           "type": "string",
+           "default": "{{date}}",
+           "description": "The confirmed PTP date, YYYY-MM-DD."
+          }
+         },
+         "required": [
+          "product_id",
+          "amount",
+          "date"
+         ]
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "add_note_1",
+      "handler": "__function__:api_call",
+      "description": "Leave the note for product 1 (in the account facts order) when it ends without a recorded PTP. CALL it only in this recording step, at most once, and never for a product that has no product 1.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/add_note"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "product_id": {
+           "type": "string",
+           "default": "{{pid_1}}",
+           "description": "product_id of product 1."
+          },
+          "reason": {
+           "type": "string",
+           "default": "{{reason}}",
+           "description": "Why product 1 ended without a PTP. One of: refused, hardship, dispute, paid, service_error.",
+           "enum": [
+            "refused",
+            "hardship",
+            "dispute",
+            "paid",
+            "service_error"
+           ]
+          }
+         },
+         "required": [
+          "product_id",
+          "reason"
+         ]
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "add_note_2",
+      "handler": "__function__:api_call",
+      "description": "Leave the note for product 2 (in the account facts order) when it ends without a recorded PTP. CALL it only in this recording step, at most once, and never for a product that has no product 2.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/add_note"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "product_id": {
+           "type": "string",
+           "default": "{{pid_2}}",
+           "description": "product_id of product 2."
+          },
+          "reason": {
+           "type": "string",
+           "default": "{{reason}}",
+           "description": "Why product 2 ended without a PTP. One of: refused, hardship, dispute, paid, service_error.",
+           "enum": [
+            "refused",
+            "hardship",
+            "dispute",
+            "paid",
+            "service_error"
+           ]
+          }
+         },
+         "required": [
+          "product_id",
+          "reason"
+         ]
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "add_note_3",
+      "handler": "__function__:api_call",
+      "description": "Leave the note for product 3 (in the account facts order) when it ends without a recorded PTP. CALL it only in this recording step, at most once, and never for a product that has no product 3.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/add_note"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "product_id": {
+           "type": "string",
+           "default": "{{pid_3}}",
+           "description": "product_id of product 3."
+          },
+          "reason": {
+           "type": "string",
+           "default": "{{reason}}",
+           "description": "Why product 3 ended without a PTP. One of: refused, hardship, dispute, paid, service_error.",
+           "enum": [
+            "refused",
+            "hardship",
+            "dispute",
+            "paid",
+            "service_error"
+           ]
+          }
+         },
+         "required": [
+          "product_id",
+          "reason"
+         ]
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_restructuring",
+      "handler": "__function__:api_call",
+      "description": "Transfer the call to the restructuring queue. CALL it when the customer asks for a new payment plan or lower instalments. Describe no plan yourself.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "default": "restructuring",
+           "enum": [
+            "restructuring"
+           ]
+          }
+         },
+         "required": [
+          "queue"
+         ]
+        }
+       }
+      }
+     }
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_human",
+      "handler": "__function__:api_call",
+      "description": "Transfer the call to the general queue. CALL it when the customer insists on speaking to a person after you asked once whether you can help first.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "default": "general",
+           "enum": [
+            "general"
+           ]
+          }
+         },
+         "required": [
+          "queue"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "close:transferred/restructuring",
+     "description": "transferred to restructuring",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_restructuring_success_count",
+        "operator": "greater_than",
+        "operand": 0
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:transferred/human",
+     "description": "transferred to a person",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_human_success_count",
+        "operator": "greater_than",
+        "operand": 0
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "finish_1",
+     "description": "Every PTP is recorded or failed twice, every product without a recorded PTP has its note, and you told the customer which PTPs are recorded.",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "Every PTP is recorded or failed twice, every product without a recorded PTP has its note, and you told the customer which PTPs are recorded."
+     }
+    }
+   ],
+   "max_node_turns": 12,
+   "max_turn_transition": "finish_1",
+   "on_enter": {
+    "type": "llm",
+    "prompt": "Start recording now: call the first tool your instructions require. Say nothing before it."
+   },
+   "on_enter_first_entry_only": true
+  },
+  "finish_1": {
+   "name": "finish_1",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "finish_2",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Do not call a tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close:no_promise/refused",
+     "description": "product 1 noted refused",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "add_note_1_args.reason",
+        "operator": "equals",
+        "operand": "refused"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:no_promise/hardship",
+     "description": "product 1 noted hardship",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "add_note_1_args.reason",
+        "operator": "equals",
+        "operand": "hardship"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:no_promise/dispute",
+     "description": "product 1 noted dispute",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "add_note_1_args.reason",
+        "operator": "equals",
+        "operand": "dispute"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:no_promise/service_error",
+     "description": "product 1 noted service_error",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "add_note_1_args.reason",
+        "operator": "equals",
+        "operand": "service_error"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "finish_2",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "finish_2": {
+   "name": "finish_2",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "finish_3",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Do not call a tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close:no_promise/refused",
+     "description": "product 2 noted refused",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "add_note_2_args.reason",
+        "operator": "equals",
+        "operand": "refused"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:no_promise/hardship",
+     "description": "product 2 noted hardship",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "add_note_2_args.reason",
+        "operator": "equals",
+        "operand": "hardship"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:no_promise/dispute",
+     "description": "product 2 noted dispute",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "add_note_2_args.reason",
+        "operator": "equals",
+        "operand": "dispute"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:no_promise/service_error",
+     "description": "product 2 noted service_error",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "add_note_2_args.reason",
+        "operator": "equals",
+        "operand": "service_error"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "finish_3",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "finish_3": {
+   "name": "finish_3",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "finish_paid",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Do not call a tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close:no_promise/refused",
+     "description": "product 3 noted refused",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "add_note_3_args.reason",
+        "operator": "equals",
+        "operand": "refused"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:no_promise/hardship",
+     "description": "product 3 noted hardship",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "add_note_3_args.reason",
+        "operator": "equals",
+        "operand": "hardship"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:no_promise/dispute",
+     "description": "product 3 noted dispute",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "add_note_3_args.reason",
+        "operator": "equals",
+        "operand": "dispute"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:no_promise/service_error",
+     "description": "product 3 noted service_error",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "add_note_3_args.reason",
+        "operator": "equals",
+        "operand": "service_error"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "finish_paid",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "finish_paid": {
+   "name": "finish_paid",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close:no_promise/refused",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Do not call a tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close:paid",
+     "description": "every noted product is paid",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "add_note_1_args.reason",
+        "operator": "equals",
+        "operand": "paid"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "close:no_promise/refused",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  }
+ },
+ "test_variables": {
+  "customer_id": "c_test",
+  "first_name": "Daniel",
+  "last_name": "Reyes",
+  "title": "Mr",
+  "now": "2026-10-14T11:00"
+ }
+}

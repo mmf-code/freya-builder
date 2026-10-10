@@ -1,0 +1,263 @@
+{
+ "terminal": {
+  "tool": "close_call",
+  "evidence": [
+   {
+    "source": "tools/openapi.json",
+    "quote": "End the call. Always the last tool call. Nothing is accepted after it."
+   },
+   {
+    "source": "briefs/brief-a-raw.md",
+    "quote": "Every call ends with exactly one `close_call`, as the last tool call"
+   }
+  ]
+ },
+ "fields": {
+  "customer_id": "{{customer_id}}"
+ },
+ "closings": {
+  "promise": {
+   "set": {
+    "outcome": "promise"
+   },
+   "say": "You will receive a text message confirming your promise. Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `promise` | (none) | at least one PTP was recorded |"
+    },
+    {
+     "source": "briefs/brief-b-raw.md",
+     "quote": "With more than one product, `promise` is used whenever at least one PTP was recorded, except in the case of D1."
+    }
+   ]
+  },
+  "paid": {
+   "set": {
+    "outcome": "paid"
+   },
+   "say": "Thank you. Payments can take one business day to appear. Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `paid` | (none) | the customer already paid (CP-4 2.8 e) |"
+    },
+    {
+     "source": "briefs/brief-b-raw.md",
+     "quote": "With more than one product, `promise` is used whenever at least one PTP was recorded, except in the case of D1."
+    }
+   ]
+  },
+  "restructuring": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "restructuring"
+   },
+   "say": "I am connecting you now. Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `transferred` | `restructuring` | new plan or lower instalments (2.8 c) |"
+    }
+   ]
+  },
+  "human": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "human"
+   },
+   "say": "I am connecting you now. Thank you, goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `transferred` | `human` | the customer insisted on a person (2.8 d) |"
+    }
+   ]
+  },
+  "support": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "support"
+   },
+   "say": "I am connecting you with our customer support team now. Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `transferred` | `support` | hardship, customer accepted the support team (2.7 d) |"
+    }
+   ]
+  },
+  "refused": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "refused"
+   },
+   "say": "Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `no_promise` | `refused` | attempts used up, or said twice they do not want to talk (2.7 c, 2.8 g) |"
+    },
+    {
+     "source": "briefs/brief-b-raw.md",
+     "quote": "With more than one product, `promise` is used whenever at least one PTP was recorded, except in the case of D1."
+    }
+   ]
+  },
+  "hardship": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "hardship"
+   },
+   "say": "Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `no_promise` | `hardship` | hardship, customer declined the support team (2.7 d) |"
+    },
+    {
+     "source": "briefs/brief-b-raw.md",
+     "quote": "With more than one product, `promise` is used whenever at least one PTP was recorded, except in the case of D1."
+    }
+   ]
+  },
+  "dispute": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "dispute"
+   },
+   "say": "Thank you for letting me know. Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `no_promise` | `dispute` | not mine, never had it, closed or paid off in the past (2.8 f) |"
+    },
+    {
+     "source": "briefs/brief-b-raw.md",
+     "quote": "With more than one product, `promise` is used whenever at least one PTP was recorded, except in the case of D1."
+    }
+   ]
+  },
+  "service_error": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "service_error"
+   },
+   "say": "Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `no_promise` | `service_error` | `create_promise` failed twice (2.8 b) |"
+    },
+    {
+     "source": "briefs/brief-b-raw.md",
+     "quote": "With more than one product, `promise` is used whenever at least one PTP was recorded, except in the case of D1."
+    }
+   ]
+  },
+  "account_error": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "service_error"
+   },
+   "say": "I am sorry, I cannot reach your account details right now because of a technical problem. Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `no_promise` | `service_error` | `create_promise` failed twice (2.8 b) |"
+    }
+   ]
+  },
+  "failed": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "failed"
+   },
+   "say": "I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `not_verified` | `failed` | three wrong security answers (2.3 d) |"
+    }
+   ]
+  },
+  "declined": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "declined"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `not_verified` | `declined` | refused the security questions, or did not want to talk before verification (2.3 e, 2.8 g) |"
+    }
+   ]
+  },
+  "callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "callback"
+   },
+   "say": "Thank you, we will call back then. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `not_reached` | `callback` | callback booked (2.2 b, memo item 2) |"
+    }
+   ]
+  },
+  "no_callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "no_callback"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `not_reached` | `no_callback` | no time inside the window (2.2 c) |"
+    }
+   ]
+  },
+  "wrong_number": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "wrong_number"
+   },
+   "say": "I apologise for the inconvenience. Thank you, goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `not_reached` | `wrong_number` | the number is not the customer's (2.2 d) |"
+    }
+   ]
+  },
+  "deceased": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "deceased"
+   },
+   "say": "I am sorry for your loss. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `not_reached` | `deceased` | the customer has died (2.2 e) |"
+    }
+   ]
+  },
+  "unclear": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "unclear"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/brief-a-raw.md",
+     "quote": "| `not_reached` | `unclear` | still unclear who answered after the second ask (2.1 c) |"
+    }
+   ]
+  }
+ }
+}

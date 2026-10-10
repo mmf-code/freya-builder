@@ -1,0 +1,226 @@
+{
+ "terminal": {
+  "tool": "close_call",
+  "evidence": [
+   {
+    "source": "tools/openapi.json",
+    "quote": "End the call. Always the last tool call. Nothing is accepted after it."
+   },
+   {
+    "source": "briefs/brief-a.md",
+    "quote": "Every call ends with exactly one `close_call`, with an outcome and, where the table lists one, a reason. It is the last tool call."
+   }
+  ]
+ },
+ "fields": {
+  "customer_id": "{{customer_id}}"
+ },
+ "closings": {
+  "promise": {
+   "set": {
+    "outcome": "promise"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `promise` | none | at least one promise was recorded |"
+    }
+   ],
+   "say": "Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, {{title}} {{last_name}}. Goodbye."
+  },
+  "paid": {
+   "set": {
+    "outcome": "paid"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "| `paid` | none | rule 39 |"
+    }
+   ],
+   "say": "Thank you for letting me know. Payments can take one business day to appear. Thank you for your time, {{title}} {{last_name}}. Goodbye."
+  },
+  "transferred/restructuring": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "restructuring"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "`transferred` | `restructuring`, `human`, `support` | rules 41, 42, 32"
+    }
+   ],
+   "say": "I am transferring you to our restructuring team now. Thank you for your time. Goodbye."
+  },
+  "transferred/support": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "support"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "`transferred` | `restructuring`, `human`, `support` | rules 41, 42, 32"
+    }
+   ],
+   "say": "I am transferring you to our customer support team now. Thank you for your time. Goodbye."
+  },
+  "transferred/human": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "human"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "`transferred` | `restructuring`, `human`, `support` | rules 41, 42, 32"
+    }
+   ],
+   "say": "I am transferring you to a colleague now. Thank you for your time. Goodbye."
+  },
+  "no_promise/refused": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "refused"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "`no_promise` | `refused`, `hardship`, `dispute`, `service_error` | rules 31 and 45, 32, 40, 37"
+    }
+   ],
+   "say": "Thank you for your time, {{title}} {{last_name}}. Goodbye."
+  },
+  "no_promise/hardship": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "hardship"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "`no_promise` | `refused`, `hardship`, `dispute`, `service_error` | rules 31 and 45, 32, 40, 37"
+    }
+   ],
+   "say": "I understand. Thank you for your time, and take care. Goodbye."
+  },
+  "no_promise/dispute": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "dispute"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "`no_promise` | `refused`, `hardship`, `dispute`, `service_error` | rules 31 and 45, 32, 40, 37"
+    }
+   ],
+   "say": "Thank you for letting me know. Thank you for your time, {{title}} {{last_name}}. Goodbye."
+  },
+  "no_promise/service_error": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "service_error"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "`no_promise` | `refused`, `hardship`, `dispute`, `service_error` | rules 31 and 45, 32, 40, 37"
+    }
+   ],
+   "say": "I am sorry, I could not record your promise because of a technical problem. Thank you for your time, {{title}} {{last_name}}. Goodbye."
+  },
+  "not_verified/failed": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "failed"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "`not_verified` | `failed`, `declined` | rules 14, 15"
+    }
+   ],
+   "say": "I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye."
+  },
+  "not_verified/declined": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "declined"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "`not_verified` | `failed`, `declined` | rules 14, 15"
+    }
+   ],
+   "say": "I understand. Thank you for your time. Goodbye."
+  },
+  "not_reached/callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "callback"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "`not_reached` | `callback`, `no_callback`, `wrong_number`, `deceased`, `unclear` | rules 6, 7, 8, 9, 3"
+    }
+   ],
+   "say": "Thank you, we will call back then. Goodbye."
+  },
+  "not_reached/no_callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "no_callback"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "`not_reached` | `callback`, `no_callback`, `wrong_number`, `deceased`, `unclear` | rules 6, 7, 8, 9, 3"
+    }
+   ],
+   "say": "Thank you, we will try another time. Goodbye."
+  },
+  "not_reached/wrong_number": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "wrong_number"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "`not_reached` | `callback`, `no_callback`, `wrong_number`, `deceased`, `unclear` | rules 6, 7, 8, 9, 3"
+    }
+   ],
+   "say": "I apologise for the disturbance. Thank you, goodbye."
+  },
+  "not_reached/deceased": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "deceased"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "`not_reached` | `callback`, `no_callback`, `wrong_number`, `deceased`, `unclear` | rules 6, 7, 8, 9, 3"
+    }
+   ],
+   "say": "I am sorry for your loss. Thank you for your time. Goodbye."
+  },
+  "not_reached/unclear": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "unclear"
+   },
+   "evidence": [
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "`not_reached` | `callback`, `no_callback`, `wrong_number`, `deceased`, `unclear` | rules 6, 7, 8, 9, 3"
+    }
+   ],
+   "say": "I could not confirm who I am speaking with. Thank you for your time. Goodbye."
+  }
+ }
+}
