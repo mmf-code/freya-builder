@@ -183,6 +183,7 @@ def make_workspace(run_dir: Path, briefs: list[Path], tools: Path, skill: Path |
         shutil.copytree(skill, target)
         shutil.copy2(Path(__file__).with_name("workflow_check.py"), ws / "tools" / "check_workflow.py")
         shutil.copy2(Path(__file__).with_name("lower.py"), ws / "tools" / "lower.py")
+        shutil.copy2(Path(__file__).with_name("dryrun.py"), ws / "tools" / "dryrun.py")
     (ws / "briefs").mkdir()
     for b in briefs:
         shutil.copy2(b, ws / "briefs" / b.name)
