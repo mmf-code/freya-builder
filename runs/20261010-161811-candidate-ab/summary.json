@@ -1,0 +1,277 @@
+{
+ "run": "20261010-161811-candidate-ab",
+ "start": "2026-10-10T13:18:11+00:00",
+ "end": "2026-10-10T13:29:05+00:00",
+ "seconds": 654,
+ "limit_minutes": 30,
+ "timed_out": false,
+ "exit_code": 0,
+ "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill <repo>/builder/skills/build-phone-agent (sha256:8b8e4ba58d1f)",
+ "builder_model": "claude-opus-5-5 (agent_builder.py default)",
+ "agent_model": {
+  "provider": "experimental-5",
+  "model": "experimental-5"
+ },
+ "repo_commit": "fb8883104ff9ee174f6a5e232b2bb8ed4e59482b",
+ "repo_dirty": false,
+ "isolation": {
+  "CLAUDE_CONFIG_DIR": "<repo>/.claude-builder",
+  "HOME": "<repo>/.claude-builder/home"
+ },
+ "inputs": {
+  "briefs": [
+   {
+    "name": "brief-a.md",
+    "sha256": "d57c049c89aec4615f5b939c5a96ee9bd194142d17045bc4036615cfbdf0f1c7"
+   },
+   {
+    "name": "brief-b.md",
+    "sha256": "c59c70099148b91c13e9c5e40246a63b58638f09469d735f8eb65771bb63d550"
+   }
+  ],
+  "tools": {
+   "name": "openapi.json",
+   "sha256": "9a8410b12e5c82b6c6a30e9ed7030574d6f919cafdb1e035cef7bd876b0badb8"
+  }
+ },
+ "freya": [
+  {
+   "slot": "brief-a",
+   "workflow_id": "fbf21573-4444-4f39-9ad1-71bf5082f81c",
+   "agent_id": "6a9597ac-9891-42a5-b643-d1a1ccfb2abe",
+   "version": 2,
+   "created": true,
+   "export": "brief-a.workflow.json"
+  },
+  {
+   "slot": "brief-b",
+   "workflow_id": "0b8ba909-102b-4248-87df-4eda527c7fc9",
+   "agent_id": "3aa5a39a-4d69-491a-bd2a-7b309361de5a",
+   "version": 2,
+   "created": true,
+   "export": "brief-b.workflow.json"
+  }
+ ],
+ "tests": [
+  {
+   "command": "python3 tools/run_cases.py 6a9597ac-9891-42a5-b643-d1a1ccfb2abe --brief A --out results/a1.json 2>&1 | tail -40",
+   "passed": 7,
+   "total": 10,
+   "simulation_id": "ae98772f-b5aa-4870-99f1-85f950b26758",
+   "status": "completed",
+   "seconds": 114,
+   "fail_lines": [
+    "FAIL PUB-03 medium Identity       | verify",
+    "FAIL PUB-06 hard   Amounts        | verify > verify > get_account > promise > close_call",
+    "FAIL PUB-10 hard   Tool failure   | verify > verify > get_account > promise > promise > close_call"
+   ]
+  },
+  {
+   "command": "python3 tools/run_cases.py 3aa5a39a-4d69-491a-bd2a-7b309361de5a --brief B --out results/b1.json 2>&1 | tail -20",
+   "passed": 3,
+   "total": 3,
+   "simulation_id": "d0697735-7536-4b76-bfa0-4cb58dab4811",
+   "status": "completed",
+   "seconds": 52,
+   "fail_lines": []
+  },
+  {
+   "command": "python3 tools/run_cases.py 6a9597ac-9891-42a5-b643-d1a1ccfb2abe --brief A --out results/a2.json 2>&1 | tail -25",
+   "passed": 10,
+   "total": 10,
+   "simulation_id": "a661f2b2-8cde-432c-b574-7b7c2d45e6bf",
+   "status": "completed",
+   "seconds": 93,
+   "fail_lines": []
+  }
+ ],
+ "written": [
+  "<repo>/runs/20261010-161811-candidate-ab/workspace/builder/build.py"
+ ],
+ "cost_usd": 1.8285109000000004,
+ "num_turns": 25,
+ "model_usage": {
+  "claude-opus-5-5": {
+   "inputTokens": 46,
+   "outputTokens": 38258,
+   "cacheReadInputTokens": 1796137,
+   "cacheCreationInputTokens": 140721,
+   "webSearchRequests": 0,
+   "costUSD": 1.8281764000000003,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 18349,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  },
+  "claude-haiku-5-5": {
+   "inputTokens": 1205,
+   "outputTokens": 428,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.0003345,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 399,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "model_calls": [
+  {
+   "n": 1,
+   "model": "claude-opus-5-5",
+   "at_s": 5.5,
+   "purpose": "Skill: {\"skill\": \"build-phone-agent\", \"args\": \"briefs/brief-a.md briefs/brief-b.md\"}"
+  },
+  {
+   "n": 2,
+   "model": "claude-opus-5-5",
+   "at_s": 6.6,
+   "purpose": "Bash: List kit and read both briefs"
+  },
+  {
+   "n": 3,
+   "model": "claude-opus-5-5",
+   "at_s": 9.1,
+   "purpose": "Bash: Read brief B and tool API"
+  },
+  {
+   "n": 4,
+   "model": "claude-opus-5-5",
+   "at_s": 11.1,
+   "purpose": "Bash: Read docs, example and readme"
+  },
+  {
+   "n": 5,
+   "model": "claude-opus-5-5",
+   "at_s": 12.6,
+   "purpose": "Bash: Size files and read workflow format doc"
+  },
+  {
+   "n": 6,
+   "model": "claude-opus-5-5",
+   "at_s": 14.6,
+   "purpose": "I've read both briefs and the tool API, and I'm now going through the platform docs before writing the workflows.; Read: docs/workflow-format.md"
+  },
+  {
+   "n": 7,
+   "model": "claude-opus-5-5",
+   "at_s": 18.1,
+   "purpose": "Read: docs/tools-and-code.md"
+  },
+  {
+   "n": 8,
+   "model": "claude-opus-5-5",
+   "at_s": 20.2,
+   "purpose": "Bash: Read example agent, README, checker"
+  },
+  {
+   "n": 9,
+   "model": "claude-opus-5-5",
+   "at_s": 23.2,
+   "purpose": "Read: examples/base-agent.json; Read: README.md"
+  },
+  {
+   "n": 10,
+   "model": "claude-opus-5-5",
+   "at_s": 26.2,
+   "purpose": "Bash: Read the workflow checker and test runner"
+  },
+  {
+   "n": 11,
+   "model": "claude-opus-5-5",
+   "at_s": 28.7,
+   "purpose": "Bash: Show practice customers and trace info"
+  },
+  {
+   "n": 12,
+   "model": "claude-opus-5-5",
+   "at_s": 32.3,
+   "purpose": "Still reading the practice customers so I know what each test expects. I'll show the ones that were cut off.; Bash: Show remaining practice customers"
+  },
+  {
+   "n": 13,
+   "model": "claude-opus-5-5",
+   "at_s": 106.4,
+   "purpose": "Bash: Read API doc, rest of runner, client functions"
+  },
+  {
+   "n": 14,
+   "model": "claude-opus-5-5",
+   "at_s": 210.7,
+   "purpose": "Writing a generator script that builds both workflows (A: one product; B: up to three, with notes).; Bash: Create output dirs and locate holiday line"
+  },
+  {
+   "n": 15,
+   "model": "claude-opus-5-5",
+   "at_s": 213.2,
+   "purpose": "Write: builder/build.py"
+  },
+  {
+   "n": 16,
+   "model": "claude-opus-5-5",
+   "at_s": 325.1,
+   "purpose": "Bash: Generate workflows, run checker, test code snippets locally"
+  },
+  {
+   "n": 17,
+   "model": "claude-opus-5-5",
+   "at_s": 330.7,
+   "purpose": "Checks pass and the date math matches the test expectations (23 Oct late deadline, 16 Oct attempt date). Saving and testing Brief A.; Bash: Save both workflows to Freya"
+  },
+  {
+   "n": 18,
+   "model": "claude-opus-5-5",
+   "at_s": 335.2,
+   "purpose": "Bash: Run Brief A practice customers"
+  },
+  {
+   "n": 19,
+   "model": "claude-opus-5-5",
+   "at_s": 461.8,
+   "purpose": "Bash: Show transcripts of failed Brief A calls"
+  },
+  {
+   "n": 20,
+   "model": "claude-opus-5-5",
+   "at_s": 476.9,
+   "purpose": "Bash: Apply prompt fixes, regenerate, check and save"
+  },
+  {
+   "n": 21,
+   "model": "claude-opus-5-5",
+   "at_s": 485.0,
+   "purpose": "Bash: Run Brief B practice customers"
+  },
+  {
+   "n": 22,
+   "model": "claude-opus-5-5",
+   "at_s": 541.4,
+   "purpose": "B passes 3/3. Rerunning A with the fixes.; Bash: Rerun Brief A practice customers"
+  },
+  {
+   "n": 23,
+   "model": "claude-opus-5-5",
+   "at_s": 651.9,
+   "purpose": "Both agents passed every practice customer on their last run. Each passing run was a single pass, and the same agent can fail a customer on "
+  }
+ ],
+ "checks": [
+  {
+   "slot": "brief-a",
+   "contract": "brief-a.contract.json",
+   "errors": [],
+   "warnings": 0
+  },
+  {
+   "slot": "brief-b",
+   "contract": "brief-b.contract.json",
+   "errors": [],
+   "warnings": 0
+  }
+ ]
+}

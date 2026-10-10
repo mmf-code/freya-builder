@@ -1,0 +1,22 @@
+{
+ "terminal_tools": [
+  {
+   "tool": "close_call",
+   "evidence": [
+    {
+     "source": "tools/openapi.json",
+     "quote": "End the call. Always the last tool call. Nothing is accepted after it."
+    },
+    {
+     "source": "briefs/brief-a.md",
+     "quote": "Every call ends with exactly one `close_call`, with an outcome and, where the table lists one, a reason. It is the last tool call."
+    },
+    {
+     "source": "briefs/brief-b.md",
+     "quote": "The outcome table of Brief A applies."
+    }
+   ]
+  }
+ ],
+ "every_call_ends_with_terminal": true
+}

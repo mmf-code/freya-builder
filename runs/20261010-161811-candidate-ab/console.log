@@ -1,0 +1,49 @@
+[00:05]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/brief-a.md briefs/brief-b.md'}
+[00:06]   [Bash] {'command': 'ls -R | head -50; cat briefs/brief-a.md; echo ======; cat briefs/brief-b.md', 'description': 'List kit and
+[00:08]   [Bash] {'command': 'cat briefs/brief-b.md; echo; echo ---; cat tools/openapi.json', 'description': 'Read brief B and tool API'}
+[00:10]   [Bash] {'command': 'cat docs/workflow-format.md; echo ----; cat docs/tools-and-code.md; echo ----; cat examples/base-agent.json
+[00:12]   [Bash] {'command': 'wc -c docs/* examples/* README.md tools/*.py; cat docs/workflow-format.md', 'description': 'Size files and
+[00:14] I've read both briefs and the tool API, and I'm now going through the platform docs before writing the workflows.
+[00:15]   [Read] {'file_path': '/private/tmp/claude-501/-Users-atakan-Developer-freya-builder/c6bda4da-ebc3-46bf-9830-b3a108fb8cdb/scratc
+[00:17]   [Read] {'file_path': '/private/tmp/claude-501/-Users-atakan-Developer-freya-builder/c6bda4da-ebc3-46bf-9830-b3a108fb8cdb/scratc
+[00:19]   [Bash] {'command': 'cat examples/base-agent.json; echo; cat README.md; cat tools/check_workflow.py', 'description': 'Read examp
+[00:22]   [Read] {'file_path': '/private/tmp/claude-501/-Users-atakan-Developer-freya-builder/c6bda4da-ebc3-46bf-9830-b3a108fb8cdb/scratc
+[00:24]   [Read] {'file_path': '/private/tmp/claude-501/-Users-atakan-Developer-freya-builder/c6bda4da-ebc3-46bf-9830-b3a108fb8cdb/scratc
+[00:26]   [Bash] {'command': 'cat tools/check_workflow.py; sed -n 1,80p tools/run_cases.py', 'description': 'Read the workflow checker an
+[00:30]   [Bash] {'command': 'python3 -c "\nimport json\nfor c in json.load(open(\'public-test-set.json\')):\n    print(\'==\',c[\'id\'],
+[00:32] Still reading the practice customers so I know what each test expects. I'll show the ones that were cut off.
+[00:33]   [Bash] {'command': 'python3 -c "\nimport json\nfor c in json.load(open(\'public-test-set.json\'))[6:12]:\n    print(\'==\',c[\'
+[01:46]   [Bash] {'command': 'cat docs/api.md; sed -n 80,200p tools/run_cases.py; grep -n "def " freya.py', 'description': 'Read API doc,
+[03:30] Writing a generator script that builds both workflows (A: one product; B: up to three, with notes).
+[03:30]   [Bash] {'command': 'mkdir -p out builder; grep -n "Brief A never\\|holidays" briefs/brief-a.md', 'description': 'Create output
+[05:22]   [Write] {'file_path': '/private/tmp/claude-501/-Users-atakan-Developer-freya-builder/c6bda4da-ebc3-46bf-9830-b3a108fb8cdb/scratc
+[05:28]   [Bash] {'command': "cd builder/.. && python3 builder/build.py && for s in brief-a brief-b; do python3 tools/check_workflow.py o
+[05:30] Checks pass and the date math matches the test expectations (23 Oct late deadline, 16 Oct attempt date). Saving and testing Brief A.
+[05:31]   [Bash] {'command': 'for s in brief-a brief-b; do python3 -c "import freya,json,sys; print(json.dumps(freya.save_workflow(sys.ar
+[05:34]   [Bash] {'command': 'python3 tools/run_cases.py 6a9597ac-9891-42a5-b643-d1a1ccfb2abe --brief A --out results/a1.json 2>&1 | tail
+[07:41]   [Bash] {'command': 'python3 - <<\'EOF\'\nimport json,freya\nr=json.load(open(\'results/a1.json\'))\nfor row in r[\'rows\']:\n
+[07:59]   [Bash] {'command': 'python3 - <<\'EOF\'\np=\'builder/build.py\'; s=open(p).read()\ns=s.replace("Hello, I am a digital assistant
+[08:04]   [Bash] {'command': 'python3 tools/run_cases.py 3aa5a39a-4d69-491a-bd2a-7b309361de5a --brief B --out results/b1.json 2>&1 | tail
+[09:01] B passes 3/3. Rerunning A with the fixes.
+[09:02]   [Bash] {'command': 'python3 tools/run_cases.py 6a9597ac-9891-42a5-b643-d1a1ccfb2abe --brief A --out results/a2.json 2>&1 | tail
+[10:52] Both agents passed every practice customer on their last run. Each passing run was a single pass, and the same agent can fail a customer on another run, so this is a good sign but not proof.
+[10:52] 
+[10:52] **Brief A** — workflow `fbf21573-4444-4f39-9ad1-71bf5082f81c`, agent `6a9597ac-9891-42a5-b643-d1a1ccfb2abe`: 10/10 passed in the last run.
+[10:52] 
+[10:52] **Brief B** — workflow `0b8ba909-102b-4248-87df-4eda527c7fc9`, agent `3aa5a39a-4d69-491a-bd2a-7b309361de5a`: 3/3 passed in the last run.
+[10:52] 
+[10:52] How the agents are built:
+[10:52] - **One script makes both.** `builder/build.py` writes both workflows and both contract files to `out/`. The static checker reports 0 errors and 0 warnings on each.
+[10:52] - **Code does the date maths.** At the start of each call, code works out from `now`: the business days, the two deadlines, the first proposed payment date, the "this/next weekday" dates and the callback window. After the account loads, it works out each product's band, floor, deadline and offers. The agent only reads these results.
+[10:52] - **Steps follow tool results.** The call moves on when identity passes, when the third wrong answer comes in, when a callback is booked, when a transfer succeeds, and (in Brief A) when a promise is recorded. Each of these leads to a fixed sentence or straight to the close.
+[10:52] - **`close_call` is always the last bank call.** There is one closing step for each outcome and reason in the brief. Each step sends `close_call` with those values fixed, then hangs up. No step offers `close_call` alongside another bank tool, and every way out of the call goes through one of these steps.
+[10:52] 
+[10:52] The first Brief A run passed 7/10. I fixed two failures:
+[10:52] - **PUB-10:** the judge read "this call is recorded" in the opening as claiming the promise was recorded before the tool succeeded. The opening now says "we are recording this call".
+[10:52] - **PUB-06:** after the customer said the full amount was too much, the agent offered the full amount and the minimum payment together. It now offers the minimum payment once and never brings the full amount back.
+[10:52] 
+[10:52] PUB-03 failed only because the simulated customer hung up after the first wrong answer, and it passed on the rerun without any change for it.
+[10:52] 
+[10:52] Brief B was tested on the same final version. Its fixes were made before its run, so its 3/3 counts.
+[10:52] 
+[10:52] done: 25 turns, 650 s, $1.83. Trace: <repo>/runs/20261010-161811-candidate-ab/workspace/traces/20261010-161812.jsonl
