@@ -39,6 +39,24 @@ A terminal tool is one after which the bank accepts no other call, for example a
    - Give the terminal step what it needs to choose the tool's arguments: the variables, and the rules from the brief that decide them.
 3. The check proves these graph properties. It does not prove what the model will say or call during a call. The test run shows that.
 
+## Counted and ordered rules
+
+When the brief limits or orders what the agent may do for each item (attempts per product, offers that come in a
+set order, a question that may be asked again only once), do not leave the counting to the model. It loses count,
+adds offers and repeats questions.
+
+- Keep the state in variables written by code: for each item, what has happened and the next action the brief
+  allows. Take the limits, the order, the amounts and the dates from the brief and from tool results.
+- Give the model one `code_exec` tool in the conversation step to move the state. Declare what the model fills in
+  (for example the item, and how the customer answered as an `enum`) as top-level properties without `default`, and
+  the code as a baked `default`. Inside the code the model's arguments are in the dict `params`, not in `vars`. The
+  code writes the new state and the next allowed action to `vars`.
+- Show the model the state and the next allowed action in the prompt with `{{variable}}`. The prompt is filled in
+  again after the tool result. Tell the model to offer only that action and to call the tool after every answer
+  that changes the state.
+- The model can still skip the tool. Where a bank tool acts on an item, check the state again in that tool's
+  pre-hook when the brief makes the check possible.
+
 ## Rules
 
 - Never edit the agent on the platform by hand. Change the file and save it.
