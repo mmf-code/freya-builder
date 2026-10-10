@@ -1,0 +1,162 @@
+{
+ "agent_id": "d6e35cf9-eb0e-4bd3-8ca3-8b7c0091ac07",
+ "simulation_id": "fce0edcf-90f3-4656-93e2-ff99a3f78e84",
+ "iteration_id": "717c0320-934b-476d-8b0e-867e28442207",
+ "seconds": 104,
+ "passed": 2,
+ "total": 3,
+ "runs": 1,
+ "final": [
+  {
+   "id": "PUB-11",
+   "family": "Multi-product",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-12",
+   "family": "Multi-product",
+   "passes": 0,
+   "runs": 1,
+   "pass": false
+  },
+  {
+   "id": "PUB-13",
+   "family": "Multi-product",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  }
+ ],
+ "rows": [
+  {
+   "id": "PUB-11",
+   "level": "medium",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "6d451111-f30b-4193-9bcc-f8cab266d435",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_2b0e68f0-cc1",
+   "slowest_turn_s": 19.5,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-12",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": false,
+   "failed": [
+    "conversation: The assistant failed to follow the attempt limits for the car loan. Specifically, the success criteria required one attempt on the car loan (early band), but the assistant made two attempts: the first for full payment in [Message 14] and a second for a minimum payment in [Message 16]. All other criteria were met: the date of birth was asked once [Message 2], the phone digits were asked twice [Mess"
+   ],
+   "call_id": "14505d8e-35d8-4348-83cd-461d36a1fb7d",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "add_note",
+    "add_note",
+    "close_call"
+   ],
+   "customer_id": "c_6b1e4706-3df",
+   "slowest_turn_s": 17.2,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-13",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "c6893bbf-2cfc-493a-95c9-3ab293d75887",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_cfe26f25-ea7",
+   "slowest_turn_s": 12.3,
+   "ended": "assistant-ended-call"
+  }
+ ],
+ "all_rows": [
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "6d451111-f30b-4193-9bcc-f8cab266d435",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_2b0e68f0-cc1",
+    "slowest_turn_s": 19.5,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "conversation: The assistant failed to follow the attempt limits for the car loan. Specifically, the success criteria required one attempt on the car loan (early band), but the assistant made two attempts: the first for full payment in [Message 14] and a second for a minimum payment in [Message 16]. All other criteria were met: the date of birth was asked once [Message 2], the phone digits were asked twice [Mess"
+    ],
+    "call_id": "14505d8e-35d8-4348-83cd-461d36a1fb7d",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "add_note",
+     "add_note",
+     "close_call"
+    ],
+    "customer_id": "c_6b1e4706-3df",
+    "slowest_turn_s": 17.2,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "c6893bbf-2cfc-493a-95c9-3ab293d75887",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_cfe26f25-ea7",
+    "slowest_turn_s": 12.3,
+    "ended": "assistant-ended-call"
+   }
+  ]
+ ]
+}

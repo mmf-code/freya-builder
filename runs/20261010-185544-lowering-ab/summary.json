@@ -1,0 +1,337 @@
+{
+ "run": "20261010-185544-lowering-ab",
+ "start": "2026-10-10T15:55:44+00:00",
+ "end": "2026-10-10T16:18:46+00:00",
+ "seconds": 1382,
+ "limit_minutes": 30.0,
+ "timed_out": false,
+ "exit_code": 0,
+ "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill <repo>/builder/skills/build-phone-agent-lowering (sha256:ad17c5b808d7)",
+ "builder_model": "claude-opus-5-5 (agent_builder.py default)",
+ "agent_model": {
+  "provider": "experimental-5",
+  "model": "experimental-5"
+ },
+ "repo_commit": "959453cea00005a5e583b39519bb426cc91b6b68",
+ "repo_dirty": false,
+ "isolation": {
+  "CLAUDE_CONFIG_DIR": "<repo>/.claude-builder",
+  "HOME": "<repo>/.claude-builder/home",
+  "state": "<repo>/state/exp-lowering-ab"
+ },
+ "inputs": {
+  "briefs": [
+   {
+    "name": "brief-a.md",
+    "sha256": "d57c049c89aec4615f5b939c5a96ee9bd194142d17045bc4036615cfbdf0f1c7"
+   },
+   {
+    "name": "brief-b.md",
+    "sha256": "c59c70099148b91c13e9c5e40246a63b58638f09469d735f8eb65771bb63d550"
+   }
+  ],
+  "tools": {
+   "name": "openapi.json",
+   "sha256": "9a8410b12e5c82b6c6a30e9ed7030574d6f919cafdb1e035cef7bd876b0badb8"
+  }
+ },
+ "practice_cases": [
+  "PUB-01",
+  "PUB-02",
+  "PUB-03",
+  "PUB-04",
+  "PUB-05",
+  "PUB-06",
+  "PUB-07",
+  "PUB-08",
+  "PUB-09",
+  "PUB-10",
+  "PUB-11",
+  "PUB-12",
+  "PUB-13"
+ ],
+ "freya": [
+  {
+   "slot": "brief-a",
+   "workflow_id": "2bf37061-bdf9-4045-8a41-9217cfcd68cb",
+   "agent_id": "b2df668d-07da-4ca1-9487-7a9a23fbb550",
+   "version": 4,
+   "created": true,
+   "export": "brief-a.workflow.json"
+  },
+  {
+   "slot": "brief-b",
+   "workflow_id": "01369047-4972-4880-8785-6ccacb22d9d9",
+   "agent_id": "d6e35cf9-eb0e-4bd3-8ca3-8b7c0091ac07",
+   "version": 4,
+   "created": true,
+   "export": "brief-b.workflow.json"
+  }
+ ],
+ "tests": [
+  {
+   "command": "python3 tools/run_cases.py b2df668d-07da-4ca1-9487-7a9a23fbb550 --brief A --out results/a-run1.json 2>&1 | tail -40",
+   "passed": 8,
+   "total": 10,
+   "simulation_id": "62f05545-f8e1-47b0-bf8b-d726cceb50d5",
+   "status": "completed",
+   "seconds": 330,
+   "fail_lines": [
+    "FAIL PUB-06 hard   Amounts        | verify > verify > get_account > promise > close_call",
+    "FAIL PUB-07 hard   Dates          | verify > verify > get_account > promise > close_call"
+   ]
+  },
+  {
+   "command": "for s in brief-a brief-b; do python3 -c \"import freya,json,sys; print(json.dumps(freya.save_workflow(sys.argv[1], json.load(open(sys.argv[2])))))\" $s out/$s.workflow.json; done && python3 tools/run_ca",
+   "passed": 2,
+   "total": 3,
+   "simulation_id": "61b918bf-fa36-450b-b68d-a1bf09fd4783",
+   "status": "completed",
+   "seconds": 177,
+   "fail_lines": [
+    "FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise > add_note > add_note > close_call"
+   ]
+  },
+  {
+   "command": "python3 tools/run_cases.py b2df668d-07da-4ca1-9487-7a9a23fbb550 --brief A --out results/a-run2.json 2>&1 | tail -25",
+   "passed": 9,
+   "total": 10,
+   "simulation_id": "dba47f28-4b0a-468e-b4eb-0ca50bde8d5e",
+   "status": "completed",
+   "seconds": 166,
+   "fail_lines": [
+    "FAIL PUB-10 hard   Tool failure   | verify > verify > get_account > promise > promise > close_call"
+   ]
+  },
+  {
+   "command": "python3 tools/run_cases.py d6e35cf9-eb0e-4bd3-8ca3-8b7c0091ac07 --brief B --out results/b-run2.json 2>&1 | tail -12; python3 tools/run_cases.py b2df668d-07da-4ca1-9487-7a9a23fbb550 --brief A --out res",
+   "passed": 3,
+   "total": 3,
+   "simulation_id": "e3c1d179-5021-4c14-9cc3-8e3a56a0712e",
+   "status": "completed",
+   "seconds": 73,
+   "fail_lines": []
+  }
+ ],
+ "written": [
+  "<repo>/runs/20261010-185544-lowering-ab/workspace/out/gen_agents.py"
+ ],
+ "cost_usd": 2.8916487999999996,
+ "num_turns": 29,
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1205,
+   "outputTokens": 29,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.000135,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  },
+  "claude-opus-5-5": {
+   "inputTokens": 56,
+   "outputTokens": 47955,
+   "cacheReadInputTokens": 2540499,
+   "cacheCreationInputTokens": 284818,
+   "webSearchRequests": 0,
+   "costUSD": 2.8915138,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 22036,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "model_calls": [
+  {
+   "n": 1,
+   "model": "claude-opus-5-5",
+   "at_s": 5.0,
+   "purpose": "Skill: {\"skill\": \"build-phone-agent\", \"args\": \"briefs/brief-a.md briefs/brief-b.md\"}"
+  },
+  {
+   "n": 2,
+   "model": "claude-opus-5-5",
+   "at_s": 6.6,
+   "purpose": "Bash: List kit and read briefs and test set"
+  },
+  {
+   "n": 3,
+   "model": "claude-opus-5-5",
+   "at_s": 9.6,
+   "purpose": "Bash: Read tool API, docs and example"
+  },
+  {
+   "n": 4,
+   "model": "claude-opus-5-5",
+   "at_s": 14.6,
+   "purpose": "Bash: Summarize tool API"
+  },
+  {
+   "n": 5,
+   "model": "claude-opus-5-5",
+   "at_s": 17.1,
+   "purpose": "Bash: Read workflow format doc"
+  },
+  {
+   "n": 6,
+   "model": "claude-opus-5-5",
+   "at_s": 20.7,
+   "purpose": "I've read both briefs and the tool API. Now reading the workflow format docs before writing the two agents (slots `brief-a` and `brief-b`).; Read: docs/workflow-format.md"
+  },
+  {
+   "n": 7,
+   "model": "claude-opus-5-5",
+   "at_s": 24.7,
+   "purpose": "Read: docs/tools-and-code.md"
+  },
+  {
+   "n": 8,
+   "model": "claude-opus-5-5",
+   "at_s": 28.8,
+   "purpose": "Bash: Read example agent and tool sizes"
+  },
+  {
+   "n": 9,
+   "model": "claude-opus-5-5",
+   "at_s": 31.8,
+   "purpose": "Bash: Read lowering and checker tools"
+  },
+  {
+   "n": 10,
+   "model": "claude-opus-5-5",
+   "at_s": 35.3,
+   "purpose": "Bash: Read rest of checker, run_cases, client"
+  },
+  {
+   "n": 11,
+   "model": "claude-opus-5-5",
+   "at_s": 37.8,
+   "purpose": "Bash: Read run_cases and freya client"
+  },
+  {
+   "n": 12,
+   "model": "claude-opus-5-5",
+   "at_s": 227.0,
+   "purpose": "Bash: Check trace, existing state and git status"
+  },
+  {
+   "n": 13,
+   "model": "claude-opus-5-5",
+   "at_s": 234.1,
+   "purpose": "Now writing the generator that produces both bodies and closing plans.; Write: out/gen_agents.py"
+  },
+  {
+   "n": 14,
+   "model": "claude-opus-5-5",
+   "at_s": 360.1,
+   "purpose": "Bash: Generate, lower and check both workflows"
+  },
+  {
+   "n": 15,
+   "model": "claude-opus-5-5",
+   "at_s": 364.1,
+   "purpose": "Both lower and check clean. Next I run the sandbox snippets locally on fake data to catch bugs before saving.; Bash: Run sandbox code snippets locally with fake vars"
+  },
+  {
+   "n": 16,
+   "model": "claude-opus-5-5",
+   "at_s": 371.7,
+   "purpose": "Snippets work and the deadlines match the practice cases (23 Oct late band, 2 Nov early band). Saving both agents.; Bash: Save both workflows to Freya"
+  },
+  {
+   "n": 17,
+   "model": "claude-opus-5-5",
+   "at_s": 377.3,
+   "purpose": "Both saved. Running the Brief A practice customers now (foreground, a few minutes).; Bash: Run Brief A practice customers"
+  },
+  {
+   "n": 18,
+   "model": "claude-opus-5-5",
+   "at_s": 725.7,
+   "purpose": "8 of 10 on the first run. Reading the two failing transcripts.; Bash: Print transcripts of failed Brief A calls"
+  },
+  {
+   "n": 19,
+   "model": "claude-opus-5-5",
+   "at_s": 745.8,
+   "purpose": "Bash: Patch calendar and floor wording in generator"
+  },
+  {
+   "n": 20,
+   "model": "claude-opus-5-5",
+   "at_s": 754.9,
+   "purpose": "Now the fixed debt line, with a fallback copy of the step for the case where the account data cannot be parsed.; Bash: Add fallback step, regenerate, lower, check, test calendar"
+  },
+  {
+   "n": 21,
+   "model": "claude-opus-5-5",
+   "at_s": 765.5,
+   "purpose": "Calendar table is correct. Saving both and running Brief B for the first time.; Bash: Save both workflows and run Brief B cases"
+  },
+  {
+   "n": 22,
+   "model": "claude-opus-5-5",
+   "at_s": 959.1,
+   "purpose": "Bash: Print failed Brief B transcript"
+  },
+  {
+   "n": 23,
+   "model": "claude-opus-5-5",
+   "at_s": 971.2,
+   "purpose": "Bash: Patch rules, regenerate, lower, check and save"
+  },
+  {
+   "n": 24,
+   "model": "claude-opus-5-5",
+   "at_s": 983.3,
+   "purpose": "Saved. Running Brief A again (fix round 2 for A).; Bash: Run Brief A practice customers again"
+  },
+  {
+   "n": 25,
+   "model": "claude-opus-5-5",
+   "at_s": 1168.5,
+   "purpose": "Bash: Print failed PUB-10 transcript with tool messages"
+  },
+  {
+   "n": 26,
+   "model": "claude-opus-5-5",
+   "at_s": 1184.6,
+   "purpose": "Bash: Reword opening and retry entry, regenerate and save"
+  },
+  {
+   "n": 27,
+   "model": "claude-opus-5-5",
+   "at_s": 1194.2,
+   "purpose": "Saved. Running Brief B (fix round 2) and then Brief A (fix round 3).; Bash: Run Brief B then Brief A practice customers"
+  },
+  {
+   "n": 28,
+   "model": "claude-opus-5-5",
+   "at_s": 1379.3,
+   "purpose": "Both agents passed every practice customer in their last run: Brief A 10 of 10, Brief B 3 of 3. **How they got there** - **Brief A:** 8/10 o"
+  }
+ ],
+ "checks": [
+  {
+   "slot": "brief-a",
+   "contract": "brief-a.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "matches: every ending step, value and route of the saved workflow comes from the lowering"
+  },
+  {
+   "slot": "brief-b",
+   "contract": "brief-b.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "matches: every ending step, value and route of the saved workflow comes from the lowering"
+  }
+ ]
+}

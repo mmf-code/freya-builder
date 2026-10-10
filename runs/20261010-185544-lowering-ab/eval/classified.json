@@ -1,0 +1,670 @@
+[
+ {
+  "file": "a-official-1.json",
+  "rep": 1,
+  "id": "PUB-01",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "bb747d6e-7bc8-4ce1-93f3-d90635a94569"
+ },
+ {
+  "file": "a-official-1.json",
+  "rep": 1,
+  "id": "PUB-02",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "schedule_callback",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "324ffa90-9660-4952-b585-efdf727a757e"
+ },
+ {
+  "file": "a-official-1.json",
+  "rep": 1,
+  "id": "PUB-03",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "16664446-a1ae-4cb2-a1e4-d21e5b56e1c0"
+ },
+ {
+  "file": "a-official-1.json",
+  "rep": 1,
+  "id": "PUB-04",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "1c36c420-65a4-4d61-8385-da91973c015d"
+ },
+ {
+  "file": "a-official-1.json",
+  "rep": 1,
+  "id": "PUB-05",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "aa7f7791-1733-4ba0-9d08-495cac618877"
+ },
+ {
+  "file": "a-official-1.json",
+  "rep": 1,
+  "id": "PUB-06",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "23d17c6b-6155-4e4b-b4d0-ae724b9c60d4"
+ },
+ {
+  "file": "a-official-1.json",
+  "rep": 1,
+  "id": "PUB-07",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "a5d19f43-02f7-4ee7-939c-99c11b18b798"
+ },
+ {
+  "file": "a-official-1.json",
+  "rep": 1,
+  "id": "PUB-08",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "62bcd900-a975-440b-8c06-127bc4751313"
+ },
+ {
+  "file": "a-official-1.json",
+  "rep": 1,
+  "id": "PUB-09",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "transfer_to_agent",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "228dfe47-9105-4924-8319-fc99eebc4747"
+ },
+ {
+  "file": "a-official-1.json",
+  "rep": 1,
+  "id": "PUB-10",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "15f580c0-7682-4e53-82c1-0535316dca30"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-01",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "c50c8821-f3d9-464e-82ad-19593d4173ad"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-02",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "schedule_callback",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "949a7601-c806-4cb5-9f6b-dfaba601600f"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-03",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "10011bee-d468-46e8-96d6-3f1d73b74b70"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-04",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "c84de33a-1201-497a-8efd-36e220f75a62"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-05",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "461432e1-cafd-4a3f-98eb-d01feed225fc"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-06",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "e79e1be7-a7d2-4223-ba61-127515036be2"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-07",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "a55a64e0-5e5a-4f5c-83c1-7c9e2b738a6e"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-08",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "bd1ef06f-3752-479e-9863-bf9a04bf3b3c"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-09",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "transfer_to_agent",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "3d84e914-cc03-4f3e-9de4-74f319337bda"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-10",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "dbdf8ca7-e543-4d53-b2b6-ce8c823d4365"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-01",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "e5f7de2c-8814-4448-acdd-5d4ebddf6c46"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-02",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "schedule_callback",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "464b02d0-46e4-4a58-90e4-72372eb4c553"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-03",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "d35658d3-b954-4f4c-a8d0-fc59dc9c3d0f"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-04",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "9277a02c-c1db-4d80-9e6a-92d7b24db697"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-05",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "753f3723-c05d-4962-b7e1-0767f13abaca"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-06",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "e2b7aa0b-c3e8-47b8-8d59-3c28055e741c"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-07",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "f706adf6-9d84-4fea-a2a1-4935e76d014d"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-08",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "78393fca-126a-41a1-b35d-2c99a2bf36ba"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-09",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "transfer_to_agent",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "6de57c8f-49d7-4566-97b8-095d0dd9604d"
+ },
+ {
+  "file": "a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-10",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "bb829436-7b10-42ba-ba71-bf475a168c72"
+ },
+ {
+  "file": "b-official-1.json",
+  "rep": 1,
+  "id": "PUB-11",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "6d451111-f30b-4193-9bcc-f8cab266d435"
+ },
+ {
+  "file": "b-official-1.json",
+  "rep": 1,
+  "id": "PUB-12",
+  "kind": "agent",
+  "failed": [
+   "conversation: The assistant failed to follow the attempt limits for the car loan. Specifically, the success criteria required one attempt on the car loan (early band), but the assistant made two attempts: the first for full payment in [Message 14] and a second for a minimum payment in [Message 16]. All other criteria were met: the date of birth was asked once [Message 2], the phone digits were asked twice [Mess"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "add_note",
+   "add_note",
+   "close_call"
+  ],
+  "errors": 21,
+  "infra_examples": [],
+  "call_id": "14505d8e-35d8-4348-83cd-461d36a1fb7d"
+ },
+ {
+  "file": "b-official-1.json",
+  "rep": 1,
+  "id": "PUB-13",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "c6893bbf-2cfc-493a-95c9-3ab293d75887"
+ },
+ {
+  "file": "b-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-11",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "b7877dc4-6d18-4d1f-813b-7d636eb98d03"
+ },
+ {
+  "file": "b-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-12",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "add_note",
+   "add_note",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "968decbe-e3d7-4839-8fd2-ca5f5ab62311"
+ },
+ {
+  "file": "b-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-13",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "ff142704-14a4-49bc-8e6e-d0bdd792bd79"
+ },
+ {
+  "file": "b-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-11",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "edc1a48d-91dd-45e2-8c4d-fbdea53ee933"
+ },
+ {
+  "file": "b-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-12",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "add_note",
+   "add_note",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "ca53e4d8-2436-4fc8-874e-28ce142270dc"
+ },
+ {
+  "file": "b-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-13",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "7237d26e-cde4-4299-8dce-157a97932afb"
+ }
+]

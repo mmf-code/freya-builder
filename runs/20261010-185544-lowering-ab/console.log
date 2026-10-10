@@ -1,0 +1,64 @@
+[00:04]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/brief-a.md briefs/brief-b.md'}
+[00:07]   [Bash] {'command': 'ls -R | head -50; cat briefs/brief-a.md; echo ----; cat briefs/brief-b.md; echo ----; cat public-test-set.j
+[00:10]   [Bash] {'command': 'cat tools/openapi.json; cat docs/workflow-format.md; cat docs/tools-and-code.md; cat examples/base-agent.js
+[00:14]   [Bash] {'command': 'python3 -c "\nimport json;d=json.load(open(\'tools/openapi.json\'))\nprint(json.dumps(d[\'info\'],indent=1)
+[00:17]   [Bash] {'command': 'cat docs/workflow-format.md', 'description': 'Read workflow format doc'}
+[00:20] I've read both briefs and the tool API. Now reading the workflow format docs before writing the two agents (slots `brief-a` and `brief-b`).
+[00:21]   [Read] {'file_path': '<repo>/runs/20261010-185544-lowering-a
+[00:24]   [Read] {'file_path': '<repo>/runs/20261010-185544-lowering-a
+[00:28]   [Bash] {'command': 'cat examples/base-agent.json; echo; wc -l tools/lower.py tools/check_workflow.py tools/run_cases.py freya.p
+[00:31]   [Bash] {'command': 'cat tools/lower.py; sed -n 1,200p tools/check_workflow.py', 'description': 'Read lowering and checker tools
+[00:34]   [Bash] {'command': 'sed -n 200,579p tools/check_workflow.py; cat tools/run_cases.py; cat freya.py; cat docs/api.md | head -150'
+[00:37]   [Bash] {'command': 'cat tools/run_cases.py; cat freya.py', 'description': 'Read run_cases and freya client'}
+[03:46]   [Bash] {'command': 'head -c 1500 traces/20261010-185544.jsonl; echo; ls -la . out 2>/dev/null; cat .freya-agents.json 2>/dev/nu
+[03:53] Now writing the generator that produces both bodies and closing plans.
+[05:54]   [Write] {'file_path': '<repo>/runs/20261010-185544-lowering-a
+[06:01]   [Bash] {'command': 'python3 out/gen_agents.py && for s in brief-a brief-b; do python3 tools/lower.py out/$s.body.json out/$s.cl
+[06:04] Both lower and check clean. Next I run the sandbox snippets locally on fake data to catch bugs before saving.
+[06:08]   [Bash] {'command': 'cd out && python3 -c "\nimport json\nwf=json.load(open(\'brief-b.workflow.json\'))\nsetup=wf[\'nodes\'][\'s
+[06:11] Snippets work and the deadlines match the practice cases (23 Oct late band, 2 Nov early band). Saving both agents.
+[06:12]   [Bash] {'command': 'cd <repo>/runs/20261010-185544-lowering-
+[06:17] Both saved. Running the Brief A practice customers now (foreground, a few minutes).
+[06:18]   [Bash] {'command': 'python3 tools/run_cases.py b2df668d-07da-4ca1-9487-7a9a23fbb550 --brief A --out results/a-run1.json 2>&1 |
+[12:05] 8 of 10 on the first run. Reading the two failing transcripts.
+[12:07]   [Bash] {'command': 'python3 -c "\nimport json,freya\nr=json.load(open(\'results/a-run1.json\'))\nfor row in r[\'rows\']:\n  if
+[12:29]   [Bash] {'command': 'cd out && python3 - <<\'EOF\'\nimport re\np=\'gen_agents.py\'; s=open(p).read()\nold_start=s.index("    cal
+[12:34] Now the fixed debt line, with a fallback copy of the step for the case where the account data cannot be parsed.
+[12:41]   [Bash] {'command': 'python3 - <<\'EOF\'\np=\'gen_agents.py\'; s=open(p).read()\nold=\'\'\'               "transitions": [{"targ
+[12:45] Calendar table is correct. Saving both and running Brief B for the first time.
+[12:46]   [Bash] {'command': 'for s in brief-a brief-b; do python3 -c "import freya,json,sys; print(json.dumps(freya.save_workflow(sys.ar
+[15:58]   [Bash] {'command': 'python3 -c "\nimport json,freya\nr=json.load(open(\'results/b-run1.json\'))\nfor row in r[\'rows\']:\n  if
+[16:15]   [Bash] {'command': 'cd out && python3 - <<\'EOF\'\np=\'gen_agents.py\'; s=open(p).read()\nold="- Never repeat an offer the cust
+[16:23] Saved. Running Brief A again (fix round 2 for A).
+[16:24]   [Bash] {'command': 'python3 tools/run_cases.py b2df668d-07da-4ca1-9487-7a9a23fbb550 --brief A --out results/a-run2.json 2>&1 |
+[19:28]   [Bash] {'command': 'python3 -c "\nimport json,freya\nr=json.load(open(\'results/a-run2.json\'))\nfor row in r[\'rows\']:\n  if
+[19:47]   [Bash] {'command': 'cd out && python3 - <<\'EOF\'\np=\'gen_agents.py\'; s=open(p).read()\nold="Hello, I am a digital assistant
+[19:54] Saved. Running Brief B (fix round 2) and then Brief A (fix round 3).
+[19:55]   [Bash] {'command': 'python3 tools/run_cases.py d6e35cf9-eb0e-4bd3-8ca3-8b7c0091ac07 --brief B --out results/b-run2.json 2>&1 |
+[23:01] Both agents passed every practice customer in their last run: Brief A 10 of 10, Brief B 3 of 3.
+[23:01] 
+[23:01] **How they got there**
+[23:01] - **Brief A:** 8/10 on the first run, then 9/10, then 10/10.
+[23:01] - **Brief B:** 2/3 on the first run, then 3/3.
+[23:01] 
+[23:01] Each fix round changed `out/gen_agents.py`, then lowered, checked (0 errors, 0 warnings each time), saved and tested again. That was two fix rounds for A and one for B, within the limit of three.
+[23:01] 
+[23:01] **What failed and what I changed**
+[23:01] - **PUB-07 (holiday):** the model treated the holiday on 26 Oct as "after the deadline". Code now builds a calendar where every day says what to do for each product, such as "offer the next business day Tue 27 Oct".
+[23:01] - **PUB-06 (floor offer):** the model left out "the rest stays overdue" and paraphrased the debt statement, dropping "collections" and the days late. The debt statement is now a fixed spoken line built in code, and the floor offer has required wording.
+[23:01] - **PUB-12 (B):** the model made two offers on an early-band product, where the brief allows one. Its read-back also said "I have recorded" before the promise existed. I tightened the persuasion rules and made the read-back say "I will record ...".
+[23:01] - **PUB-10 (tool failure):** the agent retried without telling the customer the first attempt failed. The judge also counted "this call is recorded" in the opening as saying "recorded" too early. The retry step now opens with a fixed sentence saying nothing is saved yet. The opening now says "we keep a recording of this call", which still covers rule 1.
+[23:01] 
+[23:01] **Design**
+[23:01] - Moves between steps and the close values depend on tool results where the brief allows it: identity passed, three wrong answers, promise recorded, second promise failure, transfer done, callback booked.
+[23:01] - Every ending is declared in `out/<slot>.closing.json`, and `tools/lower.py` writes the `close_call` steps.
+[23:01] - Some endings still depend on the model calling the right ending: refused, dispute, paid, hardship, declined, unclear. In Brief B the final ending also depends on the model, because it follows the promises and notes the model made.
+[23:01] 
+[23:01] **Limits**
+[23:01] - Each customer ran once per round. The README warns that one green run is a hint, not proof.
+[23:01] - Brief B has only 3 practice customers, so restructuring after a recorded promise and a double `create_promise` failure in B were never tested.
+[23:01] - I did not run the `--style` variants or `--reps 3`.
+[23:01] 
+[23:01] Brief A: workflow_id `2bf37061-bdf9-4045-8a41-9217cfcd68cb`, agent_id `b2df668d-07da-4ca1-9487-7a9a23fbb550`, 10/10 passed. Brief B: workflow_id `01369047-4972-4880-8785-6ccacb22d9d9`, agent_id `d6e35cf9-eb0e-4bd3-8ca3-8b7c0091ac07`, 3/3 passed.
+[23:01] 
+[23:01] done: 29 turns, 1380 s, $2.89. Trace: <repo>/runs/20261010-185544-lowering-ab/workspace/traces/20261010-185544.jsonl
