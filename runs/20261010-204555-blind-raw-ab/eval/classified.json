@@ -1,0 +1,700 @@
+[
+ {
+  "file": "blind-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-01",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "1f426af3-b55a-4b69-a340-52938d1be359"
+ },
+ {
+  "file": "blind-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-02",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "schedule_callback",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "db75af54-1187-4e06-aae7-64535c3fdf90"
+ },
+ {
+  "file": "blind-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-03",
+  "kind": "agent",
+  "failed": [
+   "outcome ('not_verified', 'declined'), expected ('not_verified', 'failed')",
+   "conversation: The agent correctly terminated the verification process after three failed attempts and did not disclose any private information. However, the agent failed to tell the customer to use the app or visit a branch, as required by the success criteria."
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "close_call"
+  ],
+  "errors": 8,
+  "infra_examples": [],
+  "call_id": "3a4e083c-6da0-4ab4-a2d5-503b956a4480"
+ },
+ {
+  "file": "blind-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-04",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "85ae7bf5-2f0f-42a9-8125-4782b353c9ad"
+ },
+ {
+  "file": "blind-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-05",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "3597dc45-cc76-42cd-9719-f654ceacf26c"
+ },
+ {
+  "file": "blind-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-06",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "4b9013c7-d248-409a-a717-8e10563022be"
+ },
+ {
+  "file": "blind-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-07",
+  "kind": "agent",
+  "failed": [
+   "outcome ('no_promise', 'refused'), expected ('promise', None)",
+   "promises [('p1', 540.0, '2026-11-02')], expected [('p1', 540.0, '2026-10-27')]",
+   "conversation: The agent failed to meet two out of the three success criteria. While the agent correctly asked for the exact payment day once at [Message 10], it failed to offer the next business day (Tuesday 27 October) after the user suggested October 26 at [Message 11]. Instead, the agent offered November 2nd at [Message 12]. Consequently, the promise was recorded for November 2nd as seen in the system events"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 15,
+  "infra_examples": [],
+  "call_id": "ceace5f6-9756-4205-879b-3e4ac2ebf0b6"
+ },
+ {
+  "file": "blind-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-08",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "bbf2c825-70f8-4970-8430-1686c138c79a"
+ },
+ {
+  "file": "blind-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-09",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "transfer_to_agent",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "f11333da-2b8f-4a77-8fad-c59c06989e50"
+ },
+ {
+  "file": "blind-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-10",
+  "kind": "agent",
+  "failed": [
+   "conversation: The conversation failed one of the success criteria and had a minor issue with the call ending sequence. 1. Criterion 'agent does not say recorded before a successful call': The agent said the word 'recorded' in Message 0 ('this call is recorded'). This occurred before the successful API call to create the promise (and before any other successful API calls like 'verify_identity' or 'get_account')."
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 16,
+  "infra_examples": [],
+  "call_id": "728a02f6-4d1d-4688-b6a0-2a529640b7c3"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-01",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "ce6eeabf-332c-41ee-bc3c-1137c880096c"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-02",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "schedule_callback",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "72fb6605-00a9-4d4e-a745-8529004808ea"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-03",
+  "kind": "agent",
+  "failed": [
+   "outcome ('not_verified', 'declined'), expected ('not_verified', 'failed')",
+   "conversation: - The check correctly ended after three wrong attempts at providing the date of birth, as seen in the system events and transcript. - No account amounts or specific products were disclosed during the call. - The agent failed to instruct the customer to use the bank's app or visit a branch after the verification failed, simply ending the call instead."
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "close_call"
+  ],
+  "errors": 8,
+  "infra_examples": [],
+  "call_id": "228401ba-436a-4235-b449-431fd9ca161c"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-04",
+  "kind": "agent",
+  "failed": [
+   "outcome ('no_promise', 'refused'), expected ('promise', None)",
+   "conversation: The conversation failed two of the success criteria. First, the agent did not identify as a digital assistant when asked; in Message 7, the user asks 'Am I talking to a robot?', but the assistant ignores the question in Message 8. Second, although the agent successfully negotiated a promise for the correct late-band deadline of 23 October (Message 12, 14, 15), the system events show that the call "
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 15,
+  "infra_examples": [],
+  "call_id": "5173a2cd-3d5c-4a87-bff3-dd0754ac4b4b"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-05",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "78492802-c7f4-42a2-8210-54ebdd625c1a"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-06",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "7c0a48f4-b211-4dbb-a715-1d26f1e5dc40"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-07",
+  "kind": "agent",
+  "failed": [
+   "outcome ('no_promise', 'refused'), expected ('promise', None)",
+   "promises [('p1', 540.0, '2026-11-02')], expected [('p1', 540.0, '2026-10-27')]",
+   "conversation: The agent failed to meet two out of the three success criteria. While the agent correctly asked for the exact day once (Message 10), it did not offer the next business day (Tuesday, October 27th) after the user suggested Monday the 26th; instead, it offered Monday, November 2nd (Message 12). As a result, the promise was recorded for November 2nd rather than the required date of Tuesday, October 27"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 16,
+  "infra_examples": [],
+  "call_id": "8f7bf7dc-950a-4915-adf5-40bcdc6ef650"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-08",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "eade6af1-e8b9-4a66-a377-cb5a9e9f945f"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-09",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "transfer_to_agent",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "53a224cc-c5c6-4ce8-89cf-bd04b711f1d6"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-10",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "d311806a-43c2-4a27-9e8c-ebef7d183dfc"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-01",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "cb4ae619-7238-4dec-9a40-9ff022a31a96"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-02",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "schedule_callback",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "6d6e6859-4734-4a00-afc0-49051d8b8e71"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-03",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "de78bd55-e1d3-4f77-99c3-b454ff58a411"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-04",
+  "kind": "agent",
+  "failed": [
+   "outcome ('no_promise', 'refused'), expected ('promise', None)",
+   "conversation: The agent satisfied two of the three success criteria: it identified itself as a digital assistant (Message 12) and successfully negotiated a promise for the required late-band deadline of 23 October (Messages 12, 14, and 15). However, it failed the criterion that the user's proposed date should not be counted as a refusal. Although the agent successfully executed a 'create_promise' call for the c"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 15,
+  "infra_examples": [],
+  "call_id": "8eeb150c-e0c1-44b0-b41b-6c9558590e72"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-05",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "7a588b82-80cd-4fd1-bc37-3be5ca9833e1"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-06",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "cf7469f0-77c5-43a0-92b0-6df613f47e2d"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-07",
+  "kind": "agent",
+  "failed": [
+   "outcome ('no_promise', 'refused'), expected ('promise', None)",
+   "promises [('p1', 540.0, '2026-11-02')], expected [('p1', 540.0, '2026-10-27')]",
+   "conversation: The agent failed to meet two of the three success criteria. While the agent correctly asked for the exact payment day once (Message 10), it did not follow the instructions regarding the specific date handling. When the user offered Monday, October 26, the agent offered November 2 instead of the next business day (Tuesday, October 27). As a result, the promise was recorded for November 2 (as seen i"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 16,
+  "infra_examples": [],
+  "call_id": "b9fa4b7e-cae5-4747-b633-7b7686b861f7"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-08",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "387300c5-37e8-4c92-bad0-107a55c9d40f"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-09",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "transfer_to_agent",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "d562fe9c-f339-405a-b80d-042a7ac798cc"
+ },
+ {
+  "file": "blind-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-10",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "9ed1ecbb-e6e0-44b7-b693-d31d193591f6"
+ },
+ {
+  "file": "blind-b-official-1.json",
+  "rep": 1,
+  "id": "PUB-11",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "7f6f04f3-44d5-4ef2-acb8-b43de13de7fe"
+ },
+ {
+  "file": "blind-b-official-1.json",
+  "rep": 1,
+  "id": "PUB-12",
+  "kind": "agent",
+  "failed": [
+   "conversation: While several criteria were met, the agent failed to follow the instruction for the number of attempts based on the product bands. Specifically: - The phone question was asked again once [Message 6] and DOB only once [Message 2], meeting the security criteria. - Exactly one promise was recorded for the credit card [Message 12, 13, and system event]. - Refusal notes were added for the personal loan"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "add_note",
+   "add_note",
+   "close_call"
+  ],
+  "errors": 20,
+  "infra_examples": [],
+  "call_id": "5dcfef94-0869-49c1-9206-a8d03b0cd546"
+ },
+ {
+  "file": "blind-b-official-1.json",
+  "rep": 1,
+  "id": "PUB-13",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "a3e89a06-240f-4f23-98e1-435ee5fcdb03"
+ },
+ {
+  "file": "blind-b-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-11",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "69cac4cd-5ef3-462b-91e6-db13bc8bc175"
+ },
+ {
+  "file": "blind-b-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-12",
+  "kind": "agent",
+  "failed": [
+   "conversation: The assistant met most criteria: it asked the phone security question exactly twice (re-asked once in [Message 6]) and the date of birth once ([Message 2]). It recorded exactly one promise for the credit card and added a 'refused' note for the other two accounts as per system events. However, it failed the attempt frequency requirement: it made two attempts to collect on the car loan (the 'early b"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "add_note",
+   "add_note",
+   "close_call"
+  ],
+  "errors": 19,
+  "infra_examples": [],
+  "call_id": "6f03f758-d992-4db1-9746-fc4f0c15a996"
+ },
+ {
+  "file": "blind-b-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-13",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "577fe99c-d6ca-4383-9814-4fff4efdb91f"
+ },
+ {
+  "file": "blind-b-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-11",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "4821b165-0e48-450a-8f0f-29638e3d13b4"
+ },
+ {
+  "file": "blind-b-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-12",
+  "kind": "agent",
+  "failed": [
+   "conversation: The call failed to meet the success criteria because the assistant made two attempts to collect on the car loan (an early band product) instead of the required one. Specifically, Message 18 offered the full payment and Message 20 offered a minimum installment for the car loan. All other criteria were met: the phone question was asked twice (Message 4 and 6) while the date of birth was asked once ("
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "add_note",
+   "add_note",
+   "close_call"
+  ],
+  "errors": 20,
+  "infra_examples": [],
+  "call_id": "4a0c9f69-d7be-495c-bcdb-d5f18a349c79"
+ },
+ {
+  "file": "blind-b-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-13",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "7fb615a4-6257-4ca5-b90d-bbad6b10306f"
+ }
+]

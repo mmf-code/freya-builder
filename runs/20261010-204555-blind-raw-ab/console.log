@@ -1,0 +1,46 @@
+[00:02]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/brief-a-raw.md briefs/brief-b-raw.md'}
+[00:04]   [Bash] {'command': 'ls -R | head -50; cat briefs/brief-a-raw.md; echo ----; cat briefs/brief-b-raw.md; echo ----; cat public-te
+[00:07]   [Bash] {'command': 'cat tools/openapi.json; cat docs/workflow-format.md docs/tools-and-code.md; cat examples/base-agent.json; c
+[00:09]   [Bash] {'command': 'python3 -c "\nimport json;d=json.load(open(\'tools/openapi.json\'))\nprint(json.dumps(d[\'info\'],indent=1)
+[00:12]   [Bash] {'command': 'wc -c tools/openapi.json docs/* examples/* tools/*.py README.md; cat docs/workflow-format.md', 'description
+[00:14] I'm reading the platform docs before writing the two workflows.
+[00:15]   [Read] {'file_path': '<repo>/runs/20261010-204555-blind-raw-
+[00:15]   [Read] {'file_path': '<repo>/runs/20261010-204555-blind-raw-
+[00:16]   [Read] {'file_path': '<repo>/runs/20261010-204555-blind-raw-
+[00:19]   [Bash] {'command': 'cat tools/lower.py', 'description': 'Read the lowering tool'}
+[00:20]   [Bash] {'command': 'cat README.md; sed -n 1,200p tools/check_workflow.py', 'description': 'Read README and checker start'}
+[00:23]   [Bash] {'command': 'sed -n 200,600p tools/check_workflow.py; grep -n "def \\|AGENT_LLM" freya.py; ls -la out 2>/dev/null; cat .
+[03:21]   [Bash] {'command': 'wc -l traces/*; head -c 1500 traces/*.jsonl; echo; sed -n 1,80p tools/run_cases.py | head -80; cat .freya-a
+[03:24] Now I'll write a generator that produces both body and closing files.
+[05:36]   [Write] {'file_path': '<repo>/runs/20261010-204555-blind-raw-
+[05:46]   [Bash] {'command': 'cd out && python3 build_bodies.py && cd .. && python3 - <<\'EOF\'\nimport json\nfor slot in ["brief-a-raw",
+[05:50]   [Bash] {'command': 'cd out && python3 - <<\'EOF\'\np="build_bodies.py"; s=open(p).read()\ns=s.replace("MULTI = %s\\ntry:","MULT
+[05:57]   [Bash] {'command': 'cd <repo>/runs/20261010-204555-blind-raw
+[06:04]   [Bash] {'command': 'sed -i \'\' "s/start = \'10:00\' if (hh, mm) < (10, 0) else (\'later than %02d:%02d\' % (hh, mm))/start = \
+[06:11]   [Bash] {'command': 'sed -i \'\' \'s/    tool\\["post_process_code"\\] = post or POST_GENERIC/    if post:\\n        tool["post_
+[06:18] Both workflows lower and pass the check with 0 errors. I'm fixing two small wording issues, then saving both.
+[06:22]   [Bash] {'command': 'sed -i \'\' "s/Hello, this is Freya Bank\'s digital assistant calling. This call is recorded. Am I/Hello, t
+[06:30]   [Bash] {'command': 'mkdir -p /tmp/freya-export && python3 - <<\'EOF\'\nimport freya, json\nfor slot, wid in [("a","fde335be-201
+[06:43] I built and saved both agents, but neither has been tested on a live call. `public-test-set.json` is empty, so I did not run `tools/run_cases.py`, as the skill says. My only tests were:
+[06:43] - `check_workflow.py` reports 0 errors and 0 warnings for both workflows.
+[06:43] - I ran the two code steps locally on sample dates and products, and the deadlines, calendar and opening lines came out right.
+[06:43] - I read each workflow against the brief rules.
+[06:43] - I exported both workflows back from Freya: both code steps and all three tool hooks were still there.
+[06:43] 
+[06:43] What the agents do:
+[06:43] - **brief-a-raw (one product):** opening, then the identity question, then a step for when someone else answers. Then the two security questions, then the account fetch, then the payment promise step. A step after a recorded promise handles a transfer or a request to change it.
+[06:43] - **brief-b-raw (one to three products):** the same flow, plus the notice for several products. It names every product, then asks one "pay all today?" question. After that it takes the products one at a time, with separate persuasion attempts and deadlines for each. It reads all promises back at once, then records each promise and adds a note (`add_note`) for every product without one. It adds no notes when the call is transferred.
+[06:43] - **Endings:** all 16 close codes are declared in the closing plans, and `tools/lower.py` writes the `close_call` steps. Each ending has a fixed goodbye, for example "I am sorry for your loss." for a deceased customer, and the mobile app or branch line after three wrong security answers.
+[06:43] 
+[06:43] To keep the agent off the date and amount maths, a code step works it out from `now`. That covers the calendar with the memo's 26 October holiday, "this/next <weekday>", the callback window for today or the next business day, and the deadlines (12th business day early, 7th late). After `get_account` a second code step adds each product's floor and the exact offer for each persuasion attempt.
+[06:43] 
+[06:43] Risks to know before you rely on it:
+[06:43] - **Agent decisions:** in brief-b, picking the close code and the order of promises and notes is up to the agent, guided by the prompt. Some brief-a endings are the same: refused, dispute, paid, hardship, and the service error when the bank answers with "not recorded". Only a test run shows whether it gets these right. Endings that follow a tool result are fixed in the workflow.
+[06:43] - **No account data:** if `get_account` returns no products, the call closes as `no_promise` with reason `service_error`. The brief does not define this case, so that close code is my choice.
+[06:43] 
+[06:43] To change the agents, edit `out/build_bodies.py`. It generates both body and closing files.
+[06:43] 
+[06:43] brief-a-raw: workflow_id `fde335be-201d-4bf3-8e0c-6667368981d7`, agent_id `52366f05-a110-4e9e-979b-caf9bfecb3c2`, not tested (0 practice customers).
+[06:43] brief-b-raw: workflow_id `64aefe3a-de87-44fe-b68e-7eddd672e9b7`, agent_id `c2749f5c-a9e2-4baa-9406-f975c74adea0`, not tested (0 practice customers).
+[06:43] 
+[06:43] done: 22 turns, 403 s, $1.76. Trace: <repo>/runs/20261010-204555-blind-raw-ab/workspace/traces/20261010-204556.jsonl

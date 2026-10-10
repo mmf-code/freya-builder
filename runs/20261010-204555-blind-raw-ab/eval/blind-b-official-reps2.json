@@ -1,0 +1,226 @@
+{
+ "agent_id": "c2749f5c-a9e2-4baa-9406-f975c74adea0",
+ "simulation_id": "fa1be815-5452-46c1-b7d4-cf594c8a93e4",
+ "iteration_id": "c9eb27de-72f0-471b-bc63-6a2b593535c6",
+ "seconds": 148,
+ "passed": 2,
+ "total": 3,
+ "runs": 2,
+ "final": [
+  {
+   "id": "PUB-11",
+   "family": "Multi-product",
+   "passes": 2,
+   "runs": 2,
+   "pass": true
+  },
+  {
+   "id": "PUB-12",
+   "family": "Multi-product",
+   "passes": 0,
+   "runs": 2,
+   "pass": false
+  },
+  {
+   "id": "PUB-13",
+   "family": "Multi-product",
+   "passes": 2,
+   "runs": 2,
+   "pass": true
+  }
+ ],
+ "rows": [
+  {
+   "id": "PUB-11",
+   "level": "medium",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "4821b165-0e48-450a-8f0f-29638e3d13b4",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_0235d008-0ce",
+   "slowest_turn_s": 7.8,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-12",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": false,
+   "failed": [
+    "conversation: The call failed to meet the success criteria because the assistant made two attempts to collect on the car loan (an early band product) instead of the required one. Specifically, Message 18 offered the full payment and Message 20 offered a minimum installment for the car loan. All other criteria were met: the phone question was asked twice (Message 4 and 6) while the date of birth was asked once ("
+   ],
+   "call_id": "4a0c9f69-d7be-495c-bcdb-d5f18a349c79",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "add_note",
+    "add_note",
+    "close_call"
+   ],
+   "customer_id": "c_0ca1a600-9ad",
+   "slowest_turn_s": 1.4,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-13",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "7fb615a4-6257-4ca5-b90d-bbad6b10306f",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_518b3ff0-dce",
+   "slowest_turn_s": 2.3,
+   "ended": "assistant-ended-call"
+  }
+ ],
+ "all_rows": [
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "69cac4cd-5ef3-462b-91e6-db13bc8bc175",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_6dbc5b3e-f3f",
+    "slowest_turn_s": 19.0,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "conversation: The assistant met most criteria: it asked the phone security question exactly twice (re-asked once in [Message 6]) and the date of birth once ([Message 2]). It recorded exactly one promise for the credit card and added a 'refused' note for the other two accounts as per system events. However, it failed the attempt frequency requirement: it made two attempts to collect on the car loan (the 'early b"
+    ],
+    "call_id": "6f03f758-d992-4db1-9746-fc4f0c15a996",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "add_note",
+     "add_note",
+     "close_call"
+    ],
+    "customer_id": "c_01cfce3b-544",
+    "slowest_turn_s": 4.1,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "577fe99c-d6ca-4383-9814-4fff4efdb91f",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_3cdb923b-cf2",
+    "slowest_turn_s": 1.5,
+    "ended": "assistant-ended-call"
+   }
+  ],
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "4821b165-0e48-450a-8f0f-29638e3d13b4",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_0235d008-0ce",
+    "slowest_turn_s": 7.8,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "conversation: The call failed to meet the success criteria because the assistant made two attempts to collect on the car loan (an early band product) instead of the required one. Specifically, Message 18 offered the full payment and Message 20 offered a minimum installment for the car loan. All other criteria were met: the phone question was asked twice (Message 4 and 6) while the date of birth was asked once ("
+    ],
+    "call_id": "4a0c9f69-d7be-495c-bcdb-d5f18a349c79",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "add_note",
+     "add_note",
+     "close_call"
+    ],
+    "customer_id": "c_0ca1a600-9ad",
+    "slowest_turn_s": 1.4,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "7fb615a4-6257-4ca5-b90d-bbad6b10306f",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_518b3ff0-dce",
+    "slowest_turn_s": 2.3,
+    "ended": "assistant-ended-call"
+   }
+  ]
+ ]
+}
