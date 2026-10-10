@@ -59,36 +59,6 @@ terminal tool, or that has an `end_call` step.
    call. The check proves these graph properties. It does not prove what the model will say or which ending it picks
    during a call. The test run shows that.
 
-## Counted attempts per item
-
-A model cannot reliably count in a prompt. When the brief limits how many attempts or offers something gets, per
-item (a product, an account, a booking), or per call (one item), the graph counts them. This is required whenever
-such a limit exists, whatever the number of items. Add a `ladder` to `out/<slot>.closing.json`:
-
-```json
-"ladder": {"template": "<body step>", "done": "<body step after the last item>",
-           "items": {"count": "<variable>", "max": <largest number of items the brief allows>, "evidence": [...]},
-           "attempts": {"allowed": "<variable with {i}>", "max": <largest number of attempts>, "evidence": [...]},
-           "refusal": "<variable with {i} and {a}>"}
-```
-
-1. Set the counts once, before the ladder, in the step that already prepares the tool results (no new code step and
-   no code tool): the number of items in `count`, and for every item `i` its allowed attempts in `allowed` with `{i}`
-   replaced (for example `attempts_1`), from the brief's rules and tables. Also write the facts and the offer of each
-   attempt as variables per item and attempt, so the template's prompt can show them.
-2. Write the template as one conversation step for item `{i}`, attempt `{a}`. Every `{i}` and `{a}` in it is filled in.
-   - Its opening makes attempt `{a}` for item `{i}`, from the variables of step 1. Do not count attempts in the
-     prompt and do not describe other attempts: the graph moves to the next attempt or item.
-   - Declare the refusal variable in its `extraction_schema`: a string with `enum_values` `["yes", "no"]`, "yes" only
-     when the customer's last message is what the brief calls a refusal of the current offer. Say in its description
-     what is not a refusal, from the brief.
-   - Route to `item:next` (a tool-call transition) when the item is settled another way, from the brief: agreed,
-     disputed, already paid. Keep the template's routes to endings and transfers as for any step.
-3. Enter the ladder from the step before it with the target `item:first`. `done` is the step that comes after every
-   item, for example the read-back and recording.
-4. The lowering writes one step per item and attempt, a router per item, and the refusal routes. After a refusal the
-   engine leaves the step before the model speaks again, so no item gets more attempts than allowed.
-
 ## Rules
 
 - Never edit the agent on the platform by hand. Change the file and save it.

@@ -1,0 +1,497 @@
+{
+ "run": "20261010-201333-ladder-ab",
+ "start": "2026-10-10T17:13:33+00:00",
+ "end": "2026-10-10T17:44:55+00:00",
+ "seconds": 1882,
+ "limit_minutes": 30.0,
+ "timed_out": true,
+ "exit_code": -9,
+ "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill <repo>/builder/skills/build-phone-agent-lowering (sha256:b53b9768aef7)",
+ "builder_model": "claude-opus-5-5 (agent_builder.py default)",
+ "agent_model": {
+  "provider": "experimental-5",
+  "model": "experimental-5"
+ },
+ "repo_commit": "8fc6afc56bf69727e3d1f891ee3e7c79b80f8456",
+ "repo_dirty": false,
+ "isolation": {
+  "CLAUDE_CONFIG_DIR": "<repo>/.claude-builder",
+  "HOME": "<repo>/.claude-builder/home",
+  "state": "<repo>/state/exp-ladder-ab"
+ },
+ "inputs": {
+  "briefs": [
+   {
+    "name": "brief-a.md",
+    "sha256": "d57c049c89aec4615f5b939c5a96ee9bd194142d17045bc4036615cfbdf0f1c7"
+   },
+   {
+    "name": "brief-b.md",
+    "sha256": "c59c70099148b91c13e9c5e40246a63b58638f09469d735f8eb65771bb63d550"
+   }
+  ],
+  "tools": {
+   "name": "openapi.json",
+   "sha256": "9a8410b12e5c82b6c6a30e9ed7030574d6f919cafdb1e035cef7bd876b0badb8"
+  }
+ },
+ "practice_cases": [
+  "PUB-01",
+  "PUB-02",
+  "PUB-03",
+  "PUB-04",
+  "PUB-05",
+  "PUB-06",
+  "PUB-07",
+  "PUB-08",
+  "PUB-09",
+  "PUB-10",
+  "PUB-11",
+  "PUB-12",
+  "PUB-13"
+ ],
+ "freya": [
+  {
+   "slot": "brief-a",
+   "workflow_id": "73df092f-0249-4e54-86ef-0459f95c98b7",
+   "agent_id": "b7c84f99-95b5-47af-88f2-690ca958e70a",
+   "version": 7,
+   "created": true,
+   "export": "brief-a.workflow.json"
+  },
+  {
+   "slot": "brief-b",
+   "workflow_id": "6263394c-c36f-40f8-879d-5c6f5f3013ba",
+   "agent_id": "05d116e1-1a54-4849-819b-07f1801d8fc5",
+   "version": 7,
+   "created": true,
+   "export": "brief-b.workflow.json"
+  }
+ ],
+ "tests": [
+  {
+   "command": "python3 tools/run_cases.py b7c84f99-95b5-47af-88f2-690ca958e70a --brief A --out results/a1.json 2>&1 | tail -40",
+   "passed": 5,
+   "total": 10,
+   "simulation_id": "b10708a8-4a22-4369-b95e-92cb3b3d236a",
+   "status": "completed",
+   "seconds": 114,
+   "fail_lines": [
+    "FAIL PUB-01 easy   Happy path     | verify > verify > get_account > close_call",
+    "FAIL PUB-04 medium Dates          | verify > verify > get_account > close_call",
+    "FAIL PUB-06 hard   Amounts        | verify > verify > get_account > close_call",
+    "FAIL PUB-07 hard   Dates          | verify > verify > get_account > close_call",
+    "FAIL PUB-10 hard   Tool failure   | verify > verify > get_account"
+   ]
+  },
+  {
+   "command": "for s in brief-a brief-b; do python3 -c \"import freya,json,sys; print(json.dumps(freya.save_workflow(sys.argv[1], json.load(open(sys.argv[2])))))\" $s out/$s.workflow.json; done; python3 tools/run_case",
+   "passed": 4,
+   "total": 10,
+   "simulation_id": "6e2bfc9b-2347-4b08-91ff-de4209cc26a4",
+   "status": "completed",
+   "seconds": 145,
+   "fail_lines": [
+    "FAIL PUB-03 medium Identity       | verify > verify > verify > verify > get_account > transfer_to_agent > close_call",
+    "FAIL PUB-04 medium Dates          | verify > verify > get_account",
+    "FAIL PUB-06 hard   Amounts        | verify > verify > get_account > close_call",
+    "FAIL PUB-07 hard   Dates          | verify > verify > get_account > close_call",
+    "FAIL PUB-10 hard   Tool failure   | verify > verify > get_account"
+   ]
+  },
+  {
+   "command": "python3 - <<'EOF' import json b = json.load(open('out/brief-b.body.json')) code = b['nodes']['summarize']['pre_actions'][0]['function']['parameters']['properties']['code']['default'] vars = {'product_",
+   "passed": 9,
+   "total": 10,
+   "simulation_id": "df4930ad-42f5-4228-87eb-d3bea139eb02",
+   "status": "completed",
+   "seconds": 84,
+   "fail_lines": [
+    "FAIL PUB-06 hard   Amounts        | verify > verify > get_account > promise > close_call"
+   ]
+  },
+  {
+   "command": "python3 tools/run_cases.py 05d116e1-1a54-4849-819b-07f1801d8fc5 --brief B --out results/b1.json 2>&1 | tail -20",
+   "passed": 0,
+   "total": 3,
+   "simulation_id": "2098dc28-b2c3-4850-95f9-1068841ecc44",
+   "status": "completed",
+   "seconds": 135,
+   "fail_lines": [
+    "FAIL PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise",
+    "FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise",
+    "FAIL PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise"
+   ]
+  },
+  {
+   "command": "for s in brief-a brief-b; do python3 -c \"import freya,json,sys; print(json.dumps(freya.save_workflow(sys.argv[1], json.load(open(sys.argv[2])))))\" $s out/$s.workflow.json; done; python3 tools/run_case",
+   "passed": 2,
+   "total": 3,
+   "simulation_id": "f789adba-0905-4190-a9fc-92aeb39d4f49",
+   "status": "completed",
+   "seconds": 74,
+   "fail_lines": [
+    "FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise > add_note > add_note > close_call"
+   ]
+  },
+  {
+   "command": "python3 tools/run_cases.py 05d116e1-1a54-4849-819b-07f1801d8fc5 --brief B --out results/b3.json 2>&1 | tail -12",
+   "passed": 2,
+   "total": 3,
+   "simulation_id": "1692e3ad-0251-43c9-988c-5bb42cf6a955",
+   "status": "completed",
+   "seconds": 52,
+   "fail_lines": [
+    "FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise > add_note > add_note > close_call"
+   ]
+  },
+  {
+   "command": "python3 tools/run_cases.py 05d116e1-1a54-4849-819b-07f1801d8fc5 --brief B --out results/b4.json 2>&1 | tail -10",
+   "passed": 3,
+   "total": 3,
+   "simulation_id": "4f3c8b7d-61fc-4abe-9619-c1aa8ff13301",
+   "status": "completed",
+   "seconds": 53,
+   "fail_lines": []
+  },
+  {
+   "command": "python3 tools/run_cases.py b7c84f99-95b5-47af-88f2-690ca958e70a --brief A --out results/a4.json 2>&1 | tail -24",
+   "passed": null,
+   "total": null,
+   "simulation_id": null,
+   "status": null,
+   "seconds": null,
+   "fail_lines": []
+  }
+ ],
+ "written": [
+  "<repo>/runs/20261010-201333-ladder-ab/workspace/out/gen/gen.py"
+ ],
+ "cost_usd": null,
+ "num_turns": null,
+ "model_usage": null,
+ "model_calls": [
+  {
+   "n": 1,
+   "model": "claude-opus-5-5",
+   "at_s": 3.0,
+   "purpose": "Skill: {\"skill\": \"build-phone-agent\", \"args\": \"briefs/brief-a.md briefs/brief-b.md\"}"
+  },
+  {
+   "n": 2,
+   "model": "claude-opus-5-5",
+   "at_s": 4.5,
+   "purpose": "Bash: List kit files and read briefs"
+  },
+  {
+   "n": 3,
+   "model": "claude-opus-5-5",
+   "at_s": 8.1,
+   "purpose": "Bash: Read brief B and test set"
+  },
+  {
+   "n": 4,
+   "model": "claude-opus-5-5",
+   "at_s": 9.6,
+   "purpose": "Bash: List test cases and read tool API"
+  },
+  {
+   "n": 5,
+   "model": "claude-opus-5-5",
+   "at_s": 12.1,
+   "purpose": "Bash: Read workflow format and tools docs"
+  },
+  {
+   "n": 6,
+   "model": "claude-opus-5-5",
+   "at_s": 13.6,
+   "purpose": "Reading the kit docs (workflow format, tools) before writing the two workflows.; Read: <repo>/.claude-builder/projects/-Users-atakan-Developer-freya-builder--claude-worktrees-evre-graph-safety-runs-20261010-201333-ladder-ab-workspace/7757e6e2-beb1-40b0-9807-562ce284e009/tool-results/bdwm89bx1.txt"
+  },
+  {
+   "n": 7,
+   "model": "claude-opus-5-5",
+   "at_s": 18.2,
+   "purpose": "Read: <repo>/.claude-builder/projects/-Users-atakan-Developer-freya-builder--claude-worktrees-evre-graph-safety-runs-20261010-201333-ladder-ab-workspace/7757e6e2-beb1-40b0-9807-562ce284e009/tool-results/bdwm89bx1.txt; Bash: Read base agent example"
+  },
+  {
+   "n": 8,
+   "model": "claude-opus-5-5",
+   "at_s": 20.2,
+   "purpose": "Bash: Read lower.py start"
+  },
+  {
+   "n": 9,
+   "model": "claude-opus-5-5",
+   "at_s": 22.2,
+   "purpose": "Bash: Read rest of lower.py"
+  },
+  {
+   "n": 10,
+   "model": "claude-opus-5-5",
+   "at_s": 24.7,
+   "purpose": "Bash: Inspect check_workflow.py checks"
+  },
+  {
+   "n": 11,
+   "model": "claude-opus-5-5",
+   "at_s": 27.7,
+   "purpose": "Bash: Read check_workflow graph checks"
+  },
+  {
+   "n": 12,
+   "model": "claude-opus-5-5",
+   "at_s": 29.3,
+   "purpose": "Read the kit and the lowering tool. Now checking the test runner, then designing the workflows.; Bash: Read test runner"
+  },
+  {
+   "n": 13,
+   "model": "claude-opus-5-5",
+   "at_s": 105.4,
+   "purpose": "Bash: Look at traces folder and README"
+  },
+  {
+   "n": 14,
+   "model": "claude-opus-5-5",
+   "at_s": 107.5,
+   "purpose": "Bash: Check Freya env vars and client functions"
+  },
+  {
+   "n": 15,
+   "model": "claude-opus-5-5",
+   "at_s": 503.8,
+   "purpose": "Bash: Locate exact evidence lines in briefs"
+  },
+  {
+   "n": 16,
+   "model": "claude-opus-5-5",
+   "at_s": 508.8,
+   "purpose": "Write: out/gen/gen.py"
+  },
+  {
+   "n": 17,
+   "model": "claude-opus-5-5",
+   "at_s": 657.6,
+   "purpose": "Fixing the code-string formatting (switching from `%` formatting to token replacement).; Bash: Switch code templates to token replacement"
+  },
+  {
+   "n": 18,
+   "model": "claude-opus-5-5",
+   "at_s": 663.1,
+   "purpose": "Now a local dry run of the code snippets with separate globals/locals (the strict exec case), then generate and lower.; Bash: Generate files and dry-run code snippets locally"
+  },
+  {
+   "n": 19,
+   "model": "claude-opus-5-5",
+   "at_s": 681.3,
+   "purpose": "Snippets behave correctly (deadlines, holiday skipping, flattened-key fallback). Lowering and checking both:; Bash: Lower and check both workflows"
+  },
+  {
+   "n": 20,
+   "model": "claude-opus-5-5",
+   "at_s": 685.8,
+   "purpose": "Both clean. Saving to the platform:; Bash: Save both workflows to Freya"
+  },
+  {
+   "n": 21,
+   "model": "claude-opus-5-5",
+   "at_s": 690.3,
+   "purpose": "Checking that the platform kept the key fields (tts lines, extraction, mappings):; Bash: Export brief-a workflow and inspect fields"
+  },
+  {
+   "n": 22,
+   "model": "claude-opus-5-5",
+   "at_s": 703.5,
+   "purpose": "Saved and the platform kept the fields. Running Brief A practice customers (foreground):; Bash: Run Brief A practice cases"
+  },
+  {
+   "n": 23,
+   "model": "claude-opus-5-5",
+   "at_s": 835.6,
+   "purpose": "5/10. Every promise path ends as `no_promise/refused` after the customer confirms. Inspecting one call's events to see why:; Bash: Inspect PUB-01 call transcript"
+  },
+  {
+   "n": 24,
+   "model": "claude-opus-5-5",
+   "at_s": 845.2,
+   "purpose": "The confirmation \"yes\" was extracted, but `amount_1` (float) never was, so the recording step never fired. Then the model said \"noted\". Chec; Bash: Search for amount_1 extraction events"
+  },
+  {
+   "n": 25,
+   "model": "claude-opus-5-5",
+   "at_s": 851.7,
+   "purpose": "Bash: List event types and amount mentions"
+  },
+  {
+   "n": 26,
+   "model": "claude-opus-5-5",
+   "at_s": 860.3,
+   "purpose": "Bash: Read checks for failing cases"
+  },
+  {
+   "n": 27,
+   "model": "claude-opus-5-5",
+   "at_s": 867.3,
+   "purpose": "Bash: Apply fixes, regenerate, lower, check"
+  },
+  {
+   "n": 28,
+   "model": "claude-opus-5-5",
+   "at_s": 875.4,
+   "purpose": "Saving both and rerunning Brief A:; Bash: Save workflows and rerun Brief A cases"
+  },
+  {
+   "n": 29,
+   "model": "claude-opus-5-5",
+   "at_s": 1043.4,
+   "purpose": "Still no recording, and PUB-03 got past three wrong answers. Dumping compact event traces for PUB-01 (confirm step) and PUB-03 (identity):; Bash: Trace PUB-01 and PUB-03 events"
+  },
+  {
+   "n": 30,
+   "model": "claude-opus-5-5",
+   "at_s": 1050.4,
+   "purpose": "Bash: Trace PUB-01 and PUB-03 events"
+  },
+  {
+   "n": 31,
+   "model": "claude-opus-5-5",
+   "at_s": 1082.7,
+   "purpose": "Read: out/gen/gen.py"
+  },
+  {
+   "n": 32,
+   "model": "claude-opus-5-5",
+   "at_s": 1085.8,
+   "purpose": "Read: out/gen/gen.py"
+  },
+  {
+   "n": 33,
+   "model": "claude-opus-5-5",
+   "at_s": 1087.8,
+   "purpose": "Bash: Replace confirm/recording design, regenerate, lower, check"
+  },
+  {
+   "n": 34,
+   "model": "claude-opus-5-5",
+   "at_s": 1113.5,
+   "purpose": "Quick local re-check of the changed summarize snippet, then save and rerun A:; Bash: Test summarize, save, rerun Brief A"
+  },
+  {
+   "n": 35,
+   "model": "claude-opus-5-5",
+   "at_s": 1222.4,
+   "purpose": "9/10 on A. Tracing PUB-06 (floor offered twice):; Bash: Trace PUB-06 from debt statement"
+  },
+  {
+   "n": 36,
+   "model": "claude-opus-5-5",
+   "at_s": 1235.5,
+   "purpose": "Bash: Update negotiation rules, regenerate, check, save"
+  },
+  {
+   "n": 37,
+   "model": "claude-opus-5-5",
+   "at_s": 1244.6,
+   "purpose": "Running Brief B practice customers on its agent (first B run):; Bash: Run Brief B practice cases"
+  },
+  {
+   "n": 38,
+   "model": "claude-opus-5-5",
+   "at_s": 1432.3,
+   "purpose": "Promises were recorded, but the model never called the \"finish\" transition afterwards, so no call closed. Checking how the three parallel to; Bash: Inspect event order around parallel promise calls"
+  },
+  {
+   "n": 39,
+   "model": "claude-opus-5-5",
+   "at_s": 1448.4,
+   "purpose": "Bash: Trace PUB-12 and PUB-13 after verification"
+  },
+  {
+   "n": 40,
+   "model": "claude-opus-5-5",
+   "at_s": 1452.5,
+   "purpose": "Bash: Trace PUB-12 and PUB-13"
+  },
+  {
+   "n": 41,
+   "model": "claude-opus-5-5",
+   "at_s": 1466.1,
+   "purpose": "PUB-13's flow is right apart from the missing exit. PUB-12's message order around the car loan is confusing in my trace, so I'm re-reading i; Bash: Print PUB-12 events with timestamps"
+  },
+  {
+   "n": 42,
+   "model": "claude-opus-5-5",
+   "at_s": 1489.8,
+   "purpose": "Bash: Apply B fixes, regenerate, lower, check"
+  },
+  {
+   "n": 43,
+   "model": "claude-opus-5-5",
+   "at_s": 1501.4,
+   "purpose": "Saving both and running B:; Bash: Save and rerun Brief B cases"
+  },
+  {
+   "n": 44,
+   "model": "claude-opus-5-5",
+   "at_s": 1588.7,
+   "purpose": "2/3. PUB-12 still shows two car-loan offers, and the customer's own \"tomorrow\" for the card was replaced by the Friday offer. Tracing:; Bash: Trace PUB-12 ladder part"
+  },
+  {
+   "n": 45,
+   "model": "claude-opus-5-5",
+   "at_s": 1598.2,
+   "purpose": "Bash: Apply confirm and ladder opening fixes, check, save"
+  },
+  {
+   "n": 46,
+   "model": "claude-opus-5-5",
+   "at_s": 1609.8,
+   "purpose": "Running B (fix round 2), then A on the same version:; Bash: Rerun Brief B cases"
+  },
+  {
+   "n": 47,
+   "model": "claude-opus-5-5",
+   "at_s": 1669.8,
+   "purpose": "Conversation now passes; only the date is wrong. 2026-10-11 is the real-clock \"tomorrow\", not tomorrow relative to `now`. Checking what the ; Bash: Trace PUB-12 date handling"
+  },
+  {
+   "n": 48,
+   "model": "claude-opus-5-5",
+   "at_s": 1681.9,
+   "purpose": "Bash: Add relative date facts, test, check, save"
+  },
+  {
+   "n": 49,
+   "model": "claude-opus-5-5",
+   "at_s": 1695.5,
+   "purpose": "The edit script aborted before writing anything, so the saved versions are unchanged (still v6). Finding the exact system-prompt text:; Grep: {\"pattern\": \"Use only this date\", \"path\": \"<repo>/run; Read: out/gen/gen.py"
+  },
+  {
+   "n": 50,
+   "model": "claude-opus-5-5",
+   "at_s": 1702.1,
+   "purpose": "Bash: Apply relative date fix, test, check, save"
+  },
+  {
+   "n": 51,
+   "model": "claude-opus-5-5",
+   "at_s": 1718.2,
+   "purpose": "Saved v7 of both. Final test runs: B (third fix round), then A (its third fix round, which includes all shared changes since a3):; Bash: Final Brief B run; Bash: Final Brief A run"
+  }
+ ],
+ "checks": [
+  {
+   "slot": "brief-a",
+   "contract": "brief-a.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "matches: every ending step, value and route of the saved workflow comes from the lowering"
+  },
+  {
+   "slot": "brief-b",
+   "contract": "brief-b.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "matches: every ending step, value and route of the saved workflow comes from the lowering"
+  }
+ ]
+}
