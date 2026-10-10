@@ -23,3 +23,7 @@ __MACOSX/
 docs/build-the-builder/traces/
 # Isolated Claude Code config used by builder runs
 .claude-builder/
+# Shared Freya slot and persona ids used by every build run
+state/
+# Per-run scratch copy of the kit (raw SDK traces live here)
+runs/*/workspace/
