@@ -43,3 +43,14 @@ Iteration records: `turnCount` 1 and `avgLatencyMs` null for every run of both s
 
 Classification becomes firm only if the same agent version, rerun after recovery, gets past this step. The reruns
 are `a-official-3reps-rerun` and `b-agent-all13-diagnostic-rerun`, next to this file.
+
+## Reruns after recovery (14:00 to 14:08 UTC)
+
+- `a-official-3reps-rerun`, same agent version (brief-a v2): **10/10, every customer 3/3** (simulations ending
+  3cbd31db-fa26-4200-8fb0-b677f71b49b8). The same version passed the step where the 23 calls had stalled. Per the
+  project decision, the 23 zero-response calls stay classified as infrastructure-suspected, not confirmed.
+- `b-agent-all13-diagnostic-rerun` (brief-b v2, diagnostic only, not an official score): 5/13. All 8 failed calls
+  record `function_call_error` "Failed to reach snekbox" (the platform's Python sandbox for hooks and code steps)
+  while the bank answered `ok` to the same calls. This run is invalid as a measure of the agent too, and the error is
+  recorded in the calls this time. Side effect worth designing for: when hooks cannot run, a successful bank call
+  reaches the agent as an error (here: identity treated as failed, create_promise sent again after it had succeeded).
