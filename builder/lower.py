@@ -310,6 +310,7 @@ def lower(body: dict, plan: dict, openapi: dict, base: Path = Path(".")) -> tupl
                     continue
                 holder[field] = router_name(cid) if rules and overriding(cid) else step_name(cid)
                 used.append(cid)
+    referenced = set(used)
     used += [r.get("closing") for r in rules if isinstance(r, dict) and r.get("closing") in closings and used]
     taken = {step_name(c) for c in closings} | {router_name(c) for c in closings} | {END_STEP}
     clash = sorted(taken & set(_all_nodes(body)))
@@ -327,7 +328,7 @@ def lower(body: dict, plan: dict, openapi: dict, base: Path = Path(".")) -> tupl
             "on_enter": {"type": "tts", "text": closings[cid]["say"]} if closings[cid].get("say") else {"type": "silent"},
             "pre_actions": [terminal_tool(term, op, plan.get("fields") or {}, closings[cid].get("set") or {})],
             "response_mapping": [], "transitions": [{"target_node": END_STEP, "description": "always", "condition": {"operator": "always"}}]}
-        if rules and overriding(cid):
+        if rules and overriding(cid) and cid in referenced:
             nodes[router_name(cid)] = {
                 "name": router_name(cid), "node_type": "conversation", "passthrough": True, "passthrough_default_transition": step_name(cid),
                 "on_enter": {"type": "silent"}, "disable_inactivity_monitor": True, "task_message": "Do not call a tool in this turn.",

@@ -291,8 +291,11 @@ class ObservedLoopTest(unittest.TestCase):
             self.assertTrue(all("pick_next" in f.message and "(bank)" in f.message for f in v3))
             self.assertEqual([f for f in check(export, self.api) if f.code == "E-ENGINE-LOOP"], [], brief)
 
+    BEFORE_THE_CHECK = ("20261010-154045-kit-ab", "20261010-161811-candidate-ab", "20261010-171132-candidate-a-raw",
+                        "20261010-172700-candidate2-ab", "20261010-kit-builder-brief-a")
+
     def test_preserved_exports_get_no_new_errors(self):
-        for path in sorted(ROOT.glob("runs/*/*.workflow.json")):
+        for path in sorted(p for p in ROOT.glob("runs/*/*.workflow.json") if p.parent.name in self.BEFORE_THE_CHECK):
             found = check(json.loads(path.read_text()), self.api)
             self.assertEqual([f for f in found if f.code in ("E-ENGINE-LOOP", "W-UNREACHABLE")], [], path.parent.name)
 

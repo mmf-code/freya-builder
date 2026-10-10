@@ -144,6 +144,15 @@ class PrecedenceTest(unittest.TestCase):
         self.assertTrue(holds(router["transitions"][0]["condition"], {"log_reason_success_count": 1}))
         self.assertFalse(holds(router["transitions"][0]["condition"], {"log_reason_success_count": 0}))
 
+    def test_no_router_for_an_ending_only_a_rule_enters(self):
+        body = copy.deepcopy(BODY)
+        body["nodes"]["talk"]["transitions"] = body["nodes"]["talk"]["transitions"][1:]
+        rule = {**RULE, "closing": "ok"}
+        wf, _, found = run(body, {**PLAN, "precedence": [rule, {**RULE, "closing": "no/busy"}]})
+        self.assertIn("close_ok", wf["nodes"])
+        self.assertNotIn("end_ok", wf["nodes"])
+        self.assertEqual([f.code for f in found if f.code == "W-UNREACHABLE"], [])
+
     def test_kept_endings_are_not_overridden(self):
         wf = run(plan={**PLAN, "precedence": [{**RULE, "keep": ["no/busy"]}]})[0]
         self.assertEqual(wf["nodes"]["talk"]["transitions"][1]["target_node"], "close_no_busy")
