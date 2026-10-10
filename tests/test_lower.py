@@ -126,6 +126,35 @@ def refuse_everything(wf, variables, stop="wrap"):
     return [p for p in path if p.startswith("offer_") and "_item_" not in p]
 
 
+RULE = {"closing": "ok", "when": [{"variable": "log_reason_success_count", "operator": "greater_than", "operand": 0}],
+        "keep": [], "evidence": [{"source": "brief.md", "quote": "Close as `ok` after a recorded result."}]}
+
+
+class PrecedenceTest(unittest.TestCase):
+    def test_a_tool_result_overrides_the_chosen_ending(self):
+        wf, _, found = run(plan={**PLAN, "precedence": [RULE]})
+        self.assertEqual([f for f in found if f.level == "error"], [])
+        talk = wf["nodes"]["talk"]
+        self.assertEqual(talk["transitions"][0]["target_node"], "close_ok")          # the rule's own ending: direct
+        self.assertEqual(talk["transitions"][1]["target_node"], "end_no_busy")       # another ending: through the router
+        self.assertEqual(talk["max_turn_transition"], "end_no_busy")
+        router = wf["nodes"]["end_no_busy"]
+        self.assertTrue(router["passthrough"])
+        self.assertEqual([t["target_node"] for t in router["transitions"]], ["close_ok", "close_no_busy"])
+        self.assertTrue(holds(router["transitions"][0]["condition"], {"log_reason_success_count": 1}))
+        self.assertFalse(holds(router["transitions"][0]["condition"], {"log_reason_success_count": 0}))
+
+    def test_kept_endings_are_not_overridden(self):
+        wf = run(plan={**PLAN, "precedence": [{**RULE, "keep": ["no/busy"]}]})[0]
+        self.assertEqual(wf["nodes"]["talk"]["transitions"][1]["target_node"], "close_no_busy")
+        self.assertNotIn("end_no_busy", wf["nodes"])
+
+    def test_rules_read_only_tool_results(self):
+        bad = {**RULE, "when": [{"variable": "customer_agreed", "operator": "equals", "operand": "yes"}]}
+        self.assertIn("'customer_agreed' is not written by the engine", problems(plan={**PLAN, "precedence": [bad]}))
+        self.assertIn("closing 'maybe' is not declared", problems(plan={**PLAN, "precedence": [{**RULE, "closing": "maybe"}]}))
+
+
 class LadderTest(unittest.TestCase):
     def lowered(self, ladder=LADDER, body=LADDER_BODY):
         return run(body, {**PLAN, "ladder": ladder})

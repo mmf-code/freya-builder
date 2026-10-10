@@ -17,6 +17,17 @@ which only end_call follows; every ending passes it; no ending needs code. Nothi
 tool, its URL, method and fields come from the OpenAPI file, the values from the plan. A value the OpenAPI file does
 not enumerate must appear in that closing's quoted evidence, and every quote must appear in its source file.
 
+An optional "precedence" list decides an ending from tool results, before the model's choice:
+
+    "precedence": [{"closing": "<id>", "when": [{"variable": "...", "operator": "...", "operand": ...}],
+                    "keep": ["<ids that still win>"], "evidence": [...]}]
+
+Every route to an ending other than the rule's own and its "keep" ids passes a silent router that checks the rules in
+order and enters the first closing whose checks all hold, else the chosen one. "when" may read only what the engine
+writes from tool results: <name>_success_count, <name>_failure_count, <name>_response.<path>, or a response_mapping
+variable of the body. Seen on 2026-10-10: a bank answer with ok: false adds to <tool>_failure_count, not to
+<tool>_success_count.
+
 An optional "ladder" in the plan turns one conversation step of the body into counted, ordered attempts per item:
 
     "ladder": {"template": "<body step>", "done": "<body step or close:<id>>",
@@ -38,6 +49,7 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -196,6 +208,41 @@ def expand_ladder(wf: dict, ladder: dict) -> None:
         wf.update(json.loads(text.replace(json.dumps(FIRST_ITEM), json.dumps(router(1)))))
 
 
+ENGINE_VALUE = re.compile(r"^[A-Za-z_]\w*_(success_count|failure_count)$|^[A-Za-z_]\w*_response\.\S+$")
+RULE_OPERATORS = ("equals", "not_equals", "greater_than", "less_than", "is_set", "is_not_set")
+
+
+def check_precedence(rules: list, closings: dict, body: dict, base: Path) -> list[str]:
+    problems = []
+    mapped = {m.get("variable") for n in _all_nodes(body).values()
+              for m in (n.get("response_mapping") or []) + [x for t in n.get("tools") or [] if isinstance(t, dict) for x in t.get("response_mapping") or []]}
+    for k, rule in enumerate(rules if isinstance(rules, list) else []):
+        cid = rule.get("closing")
+        if cid not in closings:
+            problems.append(f"precedence {k}: closing {cid!r} is not declared")
+        for kept in rule.get("keep") or []:
+            if kept not in closings:
+                problems.append(f"precedence {k}: keep {kept!r} is not a declared closing")
+        if not rule.get("when"):
+            problems.append(f"precedence {k}: no checks in when")
+        for c in rule.get("when") or []:
+            name = str(c.get("variable") or "")
+            if c.get("operator") not in RULE_OPERATORS:
+                problems.append(f"precedence {k}: operator {c.get('operator')!r} is not one of {RULE_OPERATORS}")
+            if not (ENGINE_VALUE.match(name) or name in mapped):
+                problems.append(f"precedence {k}: {name!r} is not written by the engine from a tool result")
+        quotes = _quotes(rule.get("evidence") or [], base)
+        if not quotes or not all(quotes):
+            problems.append(f"precedence {k}: every evidence quote must appear in its source")
+    if not isinstance(rules, list):
+        problems.append("precedence must be a list of rules")
+    return problems
+
+
+def router_name(closing_id: str) -> str:
+    return "end_" + step_name(closing_id)[len("close_"):]
+
+
 def terminal_tool(term: str, op: dict, fields: dict, values: dict) -> dict:
     body = {}
     for name in op["properties"]:
@@ -246,6 +293,12 @@ def lower(body: dict, plan: dict, openapi: dict, base: Path = Path(".")) -> tupl
             if any(isinstance(t, dict) and tool_operation(t, ops) == term for t in node.get(field) or []):
                 problems.append(f"step {key!r} offers or runs the terminal tool {term}; route to a declared closing instead")
     closings = plan.get("closings") or {}
+    rules = plan.get("precedence") or []
+    problems += check_precedence(rules, closings, body, base)
+
+    def overriding(cid):
+        return [r for r in rules if isinstance(r, dict) and r.get("closing") != cid and cid not in (r.get("keep") or [])]
+
     used = []
     for key, node in _all_nodes(wf).items():
         for holder, field in _targets(node):
@@ -255,9 +308,10 @@ def lower(body: dict, plan: dict, openapi: dict, base: Path = Path(".")) -> tupl
                 if cid not in closings:
                     problems.append(f"step {key!r} routes to undeclared closing {cid!r}")
                     continue
-                holder[field] = step_name(cid)
+                holder[field] = router_name(cid) if rules and overriding(cid) else step_name(cid)
                 used.append(cid)
-    taken = {step_name(c) for c in closings} | {END_STEP}
+    used += [r.get("closing") for r in rules if isinstance(r, dict) and r.get("closing") in closings and used]
+    taken = {step_name(c) for c in closings} | {router_name(c) for c in closings} | {END_STEP}
     clash = sorted(taken & set(_all_nodes(body)))
     if clash:
         problems.append(f"body steps {clash} use names the lowering writes")
@@ -273,6 +327,14 @@ def lower(body: dict, plan: dict, openapi: dict, base: Path = Path(".")) -> tupl
             "on_enter": {"type": "tts", "text": closings[cid]["say"]} if closings[cid].get("say") else {"type": "silent"},
             "pre_actions": [terminal_tool(term, op, plan.get("fields") or {}, closings[cid].get("set") or {})],
             "response_mapping": [], "transitions": [{"target_node": END_STEP, "description": "always", "condition": {"operator": "always"}}]}
+        if rules and overriding(cid):
+            nodes[router_name(cid)] = {
+                "name": router_name(cid), "node_type": "conversation", "passthrough": True, "passthrough_default_transition": step_name(cid),
+                "on_enter": {"type": "silent"}, "disable_inactivity_monitor": True, "task_message": "Do not call a tool in this turn.",
+                "transitions": [{"target_node": step_name(r["closing"]), "description": f"the tool results decide {r['closing']}",
+                                 "condition": {"logic": "or", "conditions": [{"logic": "and", "conditions": [dict(c) for c in r["when"]]}]}}
+                                for r in overriding(cid)]
+                + [{"target_node": step_name(cid), "description": "always", "condition": {"operator": "always"}}]}
     nodes[END_STEP] = {"name": END_STEP, "node_type": "end_call", "on_enter": {"type": "silent"}, "disable_inactivity_monitor": True,
                        "transitions": [], "terminal": {"type": "function", "function": {
                            "name": "call_closed", "handler": "__function__:end_call",

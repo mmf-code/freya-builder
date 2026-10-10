@@ -55,7 +55,19 @@ terminal tool, or that has an `end_call` step.
    - Enter an ending only after the step's own bank calls are done.
    - Say goodbye in the conversation step before the ending, or give the fixed farewell in `say`.
    - Never edit `out/<slot>.workflow.json` by hand. Change the body or the plan and lower again.
-3. The lowering writes one step per closing that runs the terminal tool with the declared values and then ends the
+3. When the brief decides an ending from a tool result, declare it in `"precedence"` in the same file, so the model
+   cannot pick another ending once that result is in. Examples of such rules: an outcome that applies "when at least
+   one promise was recorded", or after the identity check has no attempts left.
+   ```json
+   "precedence": [{"closing": "<id>", "when": [{"variable": "<tool result>", "operator": "<operator>", "operand": <value>}],
+                   "keep": ["<ids that still win over it, from the brief>"], "evidence": [{"source": "<file>", "quote": "<exact text>"}]}]
+   ```
+   - Rules are checked in order before any other ending is entered; the first rule whose checks all hold wins.
+   - `when` reads only tool results: `<tool>_success_count` (bank calls that returned `ok: true`),
+     `<tool>_failure_count`, `<tool>_response.data.<field>`, or a `response_mapping` variable. Not extracted or
+     code-written values.
+   - Change nothing else in the body for this: keep its own routes to endings as they are.
+4. The lowering writes one step per closing that runs the terminal tool with the declared values and then ends the
    call. The check proves these graph properties. It does not prove what the model will say or which ending it picks
    during a call. The test run shows that.
 
