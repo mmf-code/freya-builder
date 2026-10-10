@@ -5,6 +5,21 @@ Branch `builder-integration` on GitHub. Read with `docs/START_HERE.md`, `docs/PL
 
 ## Builders
 
+## Handoff, 2026-10-11 00:30 UTC+3
+
+- `builder-integration` holds everything (Persona Lab included); local main checkout and GitHub agree.
+- Final builder: `--skill builder/skills/reference` with a fresh `--state` per run; commands in
+  `docs/FINAL_RUNBOOK.md`. Freeze the skill and tools until the final.
+- Evidence: `docs/BUILDERS.md` (all candidates, official, blind raw A+B, Persona Lab g3/g5/g6/g7). Best blind result:
+  reference 11/13 customers 3/3 from one build; builds of one skill vary widely.
+- Next: Persona Lab behavioural runs (P layer, `tools/persona_lab/README.md`), one simulation at a time; agent ids
+  for the reference, lowering and blind-reference agents are in `runs/*/summary.json`
+  (161811-candidate-ab, 185544-lowering-ab, 212550-blind-ref-ab).
+- Known weak spots: per-product attempt counting (PUB-12 type), the judge counting "this call is recorded" as
+  "recorded" too early, 7 to 10 code hooks on bank tools (sandbox exposure).
+- Housekeeping left: the experiment worktree `.claude/worktrees/evre-graph-safety` (branch
+  `worktree-evre-graph-safety`, merged) can be removed; local `main` is the stale initial import.
+
 Updated at 23:45: every candidate skill now has its own directory under `builder/skills/`, with source commit,
 sha256, status and measured results in `docs/BUILDERS.md`. Recommended: `--skill builder/skills/reference` with a
 fresh `--state` directory per run. The blind comparison (raw A+B, no practice customers) and the experiments of the
