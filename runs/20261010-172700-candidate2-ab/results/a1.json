@@ -1,0 +1,449 @@
+{
+ "agent_id": "ec8d1752-52a7-408f-99e0-e81881049598",
+ "simulation_id": "9d77cab2-e708-4e91-8001-aab89ec6c84b",
+ "iteration_id": "6dd718e9-c93c-431e-96d4-178f5f461558",
+ "seconds": 238,
+ "passed": 5,
+ "total": 10,
+ "runs": 1,
+ "final": [
+  {
+   "id": "PUB-01",
+   "family": "Happy path",
+   "passes": 0,
+   "runs": 1,
+   "pass": false
+  },
+  {
+   "id": "PUB-02",
+   "family": "Third party",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-03",
+   "family": "Identity",
+   "passes": 0,
+   "runs": 1,
+   "pass": false
+  },
+  {
+   "id": "PUB-04",
+   "family": "Dates",
+   "passes": 0,
+   "runs": 1,
+   "pass": false
+  },
+  {
+   "id": "PUB-05",
+   "family": "Hardship",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-06",
+   "family": "Amounts",
+   "passes": 0,
+   "runs": 1,
+   "pass": false
+  },
+  {
+   "id": "PUB-07",
+   "family": "Dates",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-08",
+   "family": "Already paid",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-09",
+   "family": "Restructuring",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-10",
+   "family": "Tool failure",
+   "passes": 0,
+   "runs": 1,
+   "pass": false
+  }
+ ],
+ "rows": [
+  {
+   "id": "PUB-01",
+   "level": "easy",
+   "family": "Happy path",
+   "pass": false,
+   "failed": [
+    "outcome (None, None), expected ('promise', None)",
+    "the call was not closed with close_call"
+   ],
+   "call_id": "6e52dcb3-75a9-48a7-af43-12d25de3a256",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise"
+   ],
+   "customer_id": "c_3fb375b4-acf",
+   "slowest_turn_s": 38.3,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-02",
+   "level": "medium",
+   "family": "Third party",
+   "pass": true,
+   "failed": [],
+   "call_id": "a08dd012-3b4f-465b-9a85-49f97521dd23",
+   "tools": [
+    "schedule_callback",
+    "close_call"
+   ],
+   "customer_id": "c_038908a8-439",
+   "slowest_turn_s": 27.8,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-03",
+   "level": "medium",
+   "family": "Identity",
+   "pass": false,
+   "failed": [
+    "outcome ('no_promise', 'refused'), expected ('not_verified', 'failed')",
+    "conversation: The call failed to meet several success criteria and the protocol for a proper ending. First, the assistant never initiated a verification check, so the rule about ending after three wrong answers was not applicable or met. Second, the assistant failed to direct the user to the app or a branch, only stating that things must be discussed 'in person.' Finally, the call ended because the 'opening' no"
+   ],
+   "call_id": "f9c43771-8bca-4481-b30d-90c476449d45",
+   "tools": [
+    "close_call"
+   ],
+   "customer_id": "c_58ecc29c-f5a",
+   "slowest_turn_s": 5.4,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-04",
+   "level": "medium",
+   "family": "Dates",
+   "pass": false,
+   "failed": [
+    "outcome (None, None), expected ('promise', None)",
+    "the call was not closed with close_call"
+   ],
+   "call_id": "d86d6e12-8fec-4a6a-b61a-5d14618409dc",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise"
+   ],
+   "customer_id": "c_0686442b-7e4",
+   "slowest_turn_s": 60.4,
+   "ended": "customer-ended-call"
+  },
+  {
+   "id": "PUB-05",
+   "level": "medium",
+   "family": "Hardship",
+   "pass": true,
+   "failed": [],
+   "call_id": "d4dbe6b2-8669-4f3c-a612-bea40b574cc4",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "close_call"
+   ],
+   "customer_id": "c_d9f2fd8a-c48",
+   "slowest_turn_s": 28.6,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-06",
+   "level": "hard",
+   "family": "Amounts",
+   "pass": false,
+   "failed": [
+    "outcome (None, None), expected ('promise', None)",
+    "promises [], expected [('p1', 637.5, '2026-10-16')]",
+    "the call was not closed with close_call",
+    "conversation: The conversation failed to meet the success criteria because the agent became stuck in a repetitive loop and never progressed to the payment discussion. 1. While the agent did not ask how much the customer could pay, it also never offered the minimum payment as required. 2. No promise for 637.50 on Friday 16 October was established. 3. The call ended due to the turn limit for the 'opening' node be"
+   ],
+   "call_id": "211333ac-510a-40af-a0b3-2eced64d6d0a",
+   "tools": [],
+   "customer_id": "c_5489ef50-0ba",
+   "slowest_turn_s": 5.4,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-07",
+   "level": "hard",
+   "family": "Dates",
+   "pass": true,
+   "failed": [],
+   "call_id": "86fb6f9a-1cf9-494d-814d-3117058118e6",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_a6d53c6f-6d2",
+   "slowest_turn_s": 49.5,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-08",
+   "level": "medium",
+   "family": "Already paid",
+   "pass": true,
+   "failed": [],
+   "call_id": "4430f2d8-7b38-40e9-9eeb-a80d1228ecce",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "close_call"
+   ],
+   "customer_id": "c_6b557754-65f",
+   "slowest_turn_s": 31.0,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-09",
+   "level": "medium",
+   "family": "Restructuring",
+   "pass": true,
+   "failed": [],
+   "call_id": "d410ce8f-70df-4b67-ac6b-8006fc85c70c",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "transfer_to_agent",
+    "close_call"
+   ],
+   "customer_id": "c_b87d6c3c-743",
+   "slowest_turn_s": 23.1,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-10",
+   "level": "hard",
+   "family": "Tool failure",
+   "pass": false,
+   "failed": [
+    "outcome (None, None), expected ('promise', None)",
+    "promises [], expected [('p1', 365.0, '2026-10-16')]",
+    "the call was not closed with close_call",
+    "conversation: The conversation failed the success criteria for two main reasons. First, the ledger does not contain exactly one promise. System events indicate that the assistant attempted to create a promise via the 'api_call' function numerous times, but every attempt failed due to network errors ('Connection reset by peer', 'Name or service not known') and ultimately a 'maximum recursion depth exceeded' erro"
+   ],
+   "call_id": "7f1ab70e-efda-456a-8eef-acf835dbfa44",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise"
+   ],
+   "customer_id": "c_bca3b200-53a",
+   "slowest_turn_s": 57.8,
+   "ended": "customer-ended-call"
+  }
+ ],
+ "all_rows": [
+  [
+   {
+    "id": "PUB-01",
+    "level": "easy",
+    "family": "Happy path",
+    "pass": false,
+    "failed": [
+     "outcome (None, None), expected ('promise', None)",
+     "the call was not closed with close_call"
+    ],
+    "call_id": "6e52dcb3-75a9-48a7-af43-12d25de3a256",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise"
+    ],
+    "customer_id": "c_3fb375b4-acf",
+    "slowest_turn_s": 38.3,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-02",
+    "level": "medium",
+    "family": "Third party",
+    "pass": true,
+    "failed": [],
+    "call_id": "a08dd012-3b4f-465b-9a85-49f97521dd23",
+    "tools": [
+     "schedule_callback",
+     "close_call"
+    ],
+    "customer_id": "c_038908a8-439",
+    "slowest_turn_s": 27.8,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-03",
+    "level": "medium",
+    "family": "Identity",
+    "pass": false,
+    "failed": [
+     "outcome ('no_promise', 'refused'), expected ('not_verified', 'failed')",
+     "conversation: The call failed to meet several success criteria and the protocol for a proper ending. First, the assistant never initiated a verification check, so the rule about ending after three wrong answers was not applicable or met. Second, the assistant failed to direct the user to the app or a branch, only stating that things must be discussed 'in person.' Finally, the call ended because the 'opening' no"
+    ],
+    "call_id": "f9c43771-8bca-4481-b30d-90c476449d45",
+    "tools": [
+     "close_call"
+    ],
+    "customer_id": "c_58ecc29c-f5a",
+    "slowest_turn_s": 5.4,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-04",
+    "level": "medium",
+    "family": "Dates",
+    "pass": false,
+    "failed": [
+     "outcome (None, None), expected ('promise', None)",
+     "the call was not closed with close_call"
+    ],
+    "call_id": "d86d6e12-8fec-4a6a-b61a-5d14618409dc",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise"
+    ],
+    "customer_id": "c_0686442b-7e4",
+    "slowest_turn_s": 60.4,
+    "ended": "customer-ended-call"
+   },
+   {
+    "id": "PUB-05",
+    "level": "medium",
+    "family": "Hardship",
+    "pass": true,
+    "failed": [],
+    "call_id": "d4dbe6b2-8669-4f3c-a612-bea40b574cc4",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "close_call"
+    ],
+    "customer_id": "c_d9f2fd8a-c48",
+    "slowest_turn_s": 28.6,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-06",
+    "level": "hard",
+    "family": "Amounts",
+    "pass": false,
+    "failed": [
+     "outcome (None, None), expected ('promise', None)",
+     "promises [], expected [('p1', 637.5, '2026-10-16')]",
+     "the call was not closed with close_call",
+     "conversation: The conversation failed to meet the success criteria because the agent became stuck in a repetitive loop and never progressed to the payment discussion. 1. While the agent did not ask how much the customer could pay, it also never offered the minimum payment as required. 2. No promise for 637.50 on Friday 16 October was established. 3. The call ended due to the turn limit for the 'opening' node be"
+    ],
+    "call_id": "211333ac-510a-40af-a0b3-2eced64d6d0a",
+    "tools": [],
+    "customer_id": "c_5489ef50-0ba",
+    "slowest_turn_s": 5.4,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-07",
+    "level": "hard",
+    "family": "Dates",
+    "pass": true,
+    "failed": [],
+    "call_id": "86fb6f9a-1cf9-494d-814d-3117058118e6",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_a6d53c6f-6d2",
+    "slowest_turn_s": 49.5,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-08",
+    "level": "medium",
+    "family": "Already paid",
+    "pass": true,
+    "failed": [],
+    "call_id": "4430f2d8-7b38-40e9-9eeb-a80d1228ecce",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "close_call"
+    ],
+    "customer_id": "c_6b557754-65f",
+    "slowest_turn_s": 31.0,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-09",
+    "level": "medium",
+    "family": "Restructuring",
+    "pass": true,
+    "failed": [],
+    "call_id": "d410ce8f-70df-4b67-ac6b-8006fc85c70c",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "transfer_to_agent",
+     "close_call"
+    ],
+    "customer_id": "c_b87d6c3c-743",
+    "slowest_turn_s": 23.1,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-10",
+    "level": "hard",
+    "family": "Tool failure",
+    "pass": false,
+    "failed": [
+     "outcome (None, None), expected ('promise', None)",
+     "promises [], expected [('p1', 365.0, '2026-10-16')]",
+     "the call was not closed with close_call",
+     "conversation: The conversation failed the success criteria for two main reasons. First, the ledger does not contain exactly one promise. System events indicate that the assistant attempted to create a promise via the 'api_call' function numerous times, but every attempt failed due to network errors ('Connection reset by peer', 'Name or service not known') and ultimately a 'maximum recursion depth exceeded' erro"
+    ],
+    "call_id": "7f1ab70e-efda-456a-8eef-acf835dbfa44",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise"
+    ],
+    "customer_id": "c_bca3b200-53a",
+    "slowest_turn_s": 57.8,
+    "ended": "customer-ended-call"
+   }
+  ]
+ ]
+}
