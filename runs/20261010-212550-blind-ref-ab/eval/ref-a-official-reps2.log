@@ -1,0 +1,43 @@
+PASS PUB-01 easy   Happy path     | verify > verify > get_account > promise > close_call
+PASS PUB-02 medium Third party    | schedule_callback > close_call
+PASS PUB-03 medium Identity       | verify > verify > verify > close_call
+PASS PUB-04 medium Dates          | verify > verify > get_account > promise > close_call
+PASS PUB-05 medium Hardship       | verify > verify > get_account > close_call
+PASS PUB-06 hard   Amounts        | verify > verify > get_account > promise > close_call
+PASS PUB-07 hard   Dates          | verify > verify > get_account > promise > close_call
+PASS PUB-08 medium Already paid   | verify > verify > get_account > close_call
+PASS PUB-09 medium Restructuring  | verify > verify > get_account > transfer_to_agent > close_call
+FAIL PUB-10 hard   Tool failure   | verify > verify > get_account > promise > promise > close_call
+       - conversation: The call failed the criterion that the agent must not say 'recorded' before a successful call. In Message 0, the agent states 'this call is recorded' which contains the restricted word and occurs before the successful completion of the create_pro
+
+slowest agent turn per call: median 2 s, worst 8 s. Failed calls where the customer hung up: 0.
+-- run 1 of 2: 9 / 10 passed, 169 s
+
+PASS PUB-01 easy   Happy path     | verify > verify > get_account > promise > close_call
+PASS PUB-02 medium Third party    | schedule_callback > close_call
+PASS PUB-03 medium Identity       | verify > verify > verify > close_call
+PASS PUB-04 medium Dates          | verify > verify > get_account > promise > close_call
+PASS PUB-05 medium Hardship       | verify > verify > get_account > close_call
+FAIL PUB-06 hard   Amounts        | verify > verify > get_account > promise > close_call
+       - conversation: - The agent never asked an open-ended question about how much the user could pay, satisfying that criterion. - The minimum payment of 637.50 was offered twice: first in Message 8 (with the required note) and again in Message 12 (without the note)
+PASS PUB-07 hard   Dates          | verify > verify > get_account > promise > close_call
+PASS PUB-08 medium Already paid   | verify > verify > get_account > close_call
+PASS PUB-09 medium Restructuring  | verify > verify > get_account > transfer_to_agent > close_call
+FAIL PUB-10 hard   Tool failure   | verify > verify > get_account > promise > promise > close_call
+       - conversation: The agent correctly managed the promise recording process by retrying the creation after an initial system failure (Message 10-11) and only confirming the promise was recorded (Message 12) once the tool call returned success. This ensured that ex
+
+slowest agent turn per call: median 5 s, worst 17 s. Failed calls where the customer hung up: 0.
+-- run 2 of 2: 8 / 10 passed, 159 s
+
+PASS PUB-01 2/2
+PASS PUB-02 2/2
+PASS PUB-03 2/2
+PASS PUB-04 2/2
+PASS PUB-05 2/2
+FAIL PUB-06 1/2
+PASS PUB-07 2/2
+PASS PUB-08 2/2
+PASS PUB-09 2/2
+FAIL PUB-10 0/2
+
+8 / 10 passed (bank records and conversation checks), a customer counts with 2 of 2 runs. Last simulation f03f4978-6cf7-4e9e-b0f9-3f1d504d64c1, status completed, 328 s.

@@ -1,0 +1,61 @@
+[00:03]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/brief-a-raw.md briefs/brief-b-raw.md'}
+[00:05]   [Bash] {'command': 'ls -R | head -50; cat briefs/brief-a-raw.md; echo ======; cat briefs/brief-b-raw.md; echo =====; cat public
+[00:08]   [Read] {'file_path': '<repo>/runs/20261010-212550-blind-ref-
+[00:09]   [Bash] {'command': 'cat briefs/brief-b-raw.md; echo; echo =====; cat public-test-set.json; echo; cat README.md', 'description':
+[00:12]   [Read] {'file_path': '<repo>/runs/20261010-212550-blind-ref-
+[00:13]   [Bash] {'command': "cat public-test-set.json; echo; cat README.md; echo '-----'; cat tools/openapi.json", 'description': 'Read
+[00:17]   [Bash] {'command': 'cat examples/agent_builder.py; cat docs/workflow-format.md', 'description': 'Read builder example and workf
+[00:19] I've read both briefs and the tool API. There are no practice customers for these briefs, so testing will be the checker plus a rule-by-rule review. Now I'm reading the workflow format docs.
+[00:19]   [Read] {'file_path': '<repo>/runs/20261010-212550-blind-ref-
+[00:20]   [Read] {'file_path': '<repo>/runs/20261010-212550-blind-ref-
+[00:21]   [Read] {'file_path': '<repo>/runs/20261010-212550-blind-ref-
+[00:25]   [Bash] {'command': 'wc -l tools/*.py freya.py docs/api.md; sed -n 1,400p tools/check_workflow.py', 'description': 'Read workflo
+[00:29]   [Bash] {'command': 'sed -n 400,579p tools/check_workflow.py; sed -n 1,40p tools/lower.py; grep -n "chat" -A30 docs/api.md | hea
+[00:38]   [Bash] {'command': "ls -la; cat .freya-agents.json 2>/dev/null; env | grep -i freya | sed 's/=.*/=.../'; git log --oneline | he
+[05:53]   [Bash] {'command': 'mkdir -p out gen; python3 -c "\nimport datetime\nd=datetime.date(2026,10,14); print(d.strftime(\'%A\'))"',
+[08:05]   [Write] {'file_path': '<repo>/runs/20261010-212550-blind-ref-
+[08:10] The generator is written. Next I'll write the terminal-tool contract, generate the workflow and run the checker.
+[08:12]   [Bash] {'command': 'cat > out/brief-b-raw.contract.json <<\'EOF\'\n{"terminal_tools": [{"tool": "close_call", "evidence": [\n
+[08:14] The checker passes with no errors and no warnings. Before saving, I'll run the two code steps locally with sample data to check the date and product logic.
+[08:19]   [Bash] {'command': 'cd gen && python3 -I -c "\nimport sys; sys.path.insert(0,\'.\')\nimport build\ndef run(code, v):\n    exec(
+[08:26]   [Bash] {'command': 'cd .. && python3 tools/check_workflow.py out/brief-b-raw.workflow.json --tools tools/openapi.json --contrac
+[08:32] Saved. Now I'll export the stored version to confirm the platform kept the hooks, tool-call transitions and passthrough steps, then run a short chat smoke test.
+[08:36]   [Bash] {'command': 'python3 -c "\nimport freya,json\nfreya.export_workflow(\'910582e9-b6c2-48ce-a61d-315df551c020\',\'out/brief
+[08:41] The stored version matches what I sent. Next, a chat smoke test with a made-up customer id. It checks only that the call starts and routes; the bank mock will reject the id.
+[08:45]   [Bash] {'command': 'cat > gen/chat.py <<\'EOF\'\nimport json, sys, freya\nwf = sys.argv[1]; msgs = sys.argv[2:]\ncv = {"custome
+[08:47]   [Bash] {'command': 'export PYTHONPATH=$PWD; python3 gen/chat.py 910582e9-b6c2-48ce-a61d-315df551c020 "Hello?" "Who is this?" 2>
+[10:48] The opening line is correct. The chat route returned 503 and 504 errors on some turns, which the API doc says can happen on long turns. I'll add retries and read the transcript from the call record.
+[10:53]   [Bash] {'command': 'cat > gen/chat.py <<\'EOF\'\nimport json, sys, time, freya\nwf = sys.argv[1]; msgs = sys.argv[2:]\ncv = {"c
+[14:45] I built one agent that covers both briefs: single-product calls follow Brief A, and two or three products follow Brief B's change notice. It is saved on Freya. No practice-customer test was run: `public-test-set.json` is empty for these briefs. So this is untested beyond the checks below.
+[14:45] 
+[14:45] **What was checked:**
+[14:45] - **Checker:** 0 errors and 0 warnings, both on my file and on the copy exported back from Freya. The export confirmed the platform kept the code hooks, the tool-call transitions and the closing steps.
+[14:45] - **Date and product logic:** I ran it locally on sample data and checked it by hand. For example, from Wednesday 14 October the 7-business-day deadline is Friday 23 October. The Founders' Day holiday on 26 October is skipped.
+[14:45] - **Chat smoke test:** with a made-up customer id, the opening line was correct. "This is his wife" went to the third-party step, which asked when Mr Reyes can be reached without saying why. "Tomorrow at 3pm" became a callback request for 2026-10-15 15:00. The bank rejected the made-up id, and the agent said honestly that it could not book.
+[14:45] - **Not tested at all:** security, the account step, and every promise, note, transfer and close path. They need a real customer id, and I had none. The chat route also returned intermittent 503/504 errors.
+[14:45] - **Rule-by-rule reading:** I went through every rule of both briefs against the workflow and found no uncovered rule, apart from the open points below.
+[14:45] 
+[14:45] **How it works:**
+[14:45] - Every call ends the same way: a fixed goodbye line, then `close_call` alone with its outcome and reason fixed, then hang-up. `close_call` is declared the terminal tool in `out/brief-b-raw.contract.json`, quoted from the tool API and Brief A.
+[14:45] - Code computes the facts the agent uses:
+[14:45]   - the callback window
+[14:45]   - each product's deadline, floor and number of persuasion attempts
+[14:45]   - the offer for each attempt
+[14:45]   - a calendar with "this/next weekday" labels and the next business day after weekends and holidays.
+[14:45] - Routing on bank results is deterministic, not left to the model:
+[14:45]   - security pass, or three wrong answers
+[14:45]   - a recorded promise, or `create_promise` failing twice
+[14:45]   - a booked callback
+[14:45]   - each transfer type
+[14:45] - `add_note` is only offered on multi-product calls, because Brief A says it is not used on single-product calls.
+[14:45] 
+[14:45] **Open points:**
+[14:45] - **Human requests:** these are handled during security and the payment talk. In the opening step a request for a person ends as "unclear".
+[14:45] - **What the model still decides:** counting persuasion attempts, the order of steps on multi-product calls, and choosing the multi-product close code. These rest on prompts, so they are the most likely failures.
+[14:45] - **Choices the briefs do not cover:** if `get_account` fails, the call closes as `no_promise` / `service_error`. If a callback booking fails twice, it closes as `not_reached` / `no_callback`.
+[14:45] 
+[14:45] The generator is `gen/build.py`, and the workflow is `out/brief-b-raw.workflow.json`. Nothing is committed.
+[14:45] 
+[14:45] workflow_id `910582e9-b6c2-48ce-a61d-315df551c020`, agent_id `9bd08f14-a5a1-4d45-af0d-6c52e028b064`, 0 customers passed: no practice customers exist for these briefs, so no test run was made.
+[14:45] 
+[14:45] done: 24 turns, 884 s, $2.50. Trace: <repo>/runs/20261010-212550-blind-ref-ab/workspace/traces/20261010-212551.jsonl

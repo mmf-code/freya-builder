@@ -1,0 +1,23 @@
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise > add_note > add_note > close_call
+       - conversation: The agent failed to follow the instruction regarding the number of payment attempts for the car loan. While the personal loan (late band) correctly received two attempts, the car loan (early band) also received two attempts (Messages 16 and 18) w
+PASS PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 19 s, worst 22 s. Failed calls where the customer hung up: 0.
+WARNING: the phone agent was slow in this run. If the same agent is fast in another run, the model was busy and this score is too low.
+-- run 1 of 2: 2 / 3 passed, 307 s
+
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+PASS PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise > add_note > add_note > close_call
+FAIL PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise > close_call
+       - promises [('p1', 300.0, '2026-11-02'), ('p2', 900.0, '2026-10-23')], expected [('p1', 300.0, '2026-10-30'), ('p2', 900.0, '2026-10-23')]
+       - conversation: The call failed to meet the success criteria because the credit card payment was recorded for November 2nd instead of 30 October. Although the customer requested 30 October in [Message 7], the assistant suggested November 2nd in [Message 8] and r
+
+slowest agent turn per call: median 4 s, worst 6 s. Failed calls where the customer hung up: 0.
+-- run 2 of 2: 2 / 3 passed, 219 s
+
+PASS PUB-11 2/2
+FAIL PUB-12 1/2
+FAIL PUB-13 1/2
+
+1 / 3 passed (bank records and conversation checks), a customer counts with 2 of 2 runs. Last simulation 462d5226-e129-4039-86e9-33d6ea6bee72, status completed, 525 s.

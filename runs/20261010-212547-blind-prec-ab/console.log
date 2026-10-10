@@ -1,0 +1,54 @@
+[00:04]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/brief-a-raw.md briefs/brief-b-raw.md'}
+[00:06]   [Bash] {'command': 'ls -R | head -50; cat briefs/brief-a-raw.md briefs/brief-b-raw.md; cat public-test-set.json | head -50', 'd
+[00:08]   [Bash] {'command': 'cat tools/openapi.json; cat docs/workflow-format.md docs/tools-and-code.md; cat examples/base-agent.json; c
+[00:12]   [Bash] {'command': "python3 - <<'EOF'\nimport json\nd=json.load(open('tools/openapi.json'))\nprint(d['info'])\nfor p,v in d['pa
+[00:14]   [Bash] {'command': 'wc -c tools/openapi.json; cat docs/workflow-format.md', 'description': 'Read workflow format doc'}
+[00:16] I'm reading the workflow format docs before writing the two agents. No practice customers are listed, so I'll test by reading the workflow against the brief.
+[00:17]   [Read] {'file_path': '<repo>/runs/20261010-212547-blind-prec
+[00:19]   [Bash] {'command': 'cat docs/tools-and-code.md; cat examples/base-agent.json', 'description': 'Read tools doc and example agent
+[00:21]   [Read] {'file_path': '<repo>/runs/20261010-212547-blind-prec
+[00:23]   [Bash] {'command': 'cat examples/base-agent.json; wc -l tools/lower.py tools/check_workflow.py; sed -n 1,200p tools/lower.py',
+[00:26]   [Bash] {'command': 'sed -n 200,377p tools/lower.py; grep -n "def \\|code\\b\\|ERROR\\|error(" tools/check_workflow.py | head -8
+[00:28]   [Bash] {'command': 'sed -n 1,60p tools/check_workflow.py; sed -n 84,135p tools/check_workflow.py; sed -n 160,300p tools/check_w
+[03:58] I've read the docs and tools. Next I'll write a generator script that produces both bodies and closing plans, since brief B extends brief A.
+[03:59]   [Bash] {'command': 'grep -n "def \\|agent_config\\|model" freya.py | head -40; ls traces; head -c 1500 traces/*.jsonl', 'descri
+[05:26] Now writing the generator for both agents.
+[07:34]   [Write] {'file_path': '<repo>/runs/20261010-212547-blind-prec
+[07:45]   [Bash] {'command': 'cd out && python3 - <<\'EOF\'\nimport re\np=\'gen_agents.py\'; s=open(p).read()\ns=s.replace(\'\'\'
+[07:50] Date math checks out (deadlines and holidays verified by hand). Now lowering and checking both.
+[07:51]   [Bash] {'command': 'cd .. && for s in brief-a-raw brief-b-raw; do echo "== $s"; python3 tools/lower.py out/$s.body.json out/$s.
+[07:57]   [Bash] {'command': "python3 - <<'EOF'\nimport json,re\nfor s in ['brief-a-raw','brief-b-raw']:\n    w=json.load(open(f'out/{s}.
+[08:00] Names all match. Saving both workflows.
+[08:01]   [Bash] {'command': 'for s in brief-a-raw brief-b-raw; do python3 -c "import freya,json,sys; print(json.dumps(freya.save_workflo
+[08:19] I built and saved both phone agents. Neither has been run on a customer: `public-test-set.json` is empty, so this kit gives these briefs no practice customers. As the skill says, I didn't run `tools/run_cases.py`. My only tests were the graph check and a read of each workflow against every rule in its brief. How the agents behave in a real call is still untested.
+[08:19] 
+[08:19] **Check results**
+[08:19] - **Brief A:** 0 errors, 0 warnings.
+[08:19] - **Brief B:** 0 errors, 1 warning. The warning says the `end_promise` step is never entered. That is expected: in B, every promise call reaches the `promise` ending through the precedence rules instead.
+[08:19] 
+[08:19] **How both agents work**
+[08:19] - **Call flow:** the steps run in this order: date setup, confirming who answered, someone else on the line, security, loading the account, product setup, then getting the promise.
+[08:19] - **Dates in code:** code works out the business days from `now`, using the memo's holiday list (including 26 October). It also computes the 12 and 7 business-day deadlines, the attempt-1 date, the "this/next weekday" dates and the callback window (today or the next business day, 10:00 to 19:00). I checked the deadline arithmetic by hand for several dates.
+[08:19] - **Fixed endings:** all 16 close codes from the list are declared, each with a fixed thank-you and goodbye.
+[08:19] - **Precedence rules:** these decide some endings from tool results, so the model cannot pick another one:
+[08:19]   - a completed transfer always closes as transferred;
+[08:19]   - a recorded promise closes as `promise`, unless a transfer follows it;
+[08:19]   - no security attempts left closes as `not_verified/failed`.
+[08:19] - **Separate transfer tools:** each transfer queue has its own tool, so the transfer reason comes from which tool succeeded.
+[08:19] 
+[08:19] **Brief B additions**
+[08:19] - Promises are recorded and notes are added only in a final recording step, after one read-back of all products. That keeps notes out of transferred calls, as the change notice requires.
+[08:19] - Each product has its own promise and note tool. Code-free routing steps choose the close reason: the first product, in account order, whose note is not `paid`. If every note is `paid`, the call closes as `paid`.
+[08:19] 
+[08:19] **Choices to know about**
+[08:19] - **Account lookup failure:** the briefs give no close code for `get_account` failing. In that case the agent closes as `no_promise` with reason `service_error` and a different apology.
+[08:19] - **Hardship in brief B:** the change notice doesn't say how hardship works with several products. I chose: no persuasion attempts on any remaining product, and every product without a promise is noted `hardship`.
+[08:19] - **Hook on `verify_identity`:** this tool has a post-hook that tells the model what to say next. If the code sandbox fails on that call, the call would see a failure.
+[08:19] 
+[08:19] The generator is `out/gen_agents.py`. It writes the body and closing files for both briefs.
+[08:19] 
+[08:19] brief-a-raw: workflow_id 289052df-bf24-4e4c-9d66-a5a9e5798858, agent_id e3359c81-a9b2-47b1-8354-44b53ee09270
+[08:19] brief-b-raw: workflow_id 5282da09-9e6c-46b3-a0a0-27f3697af334, agent_id 5d427dc4-2e34-4ce7-9370-010c09683fde
+[08:19] Customers passed: none tested (0 practice customers for these briefs).
+[08:19] 
+[08:19] done: 19 turns, 497 s, $1.99. Trace: <repo>/runs/20261010-212547-blind-prec-ab/workspace/traces/20261010-212548.jsonl

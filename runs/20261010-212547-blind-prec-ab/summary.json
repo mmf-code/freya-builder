@@ -1,0 +1,217 @@
+{
+ "run": "20261010-212547-blind-prec-ab",
+ "start": "2026-10-10T18:25:47+00:00",
+ "end": "2026-10-10T18:34:08+00:00",
+ "seconds": 501,
+ "limit_minutes": 30.0,
+ "timed_out": false,
+ "exit_code": 0,
+ "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill <repo>/builder/skills/build-phone-agent-lowering (sha256:c401cbfb82b2)",
+ "builder_model": "claude-opus-5-5 (agent_builder.py default)",
+ "agent_model": {
+  "provider": "experimental-5",
+  "model": "experimental-5"
+ },
+ "repo_commit": "4e8f6169096fbf6421584a7282a89a69fe5c599b",
+ "repo_dirty": false,
+ "isolation": {
+  "CLAUDE_CONFIG_DIR": "<repo>/.claude-builder",
+  "HOME": "<repo>/.claude-builder/home",
+  "state": "<repo>/state/exp-blind-prec-ab"
+ },
+ "inputs": {
+  "briefs": [
+   {
+    "name": "brief-a-raw.md",
+    "sha256": "5ebf283ab00fc6a09cf6bf71983635b6624424788d58d2533dad9d9ef65ca3a0"
+   },
+   {
+    "name": "brief-b-raw.md",
+    "sha256": "e0fd3205c7ec1dcc37c77864a0f22b3c32dfdfe1ba8779b0b0b8874028d22434"
+   }
+  ],
+  "tools": {
+   "name": "openapi.json",
+   "sha256": "9a8410b12e5c82b6c6a30e9ed7030574d6f919cafdb1e035cef7bd876b0badb8"
+  }
+ },
+ "practice_cases": [],
+ "freya": [
+  {
+   "slot": "brief-a-raw",
+   "workflow_id": "289052df-bf24-4e4c-9d66-a5a9e5798858",
+   "agent_id": "e3359c81-a9b2-47b1-8354-44b53ee09270",
+   "created": true,
+   "export": "brief-a-raw.workflow.json"
+  },
+  {
+   "slot": "brief-b-raw",
+   "workflow_id": "5282da09-9e6c-46b3-a0a0-27f3697af334",
+   "agent_id": "5d427dc4-2e34-4ce7-9370-010c09683fde",
+   "created": true,
+   "export": "brief-b-raw.workflow.json"
+  }
+ ],
+ "tests": [],
+ "written": [
+  "<repo>/runs/20261010-212547-blind-prec-ab/workspace/out/gen_agents.py"
+ ],
+ "cost_usd": 1.9854209999999999,
+ "num_turns": 19,
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1211,
+   "outputTokens": 23,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.00013260000000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  },
+  "claude-opus-5-5": {
+   "inputTokens": 36,
+   "outputTokens": 52065,
+   "cacheReadInputTokens": 1225447,
+   "cacheCreationInputTokens": 139751,
+   "webSearchRequests": 0,
+   "costUSD": 1.9852884000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 29973,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "model_calls": [
+  {
+   "n": 1,
+   "model": "claude-opus-5-5",
+   "at_s": 4.7,
+   "purpose": "Skill: {\"skill\": \"build-phone-agent\", \"args\": \"briefs/brief-a-raw.md briefs/brief-b-raw.md\"}"
+  },
+  {
+   "n": 2,
+   "model": "claude-opus-5-5",
+   "at_s": 6.4,
+   "purpose": "Bash: List kit and read briefs"
+  },
+  {
+   "n": 3,
+   "model": "claude-opus-5-5",
+   "at_s": 8.1,
+   "purpose": "Bash: Read tool API, docs, example"
+  },
+  {
+   "n": 4,
+   "model": "claude-opus-5-5",
+   "at_s": 10.4,
+   "purpose": "Bash: Summarize openapi paths"
+  },
+  {
+   "n": 5,
+   "model": "claude-opus-5-5",
+   "at_s": 14.5,
+   "purpose": "Bash: Read workflow format doc"
+  },
+  {
+   "n": 6,
+   "model": "claude-opus-5-5",
+   "at_s": 16.8,
+   "purpose": "I'm reading the workflow format docs before writing the two agents. No practice customers are listed, so I'll test by reading the workflow a; Read: docs/workflow-format.md"
+  },
+  {
+   "n": 7,
+   "model": "claude-opus-5-5",
+   "at_s": 19.6,
+   "purpose": "Bash: Read tools doc and example agent"
+  },
+  {
+   "n": 8,
+   "model": "claude-opus-5-5",
+   "at_s": 21.9,
+   "purpose": "Read: docs/tools-and-code.md"
+  },
+  {
+   "n": 9,
+   "model": "claude-opus-5-5",
+   "at_s": 24.3,
+   "purpose": "Bash: Read example agent and lowering tool"
+  },
+  {
+   "n": 10,
+   "model": "claude-opus-5-5",
+   "at_s": 26.5,
+   "purpose": "Bash: Read rest of lowering tool and check overview"
+  },
+  {
+   "n": 11,
+   "model": "claude-opus-5-5",
+   "at_s": 28.8,
+   "purpose": "Bash: Read check_workflow rules"
+  },
+  {
+   "n": 12,
+   "model": "claude-opus-5-5",
+   "at_s": 239.0,
+   "purpose": "I've read the docs and tools. Next I'll write a generator script that produces both bodies and closing plans, since brief B extends brief A.; Bash: Inspect freya.py helpers and trace"
+  },
+  {
+   "n": 13,
+   "model": "claude-opus-5-5",
+   "at_s": 327.1,
+   "purpose": "Now writing the generator for both agents.; Write: out/gen_agents.py"
+  },
+  {
+   "n": 14,
+   "model": "claude-opus-5-5",
+   "at_s": 460.0,
+   "purpose": "Bash: Generate files and test code snippets locally"
+  },
+  {
+   "n": 15,
+   "model": "claude-opus-5-5",
+   "at_s": 470.5,
+   "purpose": "Date math checks out (deadlines and holidays verified by hand). Now lowering and checking both.; Bash: Lower and check both workflows"
+  },
+  {
+   "n": 16,
+   "model": "claude-opus-5-5",
+   "at_s": 476.9,
+   "purpose": "Bash: Verify prompt tool names match transitions"
+  },
+  {
+   "n": 17,
+   "model": "claude-opus-5-5",
+   "at_s": 481.0,
+   "purpose": "Names all match. Saving both workflows.; Bash: Save both workflows to the platform"
+  },
+  {
+   "n": 18,
+   "model": "claude-opus-5-5",
+   "at_s": 495.9,
+   "purpose": "I built and saved both phone agents. Neither has been run on a customer: `public-test-set.json` is empty, so this kit gives these briefs no "
+  }
+ ],
+ "checks": [
+  {
+   "slot": "brief-a-raw",
+   "contract": "brief-a-raw.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "matches: every ending step, value and route of the saved workflow comes from the lowering"
+  },
+  {
+   "slot": "brief-b-raw",
+   "contract": "brief-b-raw.contract.json",
+   "errors": [],
+   "warnings": 1,
+   "lowering": "matches: every ending step, value and route of the saved workflow comes from the lowering"
+  }
+ ]
+}

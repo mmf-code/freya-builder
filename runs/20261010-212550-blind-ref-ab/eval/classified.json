@@ -1,0 +1,674 @@
+[
+ {
+  "file": "ref-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-01",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "f95dfb9d-f4e2-464d-bb0a-574447cafd11"
+ },
+ {
+  "file": "ref-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-02",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "schedule_callback",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "fce00857-0edd-4424-a5ee-e9a97b3fa271"
+ },
+ {
+  "file": "ref-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-03",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "617de1db-6994-4870-a9ad-6525e1951eb1"
+ },
+ {
+  "file": "ref-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-04",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "5a493d70-6440-4509-bc6a-86de6351d8f0"
+ },
+ {
+  "file": "ref-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-05",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "105f47b4-0b1f-40b7-9443-d3f118be5214"
+ },
+ {
+  "file": "ref-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-06",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "916fd746-57b4-4746-be51-14dd4f4b5d1e"
+ },
+ {
+  "file": "ref-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-07",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "2d6e99c3-c4bc-48a0-a1fa-cc0d1bdb9c9e"
+ },
+ {
+  "file": "ref-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-08",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "28960936-ce0d-47b8-a295-247bafd36a28"
+ },
+ {
+  "file": "ref-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-09",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "transfer_to_agent",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "4e609cda-30df-4ca5-af7e-439161fdfe1a"
+ },
+ {
+  "file": "ref-a-official-1.json",
+  "rep": 1,
+  "id": "PUB-10",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "e296becc-d332-4678-a31f-5d63a901a8a4"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-01",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "2db44e62-f0b7-4a69-956d-cf4fb1a7b07b"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-02",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "schedule_callback",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "b83bf193-8fd5-4fbf-b0f0-89780ae3ce45"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-03",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "c60c4a08-93c8-47b2-9553-28df963faad3"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-04",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "0debe821-dc00-4df8-bb34-988b371bbc4a"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-05",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "1e892d9f-1b7b-4980-998b-a3190b2adbe4"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-06",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "2a517358-89af-4d78-8fbd-3089213c18a4"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-07",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "f5463f85-28e6-440e-aea5-54a6c35b2dbc"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-08",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "f97453f2-4071-414c-83ca-70c373ba6a95"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-09",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "transfer_to_agent",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "65da5a7e-a5ae-4b02-9b09-b0b8687fc697"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-10",
+  "kind": "agent",
+  "failed": [
+   "conversation: The call failed the criterion that the agent must not say 'recorded' before a successful call. In Message 0, the agent states 'this call is recorded' which contains the restricted word and occurs before the successful completion of the create_promise API call. While the agent correctly handled the API error by retrying and waiting (Messages 12 and 13) before confirming the promise in Message 14, a"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 19,
+  "infra_examples": [],
+  "call_id": "e1a8ea2d-4f70-4dfa-8949-674b4ef14226"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-01",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "26845796-36b1-4139-a3ad-750b227507dc"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-02",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "schedule_callback",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "745cf539-3739-4a75-921a-7e951c3ba6e5"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-03",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "50f74353-62c7-4056-88d0-30768b3ddbe5"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-04",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "699cce9c-ce1a-46c4-b2c5-00dbffcfd437"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-05",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "52d99438-34b1-49b6-95c4-58656856ce39"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-06",
+  "kind": "agent",
+  "failed": [
+   "conversation: - The agent never asked an open-ended question about how much the user could pay, satisfying that criterion. - The minimum payment of 637.50 was offered twice: first in Message 8 (with the required note) and again in Message 12 (without the note). This violates the requirement that the minimum payment be offered exactly once. - A promise for 637.50 on Friday, October 16 was successfully confirmed "
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 19,
+  "infra_examples": [],
+  "call_id": "978bf9e2-a7af-44ea-a38d-27d56968d0b5"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-07",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "875d935e-60cb-4f5a-baa2-538699e9d65f"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-08",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "f8f7a54d-a20d-4940-9ba2-2407af9f6225"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-09",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "transfer_to_agent",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "d22ace59-19fe-4fff-a794-40f53aa091af"
+ },
+ {
+  "file": "ref-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-10",
+  "kind": "agent",
+  "failed": [
+   "conversation: The agent correctly managed the promise recording process by retrying the creation after an initial system failure (Message 10-11) and only confirming the promise was recorded (Message 12) once the tool call returned success. This ensured that exactly one promise was in the ledger. However, the success criteria explicitly state that the agent must not say the word 'recorded' before a successful ca"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 18,
+  "infra_examples": [],
+  "call_id": "cdab3f80-379a-4b20-ad66-0ce6e33f4d77"
+ },
+ {
+  "file": "ref-b-official-1.json",
+  "rep": 1,
+  "id": "PUB-11",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "659d22fc-ffeb-465a-bbeb-9d50dc3c00bd"
+ },
+ {
+  "file": "ref-b-official-1.json",
+  "rep": 1,
+  "id": "PUB-12",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "add_note",
+   "add_note",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "7f223baf-0982-482a-91e2-5c27f934365c"
+ },
+ {
+  "file": "ref-b-official-1.json",
+  "rep": 1,
+  "id": "PUB-13",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "d920d784-6e0b-4a5b-a617-69279cc328fc"
+ },
+ {
+  "file": "ref-b-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-11",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "2e53cc8e-bd40-4ffe-8db9-a1c37b9c0e18"
+ },
+ {
+  "file": "ref-b-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-12",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "add_note",
+   "add_note",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "9ae7d73c-7711-4be4-8415-f9754985c20c"
+ },
+ {
+  "file": "ref-b-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-13",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "4613b967-0e97-46f0-b720-8a45d9236f79"
+ },
+ {
+  "file": "ref-b-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-11",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "008bced4-4bae-470e-adaa-c47631fdf776"
+ },
+ {
+  "file": "ref-b-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-12",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "add_note",
+   "add_note",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "c8325de0-68d7-4d6c-b947-21748baa65e5"
+ },
+ {
+  "file": "ref-b-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-13",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "c887fffa-9732-4925-82b7-d5140f5e36e5"
+ }
+]

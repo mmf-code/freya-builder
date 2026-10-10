@@ -1,0 +1,228 @@
+{
+ "agent_id": "5d427dc4-2e34-4ce7-9370-010c09683fde",
+ "simulation_id": "462d5226-e129-4039-86e9-33d6ea6bee72",
+ "iteration_id": "eabacd2f-5a62-4669-bfce-3fab4b0166a5",
+ "seconds": 525,
+ "passed": 1,
+ "total": 3,
+ "runs": 2,
+ "final": [
+  {
+   "id": "PUB-11",
+   "family": "Multi-product",
+   "passes": 2,
+   "runs": 2,
+   "pass": true
+  },
+  {
+   "id": "PUB-12",
+   "family": "Multi-product",
+   "passes": 1,
+   "runs": 2,
+   "pass": false
+  },
+  {
+   "id": "PUB-13",
+   "family": "Multi-product",
+   "passes": 1,
+   "runs": 2,
+   "pass": false
+  }
+ ],
+ "rows": [
+  {
+   "id": "PUB-11",
+   "level": "medium",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "070fe199-2825-476d-b2ba-63416cd919fc",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_af359a54-84f",
+   "slowest_turn_s": 4.0,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-12",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "536c8778-3144-4b34-984d-de4229180c9b",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "add_note",
+    "add_note",
+    "close_call"
+   ],
+   "customer_id": "c_91e475e8-a20",
+   "slowest_turn_s": 4.1,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-13",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": false,
+   "failed": [
+    "promises [('p1', 300.0, '2026-11-02'), ('p2', 900.0, '2026-10-23')], expected [('p1', 300.0, '2026-10-30'), ('p2', 900.0, '2026-10-23')]",
+    "conversation: The call failed to meet the success criteria because the credit card payment was recorded for November 2nd instead of 30 October. Although the customer requested 30 October in [Message 7], the assistant suggested November 2nd in [Message 8] and recorded that date, as confirmed by [Message 10] and the system event for 'create_promise_1'. The other criteria were met: the loan was recorded for 23 Oct"
+   ],
+   "call_id": "1987446b-f6bc-4ee3-b36a-f2525d301f16",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_06fe09e2-6db",
+   "slowest_turn_s": 5.5,
+   "ended": "assistant-ended-call"
+  }
+ ],
+ "all_rows": [
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "2cc82223-a61f-401e-9338-20d2e6bfc383",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_90607759-b87",
+    "slowest_turn_s": 22.4,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "conversation: The agent failed to follow the instruction regarding the number of payment attempts for the car loan. While the personal loan (late band) correctly received two attempts, the car loan (early band) also received two attempts (Messages 16 and 18) when the success criteria specifically required exactly one attempt for that product. All other criteria, including the security questions and notes, were "
+    ],
+    "call_id": "cd9516eb-6bbc-4e6b-9487-46f222b433bf",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "add_note",
+     "add_note",
+     "close_call"
+    ],
+    "customer_id": "c_ae4c33bf-edf",
+    "slowest_turn_s": 3.3,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "604548c5-f00f-46d0-a136-9b915cfd82c9",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_3c0e60f5-981",
+    "slowest_turn_s": 18.8,
+    "ended": "assistant-ended-call"
+   }
+  ],
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "070fe199-2825-476d-b2ba-63416cd919fc",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_af359a54-84f",
+    "slowest_turn_s": 4.0,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "536c8778-3144-4b34-984d-de4229180c9b",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "add_note",
+     "add_note",
+     "close_call"
+    ],
+    "customer_id": "c_91e475e8-a20",
+    "slowest_turn_s": 4.1,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "promises [('p1', 300.0, '2026-11-02'), ('p2', 900.0, '2026-10-23')], expected [('p1', 300.0, '2026-10-30'), ('p2', 900.0, '2026-10-23')]",
+     "conversation: The call failed to meet the success criteria because the credit card payment was recorded for November 2nd instead of 30 October. Although the customer requested 30 October in [Message 7], the assistant suggested November 2nd in [Message 8] and recorded that date, as confirmed by [Message 10] and the system event for 'create_promise_1'. The other criteria were met: the loan was recorded for 23 Oct"
+    ],
+    "call_id": "1987446b-f6bc-4ee3-b36a-f2525d301f16",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_06fe09e2-6db",
+    "slowest_turn_s": 5.5,
+    "ended": "assistant-ended-call"
+   }
+  ]
+ ]
+}
