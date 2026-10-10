@@ -1,0 +1,3262 @@
+{
+ "initial_node": "setup",
+ "system_prompt": "You are Freya Bank's digital assistant on an outbound phone call. Freya Bank is calling the customer. Speak English. Keep every turn to one or two short sentences. Ask one question at a time.\n\nCall facts: customer {{title}} {{first_name}} {{last_name}}. Current date and time: {{now}} ({{today_text}}). All date rules use this date, never the real clock.\n\nRules that hold in every step:\n- Until both security answers have been verified, never say \"collections\", \"debt\", \"payment\", \"late\", \"amount\" or the product, and never say why you are calling. This applies to everyone, including relatives.\n- If someone asks whether you are a robot or an AI, say that you are Freya Bank's digital assistant, then continue with the current question.\n- If someone asks \"Is this a scam?\", say they can verify this call by phoning Freya Bank's customer service number, then continue with the current question.\n- If you are asked something you cannot answer from the tool results and the facts given to you, say you do not have that information. Never invent figures, dates or reasons.\n- Never offer a discount, a waiver, an instalment plan or any other term.\n- When a rule says to use a tool, call the tool. Saying that you did something is not doing it. Call one tool per message.\n- After every tool result, follow its what_to_do_next and speak to the customer or call the next tool. Never end a turn with nothing.\n- Never say something is recorded, booked or transferred unless the tool result says it worked.\n- Tools named transition_to_farewell_... end the call: a fixed thank-you and goodbye is spoken for you after them. Call such a tool only when the rule says so, with no other tool in that message.",
+ "nodes": {
+  "setup": {
+   "name": "setup",
+   "node_type": "code",
+   "passthrough": true,
+   "passthrough_default_transition": "opening",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "function": {
+      "name": "code_exec",
+      "handler": "__function__:code_exec",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "code": {
+         "type": "string",
+         "default": "\nimport datetime\nimport json\nimport re\nHOL = ['2026-10-26', '2026-11-11', '2026-11-26', '2026-12-25', '2027-01-01']\nDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']\ndef parse_now(raw):\n    raw = str(raw or '').strip().replace(' ', 'T')\n    try:\n        return datetime.datetime.fromisoformat(raw[:16])\n    except Exception:\n        return datetime.datetime.fromisoformat(raw[:10] + 'T00:00')\ndef isbd(d):\n    return d.weekday() < 5 and d.isoformat() not in HOL\ndef kind(d):\n    if d.isoformat() in HOL:\n        return 'bank holiday, not a business day'\n    if d.weekday() >= 5:\n        return 'weekend, not a business day'\n    return 'business day'\ndef nth_bd(start, n):\n    d = start\n    c = 0\n    while c < n:\n        d = d + datetime.timedelta(days=1)\n        if isbd(d):\n            c += 1\n    return d\ndef next_bd(d):\n    d = d + datetime.timedelta(days=1)\n    while not isbd(d):\n        d = d + datetime.timedelta(days=1)\n    return d\ndef fmt(d):\n    return DAYS[d.weekday()] + ' ' + str(d.day) + ' ' + d.strftime('%B %Y') + ' (' + d.isoformat() + ')'\ndef last_bd_of_week(monday):\n    d = monday + datetime.timedelta(days=4)\n    while d >= monday and not isbd(d):\n        d = d - datetime.timedelta(days=1)\n    return d if d >= monday else None\nNOW = parse_now(vars.get('now'))\nTODAY = NOW.date()\nMONDAY = TODAY - datetime.timedelta(days=TODAY.weekday())\n\ntry:\n    vars['today_text'] = fmt(TODAY) + ', ' + kind(TODAY)\n    vars['now_time'] = NOW.strftime('%H:%M')\n    lines = []\n    for i in range(0, 35):\n        d = TODAY + datetime.timedelta(days=i)\n        lines.append(fmt(d) + ': ' + kind(d) + (' (today)' if i == 0 else ''))\n    vars['calendar_text'] = '\\n'.join(lines)\n    words = []\n    for i in range(7):\n        this_d = MONDAY + datetime.timedelta(days=i)\n        next_d = this_d + datetime.timedelta(days=7)\n        words.append('\"this ' + DAYS[i] + '\" = ' + fmt(this_d) + ('' if this_d >= TODAY else ' (already past)') + '; \"next ' + DAYS[i] + '\" = ' + fmt(next_d))\n    vars['weekday_words_text'] = '\\n'.join(words)\n    slots = []\n    start = datetime.datetime.combine(TODAY, datetime.time(9, 0))\n    end = datetime.datetime.combine(TODAY, datetime.time(17, 0))\n    if NOW < end:\n        first = start if NOW < start else NOW + datetime.timedelta(minutes=1)\n        slots.append('today, ' + fmt(TODAY) + ', from ' + first.strftime('%H:%M') + ' to 17:00')\n    nb = next_bd(TODAY)\n    slots.append(fmt(nb) + ', from 09:00 to 17:00')\n    vars['callback_slots_text'] = '; or '.join(slots)\n    vars['setup_state'] = 'ok'\nexcept Exception as e:\n    vars['setup_state'] = 'error'\n    vars['today_text'] = str(vars.get('now'))\n    vars['now_time'] = ''\n    vars['calendar_text'] = 'not available'\n    vars['weekday_words_text'] = 'not available'\n    vars['callback_slots_text'] = 'today or the next business day, from 09:00 to 17:00, later than now (' + str(vars.get('now')) + ')'\n"
+        },
+        "timeout_ms": {
+         "type": "number",
+         "default": 10000
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "opening",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "opening": {
+   "name": "opening",
+   "node_type": "conversation",
+   "task_message": "You are on the line and have just introduced yourself and asked \"Am I speaking with {{title}} {{last_name}}?\". Find out who is on the line. Do not call any bank tool in this step except transfer_human.\n\n- Only \"yes\", \"that's me\", \"speaking\" or the customer's own name confirms that the customer is on the line. \"Hello\", \"go ahead\" and \"who is this\" do not.\n- If the answer does not confirm, ask \"Am I speaking with {{title}} {{last_name}}?\" once more. If the person asked a question (robot, AI, scam, who is calling), answer it in one sentence first; the ask that follows is the second ask. If it is still unclear after the second ask, call transition_to_farewell_unclear.\n- Say nothing about why you are calling.\n- If the person says this number does not belong to {{title}} {{last_name}} (wrong number), call transition_to_farewell_wrong_number.\n- If the person says {{title}} {{last_name}} has died, call transition_to_farewell_deceased and say nothing yourself.\n- If the person says twice that they do not want to talk, call transition_to_farewell_declined.\n- If the person asks for a human: ask once whether you can help first. If they insist, call transfer_human.",
+   "tools": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_human",
+      "handler": "__function__:api_call",
+      "description": "Hand the call to a person (general queue). CALL it only when the customer asked for a human, you asked once whether you can help instead, and they still insist. In the same message tell them you are connecting them now.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "enum": [
+            "restructuring",
+            "general",
+            "support"
+           ],
+           "default": "general"
+          }
+         },
+         "required": [
+          "customer_id",
+          "queue"
+         ]
+        }
+       }
+      }
+     },
+     "post_process_code": "try:\n    if isinstance(result, dict):\n        result.pop('header', None)\n        d = result.get('data')\n        if not isinstance(d, dict):\n            d = dict()\n            result['data'] = d\n            d['ok'] = False\n            d['error'] = 'service failure'\n        if d.get('ok') is True:\n            d['what_to_do_next'] = 'The transfer is done.'\n        else:\n            d['what_to_do_next'] = 'The transfer did NOT go through (' + str(d.get('error') or 'error') + '). Never say the customer is being connected. If this is the first failure, call the same transfer tool once more. If it failed twice, tell the customer you could not connect them.'\nexcept Exception:\n    pass\n"
+    }
+   ],
+   "on_enter": {
+    "type": "tts",
+    "text": "Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with {{title}} {{last_name}}?"
+   },
+   "on_enter_first_entry_only": false,
+   "transitions": [
+    {
+     "target_node": "ask_dob",
+     "description": "The customer confirmed they are on the line",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "line_status",
+        "operator": "equals",
+        "operand": "confirmed"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "someone_else",
+     "description": "Someone other than the customer answered",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "line_status",
+        "operator": "equals",
+        "operand": "someone_else"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_transferred_human",
+     "description": "The transfer to a person succeeded",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_human_response.data.ok",
+        "operator": "equals",
+        "operand": "true"
+       },
+       {
+        "variable": "transfer_human_response.data.ok",
+        "operator": "equals",
+        "operand": "True"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_unclear",
+     "description": "It is still unclear who is on the line after asking twice",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "It is still unclear who is on the line after asking twice"
+     }
+    },
+    {
+     "target_node": "farewell_wrong_number",
+     "description": "The person says the number does not belong to the customer",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The person says the number does not belong to the customer"
+     }
+    },
+    {
+     "target_node": "farewell_deceased",
+     "description": "The person says the customer has died",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The person says the customer has died"
+     }
+    },
+    {
+     "target_node": "farewell_declined",
+     "description": "The customer refused the security questions twice or said twice they do not want to talk, before verification",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The customer refused the security questions twice or said twice they do not want to talk, before verification"
+     }
+    }
+   ],
+   "max_node_turns": 8,
+   "max_turn_transition": "farewell_unclear",
+   "extraction_schema": [
+    {
+     "name": "line_status",
+     "type": "string",
+     "enum_values": [
+      "confirmed",
+      "someone_else"
+     ],
+     "min_confidence": 0.7,
+     "description": "Who answered the assistant's question 'Am I speaking with {{title}} {{last_name}}?'. confirmed: the person clearly said yes, that's me, speaking, or their own name ({{first_name}} or {{last_name}}). someone_else: the person said they are not the customer but someone else, for example a relative, a partner or a colleague, or that the customer is not available. Leave empty for a greeting, 'go ahead', 'who is this', a question, a wrong number, a death, or anything unclear."
+    }
+   ]
+  },
+  "someone_else": {
+   "name": "someone_else",
+   "node_type": "conversation",
+   "task_message": "The person on the line is not {{title}} {{last_name}}. Do not say why you are calling and say nothing about any account, even if they ask, offer to pay or say they are family. Do not ask them any security question. Ask when {{title}} {{last_name}} can be reached.\n\nAllowed callback window: {{callback_slots_text}}. A callback must be today or the next business day, from 09:00 to 17:00 (both included), and later than now ({{now_time}}).\nCalendar:\n{{calendar_text}}\n\n- When the person names a day and time inside the window, call schedule_callback with the date (YYYY-MM-DD) and the time (HH:MM, 24 hour). Do not read the booking back as done until the result says ok.\n- If the person offers a day or time outside the window, say when callbacks are possible and ask once for another time. If the second answer is also outside the window, or they cannot give a time, do not book: call transition_to_farewell_no_callback.\n- If the person says the number does not belong to the customer, call transition_to_farewell_wrong_number.\n- If the person says the customer has died, call transition_to_farewell_deceased and say nothing yourself.\n- If the person says that {{title}} {{last_name}} is now on the line or hands over the phone, call transition_to_opening.",
+   "tools": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "schedule_callback",
+      "handler": "__function__:api_call",
+      "description": "Book a callback for the customer. CALL it as soon as the person on the line names a day and time inside the allowed callback window.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/schedule_callback"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "date": {
+           "type": "string",
+           "default": "{{date}}",
+           "description": "Callback date as YYYY-MM-DD: today or the next business day."
+          },
+          "time": {
+           "type": "string",
+           "default": "{{time}}",
+           "description": "Callback time as HH:MM, 24 hour, from 09:00 to 17:00 and later than now."
+          }
+         },
+         "required": [
+          "customer_id",
+          "date",
+          "time"
+         ]
+        }
+       }
+      }
+     },
+     "post_process_code": "try:\n    if isinstance(result, dict):\n        result.pop('header', None)\n        d = result.get('data')\n        if not isinstance(d, dict):\n            d = dict()\n            result['data'] = d\n            d['ok'] = False\n            d['error'] = 'service failure'\n        if d.get('ok') is True:\n            d['what_to_do_next'] = 'The callback is booked.'\n        else:\n            d['what_to_do_next'] = 'The callback was NOT booked (' + str(d.get('error') or 'error') + '). Never say it is booked. If this is the first failure, call schedule_callback once more with the same date and time. If it failed twice, say you could not book the callback and call transition_to_farewell_no_callback.'\nexcept Exception:\n    pass\n"
+    }
+   ],
+   "on_enter": {
+    "type": "llm",
+    "prompt": "Reply in one short sentence to what the person said and ask when {{title}} {{last_name}} can be reached. Do not say why you are calling. If they said the customer has died or that the number is wrong, call the matching transition tool instead."
+   },
+   "on_enter_first_entry_only": false,
+   "transitions": [
+    {
+     "target_node": "farewell_callback",
+     "description": "The callback was booked",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "schedule_callback_response.data.ok",
+        "operator": "equals",
+        "operand": "true"
+       },
+       {
+        "variable": "schedule_callback_response.data.ok",
+        "operator": "equals",
+        "operand": "True"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_no_callback",
+     "description": "No callback time inside the window was given after asking twice, or booking failed twice",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "No callback time inside the window was given after asking twice, or booking failed twice"
+     }
+    },
+    {
+     "target_node": "farewell_wrong_number",
+     "description": "The person says the number does not belong to the customer",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The person says the number does not belong to the customer"
+     }
+    },
+    {
+     "target_node": "farewell_deceased",
+     "description": "The person says the customer has died",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The person says the customer has died"
+     }
+    },
+    {
+     "target_node": "opening",
+     "description": "The customer has come to the phone",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The customer has come to the phone"
+     }
+    }
+   ],
+   "max_node_turns": 12,
+   "max_turn_transition": "farewell_no_callback"
+  },
+  "ask_dob": {
+   "name": "ask_dob",
+   "node_type": "conversation",
+   "task_message": "{{title}} {{last_name}} confirmed who they are. You have asked for their date of birth as the first security question. You still may not say why you are calling.\n\n- When the customer gives a date of birth, call verify_dob with it converted to YYYY-MM-DD. A date given only as numbers is day, then month, then year. Then follow what_to_do_next.\n- A wrong answer may be asked again. Three wrong answers in total end the check.\n- If the customer will not answer, or asks what the call is about instead of answering: the first time, explain that these questions protect their account and ask again. The second time (a second refusal or a second such question), call transition_to_farewell_declined.\n- If the customer says twice that they do not want to talk, call transition_to_farewell_declined.\n- If the customer asks for a human: ask once whether you can help first. If they insist, call transfer_human.",
+   "tools": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "verify_dob",
+      "handler": "__function__:api_call",
+      "description": "Check the customer's date of birth. CALL it every time the customer gives an answer to this question, one call per answer.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/verify_identity"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "field": {
+           "type": "string",
+           "enum": [
+            "date_of_birth",
+            "phone_last4"
+           ],
+           "default": "date_of_birth"
+          },
+          "answer": {
+           "type": "string",
+           "default": "{{answer}}",
+           "description": "The date of birth as YYYY-MM-DD, whatever way the customer said it. Convert words to digits. A date given only as numbers is read as day, then month, then year (for example 03/07/1985 is 1985-07-03)."
+          }
+         },
+         "required": [
+          "customer_id",
+          "field",
+          "answer"
+         ]
+        }
+       }
+      }
+     },
+     "post_process_code": "try:\n    if isinstance(result, dict):\n        result.pop('header', None)\n        d = result.get('data')\n        if not isinstance(d, dict):\n            d = dict()\n            result['data'] = d\n            d['ok'] = False\n            d['error'] = 'service failure'\n        left = d.get('wrong_answers_left')\n        if d.get('hint') == 'day_month_swapped':\n            msg = 'The day and the month seem to be the other way round. Ask the customer to say the month of their birth as a word, then call the tool again. This retry is not counted as a wrong answer.'\n        elif d.get('all_verified') is True:\n            msg = 'Both security answers are correct.'\n        elif d.get('verified') is True:\n            msg = 'Correct. Ask the next security question.'\n        elif d.get('ok') is False and not (isinstance(left, int) and left <= 0):\n            msg = 'The answer could not be checked (' + str(d.get('error') or 'not readable') + '). It is not counted as a wrong answer. Ask the customer to say it again.'\n        elif isinstance(left, int) and left <= 0:\n            msg = 'Three wrong answers. The identity check has failed. Do not state any account detail.'\n        else:\n            msg = 'Wrong answer. Wrong answers left: ' + str(left) + '. Say that it does not match our records and ask the same question again.'\n        d['what_to_do_next'] = msg\nexcept Exception:\n    pass\n"
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_human",
+      "handler": "__function__:api_call",
+      "description": "Hand the call to a person (general queue). CALL it only when the customer asked for a human, you asked once whether you can help instead, and they still insist. In the same message tell them you are connecting them now.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "enum": [
+            "restructuring",
+            "general",
+            "support"
+           ],
+           "default": "general"
+          }
+         },
+         "required": [
+          "customer_id",
+          "queue"
+         ]
+        }
+       }
+      }
+     },
+     "post_process_code": "try:\n    if isinstance(result, dict):\n        result.pop('header', None)\n        d = result.get('data')\n        if not isinstance(d, dict):\n            d = dict()\n            result['data'] = d\n            d['ok'] = False\n            d['error'] = 'service failure'\n        if d.get('ok') is True:\n            d['what_to_do_next'] = 'The transfer is done.'\n        else:\n            d['what_to_do_next'] = 'The transfer did NOT go through (' + str(d.get('error') or 'error') + '). Never say the customer is being connected. If this is the first failure, call the same transfer tool once more. If it failed twice, tell the customer you could not connect them.'\nexcept Exception:\n    pass\n"
+    }
+   ],
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you. Before we continue, I need to ask two security questions. What is your date of birth?"
+   },
+   "on_enter_first_entry_only": false,
+   "transitions": [
+    {
+     "target_node": "ask_phone",
+     "description": "The date of birth was verified",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "verify_dob_response.data.verified",
+        "operator": "equals",
+        "operand": "true"
+       },
+       {
+        "variable": "verify_dob_response.data.verified",
+        "operator": "equals",
+        "operand": "True"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_failed",
+     "description": "Three wrong answers",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "verify_dob_response.data.wrong_answers_left",
+        "operator": "less_than",
+        "operand": 1
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_transferred_human",
+     "description": "The transfer to a person succeeded",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_human_response.data.ok",
+        "operator": "equals",
+        "operand": "true"
+       },
+       {
+        "variable": "transfer_human_response.data.ok",
+        "operator": "equals",
+        "operand": "True"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_declined",
+     "description": "The customer refused the security questions twice or said twice they do not want to talk, before verification",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The customer refused the security questions twice or said twice they do not want to talk, before verification"
+     }
+    }
+   ],
+   "max_node_turns": 15,
+   "max_turn_transition": "farewell_declined"
+  },
+  "ask_phone": {
+   "name": "ask_phone",
+   "node_type": "conversation",
+   "task_message": "The date of birth is verified. You have asked for the last four digits of the phone number on file. You still may not say why you are calling.\n\n- When the customer gives four digits, call verify_phone with them. Then follow what_to_do_next.\n- Wrong answers count together with any wrong date of birth: three in total end the check.\n- If the customer will not answer, or asks what the call is about instead of answering: if you have not yet explained in this call that the questions protect their account, explain it once and ask again. Otherwise call transition_to_farewell_declined.\n- If the customer says twice that they do not want to talk, call transition_to_farewell_declined.\n- If the customer asks for a human: ask once whether you can help first. If they insist, call transfer_human.",
+   "tools": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "verify_phone",
+      "handler": "__function__:api_call",
+      "description": "Check the customer's last four phone digits. CALL it every time the customer gives an answer to this question, one call per answer.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/verify_identity"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "field": {
+           "type": "string",
+           "enum": [
+            "date_of_birth",
+            "phone_last4"
+           ],
+           "default": "phone_last4"
+          },
+          "answer": {
+           "type": "string",
+           "default": "{{answer}}",
+           "description": "Exactly four digits, the last four digits of the phone number on file, as the customer said them."
+          }
+         },
+         "required": [
+          "customer_id",
+          "field",
+          "answer"
+         ]
+        }
+       }
+      }
+     },
+     "post_process_code": "try:\n    if isinstance(result, dict):\n        result.pop('header', None)\n        d = result.get('data')\n        if not isinstance(d, dict):\n            d = dict()\n            result['data'] = d\n            d['ok'] = False\n            d['error'] = 'service failure'\n        left = d.get('wrong_answers_left')\n        if d.get('hint') == 'day_month_swapped':\n            msg = 'The day and the month seem to be the other way round. Ask the customer to say the month of their birth as a word, then call the tool again. This retry is not counted as a wrong answer.'\n        elif d.get('all_verified') is True:\n            msg = 'Both security answers are correct.'\n        elif d.get('verified') is True:\n            msg = 'Correct. Ask the next security question.'\n        elif d.get('ok') is False and not (isinstance(left, int) and left <= 0):\n            msg = 'The answer could not be checked (' + str(d.get('error') or 'not readable') + '). It is not counted as a wrong answer. Ask the customer to say it again.'\n        elif isinstance(left, int) and left <= 0:\n            msg = 'Three wrong answers. The identity check has failed. Do not state any account detail.'\n        else:\n            msg = 'Wrong answer. Wrong answers left: ' + str(left) + '. Say that it does not match our records and ask the same question again.'\n        d['what_to_do_next'] = msg\nexcept Exception:\n    pass\n"
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_human",
+      "handler": "__function__:api_call",
+      "description": "Hand the call to a person (general queue). CALL it only when the customer asked for a human, you asked once whether you can help instead, and they still insist. In the same message tell them you are connecting them now.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "enum": [
+            "restructuring",
+            "general",
+            "support"
+           ],
+           "default": "general"
+          }
+         },
+         "required": [
+          "customer_id",
+          "queue"
+         ]
+        }
+       }
+      }
+     },
+     "post_process_code": "try:\n    if isinstance(result, dict):\n        result.pop('header', None)\n        d = result.get('data')\n        if not isinstance(d, dict):\n            d = dict()\n            result['data'] = d\n            d['ok'] = False\n            d['error'] = 'service failure'\n        if d.get('ok') is True:\n            d['what_to_do_next'] = 'The transfer is done.'\n        else:\n            d['what_to_do_next'] = 'The transfer did NOT go through (' + str(d.get('error') or 'error') + '). Never say the customer is being connected. If this is the first failure, call the same transfer tool once more. If it failed twice, tell the customer you could not connect them.'\nexcept Exception:\n    pass\n"
+    }
+   ],
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you. What are the last four digits of the phone number we have on file for you?"
+   },
+   "on_enter_first_entry_only": false,
+   "transitions": [
+    {
+     "target_node": "load_account",
+     "description": "Both answers were verified",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "verify_phone_response.data.all_verified",
+        "operator": "equals",
+        "operand": "true"
+       },
+       {
+        "variable": "verify_phone_response.data.all_verified",
+        "operator": "equals",
+        "operand": "True"
+       },
+       {
+        "variable": "verify_phone_response.data.verified",
+        "operator": "equals",
+        "operand": "true"
+       },
+       {
+        "variable": "verify_phone_response.data.verified",
+        "operator": "equals",
+        "operand": "True"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_failed",
+     "description": "Three wrong answers",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "verify_phone_response.data.wrong_answers_left",
+        "operator": "less_than",
+        "operand": 1
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_transferred_human",
+     "description": "The transfer to a person succeeded",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_human_response.data.ok",
+        "operator": "equals",
+        "operand": "true"
+       },
+       {
+        "variable": "transfer_human_response.data.ok",
+        "operator": "equals",
+        "operand": "True"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_declined",
+     "description": "The customer refused the security questions twice or said twice they do not want to talk, before verification",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The customer refused the security questions twice or said twice they do not want to talk, before verification"
+     }
+    }
+   ],
+   "max_node_turns": 15,
+   "max_turn_transition": "farewell_declined"
+  },
+  "load_account": {
+   "name": "load_account",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "prepare_account",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "get_account",
+      "handler": "__function__:api_call",
+      "description": "Get the late products.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/get_account"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          }
+         },
+         "required": [
+          "customer_id"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "response_mapping": [
+    {
+     "path": "data.products",
+     "variable": "products"
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "prepare_account",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "prepare_account": {
+   "name": "prepare_account",
+   "node_type": "code",
+   "passthrough": true,
+   "passthrough_default_transition": "farewell_account_error",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "function": {
+      "name": "code_exec",
+      "handler": "__function__:code_exec",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "code": {
+         "type": "string",
+         "default": "\nimport datetime\nimport json\nimport re\nHOL = ['2026-10-26', '2026-11-11', '2026-11-26', '2026-12-25', '2027-01-01']\nDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']\ndef parse_now(raw):\n    raw = str(raw or '').strip().replace(' ', 'T')\n    try:\n        return datetime.datetime.fromisoformat(raw[:16])\n    except Exception:\n        return datetime.datetime.fromisoformat(raw[:10] + 'T00:00')\ndef isbd(d):\n    return d.weekday() < 5 and d.isoformat() not in HOL\ndef kind(d):\n    if d.isoformat() in HOL:\n        return 'bank holiday, not a business day'\n    if d.weekday() >= 5:\n        return 'weekend, not a business day'\n    return 'business day'\ndef nth_bd(start, n):\n    d = start\n    c = 0\n    while c < n:\n        d = d + datetime.timedelta(days=1)\n        if isbd(d):\n            c += 1\n    return d\ndef next_bd(d):\n    d = d + datetime.timedelta(days=1)\n    while not isbd(d):\n        d = d + datetime.timedelta(days=1)\n    return d\ndef fmt(d):\n    return DAYS[d.weekday()] + ' ' + str(d.day) + ' ' + d.strftime('%B %Y') + ' (' + d.isoformat() + ')'\ndef last_bd_of_week(monday):\n    d = monday + datetime.timedelta(days=4)\n    while d >= monday and not isbd(d):\n        d = d - datetime.timedelta(days=1)\n    return d if d >= monday else None\nNOW = parse_now(vars.get('now'))\nTODAY = NOW.date()\nMONDAY = TODAY - datetime.timedelta(days=TODAY.weekday())\n\ndef money(x):\n    try:\n        v = float(x)\n    except Exception:\n        return str(x)\n    return ('%.2f' % v) if abs(v - round(v)) > 1e-9 else str(int(round(v)))\ndef products_from_vars():\n    for key in ('products', 'load_account_response.data.products'):\n        p = vars.get(key)\n        if isinstance(p, str):\n            try:\n                p = json.loads(p)\n            except Exception:\n                p = None\n        if isinstance(p, dict):\n            p = [p]\n        if isinstance(p, list) and p:\n            return [x for x in p if isinstance(x, dict)]\n    resp = vars.get('load_account_response')\n    if isinstance(resp, dict):\n        d = resp.get('data')\n        if isinstance(d, dict) and isinstance(d.get('products'), list) and d.get('products'):\n            return [x for x in d.get('products') if isinstance(x, dict)]\n    pat = re.compile(r'^(?:products|load_account_response\\.data\\.products)(?:\\.|\\[)(\\d+)\\]?\\.(\\w+)$')\n    found = dict()\n    for k in list(vars.keys()):\n        m = pat.match(str(k))\n        if m:\n            found.setdefault(int(m.group(1)), dict())[m.group(2)] = vars.get(k)\n    return [found[i] for i in sorted(found)]\ntry:\n    prods = products_from_vars()\n    p = prods[0]\n    ptype = str(p.get('type') or '')\n    if ptype == 'credit_card':\n        words = 'credit card ending ' + str(p.get('card_last4') or '')\n        floor = p.get('minimum_payment')\n        floor_name = 'the minimum payment'\n    elif ptype == 'car_loan':\n        words = 'car loan'\n        floor = p.get('instalment_amount')\n        floor_name = 'one instalment'\n    else:\n        words = 'personal loan'\n        floor = p.get('instalment_amount')\n        floor_name = 'one instalment'\n    days_late = int(float(p.get('days_late')))\n    past_due = float(p.get('past_due'))\n    if days_late <= 7:\n        band = 'early'\n        deadline = nth_bd(TODAY, 12)\n        attempts = 1\n    else:\n        band = 'late'\n        deadline = nth_bd(TODAY, 6)\n        attempts = 2\n    valid = []\n    d = TODAY\n    while d <= deadline:\n        if isbd(d):\n            valid.append(fmt(d))\n        d = d + datetime.timedelta(days=1)\n    lb = last_bd_of_week(MONDAY)\n    if lb is None or lb <= TODAY:\n        lb = last_bd_of_week(MONDAY + datetime.timedelta(days=7))\n    if lb > deadline:\n        lb = deadline\n    vars['product_words'] = words\n    vars['product_type'] = ptype\n    vars['product_id_text'] = str(p.get('product_id') or '')\n    if len(prods) == 1 and p.get('product_id'):\n        vars['product_id'] = str(p.get('product_id'))\n    vars['past_due_text'] = money(past_due)\n    vars['floor_text'] = money(floor)\n    vars['floor_name'] = floor_name\n    vars['days_late'] = str(days_late)\n    vars['band'] = band\n    vars['attempts'] = str(attempts)\n    vars['deadline_text'] = fmt(deadline)\n    vars['deadline_iso'] = deadline.isoformat()\n    vars['valid_dates_text'] = '\\n'.join(valid) if valid else 'none'\n    vars['attempt1_text'] = fmt(lb)\n    vars['today_is_business_day'] = 'yes' if isbd(TODAY) else 'no'\n    other = ''\n    if len(prods) > 1:\n        other = ' Other late products in the record: ' + '; '.join(str(x.get('type')) + ' ' + str(x.get('product_id')) + ' past due ' + money(x.get('past_due')) for x in prods[1:])\n    vars['other_products_text'] = other\n    vars['account_state'] = 'ok'\nexcept Exception as e:\n    vars['account_state'] = 'error'\n"
+        },
+        "timeout_ms": {
+         "type": "number",
+         "default": 10000
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "negotiate",
+     "description": "The account facts are ready",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "account_state",
+        "operator": "equals",
+        "operand": "ok"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_account_error",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "negotiate": {
+   "name": "negotiate",
+   "node_type": "conversation",
+   "task_message": "The customer is verified. You have stated the debt and asked \"Can you make this payment today?\". Your job: get a payment promise where you can, within the rules below.\n\nFACTS (computed by the bank, use them exactly)\n- Product: {{product_words}} (product_id {{product_id_text}}).{{other_products_text}}\n- Full past-due amount: {{past_due_text}}. Floor amount: {{floor_text}} ({{floor_name}}).\n- Days late: {{days_late}}. Band: {{band}}. Persuasion attempts allowed: {{attempts}}.\n- Today: {{today_text}}.\n- Deadline, the latest date you can record: {{deadline_text}}.\n- Valid promise dates (today or later, business days, not after the deadline):\n{{valid_dates_text}}\n- Attempt 1 date: {{attempt1_text}}.\n- Weekday words (\"next <weekday>\" is in the following calendar week, \"this <weekday>\" in the current week):\n{{weekday_words_text}}\n- Calendar:\n{{calendar_text}}\n\nTOOLS\n- create_promise: only after the read-back and a clear yes.\n- transfer_restructuring, transfer_support, transfer_human: only as the rules below say.\n- transition_to_farewell_refused, transition_to_farewell_hardship, transition_to_farewell_dispute, transition_to_farewell_paid, transition_to_farewell_service_error: end the call as the rules say.\n\nAMOUNTS\n- Ask for the full past-due amount first. Never ask \"how much can you pay?\". You propose every amount.\n- If the customer says the full amount is too much: offer the floor amount, once, and say the rest stays overdue. If they refuse the floor, that is a flat refusal.\n- If the customer proposes an amount from {{floor_text}} up to {{past_due_text}}, both included, accept it. Below {{floor_text}}: say it cannot be recorded and offer the floor once; if they do not accept the floor, that is a flat refusal. Above {{past_due_text}}: the amount is {{past_due_text}}.\n\nDATES\n- A promise date must be one of the valid promise dates above.\n- If the customer names a weekend day or a holiday that is not after the deadline, offer the next business day.\n- If the customer asks for a date after the deadline, say the latest date you can record is {{deadline_text}} and offer it. If they refuse the deadline, that is a flat refusal.\n- If the customer gives a vague period (\"next week\", \"end of the month\", \"when my salary comes\"), ask once for the exact day. If they still give none, propose the deadline.\n- A \"yes\" to paying today means today, if today is a valid promise date.\n- A date or an amount the customer proposes is never a refusal. Handle it with these rules.\n\nFLAT REFUSALS AND PERSUASION\n- A flat refusal or a non-answer uses one persuasion attempt. A no to paying today with no date and no amount is a flat refusal.\n- Attempt 1: propose the full past-due amount (or the floor if the customer already said the full amount is too much) on {{attempt1_text}}.\n- Attempt 2, only when attempts allowed is 2: propose the floor amount {{floor_text}} on the deadline {{deadline_text}}.\n- When a flat refusal comes and all {{attempts}} attempt(s) are used, stop. Do not repeat an offer the customer already refused. Call transition_to_farewell_refused.\n- If the customer says twice that they do not want to talk, call transition_to_farewell_refused.\n\nCONFIRMING\n- Read back the product, the amount and the date, and ask \"Do you confirm?\". Call create_promise only after a clear yes.\n- If the customer changes the date or the amount at this point, check the new value against these rules and read it back again.\n- If create_promise fails, call it once more with the same values. Never say the promise is recorded unless the result says ok.\n\nOTHER SITUATIONS (these come before persuasion)\n- Illness, a death in the family or job loss: say one short sentence of sympathy, make no persuasion attempt, and offer to connect them with the customer support team. If they accept, call transfer_support. If they decline, call transition_to_farewell_hardship. If they still name a date or an amount themselves, record that promise under these rules.\n- \"I already paid\" (this past-due amount): say that payments can take one business day to appear, take no promise, and call transition_to_farewell_paid.\n- \"This debt is not mine\", \"I never had this product\", or the product was closed or paid off in the past: do not argue, take no promise, call transition_to_farewell_dispute.\n- A request for a new payment plan or lower instalments: do not describe any plan; call transfer_restructuring.\n- A request for a human: ask once whether you can help first. If they insist, call transfer_human.\n- If a transfer fails twice, say you could not connect them. After a failed support transfer call transition_to_farewell_hardship; after a failed restructuring transfer call transition_to_farewell_service_error; after a failed human transfer continue helping.",
+   "tools": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "create_promise",
+      "handler": "__function__:api_call",
+      "description": "Record the payment promise. CALL it only after you read back the product, the amount and the date, asked \"Do you confirm?\" and the customer gave a clear yes.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/create_promise"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "product_id": {
+           "type": "string",
+           "default": "{{product_id}}",
+           "description": "The product_id from the facts, copied unchanged."
+          },
+          "amount": {
+           "type": "number",
+           "default": "{{amount}}",
+           "description": "The agreed amount, a number, from the floor up to the full past-due amount."
+          },
+          "date": {
+           "type": "string",
+           "default": "{{date}}",
+           "description": "The agreed payment date as YYYY-MM-DD. Must be one of the valid promise dates."
+          }
+         },
+         "required": [
+          "customer_id",
+          "product_id",
+          "amount",
+          "date"
+         ]
+        }
+       }
+      }
+     },
+     "post_process_code": "try:\n    if isinstance(result, dict):\n        result.pop('header', None)\n        d = result.get('data')\n        if not isinstance(d, dict):\n            d = dict()\n            result['data'] = d\n            d['ok'] = False\n            d['error'] = 'service failure'\n        if d.get('ok') is True:\n            d['what_to_do_next'] = 'The promise is recorded.'\n        else:\n            d['what_to_do_next'] = 'The promise was NOT recorded (' + str(d.get('error') or 'error') + '). Never say it is recorded. If this is the first failure, call create_promise once more now with the same amount and date.'\nexcept Exception:\n    pass\n"
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_restructuring",
+      "handler": "__function__:api_call",
+      "description": "Hand the call to the restructuring team. CALL it when the customer asks for a new payment plan or lower instalments. Do not describe any plan. In the same message tell them you are connecting them now.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "enum": [
+            "restructuring",
+            "general",
+            "support"
+           ],
+           "default": "restructuring"
+          }
+         },
+         "required": [
+          "customer_id",
+          "queue"
+         ]
+        }
+       }
+      }
+     },
+     "post_process_code": "try:\n    if isinstance(result, dict):\n        result.pop('header', None)\n        d = result.get('data')\n        if not isinstance(d, dict):\n            d = dict()\n            result['data'] = d\n            d['ok'] = False\n            d['error'] = 'service failure'\n        if d.get('ok') is True:\n            d['what_to_do_next'] = 'The transfer is done.'\n        else:\n            d['what_to_do_next'] = 'The transfer did NOT go through (' + str(d.get('error') or 'error') + '). Never say the customer is being connected. If this is the first failure, call the same transfer tool once more. If it failed twice, tell the customer you could not connect them.'\nexcept Exception:\n    pass\n"
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_support",
+      "handler": "__function__:api_call",
+      "description": "Hand the call to the customer support team. CALL it only when the customer mentioned illness, a death in the family or job loss, you offered the support team and they accepted. In the same message tell them you are connecting them now.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "enum": [
+            "restructuring",
+            "general",
+            "support"
+           ],
+           "default": "support"
+          }
+         },
+         "required": [
+          "customer_id",
+          "queue"
+         ]
+        }
+       }
+      }
+     },
+     "post_process_code": "try:\n    if isinstance(result, dict):\n        result.pop('header', None)\n        d = result.get('data')\n        if not isinstance(d, dict):\n            d = dict()\n            result['data'] = d\n            d['ok'] = False\n            d['error'] = 'service failure'\n        if d.get('ok') is True:\n            d['what_to_do_next'] = 'The transfer is done.'\n        else:\n            d['what_to_do_next'] = 'The transfer did NOT go through (' + str(d.get('error') or 'error') + '). Never say the customer is being connected. If this is the first failure, call the same transfer tool once more. If it failed twice, tell the customer you could not connect them.'\nexcept Exception:\n    pass\n"
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_human",
+      "handler": "__function__:api_call",
+      "description": "Hand the call to a person (general queue). CALL it only when the customer asked for a human, you asked once whether you can help instead, and they still insist. In the same message tell them you are connecting them now.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "enum": [
+            "restructuring",
+            "general",
+            "support"
+           ],
+           "default": "general"
+          }
+         },
+         "required": [
+          "customer_id",
+          "queue"
+         ]
+        }
+       }
+      }
+     },
+     "post_process_code": "try:\n    if isinstance(result, dict):\n        result.pop('header', None)\n        d = result.get('data')\n        if not isinstance(d, dict):\n            d = dict()\n            result['data'] = d\n            d['ok'] = False\n            d['error'] = 'service failure'\n        if d.get('ok') is True:\n            d['what_to_do_next'] = 'The transfer is done.'\n        else:\n            d['what_to_do_next'] = 'The transfer did NOT go through (' + str(d.get('error') or 'error') + '). Never say the customer is being connected. If this is the first failure, call the same transfer tool once more. If it failed twice, tell the customer you could not connect them.'\nexcept Exception:\n    pass\n"
+    }
+   ],
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you, you are verified. I am calling from the collections team about a late payment on your {{product_words}}. The past-due amount is {{past_due_text}}, and it is {{days_late}} days late. Can you make this payment today?"
+   },
+   "on_enter_first_entry_only": false,
+   "transitions": [
+    {
+     "target_node": "promise_recorded",
+     "description": "The promise was recorded",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "create_promise_response.data.ok",
+        "operator": "equals",
+        "operand": "true"
+       },
+       {
+        "variable": "create_promise_response.data.ok",
+        "operator": "equals",
+        "operand": "True"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_promise_error",
+     "description": "Recording the promise failed twice",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "create_promise_failure_count",
+        "operator": "greater_than",
+        "operand": 1
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_transferred_human",
+     "description": "The transfer to a person succeeded",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_human_response.data.ok",
+        "operator": "equals",
+        "operand": "true"
+       },
+       {
+        "variable": "transfer_human_response.data.ok",
+        "operator": "equals",
+        "operand": "True"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_transferred_support",
+     "description": "The transfer to support succeeded",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_support_response.data.ok",
+        "operator": "equals",
+        "operand": "true"
+       },
+       {
+        "variable": "transfer_support_response.data.ok",
+        "operator": "equals",
+        "operand": "True"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_transferred_restructuring",
+     "description": "The transfer to restructuring succeeded",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_restructuring_response.data.ok",
+        "operator": "equals",
+        "operand": "true"
+       },
+       {
+        "variable": "transfer_restructuring_response.data.ok",
+        "operator": "equals",
+        "operand": "True"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_refused",
+     "description": "The customer flatly refused and all persuasion attempts are used, or said twice they do not want to talk",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The customer flatly refused and all persuasion attempts are used, or said twice they do not want to talk"
+     }
+    },
+    {
+     "target_node": "farewell_hardship",
+     "description": "The customer mentioned illness, a death in the family or job loss and declined the support team",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The customer mentioned illness, a death in the family or job loss and declined the support team"
+     }
+    },
+    {
+     "target_node": "farewell_dispute",
+     "description": "The customer says the debt or product is not theirs, or was closed or paid off in the past",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The customer says the debt or product is not theirs, or was closed or paid off in the past"
+     }
+    },
+    {
+     "target_node": "farewell_paid",
+     "description": "The customer says they already paid this past-due amount",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The customer says they already paid this past-due amount"
+     }
+    },
+    {
+     "target_node": "farewell_service_error",
+     "description": "A bank tool failed twice and nothing could be recorded",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "A bank tool failed twice and nothing could be recorded"
+     }
+    }
+   ],
+   "max_node_turns": 40,
+   "max_turn_transition": "farewell_refused"
+  },
+  "promise_recorded": {
+   "name": "promise_recorded",
+   "node_type": "conversation",
+   "task_message": "The promise is recorded and you have said \"You will receive a text message confirming this promise.\" and asked whether there is anything else.\n\n- If the customer has nothing else, or says thanks or goodbye, call transition_to_farewell_promise.\n- If they want to change or cancel the promise, say it cannot be changed in this call and they can change it in the mobile app. Then ask whether there is anything else.\n- A request for a new payment plan or lower instalments: call transfer_restructuring. Illness, a death in the family or job loss: one sentence of sympathy, offer the customer support team, and call transfer_support if they accept. A request for a human: ask once whether you can help, and call transfer_human if they insist.\n- If a transfer fails twice, say you could not connect them and call transition_to_farewell_promise.\n- Do not take another promise.",
+   "tools": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_restructuring",
+      "handler": "__function__:api_call",
+      "description": "Hand the call to the restructuring team. CALL it when the customer asks for a new payment plan or lower instalments. Do not describe any plan. In the same message tell them you are connecting them now.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "enum": [
+            "restructuring",
+            "general",
+            "support"
+           ],
+           "default": "restructuring"
+          }
+         },
+         "required": [
+          "customer_id",
+          "queue"
+         ]
+        }
+       }
+      }
+     },
+     "post_process_code": "try:\n    if isinstance(result, dict):\n        result.pop('header', None)\n        d = result.get('data')\n        if not isinstance(d, dict):\n            d = dict()\n            result['data'] = d\n            d['ok'] = False\n            d['error'] = 'service failure'\n        if d.get('ok') is True:\n            d['what_to_do_next'] = 'The transfer is done.'\n        else:\n            d['what_to_do_next'] = 'The transfer did NOT go through (' + str(d.get('error') or 'error') + '). Never say the customer is being connected. If this is the first failure, call the same transfer tool once more. If it failed twice, tell the customer you could not connect them.'\nexcept Exception:\n    pass\n"
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_support",
+      "handler": "__function__:api_call",
+      "description": "Hand the call to the customer support team. CALL it only when the customer mentioned illness, a death in the family or job loss, you offered the support team and they accepted. In the same message tell them you are connecting them now.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "enum": [
+            "restructuring",
+            "general",
+            "support"
+           ],
+           "default": "support"
+          }
+         },
+         "required": [
+          "customer_id",
+          "queue"
+         ]
+        }
+       }
+      }
+     },
+     "post_process_code": "try:\n    if isinstance(result, dict):\n        result.pop('header', None)\n        d = result.get('data')\n        if not isinstance(d, dict):\n            d = dict()\n            result['data'] = d\n            d['ok'] = False\n            d['error'] = 'service failure'\n        if d.get('ok') is True:\n            d['what_to_do_next'] = 'The transfer is done.'\n        else:\n            d['what_to_do_next'] = 'The transfer did NOT go through (' + str(d.get('error') or 'error') + '). Never say the customer is being connected. If this is the first failure, call the same transfer tool once more. If it failed twice, tell the customer you could not connect them.'\nexcept Exception:\n    pass\n"
+    },
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 0
+     },
+     "function": {
+      "name": "transfer_human",
+      "handler": "__function__:api_call",
+      "description": "Hand the call to a person (general queue). CALL it only when the customer asked for a human, you asked once whether you can help instead, and they still insist. In the same message tell them you are connecting them now.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/transfer_to_agent"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "queue": {
+           "type": "string",
+           "enum": [
+            "restructuring",
+            "general",
+            "support"
+           ],
+           "default": "general"
+          }
+         },
+         "required": [
+          "customer_id",
+          "queue"
+         ]
+        }
+       }
+      }
+     },
+     "post_process_code": "try:\n    if isinstance(result, dict):\n        result.pop('header', None)\n        d = result.get('data')\n        if not isinstance(d, dict):\n            d = dict()\n            result['data'] = d\n            d['ok'] = False\n            d['error'] = 'service failure'\n        if d.get('ok') is True:\n            d['what_to_do_next'] = 'The transfer is done.'\n        else:\n            d['what_to_do_next'] = 'The transfer did NOT go through (' + str(d.get('error') or 'error') + '). Never say the customer is being connected. If this is the first failure, call the same transfer tool once more. If it failed twice, tell the customer you could not connect them.'\nexcept Exception:\n    pass\n"
+    }
+   ],
+   "on_enter": {
+    "type": "tts",
+    "text": "Your promise is recorded. You will receive a text message confirming this promise. Is there anything else I can help you with?"
+   },
+   "on_enter_first_entry_only": false,
+   "transitions": [
+    {
+     "target_node": "farewell_transferred_human",
+     "description": "The transfer to a person succeeded",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_human_response.data.ok",
+        "operator": "equals",
+        "operand": "true"
+       },
+       {
+        "variable": "transfer_human_response.data.ok",
+        "operator": "equals",
+        "operand": "True"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_transferred_support",
+     "description": "The transfer to support succeeded",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_support_response.data.ok",
+        "operator": "equals",
+        "operand": "true"
+       },
+       {
+        "variable": "transfer_support_response.data.ok",
+        "operator": "equals",
+        "operand": "True"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_transferred_restructuring",
+     "description": "The transfer to restructuring succeeded",
+     "condition": {
+      "logic": "or",
+      "conditions": [
+       {
+        "variable": "transfer_restructuring_response.data.ok",
+        "operator": "equals",
+        "operand": "true"
+       },
+       {
+        "variable": "transfer_restructuring_response.data.ok",
+        "operator": "equals",
+        "operand": "True"
+       }
+      ]
+     }
+    },
+    {
+     "target_node": "farewell_promise",
+     "description": "The customer has nothing else after the recorded promise",
+     "is_tool_call": true,
+     "condition": {
+      "operator": "matches_intent",
+      "description": "The customer has nothing else after the recorded promise"
+     }
+    }
+   ],
+   "max_node_turns": 8,
+   "max_turn_transition": "farewell_promise"
+  },
+  "farewell_promise": {
+   "name": "farewell_promise",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_promise",
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you for your time, {{title}} {{last_name}}. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_promise",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_paid": {
+   "name": "farewell_paid",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_paid",
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you for letting me know. Payments can take one business day to appear. Thank you for your time. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_paid",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_transferred_restructuring": {
+   "name": "farewell_transferred_restructuring",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_transferred_restructuring",
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you for your time. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_transferred_restructuring",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_transferred_human": {
+   "name": "farewell_transferred_human",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_transferred_human",
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you for your time. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_transferred_human",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_transferred_support": {
+   "name": "farewell_transferred_support",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_transferred_support",
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you for your time, and take care. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_transferred_support",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_refused": {
+   "name": "farewell_refused",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_no_promise_refused",
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you for your time. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_no_promise_refused",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_hardship": {
+   "name": "farewell_hardship",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_no_promise_hardship",
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you for your time, and take care. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_no_promise_hardship",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_dispute": {
+   "name": "farewell_dispute",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_no_promise_dispute",
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you for letting me know. Thank you for your time. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_no_promise_dispute",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_service_error": {
+   "name": "farewell_service_error",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_no_promise_service_error",
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you for your time. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_no_promise_service_error",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_promise_error": {
+   "name": "farewell_promise_error",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_no_promise_service_error",
+   "on_enter": {
+    "type": "tts",
+    "text": "I am sorry, I could not record your promise because of a technical problem. Thank you for your time. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_no_promise_service_error",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_account_error": {
+   "name": "farewell_account_error",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_no_promise_service_error",
+   "on_enter": {
+    "type": "tts",
+    "text": "I am sorry, I cannot reach your account details right now because of a technical problem. Thank you for your time. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_no_promise_service_error",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_failed": {
+   "name": "farewell_failed",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_not_verified_failed",
+   "on_enter": {
+    "type": "tts",
+    "text": "I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_not_verified_failed",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_declined": {
+   "name": "farewell_declined",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_not_verified_declined",
+   "on_enter": {
+    "type": "tts",
+    "text": "I understand. Thank you for your time. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_not_verified_declined",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_callback": {
+   "name": "farewell_callback",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_not_reached_callback",
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you, we will call back then. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_not_reached_callback",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_no_callback": {
+   "name": "farewell_no_callback",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_not_reached_no_callback",
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you for your time. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_not_reached_no_callback",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_wrong_number": {
+   "name": "farewell_wrong_number",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_not_reached_wrong_number",
+   "on_enter": {
+    "type": "tts",
+    "text": "Sorry for the inconvenience. Thank you for your time. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_not_reached_wrong_number",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_deceased": {
+   "name": "farewell_deceased",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_not_reached_deceased",
+   "on_enter": {
+    "type": "tts",
+    "text": "I am sorry for your loss. Thank you for your time. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_not_reached_deceased",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "farewell_unclear": {
+   "name": "farewell_unclear",
+   "node_type": "conversation",
+   "passthrough": true,
+   "passthrough_default_transition": "close_not_reached_unclear",
+   "on_enter": {
+    "type": "tts",
+    "text": "Thank you for your time. Goodbye."
+   },
+   "disable_inactivity_monitor": true,
+   "task_message": "Say goodbye. Do not call any tool in this turn.",
+   "transitions": [
+    {
+     "target_node": "close_not_reached_unclear",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_promise": {
+   "name": "close_promise",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "promise"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_paid": {
+   "name": "close_paid",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "paid"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_transferred_restructuring": {
+   "name": "close_transferred_restructuring",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "transferred"
+          },
+          "reason": {
+           "type": "string",
+           "default": "restructuring"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_transferred_human": {
+   "name": "close_transferred_human",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "transferred"
+          },
+          "reason": {
+           "type": "string",
+           "default": "human"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_transferred_support": {
+   "name": "close_transferred_support",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "transferred"
+          },
+          "reason": {
+           "type": "string",
+           "default": "support"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_no_promise_refused": {
+   "name": "close_no_promise_refused",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "no_promise"
+          },
+          "reason": {
+           "type": "string",
+           "default": "refused"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_no_promise_hardship": {
+   "name": "close_no_promise_hardship",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "no_promise"
+          },
+          "reason": {
+           "type": "string",
+           "default": "hardship"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_no_promise_dispute": {
+   "name": "close_no_promise_dispute",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "no_promise"
+          },
+          "reason": {
+           "type": "string",
+           "default": "dispute"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_no_promise_service_error": {
+   "name": "close_no_promise_service_error",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "no_promise"
+          },
+          "reason": {
+           "type": "string",
+           "default": "service_error"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_not_verified_failed": {
+   "name": "close_not_verified_failed",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "not_verified"
+          },
+          "reason": {
+           "type": "string",
+           "default": "failed"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_not_verified_declined": {
+   "name": "close_not_verified_declined",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "not_verified"
+          },
+          "reason": {
+           "type": "string",
+           "default": "declined"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_not_reached_callback": {
+   "name": "close_not_reached_callback",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "not_reached"
+          },
+          "reason": {
+           "type": "string",
+           "default": "callback"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_not_reached_no_callback": {
+   "name": "close_not_reached_no_callback",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "not_reached"
+          },
+          "reason": {
+           "type": "string",
+           "default": "no_callback"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_not_reached_wrong_number": {
+   "name": "close_not_reached_wrong_number",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "not_reached"
+          },
+          "reason": {
+           "type": "string",
+           "default": "wrong_number"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_not_reached_deceased": {
+   "name": "close_not_reached_deceased",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "not_reached"
+          },
+          "reason": {
+           "type": "string",
+           "default": "deceased"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "close_not_reached_unclear": {
+   "name": "close_not_reached_unclear",
+   "node_type": "api_request",
+   "passthrough": true,
+   "passthrough_default_transition": "hang_up",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "pre_actions": [
+    {
+     "type": "function",
+     "config": {
+      "timeoutMs": 12000,
+      "maxRetries": 2
+     },
+     "function": {
+      "name": "close_call",
+      "handler": "__function__:api_call",
+      "description": "End the call record.",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "url": {
+         "type": "string",
+         "default": "https://freya-bank-mock.freyavoice.workers.dev/v1/close_call"
+        },
+        "method": {
+         "type": "string",
+         "default": "POST"
+        },
+        "headers": {
+         "type": "object",
+         "properties": {
+          "Content-Type": {
+           "type": "string",
+           "default": "application/json"
+          }
+         }
+        },
+        "body": {
+         "type": "object",
+         "properties": {
+          "customer_id": {
+           "type": "string",
+           "default": "{{customer_id}}"
+          },
+          "outcome": {
+           "type": "string",
+           "enum": [
+            "promise",
+            "paid",
+            "transferred",
+            "no_promise",
+            "not_verified",
+            "not_reached"
+           ],
+           "default": "not_reached"
+          },
+          "reason": {
+           "type": "string",
+           "default": "unclear"
+          }
+         },
+         "required": [
+          "customer_id",
+          "outcome"
+         ]
+        }
+       }
+      }
+     }
+    }
+   ],
+   "transitions": [
+    {
+     "target_node": "hang_up",
+     "description": "always",
+     "condition": {
+      "operator": "always"
+     }
+    }
+   ]
+  },
+  "hang_up": {
+   "name": "hang_up",
+   "node_type": "end_call",
+   "on_enter": {
+    "type": "silent"
+   },
+   "disable_inactivity_monitor": true,
+   "transitions": [],
+   "terminal": {
+    "type": "function",
+    "function": {
+     "name": "call_closed",
+     "handler": "__function__:end_call",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "message_mode": {
+        "type": "string",
+        "default": "none"
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "global_nodes": {},
+ "test_variables": {
+  "customer_id": "c_test",
+  "first_name": "Daniel",
+  "last_name": "Reyes",
+  "title": "Mr",
+  "now": "2026-10-14T11:00"
+ }
+}

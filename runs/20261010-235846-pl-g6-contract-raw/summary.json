@@ -1,0 +1,194 @@
+{
+ "run": "20261010-235846-pl-g6-contract-raw",
+ "start": "2026-10-10T20:58:46+00:00",
+ "end": "2026-10-10T21:06:45+00:00",
+ "seconds": 479,
+ "limit_minutes": 30.0,
+ "timed_out": false,
+ "exit_code": 0,
+ "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill <repo>/builder/skills/reference (sha256:7659a7bd2e6c)",
+ "builder_model": "claude-opus-5-5 (agent_builder.py default)",
+ "agent_model": {
+  "provider": "experimental-5",
+  "model": "experimental-5"
+ },
+ "repo_commit": "ae6caa068637a5c138b52e6faad9819cfcad7307",
+ "repo_dirty": false,
+ "isolation": {
+  "CLAUDE_CONFIG_DIR": "<repo>/.claude-builder",
+  "HOME": "<repo>/.claude-builder/home",
+  "state": "<repo>/state/pl/b2-reference-g6-contract-raw-2"
+ },
+ "inputs": {
+  "briefs": [
+   {
+    "name": "pl-g6-contract-raw.md",
+    "sha256": "d5822ee11646c3d25344d930bfe51a9bcdb5d9b65c67cbbd193b354972f0746a"
+   }
+  ],
+  "tools": {
+   "name": "openapi.json",
+   "sha256": "be88362215c1255893e66de5d3042aa84a25b027ae105dbe244e8ff242a8f9bc"
+  }
+ },
+ "practice_cases": [],
+ "freya": [
+  {
+   "slot": "pl-g6-contract-raw",
+   "workflow_id": "63b3629f-4822-4d26-97d6-341e3f98e714",
+   "agent_id": "f6a9416c-0b59-4b69-9a6c-cf6c2f5f0e9f",
+   "created": true,
+   "export": "pl-g6-contract-raw.workflow.json"
+  }
+ ],
+ "tests": [],
+ "written": [
+  "<repo>/runs/20261010-235846-pl-g6-contract-raw/workspace/out/pl-g6-contract-raw.contract.json",
+  "<repo>/runs/20261010-235846-pl-g6-contract-raw/workspace/scripts/build_workflow.py"
+ ],
+ "cost_usd": 1.6312122000000002,
+ "num_turns": 21,
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1202,
+   "outputTokens": 26,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.00013319999999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  },
+  "claude-opus-5-5": {
+   "inputTokens": 34,
+   "outputTokens": 43140,
+   "cacheReadInputTokens": 1248040,
+   "cacheCreationInputTokens": 103707,
+   "webSearchRequests": 0,
+   "costUSD": 1.6310790000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 21223,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "model_calls": [
+  {
+   "n": 1,
+   "model": "claude-opus-5-5",
+   "at_s": 4.0,
+   "purpose": "Skill: {\"skill\": \"build-phone-agent\", \"args\": \"briefs/pl-g6-contract-raw.md\"}"
+  },
+  {
+   "n": 2,
+   "model": "claude-opus-5-5",
+   "at_s": 6.0,
+   "purpose": "Bash: Read brief and list kit files"
+  },
+  {
+   "n": 3,
+   "model": "claude-opus-5-5",
+   "at_s": 9.1,
+   "purpose": "Bash: Read tool API, docs and example"
+  },
+  {
+   "n": 4,
+   "model": "claude-opus-5-5",
+   "at_s": 13.1,
+   "purpose": "Bash: Summarize openapi tools"
+  },
+  {
+   "n": 5,
+   "model": "claude-opus-5-5",
+   "at_s": 16.6,
+   "purpose": "Read: docs/workflow-format.md; Read: docs/tools-and-code.md; Read: examples/base-agent.json"
+  },
+  {
+   "n": 6,
+   "model": "claude-opus-5-5",
+   "at_s": 23.2,
+   "purpose": "I've read the brief, the tool API, the docs and the example. Next I'm checking what the workflow checker enforces, then I'll write the workf; Bash: Read the workflow checker"
+  },
+  {
+   "n": 7,
+   "model": "claude-opus-5-5",
+   "at_s": 28.7,
+   "purpose": "Bash: Inspect freya.py and README"
+  },
+  {
+   "n": 8,
+   "model": "claude-opus-5-5",
+   "at_s": 235.5,
+   "purpose": "Next I'm writing a generator script for the workflow. Dates and the debt facts will be computed in code steps. `close_call` gets its own clo; Bash: Create output dirs and check remaining checker codes"
+  },
+  {
+   "n": 9,
+   "model": "claude-opus-5-5",
+   "at_s": 242.5,
+   "purpose": "Bash: Move generator location into workspace"
+  },
+  {
+   "n": 10,
+   "model": "claude-opus-5-5",
+   "at_s": 245.1,
+   "purpose": "Write: scripts/build_workflow.py"
+  },
+  {
+   "n": 11,
+   "model": "claude-opus-5-5",
+   "at_s": 365.5,
+   "purpose": "Edit: scripts/build_workflow.py; Write: out/pl-g6-contract-raw.contract.json"
+  },
+  {
+   "n": 12,
+   "model": "claude-opus-5-5",
+   "at_s": 428.5,
+   "purpose": "Bash: Generate workflow and run the checker"
+  },
+  {
+   "n": 13,
+   "model": "claude-opus-5-5",
+   "at_s": 431.5,
+   "purpose": "Checker passes with 0 errors. Now I'll run the code steps and hooks locally with sample data to catch logic errors.; Bash: Run code steps and hooks locally on sample data"
+  },
+  {
+   "n": 14,
+   "model": "claude-opus-5-5",
+   "at_s": 443.1,
+   "purpose": "Found a real bug: the holiday list was not substituted into the shared date code. Fixing it.; Bash: Fix holiday substitution and rerun local tests"
+  },
+  {
+   "n": 15,
+   "model": "claude-opus-5-5",
+   "at_s": 453.2,
+   "purpose": "Bash: Fix example, regenerate, check and save workflow"
+  },
+  {
+   "n": 16,
+   "model": "claude-opus-5-5",
+   "at_s": 458.8,
+   "purpose": "Saved. The practice set is empty, so I won't run `run_cases.py`. Instead I'll export the saved workflow and check that the platform kept the; Bash: Export saved workflow and compare with local file"
+  },
+  {
+   "n": 17,
+   "model": "claude-opus-5-5",
+   "at_s": 476.9,
+   "purpose": "I built and saved the agent, but it has not been tested on any calls. `public-test-set.json` is empty for this brief, so there were no pract"
+  }
+ ],
+ "checks": [
+  {
+   "slot": "pl-g6-contract-raw",
+   "contract": "pl-g6-contract-raw.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "not lowered: no out/<slot>.body.json and out/<slot>.closing.json"
+  }
+ ]
+}

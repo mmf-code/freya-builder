@@ -1,0 +1,52 @@
+[00:02]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/pl-g6-contract-raw.md'}
+[00:03]   [Bash] {'command': 'cat briefs/pl-g6-contract-raw.md; ls; ls briefs tools docs examples out 2>/dev/null; cat public-test-set.js
+[00:05]   [Bash] {'command': 'cat tools/openapi.json; cat docs/workflow-format.md docs/tools-and-code.md; cat examples/base-agent.json; c
+[00:08]   [Bash] {'command': 'python3 -c "\nimport json;d=json.load(open(\'tools/openapi.json\'))\nprint(json.dumps(d[\'info\'],indent=1)
+[00:11]   [Bash] {'command': 'python3 -c "\nimport json;d=json.load(open(\'tools/openapi.json\'))\nfor k,v in d.items(): print(k,len(json
+[00:13] I've read the brief and the tool API. Next I'm reading the workflow format docs before writing the agent.
+[00:13]   [Read] {'file_path': '<repo>/runs/20261010-234914-pl-g6-cont
+[00:14]   [Read] {'file_path': '<repo>/runs/20261010-234914-pl-g6-cont
+[00:15]   [Read] {'file_path': '<repo>/runs/20261010-234914-pl-g6-cont
+[00:16] Now the lowering and check tools, to see what the body must look like.
+[00:17]   [Bash] {'command': 'wc -l tools/*.py freya.py; sed -n 1,200p tools/lower.py', 'description': 'Read lowering tool'}
+[00:18]   [Bash] {'command': 'sed -n 200,378p tools/lower.py', 'description': 'Read rest of lowering tool'}
+[00:21]   [Bash] {'command': 'sed -n 1,579p tools/check_workflow.py', 'description': 'Read workflow checker'}
+[04:19]   [Bash] {'command': 'cat freya.py tools/dryrun.py | head -200; ls traces | head', 'description': 'Read freya client and dryrun t
+[04:21] I have what I need. Now writing a generator script for the body and plan, so the code snippets and repeated steps stay consistent.
+[04:21]   [Bash] {'command': 'mkdir -p out gen && echo ok', 'description': 'Create output and generator folders'}
+[06:18]   [Write] {'file_path': '<repo>/runs/20261010-234914-pl-g6-cont
+[06:35] Fixing a few issues before the first lowering: duplicate targets that would merge a tool-call route with a deterministic one, and `less_than` checks on counters that may be unset.
+[06:45]   [Bash] {'command': 'cd gen && python3 - <<\'EOF\'\np=\'build.py\'; s=open(p).read()\nrep=[\n("""        go("close:no_promise/se
+[06:54]   [Bash] {'command': 'cd gen && python3 - <<\'EOF\'\np=\'build.py\'; s=open(p).read()\nold=s[s.index(\'    [go("close:no_promise/
+[06:55]   [Bash] {'command': 'grep -n "restructuring" briefs/pl-g6-contract-raw.md', 'description': 'Find restructuring quote in brief'}
+[06:58]   [Bash] {'command': 'sed -i \'\' \'s/ev("call `transfer_to_agent` with queue `restructuring` and close as/ev("Call `transfer_to_
+[07:00] Lowering and check pass with 0 errors. Now a dry run of the two code steps on several dates and account shapes.
+[07:04]   [Bash] {'command': 'cat > gen/samples.json <<\'EOF\'\n[\n {"now": "2026-10-14T11:00", "products": [{"product_id": "p1", "type":
+[07:14]   [Bash] {'command': 'python3 - <<\'EOF\'\np=\'gen/build.py\'; s=open(p).read()\ns=s.replace(\'\'\'"Valid promise dates (business
+[07:36] I built and saved the agent for `pl-g6-contract-raw`. It has not been tested on any customers: `public-test-set.json` is empty, so this brief has no practice customers and I did not run `tools/run_cases.py`.
+[07:36] 
+[07:36] The lowering and the check passed with 0 errors and 0 warnings. A local dry run of the two code steps on five sample dates and account shapes gave correct results; I checked the deadline and band dates by hand. The other test was reading the workflow against rules 1 to 47 of the brief.
+[07:36] 
+[07:36] **How the call is built**
+[07:36] - **Opening:** a fixed first sentence ("Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with {{title}} {{last_name}}?"). There is one more ask; if it is still unclear after that, the call closes as `not_reached` / `unclear`. If someone else answers, the agent asks when the customer can be reached and books a callback inside the computed window. Wrong number and deceased each close at once.
+[07:36] - **Identity:** two separate steps, date of birth then phone digits. Moving on and the `failed` close both depend on what `verify_identity` returns, not on what the customer says. A refusal after one explanation closes as `not_verified` / `declined`.
+[07:36] - **Account facts:** after `get_account`, a code step works out the band, the deadline, the list of valid promise dates (holidays and weekends left out), the floor, the attempt-1 date and the product in words.
+[07:36] - **Persuasion attempts:** they are separate steps (`ask_today`, then `attempt_1`, then `attempt_2` for late-band customers only), so the agent cannot make more attempts than the brief allows. Hardship, already paid and dispute are checked before a refusal counts as an attempt.
+[07:36] - **Endings:** every ending runs `close_call` once, with a fixed farewell. If a promise has been recorded, the call closes as `promise` whatever happens after; only a later transfer overrides it, as the brief says.
+[07:36] 
+[07:36] **Decisions you should know about**
+[07:36] - **Support transfer queue:** the brief says queue `support`, but the tool API only allows `customer_support`. The brief says the tool API wins on tool fields, so the agent sends `customer_support`. The close reason stays `support`.
+[07:36] - **No close codes in the brief for these two failures:**
+[07:36]   - If `get_account` fails, the call closes as `no_promise` / `service_error`.
+[07:36]   - If booking a callback fails twice, it closes as `not_reached` / `no_callback`.
+[07:36] 
+[07:36] **Weak points (only a test run would show how they behave)**
+[07:36] - Whether a promise date and amount are valid is checked by the model against the computed facts in its prompt. Nothing blocks an invalid `create_promise` call, and the bank service accepts one without complaint.
+[07:36] - The callback window is also checked only by the model.
+[07:36] - Spotting a refusal relies on the model reading the customer's words correctly.
+[07:36] 
+[07:36] To change the agent, edit `gen/build.py` and run it again. It rewrites the body and the closing plan.
+[07:36] 
+[07:36] workflow_id `f15d8ffc-ec21-4057-9698-c81bdd428694`, agent_id `0e3911a8-9d0a-492f-ab4d-4e8cc7ae1350`, 0 customers passed in the last run (no run: the brief has no practice customers).
+[07:36] 
+[07:36] done: 22 turns, 456 s, $1.91. Trace: <repo>/runs/20261010-234914-pl-g6-contract-raw/workspace/traces/20261010-234914.jsonl

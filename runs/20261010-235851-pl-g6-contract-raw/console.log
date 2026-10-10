@@ -1,0 +1,42 @@
+[00:02]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/pl-g6-contract-raw.md'}
+[00:04]   [Bash] {'command': 'cat briefs/pl-g6-contract-raw.md; ls; ls briefs tools docs examples out 2>/dev/null; cat public-test-set.js
+[00:06]   [Bash] {'command': 'cat tools/openapi.json; cat docs/workflow-format.md docs/tools-and-code.md; cat examples/base-agent.json',
+[00:08]   [Bash] {'command': 'python3 -c "\nimport json;d=json.load(open(\'tools/openapi.json\'))\nfor p,v in d[\'paths\'].items():\n  fo
+[00:12]   [Bash] {'command': 'cat docs/workflow-format.md', 'description': 'Read workflow format doc'}
+[00:12]   [Bash] {'command': 'cat docs/tools-and-code.md; cat examples/base-agent.json', 'description': 'Read tools doc and example agent
+[00:13] I've read the brief and the tool API. Now I'm reading the workflow format docs before I write the agent.
+[00:15]   [Read] {'file_path': '<repo>/.claude-builder/projects/-Users
+[00:17]   [Read] {'file_path': '<repo>/.claude-builder/projects/-Users
+[00:19] Now I'll read the lowering and check scripts to see what they expect.
+[00:19]   [Bash] {'command': 'wc -l tools/*.py; sed -n 1,200p tools/lower.py', 'description': 'Read lowering script start'}
+[00:20]   [Bash] {'command': 'sed -n 200,378p tools/lower.py', 'description': 'Read rest of lowering script'}
+[00:27]   [Bash] {'command': 'sed -n 1,579p tools/check_workflow.py | grep -n "def \\|level=\\|ERROR\\|WARN\\|code=" | head -120', 'descr
+[00:29]   [Bash] {'command': 'sed -n 84,212p tools/check_workflow.py; sed -n 257,306p tools/check_workflow.py; sed -n 428,530p tools/chec
+[04:08]   [Bash] {'command': 'mkdir -p out scripts; grep -n "verify\\|hint\\|swap" docs/api.md | head -20; sed -n 1,60p tools/run_cases.p
+[04:09] Now the date and product facts code, tested locally first.
+[04:32]   [Write] {'file_path': '<repo>/runs/20261010-235851-pl-g6-cont
+[04:37]   [Bash] {'command': 'cd scripts && python3 -I -c "\nsrc=open(\'plan_code.py\').read()\nassert \'{{\' not in src and \'}}\' not i
+[04:39] The date code works. Now the generator for the body and the closing plan.
+[06:00]   [Write] {'file_path': '<repo>/runs/20261010-235851-pl-g6-cont
+[07:21]   [Bash] {'command': 'cd .. && python3 scripts/gen.py && S=pl-g6-contract-raw && python3 tools/lower.py out/$S.body.json out/$S.c
+[07:23] The lowering and the check both pass with no errors and no warnings. Next I'll look at the lowered graph to confirm the ladder and the precedence routers.
+[07:25]   [Bash] {'command': 'python3 -c "\nimport json;w=json.load(open(\'out/pl-g6-contract-raw.workflow.json\'))\nfor k,n in w[\'nodes
+[07:36]   [Bash] {'command': 'sed -i \'\' \'s|closing("promise", None, "You will receive|closing("promise", None, "Your promise is record
+[07:39]   [Bash] {'command': 'python3 -c "import freya,json,sys; print(json.dumps(freya.save_workflow(sys.argv[1], json.load(open(sys.arg
+[07:49] I built and saved the phone agent. It has not been tested on customers: `public-test-set.json` is empty, so this brief has no practice customers and I did not run `tools/run_cases.py`. My only tests were the check script, which passed with 0 errors and 0 warnings, and a reading of the workflow against every rule of the brief.
+[07:49] 
+[07:49] **How a call goes:**
+[07:49] - **Opening:** a fixed first sentence says a digital assistant is calling from Freya Bank and the call is recorded. The agent then asks for the customer once, and a second time if the answer is unclear. Clear replies (wrong number, deceased, someone else answers) route straight to their ending without the model choosing.
+[07:49] - **Someone else answers:** the agent only asks when the customer can be reached and books a callback inside the allowed window. That window is worked out in code from `now`.
+[07:49] - **Identity:** date of birth first, then the last four phone digits. Each question has its own tool with the field fixed. The agent explains once why it asks; a second refusal closes as `not_verified` / `declined`. When the bank reports no wrong answers left, the call goes straight to `not_verified` / `failed`, and nothing else can win over it.
+[07:49] - **Debt and promise:** after `get_account`, code works out the product name, floor, band, deadline, the attempt-1 day and a day-by-day calendar marking which days are allowed. The negotiation steps allow 2 refusals for the early band and 3 for the late band (the first ask plus 1 or 2 persuasion attempts). A refusal always moves forward, so a refused offer is never repeated, and running out of attempts ends as `no_promise` / `refused`.
+[07:49] - **Endings:** each ending runs `close_call` alone and then hangs up. A recorded promise closes as `promise` over any other ending except a transfer, as the brief says.
+[07:49] 
+[07:49] **Decisions you may want to check:**
+[07:49] - **Support transfer queue:** the brief says queue `support`, but the tool API only allows `customer_support`. The brief names the tool API as the reference for tool fields, so the transfer sends `customer_support`. The `close_call` reason is still `support`.
+[07:49] - **Two products:** the brief says customers are late on one product, but it also says "one promise per product". The agent handles up to 2 products in case an account returns more.
+[07:49] - **`get_account` failure:** the brief does not cover this. I close it as `no_promise` / `service_error`.
+[07:49] 
+[07:49] `workflow_id` eb23d688-b070-41dc-a36e-b75f5001d5ce, `agent_id` 187debbe-3e21-4df6-908d-4a7d486fc0dd, 0 customers tested (this brief has no practice customers).
+[07:49] 
+[07:49] done: 23 turns, 469 s, $1.77. Trace: <repo>/runs/20261010-235851-pl-g6-contract-raw/workspace/traces/20261010-235851.jsonl

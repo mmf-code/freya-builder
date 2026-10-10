@@ -1,0 +1,218 @@
+{
+ "run": "20261010-235851-pl-g6-contract-raw",
+ "start": "2026-10-10T20:58:51+00:00",
+ "end": "2026-10-10T21:06:42+00:00",
+ "seconds": 471,
+ "limit_minutes": 30.0,
+ "timed_out": false,
+ "exit_code": 0,
+ "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill <repo>/builder/skills/lowering-precedence (sha256:c401cbfb82b2)",
+ "builder_model": "claude-opus-5-5 (agent_builder.py default)",
+ "agent_model": {
+  "provider": "experimental-5",
+  "model": "experimental-5"
+ },
+ "repo_commit": "ae6caa068637a5c138b52e6faad9819cfcad7307",
+ "repo_dirty": false,
+ "isolation": {
+  "CLAUDE_CONFIG_DIR": "<repo>/.claude-builder",
+  "HOME": "<repo>/.claude-builder/home",
+  "state": "<repo>/state/pl/b2-lowering-precedence-g6-contract-raw-2"
+ },
+ "inputs": {
+  "briefs": [
+   {
+    "name": "pl-g6-contract-raw.md",
+    "sha256": "d5822ee11646c3d25344d930bfe51a9bcdb5d9b65c67cbbd193b354972f0746a"
+   }
+  ],
+  "tools": {
+   "name": "openapi.json",
+   "sha256": "be88362215c1255893e66de5d3042aa84a25b027ae105dbe244e8ff242a8f9bc"
+  }
+ },
+ "practice_cases": [],
+ "freya": [
+  {
+   "slot": "pl-g6-contract-raw",
+   "workflow_id": "eb23d688-b070-41dc-a36e-b75f5001d5ce",
+   "agent_id": "187debbe-3e21-4df6-908d-4a7d486fc0dd",
+   "created": true,
+   "export": "pl-g6-contract-raw.workflow.json"
+  }
+ ],
+ "tests": [],
+ "written": [
+  "<repo>/runs/20261010-235851-pl-g6-contract-raw/workspace/scripts/gen.py",
+  "<repo>/runs/20261010-235851-pl-g6-contract-raw/workspace/scripts/plan_code.py"
+ ],
+ "cost_usd": 1.7661573999999998,
+ "num_turns": 23,
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1202,
+   "outputTokens": 28,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.00013419999999999998,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  },
+  "claude-opus-5-5": {
+   "inputTokens": 42,
+   "outputTokens": 41587,
+   "cacheReadInputTokens": 1562576,
+   "cacheCreationInputTokens": 124320,
+   "webSearchRequests": 0,
+   "costUSD": 1.7660232,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 22935,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "model_calls": [
+  {
+   "n": 1,
+   "model": "claude-opus-5-5",
+   "at_s": 3.0,
+   "purpose": "Skill: {\"skill\": \"build-phone-agent\", \"args\": \"briefs/pl-g6-contract-raw.md\"}"
+  },
+  {
+   "n": 2,
+   "model": "claude-opus-5-5",
+   "at_s": 4.5,
+   "purpose": "Bash: Read brief and list kit files"
+  },
+  {
+   "n": 3,
+   "model": "claude-opus-5-5",
+   "at_s": 6.1,
+   "purpose": "Bash: Read tool API, docs and example"
+  },
+  {
+   "n": 4,
+   "model": "claude-opus-5-5",
+   "at_s": 9.1,
+   "purpose": "Bash: Summarize tool API paths"
+  },
+  {
+   "n": 5,
+   "model": "claude-opus-5-5",
+   "at_s": 11.6,
+   "purpose": "Bash: Read workflow format doc; Bash: Read tools doc and example agent"
+  },
+  {
+   "n": 6,
+   "model": "claude-opus-5-5",
+   "at_s": 14.1,
+   "purpose": "I've read the brief and the tool API. Now I'm reading the workflow format docs before I write the agent.; Read: <repo>/.claude-builder/projects/-Users-atakan-Developer-freya-builder--claude-worktrees-evre-graph-safety-runs-20261010-235851-pl-g6-contract-raw-workspace/3c6d940d-95bd-4ab4-ad54-08d9cd3895d3/tool-results/byfnm4f8g.txt"
+  },
+  {
+   "n": 7,
+   "model": "claude-opus-5-5",
+   "at_s": 17.7,
+   "purpose": "Read: <repo>/.claude-builder/projects/-Users-atakan-Developer-freya-builder--claude-worktrees-evre-graph-safety-runs-20261010-235851-pl-g6-contract-raw-workspace/3c6d940d-95bd-4ab4-ad54-08d9cd3895d3/tool-results/bg4xkkq35.txt"
+  },
+  {
+   "n": 8,
+   "model": "claude-opus-5-5",
+   "at_s": 19.2,
+   "purpose": "Now I'll read the lowering and check scripts to see what they expect.; Bash: Read lowering script start"
+  },
+  {
+   "n": 9,
+   "model": "claude-opus-5-5",
+   "at_s": 21.2,
+   "purpose": "Bash: Read rest of lowering script"
+  },
+  {
+   "n": 10,
+   "model": "claude-opus-5-5",
+   "at_s": 26.7,
+   "purpose": "Bash: Skim check_workflow rules"
+  },
+  {
+   "n": 11,
+   "model": "claude-opus-5-5",
+   "at_s": 29.2,
+   "purpose": "Bash: Read check rules in detail"
+  },
+  {
+   "n": 12,
+   "model": "claude-opus-5-5",
+   "at_s": 249.1,
+   "purpose": "Bash: Check output dirs and helper APIs"
+  },
+  {
+   "n": 13,
+   "model": "claude-opus-5-5",
+   "at_s": 250.1,
+   "purpose": "Now the date and product facts code, tested locally first.; Write: scripts/plan_code.py"
+  },
+  {
+   "n": 14,
+   "model": "claude-opus-5-5",
+   "at_s": 275.3,
+   "purpose": "Bash: Test the date and product code locally"
+  },
+  {
+   "n": 15,
+   "model": "claude-opus-5-5",
+   "at_s": 279.3,
+   "purpose": "The date code works. Now the generator for the body and the closing plan.; Write: scripts/gen.py"
+  },
+  {
+   "n": 16,
+   "model": "claude-opus-5-5",
+   "at_s": 364.5,
+   "purpose": "(reasoning only)"
+  },
+  {
+   "n": 17,
+   "model": "claude-opus-5-5",
+   "at_s": 440.1,
+   "purpose": "Bash: Generate, lower and check the workflow"
+  },
+  {
+   "n": 18,
+   "model": "claude-opus-5-5",
+   "at_s": 444.2,
+   "purpose": "The lowering and the check both pass with no errors and no warnings. Next I'll look at the lowered graph to confirm the ladder and the prece; Bash: Inspect lowered workflow graph"
+  },
+  {
+   "n": 19,
+   "model": "claude-opus-5-5",
+   "at_s": 456.3,
+   "purpose": "Bash: Regenerate, lower and check again"
+  },
+  {
+   "n": 20,
+   "model": "claude-opus-5-5",
+   "at_s": 459.3,
+   "purpose": "Bash: Save the workflow to the platform"
+  },
+  {
+   "n": 21,
+   "model": "claude-opus-5-5",
+   "at_s": 468.4,
+   "purpose": "I built and saved the phone agent. It has not been tested on customers: `public-test-set.json` is empty, so this brief has no practice custo"
+  }
+ ],
+ "checks": [
+  {
+   "slot": "pl-g6-contract-raw",
+   "contract": "pl-g6-contract-raw.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "matches: every ending step, value and route of the saved workflow comes from the lowering"
+  }
+ ]
+}

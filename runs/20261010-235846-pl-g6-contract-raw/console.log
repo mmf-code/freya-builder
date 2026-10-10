@@ -1,0 +1,47 @@
+[00:03]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/pl-g6-contract-raw.md'}
+[00:05]   [Bash] {'command': 'cat briefs/pl-g6-contract-raw.md; ls; ls briefs tools docs examples out; cat public-test-set.json | head -5
+[00:09]   [Bash] {'command': 'cat tools/openapi.json; cat docs/workflow-format.md docs/tools-and-code.md; cat examples/base-agent.json',
+[00:13]   [Bash] {'command': 'python3 -c "\nimport json;d=json.load(open(\'tools/openapi.json\'))\nprint(json.dumps(d[\'info\'],indent=1)
+[00:16]   [Read] {'file_path': '<repo>/runs/20261010-235846-pl-g6-cont
+[00:17]   [Read] {'file_path': '<repo>/runs/20261010-235846-pl-g6-cont
+[00:18]   [Read] {'file_path': '<repo>/runs/20261010-235846-pl-g6-cont
+[00:22] I've read the brief, the tool API, the docs and the example. Next I'm checking what the workflow checker enforces, then I'll write the workflow.
+[00:23]   [Bash] {'command': 'python3 -c "import json;print(json.load(open(\'tools/openapi.json\'))[\'servers\'])"; wc -l tools/check_wor
+[00:29]   [Bash] {'command': 'grep -n "def \\|agent_config\\|model" freya.py | head -60; cat README.md | head -80', 'description': 'Inspe
+[03:55] Next I'm writing a generator script for the workflow. Dates and the debt facts will be computed in code steps. `close_call` gets its own closing steps with fixed outcomes.
+[03:56]   [Bash] {'command': 'mkdir -p out ../builder_scripts 2>/dev/null; ls ..; sed -n 400,579p tools/check_workflow.py | grep -n "W-\\
+[04:02]   [Bash] {'command': 'rmdir ../builder_scripts; mkdir -p scripts; git status --short | head', 'description': 'Move generator loca
+[06:02]   [Write] {'file_path': '<repo>/runs/20261010-235846-pl-g6-cont
+[06:06]   [Edit] {'replace_all': False, 'file_path': '<repo>/runs/2026
+[06:08]   [Write] {'file_path': '<repo>/runs/20261010-235846-pl-g6-cont
+[07:08]   [Bash] {'command': 'python3 scripts/build_workflow.py && python3 tools/check_workflow.py out/pl-g6-contract-raw.workflow.json -
+[07:11] Checker passes with 0 errors. Now I'll run the code steps and hooks locally with sample data to catch logic errors.
+[07:19]   [Bash] {'command': 'cat > /tmp/test_codes.py <<\'EOF\'\nimport json,sys\nwf=json.load(open(sys.argv[1]))\nn=wf[\'nodes\']\ncode
+[07:22] Found a real bug: the holiday list was not substituted into the shared date code. Fixing it.
+[07:25]   [Bash] {'command': 'python3 - <<\'EOF\'\np=\'scripts/build_workflow.py\'; s=open(p).read()\ns=s.replace("SETUP_CODE = DATE_CODE
+[07:34]   [Bash] {'command': 'sed -i \'\' \'s/for your {{product_phrase}}, on Friday 16 October 2026. Do you confirm?/for your {{product_
+[07:38] Saved. The practice set is empty, so I won't run `run_cases.py`. Instead I'll export the saved workflow and check that the platform kept the tools, code steps and hooks.
+[07:42]   [Bash] {'command': 'python3 -c "\nimport freya,json\nfreya.export_workflow(\'63b3629f-4822-4d26-97d6-341e3f98e714\',\'/tmp/exp.
+[07:58] I built and saved the agent, but it has not been tested on any calls. `public-test-set.json` is empty for this brief, so there were no practice customers to run.
+[07:58] 
+[07:58] What I checked instead:
+[07:58] - The workflow checker passes with 0 errors and 0 warnings.
+[07:58] - I exported the saved version from the platform and checked it again: 0 errors, and all 26 steps and 23 hooks were kept.
+[07:58] - I ran the date code and the hooks locally with sample data. They gave the right deadlines, holidays and attempt-1 dates. This caught one real bug: the holiday list was not being filled into the date code. That is fixed.
+[07:58] - I read the workflow against all 47 rules of the brief.
+[07:58] 
+[07:58] How the call is built:
+[07:58] - **Steps:** opening, then identity, then the account lookup, then stating the debt and getting a promise, then a step after the promise. Someone other than the customer goes to a separate callback step.
+[07:58] - **Fixed lines:** the opening sentence, the debt statement, "Can you make this payment today?" and the text-message sentence after a promise are fixed text, not written by the model.
+[07:58] - **Dates:** deadlines, the attempt-1 date, the callback window and a day-by-day calendar are calculated in code from `now` and the brief's holidays. The agent is told to look dates up there and never work them out itself.
+[07:58] - **Ending the call:** each of the 16 outcome and reason pairs has its own closing step with the values fixed. `close_call` only runs in those steps, and only the end step comes after them. A safety hook corrects the outcome to promise, transferred or callback when the bank's records show one of those happened.
+[07:58] 
+[07:58] Things you should know:
+[07:58] - **Queue name mismatch:** the brief says queue `support`, but the tool API only allows `customer_support`. The brief names the API as the reference for tool fields, so I used `customer_support`. The close reason is still `support`.
+[07:58] - **Account lookup failure:** the brief doesn't say how to close if `get_account` fails. I chose `no_promise` / `service_error`.
+[07:58] - **Callback "today":** I read rule 6 literally, so a callback today is allowed even when today is a weekend or holiday.
+[07:58] - **Untested behaviour:** the model still has to say goodbye before closing, and still has to pick the right closing step for refusals, disputes and identity failures. Only test calls can show whether it does.
+[07:58] 
+[07:58] workflow_id `63b3629f-4822-4d26-97d6-341e3f98e714`, agent_id `f6a9416c-0b59-4b69-9a6c-cf6c2f5f0e9f`, no test run (0 practice customers for this brief).
+[07:58] 
+[07:58] done: 21 turns, 477 s, $1.63. Trace: <repo>/runs/20261010-235846-pl-g6-contract-raw/workspace/traces/20261010-235846.jsonl

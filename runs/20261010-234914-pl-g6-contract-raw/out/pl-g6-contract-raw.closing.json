@@ -1,0 +1,299 @@
+{
+ "terminal": {
+  "tool": "close_call",
+  "evidence": [
+   {
+    "source": "tools/openapi.json",
+    "quote": "End the call. Always the last tool call. Nothing is accepted after it."
+   },
+   {
+    "source": "briefs/pl-g6-contract-raw.md",
+    "quote": "Every call ends with exactly one `close_call`, with an outcome and, where the table lists one, a reason. It is the last tool call."
+   }
+  ]
+ },
+ "fields": {
+  "customer_id": "{{customer_id}}",
+  "channel": "voice"
+ },
+ "closings": {
+  "promise": {
+   "set": {
+    "outcome": "promise"
+   },
+   "say": "Thank you for your time, {{title}} {{last_name}}. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "Outcome: promise; Reason: none; When: at least one promise was recorded"
+    }
+   ]
+  },
+  "paid": {
+   "set": {
+    "outcome": "paid"
+   },
+   "say": "Thank you for letting me know. A payment can take one business day to appear. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "Outcome: paid; Reason: none; When: rule 39"
+    }
+   ]
+  },
+  "transferred/restructuring": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "restructuring"
+   },
+   "say": "I am transferring you now. Thank you, goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "Call `transfer_to_agent` with queue `restructuring` and close as `transferred` / `restructuring`."
+    }
+   ]
+  },
+  "transferred/human": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "human"
+   },
+   "say": "I am transferring you now. Thank you, goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "call `transfer_to_agent` with queue `general` and close as `transferred` / `human`."
+    }
+   ]
+  },
+  "transferred/support": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "support"
+   },
+   "say": "I am transferring you now. Thank you, goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "call `transfer_to_agent` with queue `support` and close as `transferred` / `support`."
+    }
+   ]
+  },
+  "no_promise/refused": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "refused"
+   },
+   "say": "I understand. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "Do not repeat an offer the customer already refused. Close as `no_promise` / `refused`."
+    }
+   ]
+  },
+  "no_promise/hardship": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "hardship"
+   },
+   "say": "I understand. Take care. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "If they decline, close as `no_promise` / `hardship`."
+    }
+   ]
+  },
+  "no_promise/dispute": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "dispute"
+   },
+   "say": "I understand, thank you for telling me. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "do not argue and do not take a promise. Close as `no_promise` / `dispute`."
+    }
+   ]
+  },
+  "no_promise/service_error": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "service_error"
+   },
+   "say": "I am sorry, I could not record your promise because of a technical problem. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "If it fails again, say you could not record it and close as `no_promise` / `service_error`."
+    }
+   ]
+  },
+  "no_promise/account_error": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "service_error"
+   },
+   "say": "I am sorry, I cannot open your account details right now because of a technical problem. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "Reason: refused`, `hardship`, `dispute`, `service_error; When: rules 31 and 45, 32, 40, 37"
+    }
+   ]
+  },
+  "not_verified/failed": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "failed"
+   },
+   "say": "I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "Tell the customer to use the mobile app or a branch. Close as `not_verified` / `failed`."
+    }
+   ]
+  },
+  "not_verified/declined": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "declined"
+   },
+   "say": "I understand. Without the security questions I cannot continue. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "If they still decline, close as `not_verified` / `declined`."
+    }
+   ]
+  },
+  "not_reached/callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "callback"
+   },
+   "say": "Thank you, we will call back then. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "Call `schedule_callback` with the date and the time, then close as `not_reached` / `callback`."
+    }
+   ]
+  },
+  "not_reached/callback_failed": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "no_callback"
+   },
+   "say": "I am sorry, I could not book the callback because of a technical problem. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "If that is also outside it, do not schedule. Close as `not_reached` / `no_callback`."
+    }
+   ]
+  },
+  "not_reached/no_callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "no_callback"
+   },
+   "say": "I understand. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "If that is also outside it, do not schedule. Close as `not_reached` / `no_callback`."
+    }
+   ]
+  },
+  "not_reached/wrong_number": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "wrong_number"
+   },
+   "say": "I apologise for the trouble. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "If the person says the number does not belong to the customer, close as `not_reached` / `wrong_number`."
+    }
+   ]
+  },
+  "not_reached/deceased": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "deceased"
+   },
+   "say": "I am sorry for your loss. Thank you, goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "say \"I am sorry for your loss.\", ask nothing else, and close as `not_reached` / `deceased`."
+    }
+   ]
+  },
+  "not_reached/unclear": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "unclear"
+   },
+   "say": "I am sorry, I could not confirm who I am speaking with. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "If it is still unclear after the second ask, close as `not_reached` / `unclear`."
+    }
+   ]
+  }
+ },
+ "precedence": [
+  {
+   "closing": "promise",
+   "when": [
+    {
+     "variable": "create_promise_success_count",
+     "operator": "greater_than",
+     "operand": 0
+    }
+   ],
+   "keep": [
+    "transferred/restructuring",
+    "transferred/human",
+    "transferred/support"
+   ],
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "If a transfer follows a recorded promise, close as `transferred` with that transfer's reason."
+    },
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "Outcome: promise; Reason: none; When: at least one promise was recorded"
+    }
+   ]
+  },
+  {
+   "closing": "not_verified/failed",
+   "when": [
+    {
+     "variable": "verify_identity_response.data.wrong_answers_left",
+     "operator": "equals",
+     "operand": 0
+    }
+   ],
+   "keep": [
+    "transferred/human"
+   ],
+   "evidence": [
+    {
+     "source": "briefs/pl-g6-contract-raw.md",
+     "quote": "After three wrong answers, do not state the debt. Tell the customer to use the mobile app or a branch. Close as `not_verified` / `failed`."
+    }
+   ]
+  }
+ ]
+}

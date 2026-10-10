@@ -1,0 +1,50 @@
+[00:03]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/pl-g5-memo-raw.md'}
+[00:05]   [Bash] {'command': 'cat briefs/pl-g5-memo-raw.md; echo ----; cat tools/openapi.json; echo ----; cat public-test-set.json; ls; l
+[00:07] Public test set is empty. Let me read the brief fully.
+[00:08]   [Read] {'file_path': '<repo>/runs/20261010-234924-pl-g5-memo
+[00:10]   [Bash] {'command': 'python3 -c "\nimport json;d=json.load(open(\'tools/openapi.json\'))\nfor p,v in d[\'paths\'].items():\n  b=
+[00:15]   [Bash] {'command': 'cat docs/workflow-format.md docs/tools-and-code.md; cat examples/base-agent.json; cat README.md', 'descript
+[00:17]   [Bash] {'command': 'wc -l docs/*.md examples/base-agent.json README.md tools/*.py', 'description': 'Count lines of docs'}
+[00:19]   [Read] {'file_path': '<repo>/runs/20261010-234924-pl-g5-memo
+[00:23]   [Read] {'file_path': '<repo>/runs/20261010-234924-pl-g5-memo
+[00:26]   [Bash] {'command': 'cat examples/base-agent.json; cat tools/lower.py', 'description': 'Read example agent and lowering tool'}
+[00:27] Reading the example agent and the lowering tool next, then I'll write the workflow.
+[00:28]   [Read] {'file_path': '<repo>/runs/20261010-234924-pl-g5-memo
+[00:29]   [Read] {'file_path': '<repo>/runs/20261010-234924-pl-g5-memo
+[00:32]   [Bash] {'command': 'grep -n \'Finding(\\|"error"\\|code=\' tools/check_workflow.py | head -80; sed -n 1,40p tools/check_workflo
+[03:21]   [Bash] {'command': 'mkdir -p out gen; grep -n "Persuasion attempts\\|one product\\|It is the last tool call\\|Nothing is accept
+[05:31]   [Write] {'file_path': '<repo>/runs/20261010-234924-pl-g5-memo
+[05:40]   [Bash] {'command': 'S=pl-g5-memo-raw; python3 gen/gen_body.py && python3 tools/lower.py out/$S.body.json out/$S.closing.json --
+[05:42] Lowered and checked with 0 errors. Now I'll run the two code snippets and a hook locally against sample values.
+[05:47]   [Bash] {'command': 'cd gen && python3 -I - <<\'EOF\'\nimport json, importlib.util, sys\nsys.argv=[\'x\']\nsrc=open(\'gen_body.p
+[05:53] The date math is correct in all three cases: the memo deadline of 6 business days, the early band skipping the 2026-10-26 holiday, and a pre-memo date. The hooks behave as intended. Saving now.
+[05:55]   [Bash] {'command': 'cd .. && S=pl-g5-memo-raw && python3 tools/check_workflow.py out/$S.workflow.json --tools tools/openapi.jso
+[05:59] Saved. Next I'll check that the platform kept the nodes, tools and hooks.
+[06:01]   [Bash] {'command': 'python3 -c "\nimport freya,json\nw=freya.export_workflow(\'a78d6895-4e92-464b-9b22-4b51f051eb2e\'); w=w.get
+[06:05]   [Bash] {'command': 'python3 -c "import freya; freya.export_workflow(\'a78d6895-4e92-464b-9b22-4b51f051eb2e\', \'out/pl-g5-memo-
+[06:19] I built and saved the phone agent, but it has not been tested on any calls. `public-test-set.json` is empty for this brief, so there were no practice customers to run. Its only tests are the workflow check (0 errors, 0 warnings, also on the copy the platform stored) and a local run of the date code.
+[06:19] 
+[06:19] **How I read the memos.** The brief says memos change the policy from their own date on, and anything dated before the policy is replaced by it.
+[06:19] - **OM-3 (3 Feb 2026)** is older than the policy (2 Mar 2026), so I ignored it. That drops its 20:00 callback limit and its car-loan rule.
+[06:19] - **OM-17 (9 Oct 2026)** applies from its date. Callbacks are booked 09:00–17:00, and the late band (8 to 45 days) gets the 6th business day as deadline. For a `now` before 9 Oct, the agent falls back to 10:00–19:00 and the 7th business day.
+[06:19] - **`add_note`** is a Brief B tool and is not used.
+[06:19] 
+[06:19] **How the call is controlled.**
+[06:19] - Code computes the dates from `now`: deadlines with bank holidays, callback slots, the date for persuasion attempt 1, and a calendar that resolves "this/next Friday". The agent gets a list of every date it may record.
+[06:19] - Each way a call can end sends its own fixed `close_call` values and plays a fixed goodbye.
+[06:19] - A recorded promise wins over any other ending except a later transfer. Three wrong identity answers always end as `not_verified` / `failed`.
+[06:19] - Persuasion attempts are counted by the workflow itself, not by the prompt. A flat refusal moves to the next attempt, and when the attempts run out the call closes as `no_promise` / `refused`.
+[06:19] - The workflow, not the model, decides when to leave a step after `verify_identity`, `create_promise`, `schedule_callback` and transfer results. A second failed `create_promise` closes as `no_promise` / `service_error` and says the promise was not recorded.
+[06:19] 
+[06:19] **Gaps you should know about:**
+[06:19] - **Policy wording I filled in myself:**
+[06:19]   - If `get_account` fails, the call closes as `no_promise` / `service_error`.
+[06:19]   - If booking a callback fails, the agent tries once more.
+[06:19] - **Only the model decides these, so they are untested:** classifying who answered, spotting a flat refusal, and choosing the paid, dispute, hardship or declined endings.
+[06:19] - **Not handled:** a request for a human before the customer has confirmed who they are is not covered at the opening step.
+[06:19] 
+[06:19] The generator script is `gen/gen_body.py`. The files are in `out/`: `pl-g5-memo-raw.body.json`, `pl-g5-memo-raw.closing.json` and `pl-g5-memo-raw.workflow.json`.
+[06:19] 
+[06:19] workflow_id a78d6895-4e92-464b-9b22-4b51f051eb2e, agent_id 03c2354f-2230-4a8c-971e-247439a24445, 0 customers passed (no practice customers for this brief, no test run).
+[06:19] 
+[06:19] done: 21 turns, 379 s, $1.48. Trace: <repo>/runs/20261010-234924-pl-g5-memo-raw/workspace/traces/20261010-234924.jsonl

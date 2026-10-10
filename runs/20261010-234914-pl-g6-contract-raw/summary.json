@@ -1,0 +1,205 @@
+{
+ "run": "20261010-234914-pl-g6-contract-raw",
+ "start": "2026-10-10T20:49:14+00:00",
+ "end": "2026-10-10T20:56:51+00:00",
+ "seconds": 457,
+ "limit_minutes": 30.0,
+ "timed_out": false,
+ "exit_code": 0,
+ "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill <repo>/builder/skills/lowering-precedence (sha256:c401cbfb82b2)",
+ "builder_model": "claude-opus-5-5 (agent_builder.py default)",
+ "agent_model": {
+  "provider": "experimental-5",
+  "model": "experimental-5"
+ },
+ "repo_commit": "ae6caa068637a5c138b52e6faad9819cfcad7307",
+ "repo_dirty": false,
+ "isolation": {
+  "CLAUDE_CONFIG_DIR": "<repo>/.claude-builder",
+  "HOME": "<repo>/.claude-builder/home",
+  "state": "<repo>/state/pl/b1-lowering-precedence-g6-contract-raw-1"
+ },
+ "inputs": {
+  "briefs": [
+   {
+    "name": "pl-g6-contract-raw.md",
+    "sha256": "d5822ee11646c3d25344d930bfe51a9bcdb5d9b65c67cbbd193b354972f0746a"
+   }
+  ],
+  "tools": {
+   "name": "openapi.json",
+   "sha256": "be88362215c1255893e66de5d3042aa84a25b027ae105dbe244e8ff242a8f9bc"
+  }
+ },
+ "practice_cases": [],
+ "freya": [
+  {
+   "slot": "pl-g6-contract-raw",
+   "workflow_id": "f15d8ffc-ec21-4057-9698-c81bdd428694",
+   "agent_id": "0e3911a8-9d0a-492f-ab4d-4e8cc7ae1350",
+   "created": true,
+   "export": "pl-g6-contract-raw.workflow.json"
+  }
+ ],
+ "tests": [],
+ "written": [
+  "<repo>/runs/20261010-234914-pl-g6-contract-raw/workspace/gen/build.py"
+ ],
+ "cost_usd": 1.9087071999999998,
+ "num_turns": 22,
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1202,
+   "outputTokens": 26,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.00013319999999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  },
+  "claude-opus-5-5": {
+   "inputTokens": 38,
+   "outputTokens": 49286,
+   "cacheReadInputTokens": 1514310,
+   "cacheCreationInputTokens": 123968,
+   "webSearchRequests": 0,
+   "costUSD": 1.9085739999999998,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 26620,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "model_calls": [
+  {
+   "n": 1,
+   "model": "claude-opus-5-5",
+   "at_s": 2.5,
+   "purpose": "Skill: {\"skill\": \"build-phone-agent\", \"args\": \"briefs/pl-g6-contract-raw.md\"}"
+  },
+  {
+   "n": 2,
+   "model": "claude-opus-5-5",
+   "at_s": 4.0,
+   "purpose": "Bash: Read brief and list kit"
+  },
+  {
+   "n": 3,
+   "model": "claude-opus-5-5",
+   "at_s": 5.5,
+   "purpose": "Bash: Read tool API, docs, example"
+  },
+  {
+   "n": 4,
+   "model": "claude-opus-5-5",
+   "at_s": 8.6,
+   "purpose": "Bash: Summarize tool API"
+  },
+  {
+   "n": 5,
+   "model": "claude-opus-5-5",
+   "at_s": 11.1,
+   "purpose": "Bash: Find large parts of openapi"
+  },
+  {
+   "n": 6,
+   "model": "claude-opus-5-5",
+   "at_s": 13.6,
+   "purpose": "I've read the brief and the tool API. Next I'm reading the workflow format docs before writing the agent.; Read: docs/workflow-format.md; Read: docs/tools-and-code.md"
+  },
+  {
+   "n": 7,
+   "model": "claude-opus-5-5",
+   "at_s": 17.1,
+   "purpose": "Now the lowering and check tools, to see what the body must look like.; Bash: Read lowering tool"
+  },
+  {
+   "n": 8,
+   "model": "claude-opus-5-5",
+   "at_s": 19.2,
+   "purpose": "Bash: Read rest of lowering tool"
+  },
+  {
+   "n": 9,
+   "model": "claude-opus-5-5",
+   "at_s": 21.7,
+   "purpose": "Bash: Read workflow checker"
+  },
+  {
+   "n": 10,
+   "model": "claude-opus-5-5",
+   "at_s": 259.2,
+   "purpose": "Bash: Read freya client and dryrun tool"
+  },
+  {
+   "n": 11,
+   "model": "claude-opus-5-5",
+   "at_s": 261.7,
+   "purpose": "I have what I need. Now writing a generator script for the body and plan, so the code snippets and repeated steps stay consistent.; Bash: Create output and generator folders"
+  },
+  {
+   "n": 12,
+   "model": "claude-opus-5-5",
+   "at_s": 263.2,
+   "purpose": "Write: gen/build.py"
+  },
+  {
+   "n": 13,
+   "model": "claude-opus-5-5",
+   "at_s": 395.9,
+   "purpose": "Fixing a few issues before the first lowering: duplicate targets that would merge a tool-call route with a deterministic one, and `less_than; Bash: Patch generator routes"
+  },
+  {
+   "n": 14,
+   "model": "claude-opus-5-5",
+   "at_s": 411.0,
+   "purpose": "Bash: Regenerate, lower and check workflow"
+  },
+  {
+   "n": 15,
+   "model": "claude-opus-5-5",
+   "at_s": 416.0,
+   "purpose": "Bash: Find restructuring quote in brief"
+  },
+  {
+   "n": 16,
+   "model": "claude-opus-5-5",
+   "at_s": 419.1,
+   "purpose": "Bash: Fix quote, lower and check again"
+  },
+  {
+   "n": 17,
+   "model": "claude-opus-5-5",
+   "at_s": 421.1,
+   "purpose": "Lowering and check pass with 0 errors. Now a dry run of the two code steps on several dates and account shapes.; Bash: Dry-run code steps on sample variables"
+  },
+  {
+   "n": 18,
+   "model": "claude-opus-5-5",
+   "at_s": 433.2,
+   "purpose": "Bash: Add calendar, lower, check and save workflow"
+  },
+  {
+   "n": 19,
+   "model": "claude-opus-5-5",
+   "at_s": 452.9,
+   "purpose": "I built and saved the agent for `pl-g6-contract-raw`. It has not been tested on any customers: `public-test-set.json` is empty, so this brie"
+  }
+ ],
+ "checks": [
+  {
+   "slot": "pl-g6-contract-raw",
+   "contract": "pl-g6-contract-raw.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "matches: every ending step, value and route of the saved workflow comes from the lowering"
+  }
+ ]
+}

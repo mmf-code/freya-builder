@@ -1,0 +1,200 @@
+{
+ "run": "20261010-234909-pl-g6-contract-raw",
+ "start": "2026-10-10T20:49:09+00:00",
+ "end": "2026-10-10T20:57:07+00:00",
+ "seconds": 478,
+ "limit_minutes": 30.0,
+ "timed_out": false,
+ "exit_code": 0,
+ "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill <repo>/builder/skills/reference (sha256:7659a7bd2e6c)",
+ "builder_model": "claude-opus-5-5 (agent_builder.py default)",
+ "agent_model": {
+  "provider": "experimental-5",
+  "model": "experimental-5"
+ },
+ "repo_commit": "ae6caa068637a5c138b52e6faad9819cfcad7307",
+ "repo_dirty": false,
+ "isolation": {
+  "CLAUDE_CONFIG_DIR": "<repo>/.claude-builder",
+  "HOME": "<repo>/.claude-builder/home",
+  "state": "<repo>/state/pl/b1-reference-g6-contract-raw-1"
+ },
+ "inputs": {
+  "briefs": [
+   {
+    "name": "pl-g6-contract-raw.md",
+    "sha256": "d5822ee11646c3d25344d930bfe51a9bcdb5d9b65c67cbbd193b354972f0746a"
+   }
+  ],
+  "tools": {
+   "name": "openapi.json",
+   "sha256": "be88362215c1255893e66de5d3042aa84a25b027ae105dbe244e8ff242a8f9bc"
+  }
+ },
+ "practice_cases": [],
+ "freya": [
+  {
+   "slot": "pl-g6-contract-raw",
+   "workflow_id": "0dda0615-44a2-4740-b965-d76531cf0eaa",
+   "agent_id": "3cd32d33-823d-4125-9060-989e08d15dba",
+   "version": 2,
+   "created": true,
+   "export": "pl-g6-contract-raw.workflow.json"
+  }
+ ],
+ "tests": [],
+ "written": [
+  "<repo>/runs/20261010-234909-pl-g6-contract-raw/workspace/out/gen_pl-g6-contract-raw.py"
+ ],
+ "cost_usd": 1.8227968000000003,
+ "num_turns": 20,
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1202,
+   "outputTokens": 26,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.00013319999999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  },
+  "claude-opus-5-5": {
+   "inputTokens": 36,
+   "outputTokens": 44806,
+   "cacheReadInputTokens": 1380398,
+   "cacheCreationInputTokens": 130064,
+   "webSearchRequests": 0,
+   "costUSD": 1.8226636000000003,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 24222,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "model_calls": [
+  {
+   "n": 1,
+   "model": "claude-opus-5-5",
+   "at_s": 6.6,
+   "purpose": "Skill: {\"skill\": \"build-phone-agent\", \"args\": \"briefs/pl-g6-contract-raw.md\"}"
+  },
+  {
+   "n": 2,
+   "model": "claude-opus-5-5",
+   "at_s": 8.6,
+   "purpose": "Bash: Read brief, tool API, test set, list kit"
+  },
+  {
+   "n": 3,
+   "model": "claude-opus-5-5",
+   "at_s": 11.1,
+   "purpose": "Public test set is empty. Let me read files fully.; Read: briefs/pl-g6-contract-raw.md; Bash: Summarize tool API compactly"
+  },
+  {
+   "n": 4,
+   "model": "claude-opus-5-5",
+   "at_s": 17.7,
+   "purpose": "Bash: Read workflow docs and example"
+  },
+  {
+   "n": 5,
+   "model": "claude-opus-5-5",
+   "at_s": 21.2,
+   "purpose": "Read: docs/workflow-format.md"
+  },
+  {
+   "n": 6,
+   "model": "claude-opus-5-5",
+   "at_s": 24.7,
+   "purpose": "Read: docs/tools-and-code.md"
+  },
+  {
+   "n": 7,
+   "model": "claude-opus-5-5",
+   "at_s": 30.3,
+   "purpose": "Bash: Read example agent and README"
+  },
+  {
+   "n": 8,
+   "model": "claude-opus-5-5",
+   "at_s": 36.8,
+   "purpose": "Read: tools/check_workflow.py"
+  },
+  {
+   "n": 9,
+   "model": "claude-opus-5-5",
+   "at_s": 267.8,
+   "purpose": "Tool API, brief and docs are read. There are no practice customers for this brief. Next I'll write a generator script for the workflow, then; Bash: Inspect freya client functions"
+  },
+  {
+   "n": 10,
+   "model": "claude-opus-5-5",
+   "at_s": 273.8,
+   "purpose": "Write: out/gen_pl-g6-contract-raw.py"
+  },
+  {
+   "n": 11,
+   "model": "claude-opus-5-5",
+   "at_s": 402.9,
+   "purpose": "Bash: Write contract, generate workflow, run check"
+  },
+  {
+   "n": 12,
+   "model": "claude-opus-5-5",
+   "at_s": 406.5,
+   "purpose": "Check is clean. Now I'll run the three code snippets locally on sample variables to confirm the date math.; Bash: Execute code snippets locally on sample data"
+  },
+  {
+   "n": 13,
+   "model": "claude-opus-5-5",
+   "at_s": 418.6,
+   "purpose": "Date math is correct: deadlines skip weekends and the 2026-10-26 holiday, and attempt 1 moves to next week when today is Friday or later. Sa; Bash: Re-check and save workflow to Freya"
+  },
+  {
+   "n": 14,
+   "model": "claude-opus-5-5",
+   "at_s": 427.7,
+   "purpose": "The platform rejects `loop_prompt` here. I'll fold that text into the step's main prompt and save again.; Bash: Remove loop_prompt, regenerate, check, save"
+  },
+  {
+   "n": 15,
+   "model": "claude-opus-5-5",
+   "at_s": 436.2,
+   "purpose": "Saved. I'll export it back and re-run the check, to confirm the platform kept the steps, tools and routes.; Bash: Export saved workflow and verify structure"
+  },
+  {
+   "n": 16,
+   "model": "claude-opus-5-5",
+   "at_s": 446.8,
+   "purpose": "Bash: Split deterministic close routes to a twin code step"
+  },
+  {
+   "n": 17,
+   "model": "claude-opus-5-5",
+   "at_s": 457.4,
+   "purpose": "The routes now separate cleanly. Regenerating, checking and saving again.; Bash: Regenerate, check, save, verify export"
+  },
+  {
+   "n": 18,
+   "model": "claude-opus-5-5",
+   "at_s": 475.1,
+   "purpose": "I built the phone agent and saved it on Freya. It has not been tested on simulated customers: `public-test-set.json` is empty for this brief"
+  }
+ ],
+ "checks": [
+  {
+   "slot": "pl-g6-contract-raw",
+   "contract": "pl-g6-contract-raw.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "not lowered: no out/<slot>.body.json and out/<slot>.closing.json"
+  }
+ ]
+}

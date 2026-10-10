@@ -1,0 +1,52 @@
+[00:02]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/pl-g5-memo-raw.md'}
+[00:04]   [Bash] {'command': 'cat briefs/pl-g5-memo-raw.md; echo ----; cat tools/openapi.json; echo ----; cat public-test-set.json; ls br
+[00:05] Empty test set. Let me read the full brief.
+[00:06]   [Read] {'file_path': '<repo>/runs/20261010-234919-pl-g5-memo
+[00:09]   [Bash] {'command': 'python3 -c "\nimport json;d=json.load(open(\'tools/openapi.json\'))\nprint(json.dumps(d.get(\'info\'),inden
+[00:12]   [Bash] {'command': 'cd <repo>/runs/20261010-234919-pl-g5-mem
+[00:13]   [Read] {'file_path': '<repo>/runs/20261010-234919-pl-g5-memo
+[00:14]   [Read] {'file_path': '<repo>/runs/20261010-234919-pl-g5-memo
+[00:15]   [Read] {'file_path': '<repo>/runs/20261010-234919-pl-g5-memo
+[00:18]   [Bash] {'command': 'cd <repo>/runs/20261010-234919-pl-g5-mem
+[02:10]   [Bash] {'command': 'cd <repo>/runs/20261010-234919-pl-g5-mem
+[02:16]   [Bash] {'command': 'cd <repo>/runs/20261010-234919-pl-g5-mem
+[03:55]   [Bash] {'command': 'cd <repo>/runs/20261010-234919-pl-g5-mem
+[03:57] Now writing the generator.
+[05:53]   [Write] {'file_path': '<repo>/runs/20261010-234919-pl-g5-memo
+[05:59]   [Bash] {'command': 'cd <repo>/runs/20261010-234919-pl-g5-mem
+[06:02]   [Bash] {'command': 'cd <repo>/runs/20261010-234919-pl-g5-mem
+[06:04] Checker passes with no errors. Now a dry run of the code steps on several dates and account shapes.
+[06:08]   [Bash] {'command': 'cd <repo>/runs/20261010-234919-pl-g5-mem
+[06:12] Date logic checks out: deadlines, holidays, weekends, attempt-1 dates and callback windows. Saving the workflow.
+[06:14]   [Bash] {'command': 'cd <repo>/runs/20261010-234919-pl-g5-mem
+[06:17] Saved. The practice set for this brief is empty, so per the skill I won't run test cases. I'll export the stored workflow to confirm the platform kept the key fields.
+[06:21]   [Bash] {'command': 'cd <repo>/runs/20261010-234919-pl-g5-mem
+[06:33] I built and saved the phone agent and the graph check passes, but nothing has been tested on calls. The practice set has no customers for this brief, so I didn't run `run_cases.py`. The only checks were the graph checker and a local run of the date code.
+[06:33] 
+[06:33] **How the memos were applied:**
+[06:33] - Memo OM-3 (3 Feb 2026) is older than the policy extract (2 Mar 2026), so the extract replaces it. Its 20:00 callback limit and its car-loan rule are not used.
+[06:33] - Memo OM-17 (9 Oct 2026) changes two things. Callbacks are now 09:00–17:00, today or the next business day. The deadline for customers 8–45 days late is now the 6th business day; 1–7 days late stays at the 12th.
+[06:33] 
+[06:33] **How the agent is built:**
+[06:33] - **Call order:** the call opens with identity, then date of birth, then the last four phone digits. Then it loads the account and works on the promise, with a separate step for a relative or someone else who answers.
+[06:33] - **Ending the call:** each of the 16 outcome/reason pairs has its own closing step with fixed values. A fixed goodbye is spoken first, then `close_call` runs alone, then the call hangs up. Every route that ends the call, including turn-limit fallbacks, goes through one of these closing steps.
+[06:33] - **Leaving a step on tool results:** these moves happen automatically:
+[06:33]   - a passed check moves to the next question;
+[06:33]   - three wrong answers end the call as `not_verified` / `failed`;
+[06:33]   - a recorded promise or a booked callback leads to its goodbye;
+[06:33]   - a promise that fails to record twice ends the call as `service_error`;
+[06:33]   - a transfer that works ends the call as transferred.
+[06:33] - **Dates:** code computes the business days, holidays, deadline, valid promise dates, the attempt-1 date, "this/next weekday" and the callback window from `now`. I ran it on a Wednesday, a Friday, a Saturday and the Friday before the 26 Oct holiday, and the results were right.
+[06:33] - **Fixed lines:** the opening, the debt statement, "Can you make this payment today?" and "You will receive a text message confirming this promise." are fixed sentences.
+[06:33] 
+[06:33] **Risks to check in a test run:**
+[06:33] - **Counting persuasion attempts:** it relies on the prompt, so the model may lose count.
+[06:33] - **Speech before the closing call:** this assumes the platform speaks a step's fixed goodbye line before the next step runs `close_call`. The docs suggest it does, but I haven't seen it happen.
+[06:33] - **Weekend callbacks:** on a weekend the callback window still offers "today", following the brief literally ("today or the next business day").
+[06:33] - **More than one product:** the brief says one product, so the agent handles one. Extra products are only listed in the prompt.
+[06:33] 
+[06:33] The generator is `build/gen_pl_g5.py`. The workflow and contract files are in `out/`.
+[06:33] 
+[06:33] workflow_id `2d52d0f3-96bc-453d-a70d-148585aa55b0`, agent_id `9af97147-13ad-4f5e-9b9f-07a070b36d17`, 0 of 0 customers passed (this brief has no practice customers, so no test was run).
+[06:33] 
+[06:33] done: 20 turns, 393 s, $1.66. Trace: <repo>/runs/20261010-234919-pl-g5-memo-raw/workspace/traces/20261010-234919.jsonl
