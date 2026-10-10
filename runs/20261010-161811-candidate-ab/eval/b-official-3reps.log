@@ -1,0 +1,29 @@
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise > add_note > add_note > close_call
+       - conversation: The agent failed the specific attempt count requirements. Although it correctly handled the security questions (asking the phone question again once in Message 6 and only asking DOB once), recorded only one promise for the credit card, and correc
+PASS PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 8 s, worst 9 s. Failed calls where the customer hung up: 0.
+-- run 1 of 3: 2 / 3 passed, 73 s
+
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account > add_note > add_note > promise > close_call
+       - conversation: The agent failed to follow the specific instructions regarding the number of payment attempts for the loans. Although it correctly handled security verification (asking the phone question again once in Message 6 and DOB only once in Message 2), r
+PASS PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 5 s, worst 6 s. Failed calls where the customer hung up: 0.
+-- run 2 of 3: 2 / 3 passed, 52 s
+
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account > add_note > add_note > promise > close_call
+       - conversation: The conversation failed to meet the success criteria regarding the number of payment attempts. The car loan, which is in the early band (7 days late), was attempted twice: first in the collective ask in Message 8 and then specifically in Message 
+PASS PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 4 s, worst 4 s. Failed calls where the customer hung up: 0.
+-- run 3 of 3: 2 / 3 passed, 62 s
+
+PASS PUB-11 3/3
+FAIL PUB-12 0/3
+PASS PUB-13 3/3
+
+2 / 3 passed (bank records and conversation checks), a customer counts with 3 of 3 runs. Last simulation 9c5a98fb-a328-4d02-973d-1dd1ec4cb554, status completed, 187 s.

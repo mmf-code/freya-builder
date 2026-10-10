@@ -1,0 +1,290 @@
+{
+ "agent_id": "3aa5a39a-4d69-491a-bd2a-7b309361de5a",
+ "simulation_id": "9c5a98fb-a328-4d02-973d-1dd1ec4cb554",
+ "iteration_id": "2f0d9e0b-db44-47a9-b150-8f200e1cff7d",
+ "seconds": 187,
+ "passed": 2,
+ "total": 3,
+ "runs": 3,
+ "final": [
+  {
+   "id": "PUB-11",
+   "family": "Multi-product",
+   "passes": 3,
+   "runs": 3,
+   "pass": true
+  },
+  {
+   "id": "PUB-12",
+   "family": "Multi-product",
+   "passes": 0,
+   "runs": 3,
+   "pass": false
+  },
+  {
+   "id": "PUB-13",
+   "family": "Multi-product",
+   "passes": 3,
+   "runs": 3,
+   "pass": true
+  }
+ ],
+ "rows": [
+  {
+   "id": "PUB-11",
+   "level": "medium",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "ca53749e-ef3a-4e47-9f74-4665ccd4e89a",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_a48414fb-456",
+   "slowest_turn_s": 4.0,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-12",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": false,
+   "failed": [
+    "conversation: The conversation failed to meet the success criteria regarding the number of payment attempts. The car loan, which is in the early band (7 days late), was attempted twice: first in the collective ask in Message 8 and then specifically in Message 14. The criteria required exactly one attempt for the car loan. All other criteria were met: the phone question was repeated exactly once (Message 6), the"
+   ],
+   "call_id": "25e326c6-16ef-4520-8f8b-2d540407be10",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "add_note",
+    "add_note",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_20e28a29-944",
+   "slowest_turn_s": 4.2,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-13",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "0d92c673-adc0-4a7d-a81b-7956f78b8e58",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_eaaffb6a-930",
+   "slowest_turn_s": 4.0,
+   "ended": "assistant-ended-call"
+  }
+ ],
+ "all_rows": [
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "896559b1-a66c-4bfa-a4d0-5c3002860500",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_564d5434-678",
+    "slowest_turn_s": 7.8,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "conversation: The agent failed the specific attempt count requirements. Although it correctly handled the security questions (asking the phone question again once in Message 6 and only asking DOB once), recorded only one promise for the credit card, and correctly added refusal notes for the other products, it exceeded the allowed number of collection attempts. For the personal loan, it made three attempts (Mess"
+    ],
+    "call_id": "fe266074-c464-4876-8dd4-0ffe407dde5b",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "add_note",
+     "add_note",
+     "close_call"
+    ],
+    "customer_id": "c_1fcad11e-91d",
+    "slowest_turn_s": 8.7,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "ffade6b0-148a-4191-a952-61dd751e0ef1",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_20e9481c-b68",
+    "slowest_turn_s": 7.7,
+    "ended": "assistant-ended-call"
+   }
+  ],
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "e39705a8-e8c2-4260-94b3-d5aab1a4788f",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_67ac6dc5-5ae",
+    "slowest_turn_s": 5.5,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "conversation: The agent failed to follow the specific instructions regarding the number of payment attempts for the loans. Although it correctly handled security verification (asking the phone question again once in Message 6 and DOB only once in Message 2), recorded only one promise for the credit card (System Events), and added 'refused' notes for the other products, it exceeded the attempt limits. For the pe"
+    ],
+    "call_id": "a374bf66-a8b4-42a8-a896-65e08ecf4df7",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "add_note",
+     "add_note",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_504ec514-a70",
+    "slowest_turn_s": 4.8,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "0f6a211c-5ba0-424b-853a-67cfaae44643",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_6ccae70c-2ba",
+    "slowest_turn_s": 5.8,
+    "ended": "assistant-ended-call"
+   }
+  ],
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "ca53749e-ef3a-4e47-9f74-4665ccd4e89a",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_a48414fb-456",
+    "slowest_turn_s": 4.0,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "conversation: The conversation failed to meet the success criteria regarding the number of payment attempts. The car loan, which is in the early band (7 days late), was attempted twice: first in the collective ask in Message 8 and then specifically in Message 14. The criteria required exactly one attempt for the car loan. All other criteria were met: the phone question was repeated exactly once (Message 6), the"
+    ],
+    "call_id": "25e326c6-16ef-4520-8f8b-2d540407be10",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "add_note",
+     "add_note",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_20e28a29-944",
+    "slowest_turn_s": 4.2,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "0d92c673-adc0-4a7d-a81b-7956f78b8e58",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_eaaffb6a-930",
+    "slowest_turn_s": 4.0,
+    "ended": "assistant-ended-call"
+   }
+  ]
+ ]
+}

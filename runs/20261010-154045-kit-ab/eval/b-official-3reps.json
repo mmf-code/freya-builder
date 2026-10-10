@@ -1,0 +1,284 @@
+{
+ "agent_id": "84719013-cae2-46e3-a3a5-fbeca864e39a",
+ "simulation_id": "85d6761a-6430-47bd-bb57-439367b026e0",
+ "iteration_id": "f84caac1-7a14-498e-9d41-3657d5f385c7",
+ "seconds": 249,
+ "passed": 2,
+ "total": 3,
+ "runs": 3,
+ "final": [
+  {
+   "id": "PUB-11",
+   "family": "Multi-product",
+   "passes": 3,
+   "runs": 3,
+   "pass": true
+  },
+  {
+   "id": "PUB-12",
+   "family": "Multi-product",
+   "passes": 2,
+   "runs": 3,
+   "pass": false
+  },
+  {
+   "id": "PUB-13",
+   "family": "Multi-product",
+   "passes": 3,
+   "runs": 3,
+   "pass": true
+  }
+ ],
+ "rows": [
+  {
+   "id": "PUB-11",
+   "level": "medium",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "6b533a0b-1b9a-4420-9637-06148327588c",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_3e694ebc-d26",
+   "slowest_turn_s": 34.9,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-12",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "84f1a3c2-d8a5-4b58-8d11-b5e0b67a4959",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "add_note",
+    "add_note",
+    "close_call"
+   ],
+   "customer_id": "c_0c78421b-4e5",
+   "slowest_turn_s": 15.4,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-13",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "e3a74588-9c0b-4b7e-9c55-4650e1426d92",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_bf8ac134-70f",
+   "slowest_turn_s": 21.9,
+   "ended": "assistant-ended-call"
+  }
+ ],
+ "all_rows": [
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "f05a7fcf-1119-436d-9e42-2b1fff5bdd49",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_ca886bdb-359",
+    "slowest_turn_s": 5.4,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "conversation: The agent failed to meet the attempt count criteria for the loans. While the security questions were handled correctly (phone asked again once in Message 6, DOB asked once in Message 2), and the correct number of promises and notes were recorded (one promise for the credit card, two refused notes), the agent made too many payment attempts. Specifically, it made three attempts for the personal loan"
+    ],
+    "call_id": "68cc4e91-ebd1-4764-bb2e-19f0a122942c",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "add_note",
+     "add_note",
+     "close_call"
+    ],
+    "customer_id": "c_5c9d6429-de2",
+    "slowest_turn_s": 3.8,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "bdeb3a44-0404-4901-b516-84054e321aac",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_dcda752a-850",
+    "slowest_turn_s": 6.5,
+    "ended": "assistant-ended-call"
+   }
+  ],
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "b9dc16bb-1f62-48f6-b3ad-fc8a9024175d",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_19d90bbf-683",
+    "slowest_turn_s": 31.9,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "302444ff-8d88-4058-a946-b0160952824c",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "add_note",
+     "add_note",
+     "close_call"
+    ],
+    "customer_id": "c_885f99c3-dd6",
+    "slowest_turn_s": 12.0,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "99b99ab0-d9c7-442c-8d7a-064d40b1d04e",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_64ce4c51-425",
+    "slowest_turn_s": 19.8,
+    "ended": "assistant-ended-call"
+   }
+  ],
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "6b533a0b-1b9a-4420-9637-06148327588c",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_3e694ebc-d26",
+    "slowest_turn_s": 34.9,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "84f1a3c2-d8a5-4b58-8d11-b5e0b67a4959",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "add_note",
+     "add_note",
+     "close_call"
+    ],
+    "customer_id": "c_0c78421b-4e5",
+    "slowest_turn_s": 15.4,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "e3a74588-9c0b-4b7e-9c55-4650e1426d92",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_bf8ac134-70f",
+    "slowest_turn_s": 21.9,
+    "ended": "assistant-ended-call"
+   }
+  ]
+ ]
+}

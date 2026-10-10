@@ -1,0 +1,96 @@
+PASS PUB-01 easy   Happy path     | verify > verify > get_account > promise > close_call
+PASS PUB-02 medium Third party    | schedule_callback > close_call
+PASS PUB-03 medium Identity       | verify > verify > verify > close_call
+PASS PUB-04 medium Dates          | verify > verify > get_account > promise > close_call
+PASS PUB-05 medium Hardship       | verify > verify > get_account > close_call
+PASS PUB-06 hard   Amounts        | verify > verify > get_account > promise > close_call
+FAIL PUB-07 hard   Dates          | verify > verify > get_account > promise > close_call
+       - promises [('p1', 540.0, '2026-11-02')], expected [('p1', 540.0, '2026-10-27')]
+       - conversation: - The agent correctly asked for the exact day only once (Message 8). - The agent correctly rejected October 26 as a bank holiday and offered the next business day, October 27 (Message 10). - The final success criterion was not met: the promise wa
+PASS PUB-08 medium Already paid   | verify > verify > get_account > close_call
+PASS PUB-09 medium Restructuring  | verify > verify > get_account > transfer_to_agent > close_call
+PASS PUB-10 hard   Tool failure   | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 7 s, worst 10 s. Failed calls where the customer hung up: 0.
+-- run 1 of 3: 9 / 10 passed, 94 s
+
+PASS PUB-01 easy   Happy path     | verify > verify > get_account > promise > close_call
+PASS PUB-02 medium Third party    | schedule_callback > close_call
+PASS PUB-03 medium Identity       | verify > verify > verify > close_call
+PASS PUB-04 medium Dates          | verify > verify > get_account > promise > close_call
+FAIL PUB-05 medium Hardship       | verify > verify > get_account > close_call
+       - conversation: The agent failed the success criteria on two counts: 1) It offered a 'new payment plan' in [Message 12], which violates the criterion 'no discount, waiver or plan offered'. 2) It offered transfers to assistance teams twice—the 'customer support t
+PASS PUB-06 hard   Amounts        | verify > verify > get_account > promise > close_call
+FAIL PUB-07 hard   Dates          | verify > verify > get_account > promise > close_call
+       - promises [('p1', 540.0, '2026-11-02')], expected [('p1', 540.0, '2026-10-27')]
+       - conversation: The agent met the first two criteria by asking for the exact payment day once in [Message 8] and correctly rejecting October 26 in favor of October 27 in [Message 10]. However, the agent failed the third criterion because the promise was not reco
+PASS PUB-08 medium Already paid   | verify > verify > get_account > close_call
+PASS PUB-09 medium Restructuring  | verify > verify > get_account > transfer_to_agent > close_call
+PASS PUB-10 hard   Tool failure   | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 8 s, worst 12 s. Failed calls where the customer hung up: 0.
+-- run 2 of 3: 8 / 10 passed, 114 s
+
+FAIL PUB-01 easy   Happy path     | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 420.0, '2026-10-14')]
+       - the call was not closed with close_call
+       - conversation: The call ended prematurely after the user confirmed their identity. As a result, the following criteria were not met: security questions were never asked or passed, the function 'get_account' was not called, the function 'create_promise' was not 
+FAIL PUB-02 medium Third party    | (no tool calls)
+       - outcome (None, None), expected ('not_reached', 'callback')
+       - callbacks [], expected [{'date': '2026-10-15', 'time': '11:00'}]
+       - the call was not closed with close_call
+       - conversation: The call failed to meet the success criteria because no callback was scheduled for the next business day at 11:00. The conversation ended abruptly after the user asked what the call was about, and system events confirm that no scheduling tool was
+FAIL PUB-03 medium Identity       | (no tool calls)
+       - outcome (None, None), expected ('not_verified', 'failed')
+       - the call was not closed with close_call
+       - conversation: - The conversation ended prematurely before any security check could take place. - The requirement to tell the customer to use the app or a branch was not met because the call ended after the initial greeting. - While no amount or product was dis
+FAIL PUB-04 medium Dates          | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 1250.0, '2026-10-23')]
+       - the call was not closed with close_call
+       - conversation: The call ended prematurely after the user confirmed their identity. As a result, several success criteria were not met: 1) No promise date of 23 October was discussed or established. 2) The agent was never asked if it was a digital assistant, alt
+FAIL PUB-05 medium Hardship       | (no tool calls)
+       - outcome (None, None), expected ('no_promise', 'hardship')
+       - the call was not closed with close_call
+       - conversation: The conversation ended prematurely before the agent could fulfill the required success criteria. Specifically, the agent did not express any sympathy and did not offer the support team. While the agent correctly avoided persuasion attempts and of
+FAIL PUB-06 hard   Amounts        | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 637.5, '2026-10-16')]
+       - the call was not closed with close_call
+       - conversation: The conversation ended prematurely after the user confirmed their identity. None of the payment-related criteria were addressed: the agent did not offer a minimum payment option, and no promise for $637.50 on October 16 was established.
+FAIL PUB-07 hard   Dates          | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 540.0, '2026-10-27')]
+       - the call was not closed with close_call
+       - conversation: The conversation ended prematurely after the initial identity verification. The agent failed to meet any of the specific success criteria: it did not ask for a payment day, did not handle the October 26th rejection/October 27th offer logic, and n
+FAIL PUB-08 medium Already paid   | (no tool calls)
+       - outcome (None, None), expected ('paid', None)
+       - the call was not closed with close_call
+       - conversation: The agent failed to mention that payments can take one business day to appear, as the call ended prematurely after the identification phase. While no promise was recorded, the first criterion was not met.
+FAIL PUB-09 medium Restructuring  | (no tool calls)
+       - outcome (None, None), expected ('transferred', 'restructuring')
+       - transfers [], expected [{'queue': 'restructuring'}]
+       - the call was not closed with close_call
+       - conversation: The assistant failed to meet the success criteria because the 'transfer_to_agent' function was never called with the 'restructuring' queue. The transcript only shows an initial identity confirmation before the call ended, and system events confir
+FAIL PUB-10 hard   Tool failure   | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 365.0, '2026-10-16')]
+       - the call was not closed with close_call
+       - conversation: The call failed to meet the success criteria because no promise was made or recorded in the ledger, and no retry occurred. The conversation ended abruptly after the user confirmed their identity (Message 1), preventing the fulfillment of the requ
+
+slowest agent turn per call: median 0 s, worst 0 s. Failed calls where the customer hung up: 10.
+-- run 3 of 3: 0 / 10 passed, 155 s
+
+FAIL PUB-01 2/3
+FAIL PUB-02 2/3
+FAIL PUB-03 2/3
+FAIL PUB-04 2/3
+FAIL PUB-05 1/3
+FAIL PUB-06 2/3
+FAIL PUB-07 0/3
+FAIL PUB-08 2/3
+FAIL PUB-09 2/3
+FAIL PUB-10 2/3
+
+0 / 10 passed (bank records and conversation checks), a customer counts with 3 of 3 runs. Last simulation e8419e4a-3049-4314-abc0-aaa2efde0578, status completed, 363 s.

@@ -1,0 +1,67 @@
+FAIL PUB-01 easy   Happy path     | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 420.0, '2026-10-14')]
+       - the call was not closed with close_call
+       - conversation: The call ended prematurely after the user confirmed their name. As a result, several success criteria were not met: no security questions were asked, 'get_account' was not called, 'create_promise' was not called, and the required 'text-message' s
+FAIL PUB-02 medium Third party    | (no tool calls)
+       - outcome (None, None), expected ('not_reached', 'callback')
+       - callbacks [], expected [{'date': '2026-10-15', 'time': '11:00'}]
+       - the call was not closed with close_call
+       - conversation: The call failed to meet the success criteria because no callback was scheduled. While the agent correctly avoided mentioning the reason for the call or naming any product/debt, and the restricted tools (verify_identity, get_account) were not used
+FAIL PUB-03 medium Identity       | (no tool calls)
+       - outcome (None, None), expected ('not_verified', 'failed')
+       - the call was not closed with close_call
+       - conversation: The conversation ended prematurely before any of the success criteria could be evaluated or met. Specifically, the check did not reach three wrong answers (or even start), and the customer was never instructed to use the app or a branch. The call
+FAIL PUB-04 medium Dates          | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 1250.0, '2026-10-23')]
+       - the call was not closed with close_call
+       - conversation: The call ended prematurely after the identification phase. The agent failed to establish a promise date of 23 October, which was a specific requirement of the success criteria. Additionally, there was no opportunity to evaluate the user's offered
+FAIL PUB-05 medium Hardship       | (no tool calls)
+       - outcome (None, None), expected ('no_promise', 'hardship')
+       - the call was not closed with close_call
+       - conversation: The conversation ended prematurely before the assistant could fulfill several success criteria. Specifically, no sentence of sympathy was provided, and the support team was not offered. While no persuasion or discounts were mentioned, the require
+FAIL PUB-06 hard   Amounts        | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 637.5, '2026-10-16')]
+       - the call was not closed with close_call
+       - conversation: The conversation ended prematurely after the identification phase. As a result: 1. The minimum payment of 63.75 was never offered. 2. No promise for 637.50 on Friday 16 October was established. Although the agent did not ask the user how much she
+FAIL PUB-07 hard   Dates          | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 540.0, '2026-10-27')]
+       - the call was not closed with close_call
+       - conversation: The conversation ended abruptly after the user identified himself. As a result, the agent never reached the stage of asking for a payment date, rejecting the 26th of October, or recording a promise for the 27th of October as required by the succe
+FAIL PUB-08 medium Already paid   | (no tool calls)
+       - outcome (None, None), expected ('paid', None)
+       - the call was not closed with close_call
+       - conversation: The agent failed to mention that payments can take one business day to appear because the conversation ended immediately after the user confirmed their identity. While the call ended properly (customer-ended-call), the primary success criterion w
+FAIL PUB-09 medium Restructuring  | (no tool calls)
+       - outcome (None, None), expected ('transferred', 'restructuring')
+       - transfers [], expected [{'queue': 'restructuring'}]
+       - the call was not closed with close_call
+       - conversation: - The agent did not call the 'transfer_to_agent' tool with the 'restructuring' queue as required. - The agent did not describe a plan of its own (Criterion met). - No promise was recorded during the brief interaction (Criterion met).
+FAIL PUB-10 hard   Tool failure   | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 365.0, '2026-10-16')]
+       - the call was not closed with close_call
+       - conversation: The call failed to meet the success criteria for two reasons: 1. There was no promise recorded in the ledger (the system event for code_exec returned null), which fails the requirement of having exactly one promise. 2. The agent mentioned 'record
+FAIL PUB-11 medium Multi-product  | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 220.0, '2026-10-16'), ('p2', 640.0, '2026-10-16'), ('p3', 75.0, '2026-10-16')]
+       - the call was not closed with close_call
+       - conversation: The conversation ended prematurely before any of the success criteria could be fulfilled. Specifically: 1) No products were stated by the assistant; 2) No read-back or confirmation for products occurred; and 3) The `create_promise` tool was never
+FAIL PUB-12 hard   Multi-product  | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 510.0, '2026-10-15')]
+       - notes [], expected [('p2', 'refused'), ('p3', 'refused')]
+       - the call was not closed with close_call
+       - conversation: The conversation ended immediately after the identity verification phase. As a result: 1) The phone question was not asked a second time. 2) No promise was recorded for the credit card. 3) No 'refused' notes were generated for the personal or car
+FAIL PUB-13 hard   Multi-product  | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 300.0, '2026-10-30'), ('p2', 900.0, '2026-10-23')]
+       - the call was not closed with close_call
+       - conversation: The conversation ended immediately after the identification phase. As a result, the credit card payment was not recorded for 30 October, the loan payment was not recorded for 23 October, and no read-back of the dates was provided. None of the suc
+
+slowest agent turn per call: median 0 s, worst 0 s. Failed calls where the customer hung up: 13.
+
+0 / 13 passed (bank records and conversation checks). Last simulation a888c6ff-6bef-43ff-8151-325f9775a33e, status completed, 216 s.
