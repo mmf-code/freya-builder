@@ -27,3 +27,5 @@ docs/build-the-builder/traces/
 state/
 # Per-run scratch copy of the kit (raw SDK traces live here)
 runs/*/workspace/
+# Claude Code worktrees of experiment sessions
+.claude/worktrees/

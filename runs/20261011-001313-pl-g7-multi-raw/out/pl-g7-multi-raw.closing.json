@@ -1,0 +1,338 @@
+{
+ "terminal": {
+  "tool": "close_call",
+  "evidence": [
+   {
+    "source": "tools/openapi.json",
+    "quote": "End the call. Always the last tool call. Nothing is accepted after it."
+   },
+   {
+    "source": "briefs/pl-g7-multi-raw.md",
+    "quote": "Every call ends with exactly one `close_call`"
+   }
+  ]
+ },
+ "fields": {
+  "customer_id": "{{customer_id}}"
+ },
+ "closings": {
+  "promise": {
+   "set": {
+    "outcome": "promise"
+   },
+   "say": "Your promise is recorded. You will receive a text message confirming this promise. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "Outcome: promise; Reason: none; When: at least one promise was recorded"
+    }
+   ]
+  },
+  "promise_partial": {
+   "set": {
+    "outcome": "promise"
+   },
+   "say": "The other promises are recorded, but one promise could not be recorded because of a technical problem. You will receive a text message confirming this promise. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "If one `create_promise` fails twice, keep the promises that were recorded"
+    }
+   ]
+  },
+  "paid": {
+   "set": {
+    "outcome": "paid"
+   },
+   "say": "Payments can take one business day to appear. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "close as `paid`"
+    }
+   ]
+  },
+  "restructuring": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "restructuring"
+   },
+   "say": "I am transferring you now. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "close as `transferred` / `restructuring`"
+    }
+   ]
+  },
+  "support": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "support"
+   },
+   "say": "I am transferring you now. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "close as `transferred` / `support`"
+    }
+   ]
+  },
+  "human": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "human"
+   },
+   "say": "I am transferring you now. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "close as `transferred` / `human`"
+    }
+   ]
+  },
+  "refused": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "refused"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "Close as `no_promise` / `refused`."
+    }
+   ]
+  },
+  "hardship": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "hardship"
+   },
+   "say": "Take care. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "close as `no_promise` / `hardship`"
+    }
+   ]
+  },
+  "dispute": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "dispute"
+   },
+   "say": "Thank you for letting us know. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "Close as `no_promise` / `dispute`"
+    }
+   ]
+  },
+  "service_error": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "service_error"
+   },
+   "say": "I am sorry that I could not record your promise. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "close as `no_promise` / `service_error`"
+    }
+   ]
+  },
+  "account_unavailable": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "service_error"
+   },
+   "say": "I am sorry, I cannot reach your account details right now. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "close as `no_promise` / `service_error`"
+    }
+   ]
+  },
+  "failed": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "failed"
+   },
+   "say": "I am sorry, I could not verify your identity, so I cannot continue. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "Close as `not_verified` / `failed`"
+    }
+   ]
+  },
+  "declined": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "declined"
+   },
+   "say": "I understand. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "close as `not_verified` / `declined`"
+    }
+   ]
+  },
+  "callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "callback"
+   },
+   "say": "Thank you, we will call back then. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "close as `not_reached` / `callback`"
+    }
+   ]
+  },
+  "no_callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "no_callback"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "Close as `not_reached` / `no_callback`"
+    }
+   ]
+  },
+  "wrong_number": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "wrong_number"
+   },
+   "say": "Sorry for the trouble. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "close as `not_reached` / `wrong_number`"
+    }
+   ]
+  },
+  "deceased": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "deceased"
+   },
+   "say": "I am sorry for your loss. Thank you. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "close as `not_reached` / `deceased`"
+    }
+   ]
+  },
+  "unclear": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "unclear"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "close as `not_reached` / `unclear`"
+    }
+   ]
+  }
+ },
+ "precedence": [
+  {
+   "closing": "promise",
+   "when": [
+    {
+     "variable": "create_promise_1_success_count",
+     "operator": "greater_than",
+     "operand": 0
+    }
+   ],
+   "keep": [
+    "restructuring",
+    "support",
+    "human",
+    "promise_partial"
+   ],
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "With several products, `promise` wins whenever at least one promise was recorded, except rule 10 above."
+    }
+   ]
+  },
+  {
+   "closing": "promise",
+   "when": [
+    {
+     "variable": "create_promise_2_success_count",
+     "operator": "greater_than",
+     "operand": 0
+    }
+   ],
+   "keep": [
+    "restructuring",
+    "support",
+    "human",
+    "promise_partial"
+   ],
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "With several products, `promise` wins whenever at least one promise was recorded, except rule 10 above."
+    }
+   ]
+  },
+  {
+   "closing": "promise",
+   "when": [
+    {
+     "variable": "create_promise_3_success_count",
+     "operator": "greater_than",
+     "operand": 0
+    }
+   ],
+   "keep": [
+    "restructuring",
+    "support",
+    "human",
+    "promise_partial"
+   ],
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "With several products, `promise` wins whenever at least one promise was recorded, except rule 10 above."
+    }
+   ]
+  },
+  {
+   "closing": "failed",
+   "when": [
+    {
+     "variable": "verify_identity_response.data.wrong_answers_left",
+     "operator": "equals",
+     "operand": "0"
+    }
+   ],
+   "keep": [
+    "human"
+   ],
+   "evidence": [
+    {
+     "source": "briefs/pl-g7-multi-raw.md",
+     "quote": "After three wrong answers, do not state the debt."
+    }
+   ]
+  }
+ ]
+}

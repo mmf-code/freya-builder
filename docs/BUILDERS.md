@@ -68,6 +68,25 @@ build-to-build variation. The runs of the evening have a `RESULT.md` with the fa
 earlier ones keep their notes in `eval/` (`candidate-ab/eval/OUTAGE.md`, `candidate-a-raw/eval/RESULT.md`), in
 `docs/STATUS.md` and in the commit messages. `kit-builder-brief-a` predates kitrun and has no `summary.json`.
 
+## Persona Lab blind scenarios (2026-10-10/11, reference vs lowering-precedence)
+
+Changed brief and tool API, no practice customers, fresh state per build, graded offline: `tools.persona_lab.cli
+grade` (contract and text evidence) and `tools/evaluation/pl_semantic.py` / `show_written.py` (what the code
+computes). No simulation can score these: the bank knows only the public contract and customers.
+
+| Scenario | reference | lowering-precedence |
+|---|---|---|
+| g6-contract-raw (fields, required `channel`, queue value) | 2 of 2 builds send the new contract | 2 of 2 |
+| g5-memo-raw (newer memo: late deadline 6th business day, callback until 17:00) | 2 of 2 compute the memo values | 2 of 2 (applied from the memo's date on) |
+| g3-limits-raw (car floor half, cap 2000, attempts 2/3) | floor and cap 2 of 2; attempts 1 of 2 (first build kept 1/2) | 2 of 2 (both used the `lower.py` ladder) |
+| g7-multi-raw (holiday moved, car-loan deadline cap, note reason renamed) | 1 of 1 | 1 of 1 |
+
+All 14 builds: 370-695 s, static check 0 errors, no trace reads `tools/persona_lab`. Two strong text probes fired on
+correct date-guarded memo handling (g5 19:00, g7 26 October); read the code before trusting a STALE on raw forms.
+Caveat: kitrun puts `lower.py` in every `--skill` workspace and builders read it; one reference build copied the
+ladder pattern without lowering. The measured reference configuration therefore includes `lower.py` in the
+workspace, as the final runbook does.
+
 ## Tools the skills use
 
 | File | Used by | What it does |

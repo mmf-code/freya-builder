@@ -1,0 +1,49 @@
+[00:02]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/pl-g7-multi-raw.md'}
+[00:05]   [Bash] {'command': 'ls -R | head -50 && cat briefs/pl-g7-multi-raw.md && cat public-test-set.json | head -50'}
+[00:07]   [Bash] {'command': 'cat tools/openapi.json docs/workflow-format.md docs/tools-and-code.md examples/base-agent.json README.md'}
+[00:08]   [Bash] {'command': 'cat docs/api.md | head -150; ls traces; wc -l tools/*.py'}
+[00:09] The full output was large; let me read the pieces separately.
+[00:10]   [Bash] {'command': 'python3 -c "\nimport json;d=json.load(open(\'tools/openapi.json\'))\nprint(json.dumps(d[\'info\'],indent=1)
+[00:12]   [Bash] {'command': 'wc -c docs/* examples/* README.md && cat docs/workflow-format.md'}
+[00:13]   [Read] {'file_path': '<repo>/runs/20261011-001313-pl-g7-multi-raw/workspace/docs/workflow-format
+[00:15]   [Read] {'file_path': '<repo>/runs/20261011-001313-pl-g7-multi-raw/workspace/docs/tools-and-code.
+[00:19]   [Bash] {'command': 'cat examples/base-agent.json README.md; python3 -c "import json;d=json.load(open(\'tools/openapi.json\'));p
+[00:21]   [Bash] {'command': 'cat tools/lower.py'}
+[00:23] I've read the brief, the tool API, the docs and the lowering tool. Next I'm reading the workflow checker, then I'll design the body and the closing plan.
+[00:24]   [Bash] {'command': 'sed -n 1,579p tools/check_workflow.py | grep -n "def \\|code=\\|ERROR\\|error\\"" | head -80'}
+[00:25]   [Bash] {'command': 'sed -n 1,579p tools/check_workflow.py'}
+[04:40]   [Bash] {'command': 'ls out 2>/dev/null; git status --short | head; cat freya.py | grep -n "def " | head -30'}
+[06:26]   [Write] {'file_path': '<repo>/runs/20261011-001313-pl-g7-multi-raw/workspace/out/gen_pl-g7-multi-
+[06:30] Let me simplify the partial-promise condition before running it.
+[06:32]   [Edit] {'replace_all': False, 'file_path': '<repo>/runs/20261011-001313-pl-g7-multi-raw/workspac
+[06:33]   [Bash] {'command': 'S=pl-g7-multi-raw && python3 out/gen_$S.py && python3 tools/lower.py out/$S.body.json out/$S.closing.json -
+[06:37] Lowering and the check pass with 0 errors and 0 warnings. Next I'm running the two code snippets locally with sample data, to check the date and deadline math.
+[06:42]   [Bash] {'command': "python3 - <<'EOF'\nimport json\nwf=json.load(open('out/pl-g7-multi-raw.workflow.json'))\ncode=lambda n: wf[
+[06:48]   [Bash] {'command': 'ls env.sh 2>/dev/null; [ -f env.sh ] && source env.sh; python3 -c "import freya,json,sys; print(json.dumps(
+[07:02] I built and saved the phone agent for `briefs/pl-g7-multi-raw.md`, but it has not been tested in a live call. `public-test-set.json` has no practice customers for this brief, so I did not run `tools/run_cases.py`. My checks were the lowering step, the workflow checker (0 errors, 0 warnings), a local run of the date-calculation code on sample products, and a reading of the workflow against every rule in the brief.
+[07:02] 
+[07:02] **How I read the brief:**
+[07:02] - **Memo OM-17 applies.** 21 October 2026 is a bank holiday and 26 October is a normal business day. A car loan's deadline is never later than the 5th business day after today.
+[07:02] - **Memo OM-3 does not apply.** It is dated before the policy extract, so the extract replaces it.
+[07:02] - **The multi-product annex applies to every customer, including those with one product.** Its rule 1 says `get_account` returns one to three products. So the agent calls `add_note` for every product without a promise, single-product customers included. This is the main guess in the build. If the bank means "Brief A never uses `add_note`" for single-product customers, that one rule changes.
+[07:02] 
+[07:02] **How the agent works:**
+[07:02] - **Dates and amounts are worked out in code, not by the model.** For each product: band, deadline, floor, the two offers it may make, and every valid promise date. It also gets the callback window and a calendar that resolves "this Friday" and "next Friday".
+[07:02] - **One tool per product.** `create_promise_N` and `add_note_N` already contain that product's `product_id`, so the model cannot invent one. Each transfer queue (restructuring, support, general) has its own fixed tool.
+[07:02] - **Every ending in the payment step comes from tool results, not from the model's choice.**
+[07:02]   - Any recorded promise closes as `promise`.
+[07:02]   - With no promise, the close reason is that of the first product whose note is not `already_paid`.
+[07:02]   - If every product is noted `already_paid`, the call closes as `paid`.
+[07:02]   - Any transfer closes as `transferred` with that queue's reason, even after a recorded promise.
+[07:02] - **Fixed closing lines.** Each ending speaks a fixed farewell. For example, the promise ending says "You will receive a text message confirming this promise."
+[07:02] - **Notes come last.** The prompt tells the agent to add notes only after all promises are recorded, and never before a transfer.
+[07:02] 
+[07:02] **Known gaps:**
+[07:02] - A request for a human before the customer confirms their name is not handled. Rule 42 is handled from the identity check onward.
+[07:02] - What happens when a transfer or callback booking fails twice is not in the brief. I close the call with the transfer or `no_callback` outcome anyway.
+[07:02] 
+[07:02] The generator script is `out/gen_pl-g7-multi-raw.py`. It writes the body and closing files.
+[07:02] 
+[07:02] workflow_id `624fd80f-5ebb-4aa0-9e73-21d2a5faa78e`, agent_id `5121ad42-dda4-4b6a-85ca-064f39eef8ad`, 0 customers tested (this brief has no practice customers).
+[07:02] 
+[07:02] done: 20 turns, 422 s, $1.71. Trace: <repo>/runs/20261011-001313-pl-g7-multi-raw/workspace/traces/20261011-001313.jsonl
