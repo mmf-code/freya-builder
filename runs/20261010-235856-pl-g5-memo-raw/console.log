@@ -1,0 +1,47 @@
+[00:02]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/pl-g5-memo-raw.md'}
+[00:04]   [Bash] {'command': 'cat briefs/pl-g5-memo-raw.md; ls; ls briefs tools docs examples out; cat public-test-set.json | head -50',
+[00:07]   [Bash] {'command': 'cat tools/openapi.json; cat docs/workflow-format.md docs/tools-and-code.md; cat examples/base-agent.json',
+[00:09]   [Bash] {'command': 'python3 -c "\nimport json;d=json.load(open(\'tools/openapi.json\'))\nprint(json.dumps(d[\'info\'],indent=1)
+[00:12]   [Bash] {'command': 'cat docs/workflow-format.md docs/tools-and-code.md examples/base-agent.json README.md', 'description': 'Rea
+[00:13] Reading the platform docs now. Next I'll design the workflow graph.
+[00:14]   [Read] {'file_path': '<repo>/runs/20261010-235856-pl-g5-memo
+[00:15]   [Read] {'file_path': '<repo>/runs/20261010-235856-pl-g5-memo
+[00:18]   [Bash] {'command': 'cat examples/base-agent.json; sed -n 1,80p README.md; python3 -c "import json;print(json.load(open(\'tools/
+[00:19]   [Bash] {'command': 'sed -n 60,579p tools/check_workflow.py', 'description': 'Read rest of workflow checker'}
+[00:22]   [Bash] {'command': 'sed -n 1,40p tools/lower.py; sed -n 1,30p tools/dryrun.py; grep -n "def \\|model" freya.py | head -40', 'de
+[00:24]   [Bash] {'command': 'sed -n 40,378p tools/lower.py', 'description': 'Read the rest of lower.py'}
+[05:28] Docs read. Now writing a generator script for the workflow body and closing plan, then lowering it with the kit's `tools/lower.py`.
+[05:30]   [Bash] {'command': 'mkdir -p out; grep -n "holiday\\|2026-10-26" briefs/pl-g5-memo-raw.md | head; python3 - <<\'EOF\'\nt=" ".jo
+[10:57]   [Write] {'file_path': '<repo>/runs/20261010-235856-pl-g5-memo
+[11:03]   [Bash] {'command': 'S=pl-g5-memo-raw; python3 out/gen_$S.py && python3 tools/lower.py out/$S.body.json out/$S.plan.json --tools
+[11:05] The check passes with no errors. Now a dry run of the two code steps on a few dates and account shapes.
+[11:08]   [Bash] {'command': 'cat > /tmp/plg5_samples.json <<\'EOF\'\n[{"now":"2026-10-14T11:00","products":[{"product_id":"p1","type":"c
+[11:16] Dates and amounts compute correctly on a weekday, a Friday near close, a Saturday, and a Friday before the holiday. Saving the workflow.
+[11:17]   [Bash] {'command': 'source env.sh 2>/dev/null; python3 -c "import freya,json,sys; print(json.dumps(freya.save_workflow(sys.argv
+[11:22]   [Bash] {'command': 'source env.sh 2>/dev/null; python3 -c "import freya; freya.export_workflow(\'d0f69f74-3f59-458c-a2c1-d300ec
+[11:34] I built the agent and saved it, but it has not been tested on any calls. `public-test-set.json` is empty for this brief, so there were no practice customers and I did not run `tools/run_cases.py`. The only checks are the workflow checker, a local run of the date and amount code, and my reading of the graph against all 47 rules.
+[11:34] 
+[11:34] **Memos.** OM-3 (3 February 2026) is dated before the 2 March 2026 policy extract, so the extract replaces it. Its 20:00 callback limit and its 10-business-day car-loan rule are not used. OM-17 (9 October 2026) does apply:
+[11:34] - Callbacks are booked only from 09:00 to 17:00, today or the next business day, and later than `now`.
+[11:34] - Customers 8 to 45 days late get the 6th business day as their deadline.
+[11:34] 
+[11:34] **How the agent works**
+[11:34] - **Dates and amounts are computed in code, not by the model.** Two code steps work out today, the deadline for the customer's band, the attempt-1 date, the callback window and the exact list of dates a promise may use. I checked them on four `now` values: a Wednesday, a Friday at 16:59, a Saturday, and the Friday before the 26 October holiday. The holiday is skipped correctly.
+[11:34] - **Identity.** The two security questions use the bank's own `verified`, `hint` and `wrong_answers_left` answers to move on, ask again or close as `failed`.
+[11:34] - **Persuasion attempts.** There is one step per attempt. The late band gets a second attempt and the early band does not, so an offer cannot be made more times than the brief allows.
+[11:34] - **Closing.** Paid, dispute, hardship, restructuring, wrong number, deceased and "unclear after the second ask" each go to a fixed close. `close_call` runs on its own step, and only the hang-up comes after it. The goodbye and the confirmation-text sentence are fixed lines.
+[11:34] - **Honesty.** "Recorded" is only said after `create_promise` succeeds. A second failure closes as `no_promise` / `service_error` and tells the customer.
+[11:34] 
+[11:34] **Three choices the brief leaves open**
+[11:34] - **Weekend callbacks.** I read "today or the next business day" literally, so a call on a Saturday offers Saturday 09:00 to 17:00 as well as Monday.
+[11:34] - **Failed transfer.** The brief does not say what to do. The agent says it could not connect them and closes as `no_promise` / `service_error`.
+[11:34] - **Refusing to give a callback time.** The brief does not cover a third party who won't say when the customer can be reached. The agent closes as `not_reached` / `no_callback`.
+[11:34] 
+[11:34] workflow_id `d0f69f74-3f59-458c-a2c1-d300ec1e98df`, agent_id `8599638c-0825-447c-8e4a-e6747373aadc`, customers passed: none run (this brief has no practice customers).
+[11:34] 
+[11:34] Files are in `out/`:
+[11:34] - gen_pl-g5-memo-raw.py
+[11:34] - pl-g5-memo-raw.workflow.json
+[11:34] - pl-g5-memo-raw.contract.json
+[11:34] 
+[11:34] done: 21 turns, 694 s, $2.26. Trace: <repo>/runs/20261010-235856-pl-g5-memo-raw/workspace/traces/20261010-235856.jsonl

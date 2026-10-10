@@ -1,0 +1,193 @@
+{
+ "run": "20261010-235906-pl-g3-limits-raw",
+ "start": "2026-10-10T20:59:06+00:00",
+ "end": "2026-10-10T21:10:29+00:00",
+ "seconds": 683,
+ "limit_minutes": 30.0,
+ "timed_out": false,
+ "exit_code": 0,
+ "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill <repo>/builder/skills/reference (sha256:7659a7bd2e6c)",
+ "builder_model": "claude-opus-5-5 (agent_builder.py default)",
+ "agent_model": {
+  "provider": "experimental-5",
+  "model": "experimental-5"
+ },
+ "repo_commit": "ae6caa068637a5c138b52e6faad9819cfcad7307",
+ "repo_dirty": false,
+ "isolation": {
+  "CLAUDE_CONFIG_DIR": "<repo>/.claude-builder",
+  "HOME": "<repo>/.claude-builder/home",
+  "state": "<repo>/state/pl/b2-reference-g3-limits-raw-1"
+ },
+ "inputs": {
+  "briefs": [
+   {
+    "name": "pl-g3-limits-raw.md",
+    "sha256": "e94c1d59a86c437f187b6d11ba038abb39a4df0d1bfb41217848f0cc1d73dd88"
+   }
+  ],
+  "tools": {
+   "name": "openapi.json",
+   "sha256": "6a647e7ee928caa159f4f957a8bc35e5ef8a3b9ce607fa3026168be0c3fda8a4"
+  }
+ },
+ "practice_cases": [],
+ "freya": [
+  {
+   "slot": "pl-g3-limits-raw",
+   "workflow_id": "d84742d8-4b21-41fe-b1df-396bd3b2204a",
+   "agent_id": "05e54ce1-84af-4921-92f8-2d0f8d887e74",
+   "created": true,
+   "export": "pl-g3-limits-raw.workflow.json"
+  }
+ ],
+ "tests": [],
+ "written": [
+  "<repo>/runs/20261010-235906-pl-g3-limits-raw/workspace/out/build_pl-g3-limits-raw.py"
+ ],
+ "cost_usd": 1.7412571999999997,
+ "num_turns": 19,
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1202,
+   "outputTokens": 26,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.00013319999999999999,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  },
+  "claude-opus-5-5": {
+   "inputTokens": 38,
+   "outputTokens": 25171,
+   "cacheReadInputTokens": 1043385,
+   "cacheCreationInputTokens": 205775,
+   "webSearchRequests": 0,
+   "costUSD": 1.7411239999999997,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 6511,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "model_calls": [
+  {
+   "n": 1,
+   "model": "claude-opus-5-5",
+   "at_s": 4.5,
+   "purpose": "Skill: {\"skill\": \"build-phone-agent\", \"args\": \"briefs/pl-g3-limits-raw.md\"}"
+  },
+  {
+   "n": 2,
+   "model": "claude-opus-5-5",
+   "at_s": 6.6,
+   "purpose": "Bash: Read brief and list kit"
+  },
+  {
+   "n": 3,
+   "model": "claude-opus-5-5",
+   "at_s": 8.6,
+   "purpose": "Bash: Read tools API, docs, example"
+  },
+  {
+   "n": 4,
+   "model": "claude-opus-5-5",
+   "at_s": 11.1,
+   "purpose": "Bash: Summarize OpenAPI tools"
+  },
+  {
+   "n": 5,
+   "model": "claude-opus-5-5",
+   "at_s": 15.1,
+   "purpose": "Bash: Read workflow format doc"
+  },
+  {
+   "n": 6,
+   "model": "claude-opus-5-5",
+   "at_s": 17.6,
+   "purpose": "I'm reading the platform docs now. The brief has no practice customers, so testing will be the checker plus a rule-by-rule read of the workf; Read: docs/workflow-format.md"
+  },
+  {
+   "n": 7,
+   "model": "claude-opus-5-5",
+   "at_s": 21.7,
+   "purpose": "Read: docs/tools-and-code.md; Read: examples/base-agent.json"
+  },
+  {
+   "n": 8,
+   "model": "claude-opus-5-5",
+   "at_s": 25.2,
+   "purpose": "Bash: Inspect checker, lower, freya helper"
+  },
+  {
+   "n": 9,
+   "model": "claude-opus-5-5",
+   "at_s": 29.7,
+   "purpose": "Read: tools/check_workflow.py"
+  },
+  {
+   "n": 10,
+   "model": "claude-opus-5-5",
+   "at_s": 88.7,
+   "purpose": "Bash: Read rest of lower.py"
+  },
+  {
+   "n": 11,
+   "model": "claude-opus-5-5",
+   "at_s": 276.3,
+   "purpose": "Brief, tool API, platform docs and checker are read. Next I'll write a generator script that builds the workflow JSON, with the date and amo"
+  },
+  {
+   "n": 12,
+   "model": "claude-opus-5-5",
+   "at_s": 423.0,
+   "purpose": "(reasoning only)"
+  },
+  {
+   "n": 13,
+   "model": "claude-opus-5-5",
+   "at_s": 527.3,
+   "purpose": "Write: out/build_pl-g3-limits-raw.py"
+  },
+  {
+   "n": 14,
+   "model": "claude-opus-5-5",
+   "at_s": 642.2,
+   "purpose": "Bash: Generate workflow, run checker, test code snippet locally"
+  },
+  {
+   "n": 15,
+   "model": "claude-opus-5-5",
+   "at_s": 659.9,
+   "purpose": "Bash: Regenerate, check, and save workflow"
+  },
+  {
+   "n": 16,
+   "model": "claude-opus-5-5",
+   "at_s": 664.4,
+   "purpose": "Bash: Export saved workflow and re-check it"
+  },
+  {
+   "n": 17,
+   "model": "claude-opus-5-5",
+   "at_s": 676.5,
+   "purpose": "I built and saved the agent, but it has not been tested on any calls. This brief has no practice customers (`public-test-set.json` is empty)"
+  }
+ ],
+ "checks": [
+  {
+   "slot": "pl-g3-limits-raw",
+   "contract": "pl-g3-limits-raw.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "not lowered: no out/<slot>.body.json and out/<slot>.closing.json"
+  }
+ ]
+}

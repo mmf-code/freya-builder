@@ -1,0 +1,211 @@
+{
+ "run": "20261010-235856-pl-g5-memo-raw",
+ "start": "2026-10-10T20:58:56+00:00",
+ "end": "2026-10-10T21:10:31+00:00",
+ "seconds": 695,
+ "limit_minutes": 30.0,
+ "timed_out": false,
+ "exit_code": 0,
+ "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill <repo>/builder/skills/reference (sha256:7659a7bd2e6c)",
+ "builder_model": "claude-opus-5-5 (agent_builder.py default)",
+ "agent_model": {
+  "provider": "experimental-5",
+  "model": "experimental-5"
+ },
+ "repo_commit": "ae6caa068637a5c138b52e6faad9819cfcad7307",
+ "repo_dirty": false,
+ "isolation": {
+  "CLAUDE_CONFIG_DIR": "<repo>/.claude-builder",
+  "HOME": "<repo>/.claude-builder/home",
+  "state": "<repo>/state/pl/b2-reference-g5-memo-raw-2"
+ },
+ "inputs": {
+  "briefs": [
+   {
+    "name": "pl-g5-memo-raw.md",
+    "sha256": "076103a1bb35a4e42da4e45d43f66d885bd7138f3189a7172a3f8dc239361932"
+   }
+  ],
+  "tools": {
+   "name": "openapi.json",
+   "sha256": "6a647e7ee928caa159f4f957a8bc35e5ef8a3b9ce607fa3026168be0c3fda8a4"
+  }
+ },
+ "practice_cases": [],
+ "freya": [
+  {
+   "slot": "pl-g5-memo-raw",
+   "workflow_id": "d0f69f74-3f59-458c-a2c1-d300ec1e98df",
+   "agent_id": "8599638c-0825-447c-8e4a-e6747373aadc",
+   "created": true,
+   "export": "pl-g5-memo-raw.workflow.json"
+  }
+ ],
+ "tests": [],
+ "written": [
+  "<repo>/runs/20261010-235856-pl-g5-memo-raw/workspace/out/gen_pl-g5-memo-raw.py"
+ ],
+ "cost_usd": 2.2574415999999995,
+ "num_turns": 21,
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1202,
+   "outputTokens": 28,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.00013419999999999998,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  },
+  "claude-opus-5-5": {
+   "inputTokens": 40,
+   "outputTokens": 51954,
+   "cacheReadInputTokens": 1460587,
+   "cacheCreationInputTokens": 185190,
+   "webSearchRequests": 0,
+   "costUSD": 2.2573073999999997,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 31033,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "model_calls": [
+  {
+   "n": 1,
+   "model": "claude-opus-5-5",
+   "at_s": 3.0,
+   "purpose": "Skill: {\"skill\": \"build-phone-agent\", \"args\": \"briefs/pl-g5-memo-raw.md\"}"
+  },
+  {
+   "n": 2,
+   "model": "claude-opus-5-5",
+   "at_s": 4.5,
+   "purpose": "Bash: Read brief and list kit"
+  },
+  {
+   "n": 3,
+   "model": "claude-opus-5-5",
+   "at_s": 7.1,
+   "purpose": "Bash: Read tool API, docs, example"
+  },
+  {
+   "n": 4,
+   "model": "claude-opus-5-5",
+   "at_s": 9.6,
+   "purpose": "Bash: Print openapi paths compactly"
+  },
+  {
+   "n": 5,
+   "model": "claude-opus-5-5",
+   "at_s": 12.1,
+   "purpose": "Bash: Read docs and example"
+  },
+  {
+   "n": 6,
+   "model": "claude-opus-5-5",
+   "at_s": 13.6,
+   "purpose": "Reading the platform docs now. Next I'll design the workflow graph.; Read: docs/workflow-format.md"
+  },
+  {
+   "n": 7,
+   "model": "claude-opus-5-5",
+   "at_s": 16.1,
+   "purpose": "Read: docs/tools-and-code.md"
+  },
+  {
+   "n": 8,
+   "model": "claude-opus-5-5",
+   "at_s": 18.2,
+   "purpose": "Bash: Read example agent, README, checker head"
+  },
+  {
+   "n": 9,
+   "model": "claude-opus-5-5",
+   "at_s": 19.7,
+   "purpose": "Bash: Read rest of workflow checker"
+  },
+  {
+   "n": 10,
+   "model": "claude-opus-5-5",
+   "at_s": 22.2,
+   "purpose": "Bash: Skim lower, dryrun, freya client"
+  },
+  {
+   "n": 11,
+   "model": "claude-opus-5-5",
+   "at_s": 24.2,
+   "purpose": "Bash: Read the rest of lower.py"
+  },
+  {
+   "n": 12,
+   "model": "claude-opus-5-5",
+   "at_s": 329.1,
+   "purpose": "Docs read. Now writing a generator script for the workflow body and closing plan, then lowering it with the kit's `tools/lower.py`.; Bash: Check quote matching in brief"
+  },
+  {
+   "n": 13,
+   "model": "claude-opus-5-5",
+   "at_s": 332.2,
+   "purpose": "(reasoning only)"
+  },
+  {
+   "n": 14,
+   "model": "claude-opus-5-5",
+   "at_s": 433.5,
+   "purpose": "(reasoning only)"
+  },
+  {
+   "n": 15,
+   "model": "claude-opus-5-5",
+   "at_s": 538.8,
+   "purpose": "Write: out/gen_pl-g5-memo-raw.py"
+  },
+  {
+   "n": 16,
+   "model": "claude-opus-5-5",
+   "at_s": 660.8,
+   "purpose": "Bash: Generate, lower, and check workflow"
+  },
+  {
+   "n": 17,
+   "model": "claude-opus-5-5",
+   "at_s": 665.8,
+   "purpose": "The check passes with no errors. Now a dry run of the two code steps on a few dates and account shapes.; Bash: Dry-run code steps on sample dates"
+  },
+  {
+   "n": 18,
+   "model": "claude-opus-5-5",
+   "at_s": 676.4,
+   "purpose": "Dates and amounts compute correctly on a weekday, a Friday near close, a Saturday, and a Friday before the holiday. Saving the workflow.; Bash: Save workflow to Freya"
+  },
+  {
+   "n": 19,
+   "model": "claude-opus-5-5",
+   "at_s": 679.9,
+   "purpose": "Bash: Export saved workflow and re-check it"
+  },
+  {
+   "n": 20,
+   "model": "claude-opus-5-5",
+   "at_s": 692.0,
+   "purpose": "I built the agent and saved it, but it has not been tested on any calls. `public-test-set.json` is empty for this brief, so there were no pr"
+  }
+ ],
+ "checks": [
+  {
+   "slot": "pl-g5-memo-raw",
+   "contract": "pl-g5-memo-raw.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "not lowered: no out/<slot>.body.json and out/<slot>.closing.json"
+  }
+ ]
+}

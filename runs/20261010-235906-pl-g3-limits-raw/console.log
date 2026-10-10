@@ -1,0 +1,55 @@
+[00:04]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/pl-g3-limits-raw.md'}
+[00:06]   [Bash] {'command': 'cat briefs/pl-g3-limits-raw.md; ls; ls briefs tools docs examples out 2>/dev/null; cat public-test-set.json
+[00:09]   [Bash] {'command': 'cat tools/openapi.json; cat docs/workflow-format.md docs/tools-and-code.md; cat examples/base-agent.json',
+[00:12]   [Bash] {'command': 'python3 -c "\nimport json;d=json.load(open(\'tools/openapi.json\'))\nprint(json.dumps(d[\'info\'],indent=0)
+[00:15]   [Bash] {'command': 'wc -c docs/* examples/* tools/*; cat docs/workflow-format.md', 'description': 'Read workflow format doc'}
+[00:17] I'm reading the platform docs now. The brief has no practice customers, so testing will be the checker plus a rule-by-rule read of the workflow.
+[00:18]   [Read] {'file_path': '<repo>/runs/20261010-235906-pl-g3-limi
+[00:21]   [Read] {'file_path': '<repo>/runs/20261010-235906-pl-g3-limi
+[00:21]   [Read] {'file_path': '<repo>/runs/20261010-235906-pl-g3-limi
+[00:26]   [Bash] {'command': 'python3 -c "import json;print(json.load(open(\'tools/openapi.json\'))[\'servers\'])"; grep -n "ERROR\\|WARN
+[00:30]   [Read] {'file_path': '<repo>/runs/20261010-235906-pl-g3-limi
+[01:28]   [Bash] {'command': 'sed -n 40,400p tools/lower.py', 'description': 'Read rest of lower.py'}
+[04:35] Brief, tool API, platform docs and checker are read. Next I'll write a generator script that builds the workflow JSON, with the date and amount logic in a code step.
+[10:34]   [Write] {'file_path': '<repo>/runs/20261010-235906-pl-g3-limi
+[10:46]   [Bash] {'command': 'mkdir -p /tmp/plg3 && python3 out/build_pl-g3-limits-raw.py && python3 tools/check_workflow.py out/pl-g3-li
+[11:00]   [Bash] {'command': 'sed -i \'\' \'s/"I am sorry for your loss. Goodbye."/"I am sorry for your loss. Thank you, goodbye."/\' out
+[11:06]   [Bash] {'command': 'python3 -c "import freya; freya.export_workflow(\'d84742d8-4b21-41fe-b1df-396bd3b2204a\',\'/tmp/plg3/export
+[11:21] I built and saved the agent, but it has not been tested on any calls. This brief has no practice customers (`public-test-set.json` is empty), so I didn't run `run_cases.py`. My tests were the static checker and a read of the workflow against rules 1 to 47 and both memos.
+[11:21] 
+[11:21] **Checks that passed**
+[11:21] - The checker reports 0 errors and 0 warnings, both on my file and on the copy exported back from the platform after saving. All 35 steps, their tools and their code survived the save.
+[11:21] - I ran the date and amount code locally on three sample dates. Deadlines, holidays, the attempt 1 date, the 2000.00 cap, the car-loan floor and the callback windows all came out right. One example: on 23 Oct 2026 the deadline for an early-band customer is 12 Nov, which skips the 26 Oct and 11 Nov holidays.
+[11:21] 
+[11:21] **How it is built**
+[11:21] - **Order of steps:** opening, then identity, then the account lookup, then asking for the payment.
+[11:21] - **Persuasion attempts:** each attempt is its own step: pay today, attempt 1, and attempt 2 for the late band only. A flat refusal moves the call forward one step, so an offer the customer refused is never repeated.
+[11:21] - **Dates and amounts:** a code step works them out from `now`: the business-day calendar, the deadline, the allowed promise dates, the floor and the 2000.00 cap. The agent picks from those lists instead of calculating.
+[11:21] - **Ending the call:** `close_call` is the only terminal tool. Every possible outcome has its own engine step that sends `close_call` with a fixed outcome and reason, says a fixed goodbye, and hangs up. No other bank tool can run in or after those steps.
+[11:21] - **Endings decided by tool results:**
+[11:21]   - Three wrong security answers, a booked callback, a recorded promise, a finished transfer, and a second failed `create_promise`.
+[11:21]   - The three transfer queues are separate tools, so the transfer reason is always the right one.
+[11:21]   - A recorded promise wins over any later "no promise" ending.
+[11:21] - **Memos:**
+[11:21]   - OM-17 (9 Oct 2026) is applied: the car-loan floor is half the past-due amount, rounded down.
+[11:21]   - OM-3 (3 Feb 2026) is dated before the 2 March extract, so the extract replaces it.
+[11:21]   - I don't use `add_note`, because the brief excludes it.
+[11:21] 
+[11:21] **Risks only a real call can show**
+[11:21] - The goodbye is a fixed spoken line on the closing step. I don't know whether the platform logs it before or after the `close_call` request, and rule 47 wants it before.
+[11:21] - The verify, transfer and callback tools have no result hooks. If the model goes quiet or misreads a failed answer between tool calls, only the prompt guards against it.
+[11:21] - A customer with more than one late product is only partly handled. The brief speaks of one product.
+[11:21] - Four brief gaps where I made my own choice:
+[11:21]   - A failed account lookup or a transfer that fails twice closes as `no_promise` / `service_error`.
+[11:21]   - A callback that fails to book twice closes as `not_reached` / `no_callback`.
+[11:21]   - I read "Persuasion attempts: 2/3" in the band table as counting the first "pay today" ask.
+[11:21]   - Amounts are spoken in euros. Only OM-17 names a currency.
+[11:21] 
+[11:21] workflow_id `d84742d8-4b21-41fe-b1df-396bd3b2204a`, agent_id `05e54ce1-84af-4921-92f8-2d0f8d887e74`, 0 customers passed because no test run was possible (the brief has no practice customers).
+[11:21] 
+[11:21] Files are in `out/`:
+[11:21] - pl-g3-limits-raw.workflow.json
+[11:21] - pl-g3-limits-raw.contract.json
+[11:21] - build_pl-g3-limits-raw.py
+[11:21] 
+[11:21] done: 19 turns, 681 s, $1.74. Trace: <repo>/runs/20261010-235906-pl-g3-limits-raw/workspace/traces/20261010-235906.jsonl

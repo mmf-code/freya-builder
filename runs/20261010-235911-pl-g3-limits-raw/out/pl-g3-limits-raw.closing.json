@@ -1,0 +1,340 @@
+{
+ "terminal": {
+  "tool": "close_call",
+  "evidence": [
+   {
+    "source": "tools/openapi.json",
+    "quote": "End the call. Always the last tool call. Nothing is accepted after it."
+   },
+   {
+    "source": "briefs/pl-g3-limits-raw.md",
+    "quote": "Every call ends with exactly one `close_call`, with an outcome and, where the table lists one, a reason. It is the last tool call."
+   }
+  ]
+ },
+ "fields": {
+  "customer_id": "{{customer_id}}"
+ },
+ "closings": {
+  "promise": {
+   "set": {
+    "outcome": "promise"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: promise; Reason: none; When: at least one promise was recorded"
+    }
+   ]
+  },
+  "paid": {
+   "set": {
+    "outcome": "paid"
+   },
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: paid; Reason: none; When: rule 39"
+    }
+   ]
+  },
+  "transferred/restructuring": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "restructuring"
+   },
+   "say": "I am connecting you now. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: transferred; Reason: restructuring`, `human`, `support"
+    }
+   ]
+  },
+  "transferred/human": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "human"
+   },
+   "say": "I am connecting you now. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: transferred; Reason: restructuring`, `human`, `support"
+    }
+   ]
+  },
+  "transferred/support": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "support"
+   },
+   "say": "I am connecting you now. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: transferred; Reason: restructuring`, `human`, `support"
+    }
+   ]
+  },
+  "no_promise/refused": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "refused"
+   },
+   "say": "I understand. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: no_promise; Reason: refused`, `hardship`, `dispute`, `service_error"
+    }
+   ]
+  },
+  "no_promise/not_talking": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "refused"
+   },
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: no_promise; Reason: refused`, `hardship`, `dispute`, `service_error"
+    }
+   ]
+  },
+  "no_promise/hardship": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "hardship"
+   },
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: no_promise; Reason: refused`, `hardship`, `dispute`, `service_error"
+    }
+   ]
+  },
+  "no_promise/dispute": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "dispute"
+   },
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: no_promise; Reason: refused`, `hardship`, `dispute`, `service_error"
+    }
+   ]
+  },
+  "no_promise/service_error": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "service_error"
+   },
+   "say": "I am sorry, I could not record your promise because of a technical problem. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: no_promise; Reason: refused`, `hardship`, `dispute`, `service_error"
+    }
+   ]
+  },
+  "no_promise/account_error": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "service_error"
+   },
+   "say": "I am sorry, I cannot reach your account details right now because of a technical problem. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: no_promise; Reason: refused`, `hardship`, `dispute`, `service_error"
+    }
+   ]
+  },
+  "not_verified/failed": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "failed"
+   },
+   "say": "I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: not_verified; Reason: failed`, `declined"
+    }
+   ]
+  },
+  "not_verified/declined": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "declined"
+   },
+   "say": "I understand. Without the security questions I cannot continue. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: not_verified; Reason: failed`, `declined"
+    }
+   ]
+  },
+  "not_reached/callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "callback"
+   },
+   "say": "Thank you, we will call back at that time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: not_reached; Reason: callback`, `no_callback`, `wrong_number`, `deceased`, `unclear"
+    }
+   ]
+  },
+  "not_reached/callback_failed": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "no_callback"
+   },
+   "say": "I am sorry, I could not book the callback because of a technical problem. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: not_reached; Reason: callback`, `no_callback`, `wrong_number`, `deceased`, `unclear"
+    }
+   ]
+  },
+  "not_reached/no_callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "no_callback"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: not_reached; Reason: callback`, `no_callback`, `wrong_number`, `deceased`, `unclear"
+    }
+   ]
+  },
+  "not_reached/wrong_number": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "wrong_number"
+   },
+   "say": "I apologise for the trouble. Thank you, goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: not_reached; Reason: callback`, `no_callback`, `wrong_number`, `deceased`, `unclear"
+    }
+   ]
+  },
+  "not_reached/deceased": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "deceased"
+   },
+   "say": "I am sorry for your loss. Thank you, goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: not_reached; Reason: callback`, `no_callback`, `wrong_number`, `deceased`, `unclear"
+    }
+   ]
+  },
+  "not_reached/unclear": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "unclear"
+   },
+   "say": "I could not confirm who I am speaking with. Thank you, goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: not_reached; Reason: callback`, `no_callback`, `wrong_number`, `deceased`, `unclear"
+    }
+   ]
+  }
+ },
+ "ladder": {
+  "template": "negotiate",
+  "done": "close:no_promise/refused",
+  "items": {
+   "count": "item_count",
+   "max": 1,
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Freya Bank calls customers who are 1 to 45 days late on one product."
+    }
+   ]
+  },
+  "attempts": {
+   "allowed": "attempts_allowed_{i}",
+   "max": 3,
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "days_late: 8 to 45; Band: late; Deadline: the 7th business day after today; Persuasion attempts: 3"
+    }
+   ]
+  },
+  "refusal": "refused_{i}_{a}"
+ },
+ "precedence": [
+  {
+   "closing": "not_verified/failed",
+   "when": [
+    {
+     "variable": "verify_identity_response.data.wrong_answers_left",
+     "operator": "equals",
+     "operand": "0"
+    },
+    {
+     "variable": "verify_identity_response.data.all_verified",
+     "operator": "not_equals",
+     "operand": "true"
+    },
+    {
+     "variable": "verify_identity_response.data.all_verified",
+     "operator": "not_equals",
+     "operand": "True"
+    }
+   ],
+   "keep": [],
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "After three wrong answers, do not state the debt. Tell the customer to use the mobile app or a branch. Close as `not_verified` / `failed`."
+    }
+   ]
+  },
+  {
+   "closing": "promise",
+   "when": [
+    {
+     "variable": "create_promise_success_count",
+     "operator": "greater_than",
+     "operand": 0
+    }
+   ],
+   "keep": [
+    "transferred/restructuring",
+    "transferred/human",
+    "transferred/support"
+   ],
+   "evidence": [
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "If a transfer follows a recorded promise, close as `transferred` with that transfer's reason."
+    },
+    {
+     "source": "briefs/pl-g3-limits-raw.md",
+     "quote": "Outcome: promise; Reason: none; When: at least one promise was recorded"
+    }
+   ]
+  }
+ ]
+}
