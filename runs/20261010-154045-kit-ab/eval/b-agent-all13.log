@@ -1,0 +1,25 @@
+start 2026-10-10T12:57:40Z
+PASS PUB-01 easy   Happy path     | verify > verify > get_account > promise > close_call
+PASS PUB-02 medium Third party    | schedule_callback > close_call
+PASS PUB-03 medium Identity       | verify > verify > verify > close_call
+PASS PUB-04 medium Dates          | verify > verify > get_account > promise > close_call
+FAIL PUB-05 medium Hardship       | verify > verify > get_account > close_call > add_note
+       - the call was not closed with close_call
+PASS PUB-06 hard   Amounts        | verify > verify > get_account > promise > close_call
+PASS PUB-07 hard   Dates          | verify > verify > get_account > promise > close_call
+FAIL PUB-08 medium Already paid   | verify > verify > get_account > close_call > add_note
+       - the call was not closed with close_call
+PASS PUB-09 medium Restructuring  | verify > verify > get_account > transfer_to_agent > close_call
+PASS PUB-10 hard   Tool failure   | verify > verify > get_account > promise > promise > close_call
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise > add_note > close_call > add_note
+       - notes [('p2', 'refused')], expected [('p2', 'refused'), ('p3', 'refused')]
+       - the call was not closed with close_call
+       - conversation: The assistant followed several criteria correctly: it asked the date of birth once and the phone question exactly twice (asked again once), it made two attempts on the personal loan (late band) and one attempt on the car loan (early band), and it
+PASS PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 3 s, worst 15 s. Failed calls where the customer hung up: 0.
+
+10 / 13 passed (bank records and conversation checks). Last simulation 77f1e37b-70ab-432a-b855-6ba779f20e6d, status completed, 114 s.
+exit 0
+end 2026-10-10T12:59:44Z
