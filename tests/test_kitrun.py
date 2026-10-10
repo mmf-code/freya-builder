@@ -161,3 +161,79 @@ class PracticeCasesTest(unittest.TestCase):
             self.assertEqual(json.loads((ws / "public-test-set.json").read_text()), [])
             ws2 = make_workspace(Path(d) / "run2", [KIT / "briefs" / "brief-a.md"], KIT / "tools" / "openapi.json")
             self.assertEqual({c["brief"] for c in json.loads((ws2 / "public-test-set.json").read_text())}, {"A"})
+
+
+class LoweringWorkspaceTest(unittest.TestCase):
+    """The builder's workspace runs tools/lower.py on a plan quoted from the brief, and kitrun can tell lowered endings
+    from hand-written ones."""
+
+    PLAN = {"terminal": {"tool": "close_call", "evidence": [{"source": "tools/openapi.json", "quote": "Always the last tool call."}]},
+            "fields": {"customer_id": "{{customer_id}}"},
+            "closings": {
+                "promise": {"set": {"outcome": "promise"}, "evidence": [{"source": "briefs/brief-a.md", "quote": "| `promise` | none | at least one promise was recorded |"}]},
+                "no_promise/service_error": {"set": {"outcome": "no_promise", "reason": "service_error"},
+                                             "say": "I could not record your promise. Goodbye.",
+                                             "evidence": [{"source": "briefs/brief-a.md", "quote": "close as `no_promise` / `service_error`"}]},
+                "account_unavailable": {"set": {"outcome": "no_promise", "reason": "service_error"},
+                                        "say": "I cannot reach the account details right now. Goodbye.",
+                                        "evidence": [{"source": "briefs/brief-a.md", "quote": "close as `no_promise` / `service_error`"}]}}}
+    BODY = {"initial_node": "talk", "nodes": {"talk": {
+        "node_type": "conversation", "tools": [], "max_node_turns": 30, "max_turn_transition": "close:no_promise/service_error",
+        "transitions": [{"target_node": "close:promise", "description": "A promise was recorded", "is_tool_call": True,
+                         "condition": {"operator": "matches_intent", "description": "A promise was recorded"}},
+                        {"target_node": "close:account_unavailable", "description": "account error",
+                         "condition": {"logic": "or", "conditions": [{"variable": "account_state", "operator": "equals", "operand": "error"}]}}]}}}
+
+    def workspace(self, d):
+        from builder.kitrun import KIT, make_workspace
+        skill = Path(d) / "skill"
+        skill.mkdir()
+        (skill / "SKILL.md").write_text("---\nname: build-phone-agent\n---\nx")
+        ws = make_workspace(Path(d) / "run", [KIT / "briefs" / "brief-a.md"], KIT / "tools" / "openapi.json", skill, Path(d) / "state")
+        (ws / "out").mkdir()
+        (ws / "out" / "brief-a.closing.json").write_text(json.dumps(self.PLAN))
+        return ws
+
+    def lower(self, ws, body):
+        import subprocess
+        (ws / "out" / "brief-a.body.json").write_text(json.dumps(body))
+        return subprocess.run(["python3", "tools/lower.py", "out/brief-a.body.json", "out/brief-a.closing.json", "--tools", "tools/openapi.json",
+                               "-o", "out/brief-a.workflow.json", "--contract", "out/brief-a.contract.json"], cwd=ws, capture_output=True, text=True)
+
+    def test_plan_from_the_brief_becomes_the_endings_of_the_saved_workflow(self):
+        import subprocess
+        from builder.kitrun import check_exports
+        with tempfile.TemporaryDirectory() as d:
+            ws = self.workspace(d)
+            done = self.lower(ws, self.BODY)
+            self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
+            wf = json.loads((ws / "out" / "brief-a.workflow.json").read_text())
+            self.assertEqual(sorted(k for k in wf["nodes"] if k != "talk"),
+                             ["close_account_unavailable", "close_no_promise_service_error", "close_promise", "hang_up"])
+            talk = wf["nodes"]["talk"]
+            self.assertEqual([t["target_node"] for t in talk["transitions"]], ["close_promise", "close_account_unavailable"])
+            self.assertEqual(talk["max_turn_transition"], "close_no_promise_service_error")
+            check = subprocess.run(["python3", "tools/check_workflow.py", "out/brief-a.workflow.json", "--tools", "tools/openapi.json",
+                                    "--contract", "out/brief-a.contract.json"], cwd=ws, capture_output=True, text=True)
+            self.assertEqual(check.returncode, 0, check.stdout)
+            run_dir = Path(d) / "run"
+            (run_dir / "brief-a.workflow.json").write_text(json.dumps({"workflow": wf}))
+            entry = check_exports(run_dir, ws, [{"slot": "brief-a"}], contract_required=True)[0]
+            self.assertEqual(entry["errors"], [])
+            self.assertTrue(entry["lowering"].startswith("matches"), entry["lowering"])
+            wf["nodes"]["close_promise"]["pre_actions"][0]["function"]["parameters"]["properties"]["body"]["properties"]["outcome"]["default"] = "paid"
+            (run_dir / "brief-a.workflow.json").write_text(json.dumps({"workflow": wf}))
+            self.assertIn("values differ", check_exports(run_dir, ws, [{"slot": "brief-a"}], contract_required=True)[0]["lowering"])
+
+    def test_hand_written_terminal_tool_is_rejected(self):
+        from builder.workflow_check import load_operations
+        with tempfile.TemporaryDirectory() as d:
+            ws = self.workspace(d)
+            op = load_operations(json.loads((ws / "tools" / "openapi.json").read_text()))["close_call"]
+            body = json.loads(json.dumps(self.BODY))
+            body["nodes"]["talk"]["tools"] = [{"type": "function", "function": {"name": "close_call", "handler": "__function__:api_call", "parameters": {
+                "type": "object", "properties": {"url": {"type": "string", "default": op["servers"][0] + op["path"]}, "method": {"type": "string", "default": "POST"}}}}}]
+            done = self.lower(ws, body)
+            self.assertEqual(done.returncode, 1)
+            self.assertIn("REJECTED step 'talk' offers or runs the terminal tool close_call", done.stdout)
+            self.assertFalse((ws / "out" / "brief-a.workflow.json").exists())

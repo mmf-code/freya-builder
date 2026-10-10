@@ -17,8 +17,13 @@ What a pass proves, for the graph only:
     action can send them at the same time (the platform runs the tool calls of one message concurrently);
   - after a step with a terminal tool, no reachable step offers or runs another bank tool, and no end-of-call
     lifecycle tool calls the bank;
-  - with every_call_ends_with_terminal, every end_call step is entered only from a terminal step.
-It does not prove what the model says or which tool it decides to call in a conversation. Only test calls show that.
+  - with every_call_ends_with_terminal, every end_call step is entered only from a terminal step;
+  - every loop of passthrough steps (steps that route without waiting for the customer) has a bound the engine keeps
+    itself: on the loop, both the success and the failure counter of one action step are capped by an exit or a stay
+    condition. Variables that code writes do not count, because a failed sandbox call leaves them unchanged.
+Loops that pass a step which waits for the customer are allowed: each pass needs a new customer message.
+It does not prove what the model says or which tool it decides to call in a conversation, or that a call reaches
+its terminal step. Only test calls show that.
 Exit status: 0 no errors, 1 errors found, 2 unreadable input.
 """
 from __future__ import annotations
@@ -197,6 +202,11 @@ def check_graph(wf: dict, exported: bool = False) -> list[Finding]:
     for key in nodes:
         if key not in ends and not _reach(graph, key) & ends:
             out.append(Finding("warning", "W-NO-END", key, "no path from this step reaches an end_call step"))
+    start = wf.get("initial_node")
+    if start in nodes:
+        reached = _reach(graph, start) | {start}
+        for key in sorted(set(wf.get("nodes") or {}) - reached):
+            out.append(Finding("warning", "W-UNREACHABLE", key, f"no path from {start!r} enters this step"))
     return out
 
 
@@ -283,6 +293,238 @@ def check_terminal(wf: dict, ops: dict[str, dict], contract: dict) -> list[Findi
     return out
 
 
+# ---------------------------------------------------------------- bounded execution
+#
+# A passthrough step routes right after its entry actions, without a customer message. A loop made only of such
+# steps runs as fast as the engine can go. The kit's counters (tools-and-code.md, "Success and failure counters")
+# give a bound that needs no code: every run of an action step adds one to <step>_success_count or to
+# <step>_failure_count. A loop is bounded when, somewhere on it, both counters of one action step on it are capped.
+
+COUNTER = re.compile(r"^(?P<step>.+)_(?P<kind>success|failure)_count$")
+CYCLE_LIMIT = 2000
+
+
+def _alternatives(cond) -> list[list[dict]]:
+    """A condition as OR-alternatives, each a list of plain checks that must all hold. [[]] means always."""
+    if not isinstance(cond, dict) or cond.get("operator") == "always":
+        return [[]]
+    if "conditions" in cond:
+        parts = [_alternatives(c) for c in cond.get("conditions") or []]
+        if cond.get("logic") == "and":
+            out = [[]]
+            for alts in parts:
+                out = [a + b for a in out for b in alts]
+            return out
+        return [alt for alts in parts for alt in alts]
+    return [[cond]]
+
+
+def _counter_check(check: dict, operator: str):
+    m = COUNTER.match(str(check.get("variable") or ""))
+    if not m or check.get("operator") != operator:
+        return None
+    try:
+        return (m["step"], m["kind"]), float(check.get("operand"))
+    except (TypeError, ValueError):
+        return None
+
+
+def _routes(node: dict) -> list[tuple[int, str, list[list[dict]]]]:
+    """How a passthrough step routes: (position, target, alternatives) in evaluation order, up to the first always."""
+    out = []
+    for i, t in enumerate(node.get("transitions") or []):
+        if not isinstance(t, dict) or not t.get("target_node") or t.get("is_tool_call"):
+            continue
+        alts = _alternatives(t.get("condition"))
+        out.append((i, t["target_node"], alts))
+        if [] in alts:
+            return out
+    if node.get("passthrough_default_transition"):
+        out.append((len(node.get("transitions") or []), node["passthrough_default_transition"], [[]]))
+    return out
+
+
+def engine_edges(wf: dict) -> dict[str, dict[str, tuple[int, set]]]:
+    """Edges the engine can take without a customer message: from passthrough steps only. For each edge, the
+    position of its first transition and the counters that every one of its alternatives requires to stay below a
+    limit (transitions to one target are merged by the engine, so their alternatives are pooled)."""
+    nodes = _all_nodes(wf)
+    out: dict[str, dict[str, tuple[int, set]]] = {}
+    for key, node in nodes.items():
+        if not node.get("passthrough"):
+            continue
+        pooled: dict[str, list] = {}
+        first: dict[str, int] = {}
+        for i, target, alts in _routes(node):
+            if target in nodes:
+                pooled.setdefault(target, []).extend(alts)
+                first.setdefault(target, i)
+        out[key] = {}
+        for target, alts in pooled.items():
+            gated = None
+            for alt in alts:
+                below = {c[0]: c[1] for c in (_counter_check(x, "less_than") for x in alt) if c}
+                gated = below if gated is None else {c: max(gated[c], below[c]) for c in gated if c in below}
+            out[key][target] = (first[target], set((gated or {}).items()))
+    return out
+
+
+def _sccs(graph: dict[str, set[str]]) -> list[set[str]]:
+    """Strongly connected components with a cycle (Tarjan)."""
+    index, low, stack, on, out, counter = {}, {}, [], set(), [], [0]
+
+    def visit(v):
+        index[v] = low[v] = counter[0]
+        counter[0] += 1
+        stack.append(v)
+        on.add(v)
+        for w in sorted(graph.get(v, ())):
+            if w not in index:
+                visit(w)
+                low[v] = min(low[v], low[w])
+            elif w in on:
+                low[v] = min(low[v], index[w])
+        if low[v] == index[v]:
+            comp = set()
+            while True:
+                w = stack.pop()
+                on.discard(w)
+                comp.add(w)
+                if w == v:
+                    break
+            if len(comp) > 1 or v in graph.get(v, ()):
+                out.append(comp)
+
+    for v in sorted(graph):
+        if v not in index:
+            visit(v)
+    return out
+
+
+def _simple_cycles(graph: dict[str, set[str]], comp: set[str], limit: int = CYCLE_LIMIT) -> list[list[str]] | None:
+    """Every simple cycle inside one component, or None when there are more than the limit."""
+    order = sorted(comp)
+    found: list[list[str]] = []
+
+    def walk(start, v, path, allowed):
+        for w in sorted(graph.get(v, ()) & allowed):
+            if w == start:
+                found.append(list(path))
+                if len(found) > limit:
+                    raise OverflowError
+            elif w not in path:
+                path.append(w)
+                walk(start, w, path, allowed)
+                path.pop()
+
+    try:
+        for i, s in enumerate(order):
+            walk(s, s, [s], set(order[i:]))
+    except OverflowError:
+        return None
+    return found
+
+
+def _cycle_bound(cycle: list[str], comp: set[str], nodes: dict, eng: dict) -> tuple[str, int] | None:
+    """(step, most runs of that step) when the engine's counters bound this cycle, else None."""
+    capped: dict[tuple[str, str], float] = {}
+
+    def cap(counter, most):
+        capped[counter] = min(capped.get(counter, most), most)
+
+    for i, g in enumerate(cycle):
+        nxt = cycle[(i + 1) % len(cycle)]
+        position, gated = eng[g][nxt]
+        for counter, limit in gated:
+            cap(counter, limit - 1)
+        for j, target, alts in _routes(nodes[g]):
+            if j >= position:
+                break
+            if target in comp:
+                continue
+            for alt in alts:
+                c = _counter_check(alt[0], "greater_than") if len(alt) == 1 else None
+                if c:
+                    cap(c[0], c[1])
+    for step in cycle:
+        if not nodes[step].get("pre_actions"):
+            continue
+        s, f = capped.get((step, "success")), capped.get((step, "failure"))
+        if s is not None and f is not None:
+            return step, int(max(s, 0) + max(f, 0) + 1)
+    return None
+
+
+def _is_code(tool: dict) -> bool:
+    return (tool.get("function") or {}).get("handler") == "__function__:code_exec"
+
+
+def _hooked(tool: dict) -> bool:
+    return any(str(tool.get(h) or "").strip() for h in ("pre_process_code", "post_process_code"))
+
+
+def _actions(node: dict, ops: dict[str, dict]) -> list[str]:
+    """What one run of a step sends: code_exec runs and bank operations."""
+    out = []
+    for t in node.get("pre_actions") or []:
+        if isinstance(t, dict):
+            out.append("code_exec (sandbox)" if _is_code(t) else (tool_operation(t, ops) or "?") + " (bank)")
+    return out
+
+
+def check_execution(wf: dict, ops: dict[str, dict]) -> list[Finding]:
+    out = []
+    nodes = _all_nodes(wf)
+    eng = engine_edges(wf)
+    graph = {k: set(v) for k, v in eng.items()}
+    for comp in _sccs(graph):
+        cycles = _simple_cycles(graph, comp)
+        where = sorted(comp)[0]
+        if cycles is None:
+            out.append(Finding("warning", "W-LOOP-UNCHECKED", where, f"steps {sorted(comp)} route among themselves without a customer message in more than {CYCLE_LIMIT} ways; their bound was not checked"))
+            continue
+        unbounded, bounds = [], []
+        for cyc in cycles:
+            b = _cycle_bound(cyc, comp, nodes, eng)
+            if b:
+                bounds.append((cyc, b))
+            else:
+                unbounded.append(cyc)
+        for cyc in unbounded[:3]:
+            runs = "; ".join(f"{s}: {', '.join(_actions(nodes[s], ops)) or 'no action'}" for s in cyc)
+            out.append(Finding("error", "E-ENGINE-LOOP", cyc[0],
+                               f"{' -> '.join(cyc + [cyc[0]])} routes without a customer message and has no engine bound: no exit on, "
+                               f"or stay condition below, both <step>_success_count and <step>_failure_count of an action step on it. "
+                               f"Variables written by code do not count; a failed sandbox call leaves them unchanged. Each pass runs {runs}"))
+        for cyc, (step, most) in bounds:
+            bank = sorted({o for s in cyc for o in bank_ops(nodes[s], ops)})
+            if bank:
+                out.append(Finding("warning", "W-LOOP-WRITE", cyc[0],
+                                   f"{' -> '.join(cyc + [cyc[0]])} can send {bank} more than once in one call; a pass after an unknown outcome "
+                                   f"sends the request again. Assumed bound, not proven: {step} runs at most about {most} times if every run adds "
+                                   f"to its success or failure counter as documented (failure counters not yet observed)"))
+    return out
+
+
+def sandbox_exposure(wf: dict, ops: dict[str, dict]) -> dict:
+    """How many runtime parts of the workflow need the Python sandbox. A hook on a bank tool is the costly kind: when
+    the sandbox fails after the bank accepted the request, the workflow sees a failure (docs/PLATFORM_NOTES.md)."""
+    nodes = _all_nodes(wf)
+    eng_loops = set().union(*_sccs({k: set(v) for k, v in engine_edges(wf).items()}) or [set()])
+    code_steps = sorted(k for k, n in nodes.items() if any(_is_code(t) for t in n.get("pre_actions") or [] if isinstance(t, dict)))
+    offered = [t for n in nodes.values() for t in n.get("tools") or [] if isinstance(t, dict)]
+    lifecycle = [t for t in wf.get("tools") or [] if isinstance(t, dict)]
+    actions = [t for n in nodes.values() for t in n.get("pre_actions") or [] if isinstance(t, dict)]
+    every = offered + lifecycle + actions
+    return {
+        "code_steps": len(code_steps),
+        "code_tools": sum(1 for t in offered + lifecycle if _is_code(t)),
+        "hooks": sum(1 for t in every if _hooked(t)),
+        "hooks_on_bank_tools": sum(1 for t in every if _hooked(t) and tool_operation(t, ops)),
+        "code_steps_in_engine_loops": sum(1 for k in code_steps if k in eng_loops),
+    }
+
+
 # ---------------------------------------------------------------- entry points
 
 def check(workflow: dict, openapi: dict, contract: dict | None = None, base: Path = Path(".")) -> list[Finding]:
@@ -297,6 +539,7 @@ def check(workflow: dict, openapi: dict, contract: dict | None = None, base: Pat
                     findings += check_tool(t, ops, key)
     for t in wf.get("tools") or []:
         findings += check_tool(t, ops, "tools")
+    findings += check_execution(wf, ops)
     if contract is not None:
         findings += check_contract(contract, ops, base)
         findings += check_terminal(wf, ops, contract)
@@ -319,11 +562,14 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     findings = check(wf, api, contract, a.base)
     errors = [f for f in findings if f.level == "error"]
+    exposure = sandbox_exposure(wf.get("workflow") if "nodes" not in wf and isinstance(wf.get("workflow"), dict) else wf,
+                                load_operations(api))
     if a.json:
-        print(json.dumps({"errors": len(errors), "findings": [f.as_dict() for f in findings]}, indent=1))
+        print(json.dumps({"errors": len(errors), "findings": [f.as_dict() for f in findings], "sandbox_exposure": exposure}, indent=1))
     else:
         for f in findings:
             print(f)
+        print("runtime code (needs the sandbox): " + ", ".join(f"{k.replace('_', ' ')} {v}" for k, v in exposure.items()))
         print(f"{len(errors)} errors, {len(findings) - len(errors)} warnings"
               + ("" if contract is not None else ". No contract given: terminal-action ordering was not checked."))
     return 1 if errors else 0

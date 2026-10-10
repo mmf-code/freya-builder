@@ -13,7 +13,9 @@ Claude Code gets its own CLAUDE_CONFIG_DIR and HOME: no personal memory, mods or
 Output in runs/<stamp>-<label>/: trace.txt (the trace to submit), trace.jsonl (sanitized SDK messages),
 summary.json, console.log, one <slot>.workflow.json per workflow the run saved (exported from Freya),
 and copies of out/, results/ and every file the builder wrote. Secrets are redacted and the run dir is scanned.
-With --skill DIR the given skill replaces the kit's skill in the workspace and tools/check_workflow.py is added.
+With --skill DIR the given skill replaces the kit's skill in the workspace and tools/check_workflow.py and
+tools/lower.py are added. With --state DIR the run keeps its slot and persona ids there instead of state/, so it can
+neither update another run's workflows nor share its personas.
 After the build every exported workflow is checked statically (builder/workflow_check.py), with the builder's
 out/<slot>.contract.json when it wrote one.
 Exit status: 0 done, 1 builder failed or timed out, 2 a secret was found in the output,
@@ -169,9 +171,10 @@ def practice_cases(briefs: list[Path]) -> list[dict]:
     return [c for c in json.loads((KIT / "public-test-set.json").read_text()) if c.get("brief") in tags]
 
 
-def make_workspace(run_dir: Path, briefs: list[Path], tools: Path, skill: Path | None = None) -> Path:
-    """A fresh copy of the kit. With `skill`, that skill replaces the kit's build-phone-agent skill and the
-    workflow checker is added as tools/check_workflow.py. The vendored kit itself is never changed."""
+def make_workspace(run_dir: Path, briefs: list[Path], tools: Path, skill: Path | None = None, state: Path = STATE) -> Path:
+    """A fresh copy of the kit. With `skill`, that skill replaces the kit's build-phone-agent skill, and the
+    workflow checker and the closing lowering are added as tools/check_workflow.py and tools/lower.py. The vendored
+    kit itself is never changed."""
     ws = run_dir / "workspace"
     shutil.copytree(KIT, ws, ignore=lambda d, names: [n for n in names if n in KIT_SKIP])
     if skill:
@@ -179,13 +182,14 @@ def make_workspace(run_dir: Path, briefs: list[Path], tools: Path, skill: Path |
         shutil.rmtree(target)
         shutil.copytree(skill, target)
         shutil.copy2(Path(__file__).with_name("workflow_check.py"), ws / "tools" / "check_workflow.py")
+        shutil.copy2(Path(__file__).with_name("lower.py"), ws / "tools" / "lower.py")
     (ws / "briefs").mkdir()
     for b in briefs:
         shutil.copy2(b, ws / "briefs" / b.name)
     shutil.copy2(tools, ws / "tools" / "openapi.json")
     (ws / "public-test-set.json").write_text(json.dumps(practice_cases(briefs), indent=1))
-    STATE.mkdir(exist_ok=True)
-    for name, target in ((".freya-agents.json", STATE / "freya-agents.json"), (".personas.json", STATE / "personas.json")):
+    state.mkdir(parents=True, exist_ok=True)
+    for name, target in ((".freya-agents.json", state / "freya-agents.json"), (".personas.json", state / "personas.json")):
         if not target.exists():
             target.write_text("{}")
         (ws / name).symlink_to(target)
@@ -212,7 +216,7 @@ def _tail(path_glob_dir: Path, t0: float, stop: threading.Event, out: list) -> N
         time.sleep(0.5)
 
 
-def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes: float, skill: Path | None = None) -> int:
+def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes: float, skill: Path | None = None, state: Path = STATE) -> int:
     if importlib.util.find_spec("claude_agent_sdk") is None:
         sys.exit("claude_agent_sdk is not installed for this Python. Use .venv/bin/python -m builder.kitrun ...")
     env_file = KIT / "env.sh"
@@ -226,8 +230,10 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     run_dir = ROOT / "runs" / f"{stamp}-{label}"
     run_dir.mkdir(parents=True)
-    ws = make_workspace(run_dir, briefs, tools, skill)
-    state_before = json.loads((STATE / "freya-agents.json").read_text())
+    ws = make_workspace(run_dir, briefs, tools, skill, state)
+    state_before = json.loads((state / "freya-agents.json").read_text())
+    print(f"state {redact(str(state), {})}: slots {sorted(state_before) or 'none'}, "
+          f"personas {len(json.loads((state / 'personas.json').read_text()))}", flush=True)
 
     (ISOLATED / "home").mkdir(parents=True, exist_ok=True)
     child_env = {**os.environ, "CLAUDE_CONFIG_DIR": str(ISOLATED), "HOME": str(ISOLATED / "home")}
@@ -268,7 +274,7 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     # What the run created or updated on Freya: slots that are new or whose version moved.
     sys.path.insert(0, str(ws))
     import freya  # noqa: E402  reads FREYA_API_KEY at import, so only after os.environ is set
-    state_after = json.loads((STATE / "freya-agents.json").read_text())
+    state_after = json.loads((state / "freya-agents.json").read_text())
     freya_objects = []
     for slot, s in state_after.items():
         if state_before.get(slot) != s:
@@ -299,7 +305,8 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
         "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill "
                    + (f"{redact(str(skill), {})} (sha256:{sha256(skill / 'SKILL.md')[:12]})" if skill else "build-phone-agent from the kit"),
         "builder_model": model or "claude-opus-5-5 (agent_builder.py default)", "agent_model": freya.AGENT_LLM,
-        "repo_commit": commit, "repo_dirty": dirty, "isolation": {"CLAUDE_CONFIG_DIR": "<repo>/.claude-builder", "HOME": "<repo>/.claude-builder/home"},
+        "repo_commit": commit, "repo_dirty": dirty, "isolation": {"CLAUDE_CONFIG_DIR": "<repo>/.claude-builder", "HOME": "<repo>/.claude-builder/home",
+                                                                  "state": redact(str(state), {})},
         "inputs": {"briefs": [{"name": b.name, "sha256": sha256(b)} for b in briefs], "tools": {"name": tools.name, "sha256": sha256(tools)}},
         "practice_cases": [c["id"] for c in json.loads((ws / "public-test-set.json").read_text())],
         "freya": freya_objects, "tests": summary["tests"], "written": summary["written"],
@@ -349,7 +356,38 @@ def check_exports(run_dir: Path, ws: Path, freya_objects: list[dict], contract_r
         found = check(json.loads(path.read_text()), api, contract, ws)
         entry["errors"] += [str(x) for x in found if x.level == "error"]
         entry["warnings"] = sum(x.level == "warning" for x in found)
+        entry["lowering"] = lowering_provenance(ws, f["slot"], json.loads(path.read_text()), api)
     return out
+
+
+def lowering_provenance(ws: Path, slot: str, export: dict, api: dict) -> str:
+    """Whether the saved workflow's endings are the ones tools/lower.py writes from the builder's body and plan."""
+    from .lower import LoweringError, lower
+    from .workflow_check import _all_nodes, load_operations, tool_operation
+    body, plan, lowered = (ws / "out" / f"{slot}.{x}.json" for x in ("body", "closing", "workflow"))
+    if not (body.is_file() and plan.is_file()):
+        return "not lowered: no out/<slot>.body.json and out/<slot>.closing.json"
+    try:
+        again, _ = lower(json.loads(body.read_text()), json.loads(plan.read_text()), api, ws)
+    except (LoweringError, ValueError, KeyError) as e:
+        return f"the body and plan do not lower: {e}"
+    if not lowered.is_file() or json.loads(lowered.read_text()) != again:
+        return "out/<slot>.workflow.json differs from what the body and plan lower to (edited after lowering?)"
+    ops, term = load_operations(api), json.loads(plan.read_text())["terminal"]["tool"]
+
+    def endings(wf):
+        nodes = _all_nodes(wf)
+        steps = {k for k, n in nodes.items() if any(tool_operation(t, ops) == term for t in (n.get("tools") or []) + (n.get("pre_actions") or []))}
+        sent = {k: json.dumps(nodes[k]["pre_actions"][0]["function"]["parameters"]["properties"]["body"]["properties"], sort_keys=True)
+                for k in steps if nodes[k].get("pre_actions")}
+        routes = sorted((k, t.get("target_node")) for k, n in nodes.items() for t in n.get("transitions") or [] if t.get("target_node") in steps)
+        return steps, sent, routes
+
+    a, b = endings(again), endings(export.get("workflow", export))
+    if a == b:
+        return "matches: every ending step, value and route of the saved workflow comes from the lowering"
+    return (f"saved workflow differs from the lowering: steps {sorted(a[0] ^ b[0]) or 'same'}, "
+            f"values {'same' if a[1] == b[1] else 'differ'}, routes {'same' if a[2] == b[2] else 'differ'}")
 
 
 def render_result(info: dict) -> str:
@@ -390,6 +428,8 @@ def render_trace(info: dict) -> str:
         L.append(f"  {c['slot']}: {len(c['errors'])} errors, {c['warnings']} warnings, "
                  + (f"contract {c['contract']}" if c["contract"] else "no contract, so terminal-tool ordering was not checked"))
         L += [f"     {e}" for e in c["errors"]]
+        if c.get("lowering"):
+            L.append(f"     endings: {c['lowering']}")
     L += ["", f"files the builder wrote: {', '.join(info['written']) or 'none'}", f"result: {render_result(info)}", ""]
     return "\n".join(L)
 
@@ -402,13 +442,15 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--model", help="builder model (BUILDER_MODEL); default: agent_builder.py's own default")
     p.add_argument("--minutes", type=float, default=30, help="hard time limit for the whole build (default 30)")
     p.add_argument("--skill", type=Path, help="skill directory that replaces the kit's build-phone-agent skill in the workspace")
+    p.add_argument("--state", type=Path, default=STATE, help="directory for this run's slot and persona ids (default state/, shared)")
     a = p.parse_args(argv)
     for f in [*a.briefs, a.tools]:
         if not f.is_file():
             p.error(f"no such file: {f}")
     if a.skill and not (a.skill / "SKILL.md").is_file():
         p.error(f"no SKILL.md in {a.skill}")
-    return run([b.resolve() for b in a.briefs], a.tools.resolve(), a.label, a.model, a.minutes, a.skill.resolve() if a.skill else None)
+    return run([b.resolve() for b in a.briefs], a.tools.resolve(), a.label, a.model, a.minutes, a.skill.resolve() if a.skill else None,
+               a.state.resolve())
 
 
 if __name__ == "__main__":
