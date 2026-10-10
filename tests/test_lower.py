@@ -9,7 +9,8 @@ from builder.workflow_check import check, tool_operation, load_operations
 from tests.test_workflow_check import API, CID, LOG, ROOT, tool
 
 QUOTE = "Nothing is accepted after it."
-BRIEF = "Close as `no` / `busy` when the customer has no time. Close as `ok` after a recorded result."
+BRIEF = ("Close as `no` / `busy` when the customer has no time. Close as `ok` after a recorded result. "
+         "A customer has up to three items. An early item gets one attempt, a late item two.")
 PLAN = {"terminal": {"tool": "finish", "evidence": [{"source": "api.json", "quote": QUOTE}]},
         "fields": {"cid": "{{cid}}"},
         "closings": {"ok": {"set": {"result": "ok"}, "evidence": [{"source": "brief.md", "quote": "Close as `ok` after a recorded result."}]},
@@ -85,6 +86,74 @@ class LoweringTest(unittest.TestCase):
         found = problems(body)
         self.assertIn("undeclared closing 'maybe'", found)
         self.assertIn("'bye' is an end_call step", found)
+
+
+LADDER = {"template": "offer", "done": "wrap",
+          "items": {"count": "n_items", "max": 3, "evidence": [{"source": "brief.md", "quote": "A customer has up to three items."}]},
+          "attempts": {"allowed": "tries_{i}", "max": 2, "evidence": [{"source": "brief.md", "quote": "An early item gets one attempt, a late item two."}]},
+          "refusal": "no_{i}_{a}"}
+LADDER_BODY = {"initial_node": "talk", "nodes": {
+    "talk": {"node_type": "conversation", "tools": [], "transitions": [{"target_node": "item:first", "description": "go", "condition": {"operator": "always"}}]},
+    "offer": {"node_type": "conversation", "task_message": "Item {i}: {{facts_{i}}}. Make attempt {a}: {{offer_{i}_{a}}}.", "tools": [LOG],
+              "extraction_schema": [{"name": "no_{i}_{a}", "type": "string", "enum_values": ["yes", "no"], "description": "yes if the customer flatly refuses the offer", "min_confidence": 0.7}],
+              "max_node_turns": 12, "max_turn_transition": SYMBOL + "no/busy",
+              "transitions": [{"target_node": "item:next", "description": "agreed on item {i}", "is_tool_call": True, "condition": {"operator": "matches_intent", "description": "agreed"}},
+                              {"target_node": "offer", "description": "stay", "condition": {"operator": "always"}}]},
+    "wrap": {"node_type": "conversation", "tools": [], "transitions": [{"target_node": SYMBOL + "ok", "description": "done", "is_tool_call": True, "condition": {"operator": "matches_intent", "description": "done"}}]}}}
+
+
+def holds(cond, v):
+    if cond.get("operator") == "always":
+        return True
+    if "conditions" in cond:
+        found = [holds(c, v) for c in cond["conditions"]]
+        return all(found) if cond.get("logic") == "and" else any(found)
+    x, o = v.get(cond.get("variable")), cond.get("operand")
+    if x is None:
+        return False
+    return {"equals": lambda: str(x) == str(o), "greater_than": lambda: float(x) > float(o), "less_than": lambda: float(x) < float(o)}[cond["operator"]]()
+
+
+def refuse_everything(wf, variables, stop="wrap"):
+    """Steps visited when the customer refuses every offer: deterministic routes only, as the engine checks them first."""
+    v, path, key = dict(variables), [], wf["initial_node"]
+    while key != stop and len(path) < 60:
+        node = wf["nodes"][key]
+        path.append(key)
+        for e in node.get("extraction_schema") or []:
+            v[e["name"]] = "yes"
+        key = next(t["target_node"] for t in node["transitions"] if not t.get("is_tool_call") and holds(t["condition"], v))
+    return [p for p in path if p.startswith("offer_") and "_item_" not in p]
+
+
+class LadderTest(unittest.TestCase):
+    def lowered(self, ladder=LADDER, body=LADDER_BODY):
+        return run(body, {**PLAN, "ladder": ladder})
+
+    def test_each_item_gets_exactly_its_allowed_attempts(self):
+        wf, _, found = self.lowered()
+        self.assertEqual([f for f in found if f.level == "error"], [])
+        self.assertEqual([f.code for f in found if f.code in ("W-UNREACHABLE", "W-LOOP-WRITE")], [])
+        self.assertEqual(refuse_everything(wf, {"n_items": 3, "tries_1": 2, "tries_2": 1, "tries_3": 2}),
+                         ["offer_1_1", "offer_1_2", "offer_2_1", "offer_3_1", "offer_3_2"])
+        self.assertEqual(refuse_everything(wf, {"n_items": 1, "tries_1": 1}), ["offer_1_1"])
+
+    def test_template_is_filled_in_per_item_and_attempt(self):
+        wf = self.lowered()[0]
+        step = wf["nodes"]["offer_2_1"]
+        self.assertEqual(step["task_message"], "Item 2: {{facts_2}}. Make attempt 1: {{offer_2_1}}.")
+        self.assertEqual(step["extraction_schema"][0]["name"], "no_2_1")
+        self.assertEqual([t["target_node"] for t in step["transitions"]], ["offer_2_2", "offer_item_3", "offer_item_3", "offer_2_1"])
+        self.assertEqual(wf["nodes"]["offer_3_2"]["transitions"][0]["target_node"], "wrap")
+        self.assertEqual(wf["nodes"]["talk"]["transitions"][0]["target_node"], "offer_item_1")
+        self.assertEqual(step["max_turn_transition"], "close_no_busy")
+
+    def test_ladder_mistakes_are_rejected(self):
+        bad = {**LADDER, "refusal": "no_{i}", "attempts": {**LADDER["attempts"], "allowed": "tries"}}
+        found = problems(LADDER_BODY, {**PLAN, "ladder": bad})
+        self.assertIn("refusal must contain {i} and {a}", found)
+        self.assertIn("attempts.allowed must contain {i}", found)
+        self.assertIn("item:next and item:first need a ladder", problems(LADDER_BODY, PLAN))
 
 
 CANDIDATE_A = ROOT / "runs" / "20261010-161811-candidate-ab" / "out" / "brief-a.workflow.json"

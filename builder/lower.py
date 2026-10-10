@@ -16,6 +16,21 @@ and then enters the one end_call step. So by construction: the terminal tool run
 which only end_call follows; every ending passes it; no ending needs code. Nothing about a brief is built in: the
 tool, its URL, method and fields come from the OpenAPI file, the values from the plan. A value the OpenAPI file does
 not enumerate must appear in that closing's quoted evidence, and every quote must appear in its source file.
+
+An optional "ladder" in the plan turns one conversation step of the body into counted, ordered attempts per item:
+
+    "ladder": {"template": "<body step>", "done": "<body step or close:<id>>",
+               "items": {"count": "<variable>", "max": <n>, "evidence": [...]},
+               "attempts": {"allowed": "<variable with {i}>", "max": <m>, "evidence": [...]},
+               "refusal": "<extracted variable with {i} and {a}>"}
+
+The template is written for item {i}, attempt {a}; every "{i}" and "{a}" in it is replaced. It declares the refusal
+variable in its extraction_schema (value "yes" on a flat refusal of the current offer), and leaves for the next item
+through the target "item:next". Other steps enter the ladder through "item:first". The lowering writes one step per
+item and attempt and, before the template's own routes: a refusal goes to the next attempt while the item's allowed
+count is above the attempt number, else to the next item. A passthrough router per item skips items beyond the count.
+The counts are variables a step before the ladder sets once; the ladder itself runs no code and only moves forward,
+so a refused attempt cannot be offered again and no item gets more attempts than allowed.
 Exit status: 0 lowered, 1 plan or body rejected, 2 unreadable input.
 """
 from __future__ import annotations
@@ -32,6 +47,7 @@ except ImportError:  # run as tools/lower.py in a kit workspace, next to its cop
     from check_workflow import _all_nodes, check_contract, load_operations, tool_operation
 
 SYMBOL = "close:"
+NEXT_ITEM, FIRST_ITEM = "item:next", "item:first"
 END_STEP = "hang_up"
 TERMINAL_CONFIG = {"timeoutMs": 12000, "maxRetries": 2}  # as in the best measured workflow (runs/20261010-161811-candidate-ab)
 
@@ -94,6 +110,92 @@ def check_plan(plan: dict, ops: dict[str, dict], base: Path) -> list[str]:
     return problems
 
 
+def _var(name: str, op: str, operand) -> dict:
+    return {"variable": name, "operator": op, "operand": operand}
+
+
+def _when(*checks: dict) -> dict:
+    return {"logic": "or", "conditions": [checks[0] if len(checks) == 1 else {"logic": "and", "conditions": list(checks)}]}
+
+
+def check_ladder(ladder: dict, body: dict, base: Path) -> list[str]:
+    problems = []
+    nodes = body.get("nodes") or {}
+    template = nodes.get(ladder.get("template"))
+    if not template or template.get("node_type") != "conversation" or template.get("passthrough"):
+        return [f"ladder template {ladder.get('template')!r} is not a waiting conversation step of the body"]
+    done = str(ladder.get("done") or "")
+    if done not in nodes and not done.startswith(SYMBOL):
+        problems.append(f"ladder done {done!r} is neither a body step nor a close:<id> target")
+    for part, key in (("items", "count"), ("attempts", "allowed")):
+        spec = ladder.get(part) or {}
+        if not isinstance(spec.get("max"), int) or not 1 <= spec["max"] <= 9:
+            problems.append(f"ladder {part}.max must be a whole number from 1 to 9")
+        if not str(spec.get(key) or "").strip():
+            problems.append(f"ladder {part}.{key} names no variable")
+        quotes = _quotes(spec.get("evidence") or [], base)
+        if not quotes or not all(quotes):
+            problems.append(f"ladder {part}: every evidence quote must appear in its source")
+    if "{i}" not in str((ladder.get("attempts") or {}).get("allowed", "")):
+        problems.append("ladder attempts.allowed must contain {i}: one allowed count per item")
+    refusal = str(ladder.get("refusal") or "")
+    if "{i}" not in refusal or "{a}" not in refusal:
+        problems.append("ladder refusal must contain {i} and {a}: one variable per item and attempt")
+    if refusal not in [e.get("name") for e in template.get("extraction_schema") or []]:
+        problems.append(f"the ladder template does not extract its refusal variable {refusal!r}")
+    key = ladder["template"]
+    written = {f"{key}_item_{i}" for i in range(1, 10)} | {f"{key}_{i}_{a}" for i in range(1, 10) for a in range(1, 10)}
+    if written & set(nodes):
+        problems.append(f"body steps {sorted(written & set(nodes))} use names the ladder writes")
+    return problems
+
+
+def expand_ladder(wf: dict, ladder: dict) -> None:
+    """Replace the template step by its item and attempt steps, in place."""
+    nodes = wf["nodes"]
+    key, done = ladder["template"], ladder["done"]
+    template = nodes.pop(key)
+    items, attempts = ladder["items"]["max"], ladder["attempts"]["max"]
+    count, allowed, refusal = ladder["items"]["count"], ladder["attempts"]["allowed"], ladder["refusal"]
+
+    def step(i, a):
+        return f"{key}_{i}_{a}"
+
+    def router(i):
+        return f"{key}_item_{i}"
+
+    def after(i):
+        return router(i + 1) if i < items else done
+
+    for i in range(1, items + 1):
+        nodes[router(i)] = {
+            "name": router(i), "node_type": "conversation", "passthrough": True, "passthrough_default_transition": step(i, 1),
+            "on_enter": {"type": "silent"}, "disable_inactivity_monitor": True, "task_message": "Do not call a tool in this turn.",
+            "transitions": [{"target_node": done, "description": f"fewer than {i} items", "condition": _when(_var(count, "less_than", i))},
+                            {"target_node": step(i, 1), "description": "always", "condition": {"operator": "always"}}]}
+        for a in range(1, attempts + 1):
+            text = json.dumps(template).replace("{i}", str(i)).replace("{a}", str(a))
+            clone = json.loads(text.replace(json.dumps(NEXT_ITEM), json.dumps(after(i))))
+            said_no = _var(refusal.replace("{i}", str(i)).replace("{a}", str(a)), "equals", "yes")
+            first = []
+            if a < attempts:
+                first.append({"target_node": step(i, a + 1), "description": f"refused attempt {a}, another attempt is allowed",
+                              "condition": _when(said_no, _var(allowed.replace("{i}", str(i)), "greater_than", a))})
+            first.append({"target_node": after(i), "description": f"refused attempt {a}, attempts used up",
+                          "condition": _when(said_no)})
+            for t in clone.get("transitions") or []:
+                if t.get("target_node") == key:
+                    t["target_node"] = step(i, a)
+            if clone.get("max_turn_transition") == key:
+                clone["max_turn_transition"] = step(i, a)
+            clone["transitions"] = first + (clone.get("transitions") or [])
+            clone["name"] = step(i, a)
+            nodes[step(i, a)] = clone
+    text = json.dumps(wf)
+    if json.dumps(FIRST_ITEM) in text:
+        wf.update(json.loads(text.replace(json.dumps(FIRST_ITEM), json.dumps(router(1)))))
+
+
 def terminal_tool(term: str, op: dict, fields: dict, values: dict) -> dict:
     body = {}
     for name in op["properties"]:
@@ -128,6 +230,14 @@ def lower(body: dict, plan: dict, openapi: dict, base: Path = Path(".")) -> tupl
     problems = check_plan(plan, ops, base)
     term = (plan.get("terminal") or {}).get("tool")
     wf = copy.deepcopy(body)
+    ladder = plan.get("ladder")
+    if ladder:
+        found = check_ladder(ladder, body, base)
+        if found:
+            raise LoweringError(problems + found)
+        expand_ladder(wf, ladder)
+    if NEXT_ITEM in json.dumps(wf) or FIRST_ITEM in json.dumps(wf):
+        problems.append(f"{NEXT_ITEM} and {FIRST_ITEM} need a ladder in the plan, entered from outside its template")
     nodes = wf.get("nodes") or {}
     for key, node in _all_nodes(wf).items():
         if node.get("node_type") == "end_call":
