@@ -74,6 +74,8 @@ def baseline(case_id: str) -> list[str]:
             r = json.loads(Path(f).read_text())
         except ValueError:
             continue
+        if not isinstance(r, dict):           # e.g. eval/classified.json is a list of per-call rows
+            continue
         for x in r.get("final") or []:
             if x.get("id") == case_id:
                 out.append(f"{Path(f).parent.parent.name}/{Path(f).name}: {x['passes']}/{x['runs']}")

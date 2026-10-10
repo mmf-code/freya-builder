@@ -87,6 +87,13 @@ Caveat: kitrun puts `lower.py` in every `--skill` workspace and builders read it
 ladder pattern without lowering. The measured reference configuration therefore includes `lower.py` in the
 workspace, as the final runbook does.
 
+## Persona Lab behavioural runs (2026-10-11, P layer)
+
+Eight personas, three reps, on blind-ref (9bd08f14), public-ref (6a9597ac/3aa5a39a) and lowering
+(b2df668d/d6e35cf9): 20/24, 22/24, 21/24 calls; no infrastructure failure. V09 (refusal before the product's turn)
+fails on all three agents (1/3, 1/3 of which one is a judge miss, 0/3); blind-ref also loses V06 to "this call is
+recorded" in its greeting. Details, judge-missed deviations and a platform observation: `docs/PERSONA_LAB_P_RESULTS.md`.
+
 ## Tools the skills use
 
 | File | Used by | What it does |
