@@ -137,3 +137,27 @@ class FailClosedTest(unittest.TestCase):
             self.assertTrue(any("missing" in e for e in check_exports(run_dir, ws, [{"slot": "x"}], contract_required=True)[0]["errors"]))
             (ws / "out" / "x.contract.json").write_text("{not json")
             self.assertTrue(any("not valid JSON" in e for e in check_exports(run_dir, ws, [{"slot": "x"}])[0]["errors"]))
+
+
+class PracticeCasesTest(unittest.TestCase):
+    """A build sees practice customers only for kit briefs identical to its inputs."""
+
+    def test_selection_follows_brief_identity(self):
+        from builder.kitrun import KIT, practice_cases
+        a, b = KIT / "briefs" / "brief-a.md", KIT / "briefs" / "brief-b.md"
+        self.assertEqual({c["brief"] for c in practice_cases([a])}, {"A"})
+        self.assertEqual({c["brief"] for c in practice_cases([a, b])}, {"A", "B"})
+        with tempfile.TemporaryDirectory() as d:
+            changed = Path(d) / "brief-a.md"                      # same name, one byte different: an unknown brief
+            changed.write_text(a.read_text() + "\n")
+            self.assertEqual(practice_cases([changed]), [])
+
+    def test_workspace_holds_only_the_selected_customers(self):
+        from builder.kitrun import KIT, make_workspace
+        with tempfile.TemporaryDirectory() as d:
+            hidden = Path(d) / "brief-x.md"
+            hidden.write_text("# Another bank\n")
+            ws = make_workspace(Path(d) / "run", [hidden], KIT / "tools" / "openapi.json")
+            self.assertEqual(json.loads((ws / "public-test-set.json").read_text()), [])
+            ws2 = make_workspace(Path(d) / "run2", [KIT / "briefs" / "brief-a.md"], KIT / "tools" / "openapi.json")
+            self.assertEqual({c["brief"] for c in json.loads((ws2 / "public-test-set.json").read_text())}, {"A"})

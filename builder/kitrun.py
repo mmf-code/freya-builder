@@ -3,7 +3,8 @@
     .venv/bin/python -m builder.kitrun BRIEF [BRIEF ...] --tools OPENAPI [--label NAME] [--model ID] [--minutes 30] [--skill DIR]
 
 The kit builder (examples/agent_builder.py with its skill build-phone-agent) runs unchanged in a fresh copy of the
-kit under runs/<stamp>-<label>/workspace/. Only the given briefs are in workspace/briefs/. The given tool API file
+kit under runs/<stamp>-<label>/workspace/. Only the given briefs are in workspace/briefs/, and public-test-set.json
+holds only the practice customers of kit briefs identical to an input brief (none for a hidden brief). The given tool API file
 is copied to workspace/tools/openapi.json, where the skill reads it. Freya slot and persona ids are shared through
 state/, so a slot is updated in place across runs and the workspace does not fill up.
 
@@ -38,7 +39,7 @@ ROOT = Path(__file__).resolve().parent.parent
 KIT = ROOT / "docs" / "build-the-builder"
 STATE = ROOT / "state"
 ISOLATED = ROOT / ".claude-builder"
-KIT_SKIP = {"env.sh", ".freya-agents.json", ".personas.json", "traces", "results", "out", "briefs", ".DS_Store", "__pycache__"}
+KIT_SKIP = {"env.sh", ".freya-agents.json", ".personas.json", "traces", "results", "out", "briefs", "public-test-set.json", ".DS_Store", "__pycache__"}
 SECRET_NAME = re.compile(r"KEY|TOKEN|SECRET|PASSWORD")
 
 
@@ -158,6 +159,16 @@ def summarize_trace(records: list[dict], arrivals: list[float] | None = None, wo
 
 # ---------------------------------------------------------------- run
 
+def practice_cases(briefs: list[Path]) -> list[dict]:
+    """The practice customers a build may see and test on: those of a kit brief whose text is identical to an input brief.
+
+    A brief the kit does not contain (a hidden brief, or a rewritten one) gets none. Its agent can then not be tested
+    against, or tuned to, another brief's customers and expected outcomes."""
+    inputs = {sha256(b) for b in briefs}
+    tags = {p.stem.rsplit("-", 1)[-1].upper() for p in (KIT / "briefs").glob("*.md") if sha256(p) in inputs}
+    return [c for c in json.loads((KIT / "public-test-set.json").read_text()) if c.get("brief") in tags]
+
+
 def make_workspace(run_dir: Path, briefs: list[Path], tools: Path, skill: Path | None = None) -> Path:
     """A fresh copy of the kit. With `skill`, that skill replaces the kit's build-phone-agent skill and the
     workflow checker is added as tools/check_workflow.py. The vendored kit itself is never changed."""
@@ -172,6 +183,7 @@ def make_workspace(run_dir: Path, briefs: list[Path], tools: Path, skill: Path |
     for b in briefs:
         shutil.copy2(b, ws / "briefs" / b.name)
     shutil.copy2(tools, ws / "tools" / "openapi.json")
+    (ws / "public-test-set.json").write_text(json.dumps(practice_cases(briefs), indent=1))
     STATE.mkdir(exist_ok=True)
     for name, target in ((".freya-agents.json", STATE / "freya-agents.json"), (".personas.json", STATE / "personas.json")):
         if not target.exists():
@@ -289,6 +301,7 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
         "builder_model": model or "claude-opus-5-5 (agent_builder.py default)", "agent_model": freya.AGENT_LLM,
         "repo_commit": commit, "repo_dirty": dirty, "isolation": {"CLAUDE_CONFIG_DIR": "<repo>/.claude-builder", "HOME": "<repo>/.claude-builder/home"},
         "inputs": {"briefs": [{"name": b.name, "sha256": sha256(b)} for b in briefs], "tools": {"name": tools.name, "sha256": sha256(tools)}},
+        "practice_cases": [c["id"] for c in json.loads((ws / "public-test-set.json").read_text())],
         "freya": freya_objects, "tests": summary["tests"], "written": summary["written"],
         "cost_usd": res.get("total_cost_usd"), "num_turns": res.get("num_turns"), "model_usage": res.get("model_usage"),
         "model_calls": summary["model_calls"], "checks": checks,
@@ -354,6 +367,7 @@ def render_trace(info: dict) -> str:
          f"phone agent model: {info['agent_model']['provider']}/{info['agent_model']['model']} (set by freya.py)",
          f"repo commit {info['repo_commit']}{' (uncommitted changes)' if info['repo_dirty'] else ''}",
          "inputs: " + ", ".join(f"{b['name']} sha256:{b['sha256'][:12]}" for b in info["inputs"]["briefs"]) + f"; tools {info['inputs']['tools']['name']} sha256:{info['inputs']['tools']['sha256'][:12]}",
+         "practice customers in the workspace: " + (", ".join(info.get("practice_cases") or []) or "none (no kit brief matches the input)"),
          "", f"model calls ({len(info['model_calls'])} in the message log):"]
     for c in info["model_calls"]:
         at = f"+{int(c['at_s']) // 60:02d}:{int(c['at_s']) % 60:02d}" if c["at_s"] is not None else "      "
