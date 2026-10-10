@@ -1,5 +1,9 @@
 # freya-builder
 
+> Current state (2026-10-11): the builder is `builder/kitrun.py` with a skill from `builder/skills/`. Candidates and
+> results: `docs/BUILDERS.md`. Final-day commands: `docs/FINAL_RUNBOOK.md`. Running status: `docs/STATUS.md`.
+> The paragraphs below describe the pre-kit utilities.
+
 Freya Build the Builder hackathon workspace. The official **v3 kit is now vendored**
 unchanged under `docs/build-the-builder/`. Start with **`docs/START_HERE.md`**
 and use **`docs/CLAUDE_LEAD_BRIEF.md`** for Claude Code. The original `builder/`

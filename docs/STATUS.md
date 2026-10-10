@@ -14,7 +14,7 @@ evening are summarized there.
 |---|---|---|
 | Kit example builder, unchanged | `.venv/bin/python -m builder.kitrun BRIEF... --tools OPENAPI` | Reference from the kit |
 | Candidate, reference skill (92a695a) | `--skill builder/skills/reference` | Terminal-tool ordering, static check, hidden-brief-safe testing. Best measured, also in the blind test (11/13). |
-| Candidate, counted rules (d4bc3c1) | `--skill builder/skills/counted-rules` | Experiment. Inconclusive: tested during a platform outage. Build hit the 30-minute limit. |
+| Candidate, counted rules (d4bc3c1) | `--skill builder/skills/counted-rules` | Rejected for the final: the build hit the 30-minute limit. Its policy effect stays inconclusive (tested during a platform outage). |
 
 Every `kitrun` run: isolated Claude config, only the input briefs in the workspace, practice customers only for kit
 briefs identical to an input, static checks of the exports (exit 3 on errors), trace in `runs/<stamp>-<label>/`.
@@ -23,7 +23,7 @@ briefs identical to an input, static checks of the exports (exit 3 on errors), t
 
 | Agent | From | Official result |
 |---|---|---|
-| A 6a9597ac (workflow fbf21573 v2) | candidate, reference skill, clean clone | Brief A 3 runs: 10/10, every customer 3/3 |
+| A 6a9597ac (workflow fbf21573 v2) | candidate skill of fb88831 (`builder/skills/reference-fb88831`; = `reference` except step 6), clean clone | Brief A 3 runs: 10/10, every customer 3/3 |
 | B 3aa5a39a (workflow 0b8ba909 v2) | same build | Brief B 3 runs: 2/3 (PUB-12 0/3, attempt counting) |
 | B 84719013 (workflow adf8b837 v3) | kit builder, A+B | Brief B 3 runs: 2/3 (PUB-12 2/3); 4 of 13 calls had calls overlapping close_call |
 | A-raw 5313a08c (workflow ded64a3a) | candidate, hidden-brief mode, raw-material Brief A | Brief A 3 runs: 9/10, 5/10 (all failures with sandbox errors), 10/10 |
@@ -42,11 +42,13 @@ events before drawing conclusions.
    every 30 s) and the wait counts against that build's 30-minute limit.
 2. All `kitrun` runs share `state/freya-agents.json`, and the slot is the brief's file name. Two runs on the same
    brief update the same Freya workflow, so the later save replaces the earlier agent, and concurrent writes to the
-   state file can race. Before running builds in parallel, give each run its own state file or slot prefix (not
-   implemented yet).
+   state file can race. Done since: `kitrun --state DIR` gives each run its own slot and persona ids; use a fresh
+   directory for every experiment and every final run.
 
-## Next steps already decided
+## Next steps
 
-- When the sandbox is healthy: one run of B 4f317fbf on the three B cases, without a new build.
-- Generic fixes still open: sandbox-exposure warnings in the checker and a bound on every loop; a script that merges
-  a one-run result with a `--reps 2` result; brief-derived test scenarios to choose between runs of a hidden brief.
+- Done on 2026-10-10 evening: sandbox-exposure count and the unbounded-loop error in the checker
+  (`E-ENGINE-LOOP`), the per-customer merge of result files (`tools/evaluation/classify.py`), Persona Lab blind
+  scenarios. See `docs/BUILDERS.md` and `docs/FINAL_RUNBOOK.md`.
+- Still open: one run of B 4f317fbf on the three B cases; brief-derived test scenarios to choose between runs of a
+  hidden brief (no reliable selection signal exists without customer scores).

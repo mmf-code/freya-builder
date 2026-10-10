@@ -50,7 +50,9 @@ python3 -m unittest discover -s tests/persona_lab -t .
 .venv/bin/python -m builder.kitrun tools/persona_lab/generated/blind/g6-contract-clean/inputs/pl-g6-contract-clean-a.md \
   --tools tools/persona_lab/generated/blind/g6-contract-clean/inputs/openapi.json --label pl-g6-contract-clean
 ```
-Every `key.json` holds its exact command. Add `--skill DIR` to test a candidate skill. The label must stay
+Every `key.json` holds this base command. For a candidate comparison always add `--skill builder/skills/<candidate>`
+and a fresh `--state state/pl/<unique-dir>` (without `--state` the build shares `state/` and the kit skill runs); the
+run's `summary.json` records the skill's sha256, which tells two candidates with the same label apart. The label must stay
 `pl-<scenario dir>`; that is how the grader finds the export.
 
 ### Grade the first export (offline)

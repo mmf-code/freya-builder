@@ -26,16 +26,24 @@ and in which helper tools kitrun copies into the workspace. They are skill varia
 | Skill dir | Source commit | sha256 | What it adds | Status |
 |---|---|---|---|---|
 | (none: kit skill) | kit v3 | n/a | nothing | Reference from the kit |
-| `reference` | 92a695a | 7659a7bd2e6c | Terminal-tool ordering in the graph, static check before every save, no practice test when the brief has none. Same as fb88831 (8b8e4ba58d1f) except step 6 | **Recommended** |
+| `reference` | 92a695a | 7659a7bd2e6c | Terminal-tool ordering in the graph, static check before every save, no practice test when the brief has none | **Recommended** |
+| `reference-fb88831` | fb88831 | 8b8e4ba58d1f | `reference` without the no-practice rule of step 6: always runs the practice test. Built the best official agents (A 6a9597ac) | Kept to reproduce run 161811 |
 | `counted-rules` | d4bc3c1 | 5d6669717e9e | Counted and ordered rules kept in code steps | Rejected: timed out; design multiplied sandbox exposure |
 | `lowering` | 959453c | ad17c5b808d7 | Endings declared in a plan and written by `tools/lower.py` | Experimental |
 | `lowering-precedence` | 4e8f616 | c401cbfb82b2 | `lowering` + endings decided by tool results (`precedence`) | Experimental, strongest lowering variant |
 | `ladder` | 8fc6afc | b53b9768aef7 | `lowering` + counted attempts per item as steps | Rejected: timed out |
 | `selfcheck` | 95d4d00 | 64896af74fcb | `reference` + a no-practice check loop and three general rules | Rejected: regressed in blind test |
 
-`builder/skills/build-phone-agent/` was renamed to `counted-rules/`, `build-phone-agent-lowering/` to
-`lowering-precedence/`, and `build-phone-agent-selfcheck/` to `selfcheck/`; `reference/`, `lowering/` and `ladder/` were
-restored from their source commits. Run records keep the old paths; the sha256 identifies the skill.
+Old paths in run records: `builder/skills/build-phone-agent/` held fb88831, then 92a695a, then d4bc3c1 (now
+`counted-rules/`). `builder/skills/build-phone-agent-lowering/` held the lowering skill (959453c), then the ladder
+(8fc6afc), then lowering only again (2bfad75), then lowering + precedence (4e8f616, now `lowering-precedence/`).
+`build-phone-agent-selfcheck/` is now `selfcheck/`. The blind reference run used a scratchpad copy of 92a695a. In
+every case the sha256 in the run's `summary.json` identifies the skill.
+
+Tool versions: kitrun copies the repo's current `workflow_check.py`, `lower.py` and `dryrun.py` into every `--skill`
+workspace, whatever the skill uses, and builders do read them (the blind reference build read `lower.py`). Runs used
+the tools of their commit: lowering runs before 4e8f616 had no `precedence`; the precedence run used `lower.py`
+before 49de20a (one unreachable router, a warning); runs before 0000450 had no `dryrun.py`.
 
 ## Measured results
 
@@ -56,7 +64,9 @@ export evaluated on the official customers (valid because the raw briefs keep th
 | 20261010-223940-blind-selfcheck-ab | selfcheck | raw A+B | 856 s | A 3/10, B 3/3 (6/13) |
 
 One build per row. Builds of the same skill differ widely, so a gap of one or two customers between rows is within
-build-to-build variation. Each run's `RESULT.md` has the failures with their evidence.
+build-to-build variation. The runs of the evening have a `RESULT.md` with the failures and their evidence; the
+earlier ones keep their notes in `eval/` (`candidate-ab/eval/OUTAGE.md`, `candidate-a-raw/eval/RESULT.md`), in
+`docs/STATUS.md` and in the commit messages. `kit-builder-brief-a` predates kitrun and has no `summary.json`.
 
 ## Tools the skills use
 
@@ -66,3 +76,4 @@ build-to-build variation. Each run's `RESULT.md` has the failures with their evi
 | `builder/lower.py` | lowering, lowering-precedence, ladder | Writes terminal steps, routes and precedence routers from a closing plan |
 | `builder/dryrun.py` | selfcheck | Runs a workflow's code steps on sample variables |
 | `tools/persona_lab/` | evaluation only | Blind scenarios g1-g7 with answer keys, offline export grader, persona variants |
+| `tools/evaluation/` | evaluation only | Official runs, per-customer merge with infrastructure labels, re-export, semantic checks |

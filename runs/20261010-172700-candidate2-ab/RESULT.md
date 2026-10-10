@@ -33,7 +33,8 @@ for A as well, which has one product per customer.
 Agents saved (version 4, last versions not fully tested): brief-a workflow d325c61a, brief-b workflow a9d0f98f.
 No outside evaluation was run on them.
 
-Decision: keep the previous candidate (skill 92a695a, agents 6a9597ac and 3aa5a39a) as the reference, and keep
+Decision: keep the previous candidate (skill 92a695a; correction 2026-10-11: agents 6a9597ac and 3aa5a39a were built
+with its predecessor fb88831, which differs only in step 6) as the reference, and keep
 this experiment separate; nothing is reverted. Next, once the sandbox is healthy and without a new build: one run of
 the existing B agent (agent 4f317fbf, workflow a9d0f98f v4) on the three B cases. A run whose failed calls record
 sandbox errors does not count. That measures this agent only, not whether the builder reproduces it.

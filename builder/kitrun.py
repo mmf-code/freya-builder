@@ -1,6 +1,6 @@
 """Run the kit's example builder once, isolated and traced, and export what it built.
 
-    .venv/bin/python -m builder.kitrun BRIEF [BRIEF ...] --tools OPENAPI [--label NAME] [--model ID] [--minutes 30] [--skill DIR]
+    .venv/bin/python -m builder.kitrun BRIEF [BRIEF ...] --tools OPENAPI [--label NAME] [--model ID] [--minutes 30] [--skill DIR] [--state DIR]
 
 The kit builder (examples/agent_builder.py with its skill build-phone-agent) runs unchanged in a fresh copy of the
 kit under runs/<stamp>-<label>/workspace/. Only the given briefs are in workspace/briefs/, and public-test-set.json
@@ -13,8 +13,8 @@ Claude Code gets its own CLAUDE_CONFIG_DIR and HOME: no personal memory, mods or
 Output in runs/<stamp>-<label>/: trace.txt (the trace to submit), trace.jsonl (sanitized SDK messages),
 summary.json, console.log, one <slot>.workflow.json per workflow the run saved (exported from Freya),
 and copies of out/, results/ and every file the builder wrote. Secrets are redacted and the run dir is scanned.
-With --skill DIR the given skill replaces the kit's skill in the workspace and tools/check_workflow.py and
-tools/lower.py are added. With --state DIR the run keeps its slot and persona ids there instead of state/, so it can
+With --skill DIR the given skill replaces the kit's skill in the workspace and tools/check_workflow.py,
+tools/lower.py and tools/dryrun.py are added. With --state DIR the run keeps its slot and persona ids there instead of state/, so it can
 neither update another run's workflows nor share its personas.
 After the build every exported workflow is checked statically (builder/workflow_check.py), with the builder's
 out/<slot>.contract.json when it wrote one.
@@ -173,8 +173,8 @@ def practice_cases(briefs: list[Path]) -> list[dict]:
 
 def make_workspace(run_dir: Path, briefs: list[Path], tools: Path, skill: Path | None = None, state: Path = STATE) -> Path:
     """A fresh copy of the kit. With `skill`, that skill replaces the kit's build-phone-agent skill, and the
-    workflow checker and the closing lowering are added as tools/check_workflow.py and tools/lower.py. The vendored
-    kit itself is never changed."""
+    workflow checker, the closing lowering and the dry-run tool are added as tools/check_workflow.py, tools/lower.py
+    and tools/dryrun.py. The vendored kit itself is never changed."""
     ws = run_dir / "workspace"
     shutil.copytree(KIT, ws, ignore=lambda d, names: [n for n in names if n in KIT_SKIP])
     if skill:

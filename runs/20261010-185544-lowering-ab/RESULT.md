@@ -40,7 +40,11 @@ the reference B agent passed 0 of 3. The build took twice as long as the referen
 - Raw files: `eval/a-official-1.json`, `eval/a-official-reps2.json`, `eval/b-official-1.json`,
   `eval/b-official-reps2.json`, with their logs.
 
-## Compared with the reference build (skill 92a695a, run 20261010-161811-candidate-ab)
+## Compared with the reference build (run 20261010-161811-candidate-ab)
+
+Correction (2026-10-11): that run used the candidate skill of fb88831 (sha256 8b8e4ba58d1f, now
+`builder/skills/reference-fb88831`), not 92a695a; 92a695a differs only in step 6 (no practice test when the brief has
+none), so with practice customers both behave the same.
 
 | | Reference | This run |
 |---|---|---|

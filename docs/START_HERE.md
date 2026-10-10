@@ -1,5 +1,9 @@
 # Freya Build the Builder — current source of truth (2026-10-10)
 
+> **Update 2026-10-11:** builds now run through `builder/kitrun.py` with a skill from `builder/skills/` and a fresh
+> `--state` directory; see `docs/BUILDERS.md` (candidates, results) and `docs/FINAL_RUNBOOK.md` (final day). The
+> "First commands" and "Immediate implementation plan" below are the plan of the morning of 2026-10-10.
+
 > **Read this first.** The original pre-kit README, FINDINGS and INTEGRATION_CHECKLIST capture a useful earlier stage. Their claims that the official materials have not yet arrived are historical, not the current project state.
 
 ## The authority order
