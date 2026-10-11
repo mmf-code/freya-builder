@@ -17,11 +17,12 @@ With --skill DIR the given skill replaces the kit's skill in the workspace and t
 tools/lower.py and tools/dryrun.py are added. With --state DIR the run keeps its slot and persona ids there instead of state/, so it can
 neither update another run's workflows nor share its personas.
 After the build every exported workflow is checked statically (builder/workflow_check.py), with the builder's
-out/<slot>.contract.json when it wrote one, against the runner's own copy of the tool API and brief files, taken before
-the build and hash-checked before use (not the workspace copies). The trace is read through the file handle the runner
-opened when agent_builder.py created it. A run is accepted only when the builder exited 0 with a successful SDK result
-as the trace's last record, within the time limit counted up to the end of the export and checks, with every input
-file and the trace unchanged, and with no check error. Nothing is deleted when a
+out/<slot>.contract.json when it wrote one, against the tool API and brief files as the runner read them into memory
+before the build (not the workspace copies, not the files on disk afterwards). The trace is read through the file
+handle the runner opened when agent_builder.py created it, and its SDK result must match the "done:" line
+agent_builder.py printed to the runner's pipe. A run is accepted only when the builder exited 0 with that confirmed
+successful SDK result, within the time limit counted up to the end of the export and checks, with every input file and
+the trace unchanged, and with no check error. Nothing is deleted when a
 run is rejected; summary.json and trace.txt give the reasons under "acceptance".
 Exit status: 0 accepted, 1 builder failed, SDK error, timed out or over the limit, 2 a secret was found in the output,
 3 a check failed (static errors, missing export or contract, contract without a terminal tool, changed input).
@@ -110,9 +111,12 @@ def sha256(path: Path) -> str:
 # ---------------------------------------------------------------- acceptance (outside the builder's view)
 
 def input_manifest(briefs: list[Path], tools: Path) -> dict[str, dict]:
-    """Workspace path -> source file and sha256 of every input, taken before the build starts."""
-    m = {f"briefs/{b.name}": {"source": b, "sha256": sha256(b)} for b in briefs}
-    m["tools/openapi.json"] = {"source": tools, "sha256": sha256(tools)}
+    """Workspace path -> source file, bytes and sha256 of every input, each read once before the build starts. The
+    bytes stay in the runner's memory: the checks after the build use them, not a file the builder could reach."""
+    m = {}
+    for rel, path in [*((f"briefs/{b.name}", b) for b in briefs), ("tools/openapi.json", tools)]:
+        data = path.read_bytes()
+        m[rel] = {"source": path, "data": data, "sha256": hashlib.sha256(data).hexdigest()}
     return m
 
 
@@ -129,11 +133,29 @@ def input_changes(manifest: dict[str, dict], ws: Path, sources: bool = True) -> 
 
 
 def pristine_inputs(manifest: dict[str, dict], into: Path) -> Path:
-    """The original inputs at their workspace paths, so contract quotes are checked against what the bank gave."""
+    """The inputs as read at the start, written at their workspace paths (for the checker's own quote check; the
+    runner's authoritative quote check uses the bytes in memory)."""
     for rel, m in manifest.items():
         (into / rel).parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(m["source"], into / rel)
+        (into / rel).write_bytes(m["data"])
     return into
+
+
+def console_confirms(lines: list[str], trace: Path | None, records: list[dict]) -> str | None:
+    """agent_builder.py prints 'done: N turns, S s, $C. Trace: <file>' when it receives the SDK result. The runner
+    owns that pipe; the builder's commands do not write to it. A missing or different line means the trace's result
+    is not confirmed. Lines after it (warnings on exit) do not matter."""
+    last = records[-1] if records and records[-1].get("type") == "ResultMessage" else None
+    if last is None or trace is None:
+        return None                                 # sdk_outcome already rejects the run
+    secs = f"{(last.get('duration_ms') or 0) / 1000:.0f}"
+    named = [m for m in (re.match(r"\s*done: (\d+) turns, (\d+) s, .*Trace: (\S+)\s*$", line) for line in lines)
+             if m and m.group(3).endswith("/" + trace.name)]
+    if any(int(m.group(1)) == last.get("num_turns") and m.group(2) == secs for m in named):
+        return None
+    if named:
+        return "agent_builder.py's 'done:' line does not match the trace's SDK result"
+    return "agent_builder.py printed no 'done:' line for the trace, so its SDK result is not confirmed"
 
 
 def final_result(records: list[dict]) -> dict:
@@ -356,9 +378,6 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     run_dir = ROOT / "runs" / f"{stamp}-{label}"
     run_dir.mkdir(parents=True)
     manifest = input_manifest(briefs, tools)
-    # The runner's own copy of the inputs, taken before the build and hash-checked before use: the oracle for the
-    # contract quotes and the tool API, whatever happens to the workspace copies or the source files.
-    snapshot = pristine_inputs(manifest, Path(tempfile.mkdtemp(prefix="kitrun-inputs-")))
     ws = make_workspace(run_dir, briefs, tools, skill, state)
     state_before = json.loads((state / "freya-agents.json").read_text())
     print(f"state {redact(str(state), {})}: slots {sorted(state_before) or 'none'}, "
@@ -379,6 +398,7 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     proc = subprocess.Popen(cmd, cwd=ws, env=child_env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1,
                             start_new_session=True)
     timed_out = threading.Event()
+    console: list[str] = []
     watchdog = threading.Timer(minutes * 60, lambda: (timed_out.set(), kill_group(proc)))
     watchdog.start()
     arrivals: list[float] = []
@@ -389,6 +409,7 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     try:
         with open(run_dir / "console.log", "w") as log:
             for line in proc.stdout:
+                console.append(line.rstrip())
                 stamped = f"[{int(time.time() - t0) // 60:02d}:{int(time.time() - t0) % 60:02d}] {redact(line.rstrip(), secrets)}"
                 print(stamped, flush=True)
                 log.write(stamped + "\n")
@@ -430,11 +451,12 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
             freya_objects.append({"slot": slot, **s, "created": slot not in state_before, "export": exported,
                                   "export_sha256": sha256(path) if path.is_file() else None})
 
-    input_problems = input_changes(manifest, ws) + input_changes(manifest, snapshot, sources=False)
-    input_problems += unexpected_traces(ws, trace_file) + trace_problems
-    checks = check_exports(run_dir, ws, freya_objects, contract_required=skill is not None, api_path=snapshot / "tools" / "openapi.json",
-                           evidence_base=snapshot, evidence_sources=set(manifest))
-    shutil.rmtree(snapshot, ignore_errors=True)
+    input_problems = input_changes(manifest, ws) + unexpected_traces(ws, trace_file) + trace_problems
+    with tempfile.TemporaryDirectory() as d:
+        checks = check_exports(run_dir, ws, freya_objects, contract_required=skill is not None,
+                               api_data=json.loads(manifest["tools/openapi.json"]["data"]),
+                               evidence_base=pristine_inputs(manifest, Path(d)),
+                               evidence_texts={rel: m["data"].decode(errors="replace") for rel, m in manifest.items()})
     end_total = datetime.now(timezone.utc)
 
     for sub in ("out", "results"):
@@ -449,8 +471,8 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
 
     res = summary["result"]
     seconds_total = (end_total - start).total_seconds()
-    exit_status, reasons = accept(code, timed_out.is_set(), sdk_outcome(final_result(records)), seconds_total, minutes * 60,
-                                  checks, input_problems)
+    sdk_reason = sdk_outcome(final_result(records)) or console_confirms(console, trace_file, records)
+    exit_status, reasons = accept(code, timed_out.is_set(), sdk_reason, seconds_total, minutes * 60, checks, input_problems)
     info = {
         "run": run_dir.name, "start": start.isoformat(timespec="seconds"), "end": end.isoformat(timespec="seconds"),
         "seconds": round((end - start).total_seconds()), "limit_minutes": minutes, "timed_out": timed_out.is_set(), "exit_code": code,
@@ -484,17 +506,22 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
 
 def check_exports(run_dir: Path, ws: Path, freya_objects: list[dict], contract_required: bool = False,
                   api_path: Path | None = None, evidence_base: Path | None = None,
-                  evidence_sources: set[str] | None = None) -> list[dict]:
+                  evidence_sources: set[str] | None = None, api_data: dict | None = None,
+                  evidence_texts: dict[str, str] | None = None) -> list[dict]:
     """Static checks of every exported workflow against the run's tool API, with the builder's contract if it wrote one.
 
     Fails closed: a run that saved nothing, a missing export, and (when the skill requires one) a missing, unreadable or
     empty contract are errors, so they cannot pass as a clean check. `api_path` and `evidence_base` name the original
     inputs; without them the workspace copies are used, which the builder could have changed. With `evidence_sources`
-    a contract quote may name only those input paths: an absolute path or `..` would leave `evidence_base`."""
+    a contract quote may name only those input paths: an absolute path or `..` would leave `evidence_base`.
+    `api_data` and `evidence_texts` (input path -> text) are the inputs as the runner read them before the build;
+    with them the tool API and every quote are checked in memory, and that check decides."""
     from .workflow_check import check
     if not freya_objects:
         return [{"slot": "(none)", "contract": None, "errors": ["the run saved no workflow on Freya"], "warnings": 0}]
-    api = json.loads((api_path or ws / "tools" / "openapi.json").read_text())
+    api = api_data if api_data is not None else json.loads((api_path or ws / "tools" / "openapi.json").read_text())
+    if evidence_texts is not None:
+        evidence_sources = set(evidence_texts)
     out = []
     for f in freya_objects:
         entry = {"slot": f["slot"], "contract": None, "errors": [], "warnings": 0}
@@ -526,6 +553,10 @@ def check_exports(run_dir: Path, ws: Path, freya_objects: list[dict], contract_r
                         src = str(ev.get("source", "")) if isinstance(ev, dict) else ""
                         if src not in evidence_sources:
                             entry["errors"].append(f"{cpath.name}: evidence source {src[:80]!r} is not one of the input files {sorted(evidence_sources)}")
+                        elif evidence_texts is not None:
+                            quote = " ".join(str(ev.get("quote", "")).split())
+                            if not quote or quote not in " ".join(evidence_texts[src].split()):
+                                entry["errors"].append(f"{cpath.name}: quote not in {src} as the runner read it before the build: {quote[:80]!r}")
         elif contract_required:
             entry["errors"].append(f"{cpath.name} is missing, so terminal-tool ordering could not be checked")
         found = check(json.loads(path.read_text()), api, contract, evidence_base or ws)

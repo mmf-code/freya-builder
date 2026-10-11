@@ -426,3 +426,40 @@ class WatchedTraceTest(unittest.TestCase):
             self.assertEqual(input_changes(m, snap, sources=False), [])
             (snap / "tools" / "openapi.json").write_text('{"planted": true}')
             self.assertTrue(input_changes(m, snap, sources=False))
+
+
+class InMemoryInputsTest(unittest.TestCase):
+    def test_quotes_are_checked_against_the_inputs_read_before_the_build(self):
+        import shutil
+        from builder.kitrun import KIT, check_exports, input_manifest
+        wf = {"workflow": {"initial_node": "e", "nodes": {"e": {"node_type": "end_call", "transitions": []}}}}
+        with tempfile.TemporaryDirectory() as d:
+            src = Path(d) / "api.json"
+            shutil.copy2(KIT / "tools" / "openapi.json", src)
+            manifest = input_manifest([KIT / "briefs" / "brief-a.md"], src)
+            api = json.loads(src.read_text())
+            api["info"]["description"] = str(api["info"].get("description", "")) + " Planted later."
+            src.write_text(json.dumps(api))            # the file on disk changes after the start
+            run_dir, ws = Path(d) / "run", Path(d) / "run" / "workspace"
+            (ws / "out").mkdir(parents=True)
+            (ws / "tools").mkdir()
+            shutil.copy2(src, ws / "tools" / "openapi.json")
+            (run_dir / "x.workflow.json").write_text(json.dumps(wf))
+            (ws / "out" / "x.contract.json").write_text(json.dumps({"terminal_tools": [{"tool": "close_call", "evidence": [
+                {"source": "tools/openapi.json", "quote": "Planted later."}]}]}))
+            texts = {rel: m["data"].decode() for rel, m in manifest.items()}
+            errors = check_exports(run_dir, ws, [{"slot": "x"}], contract_required=True,
+                                   api_data=json.loads(manifest["tools/openapi.json"]["data"]), evidence_base=ws, evidence_texts=texts)[0]["errors"]
+            self.assertTrue(any("as the runner read it before the build" in e for e in errors), errors)
+
+    def test_done_line_confirms_the_sdk_result(self):
+        from builder.kitrun import console_confirms
+        trace = Path("/x/workspace/traces/20261011-050000.jsonl")
+        records = [{"type": "AssistantMessage"}, {"type": "ResultMessage", "subtype": "success", "is_error": False,
+                                                   "num_turns": 24, "duration_ms": 884200}]
+        done = "done: 24 turns, 884 s, $2.50. Trace: /x/workspace/traces/20261011-050000.jsonl"
+        self.assertIsNone(console_confirms(["text", "", done, "a warning on exit"], trace, records))
+        self.assertIsNone(console_confirms(["done: 3 turns, 1 s, $0.00. Trace: /x/workspace/traces/20261011-050000.jsonl", done], trace, records))
+        self.assertIn("no 'done:' line", console_confirms(["text"], trace, records))
+        self.assertIn("does not match", console_confirms([done.replace("24 turns", "25 turns")], trace, records))
+        self.assertIn("no 'done:' line", console_confirms([done.replace("050000", "060000")], trace, records))
