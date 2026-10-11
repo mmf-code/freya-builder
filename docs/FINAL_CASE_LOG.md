@@ -17,6 +17,7 @@ The organisers announced:
 |---|---|---|---|
 | s01-20261011T171112Z | 17:11:12 (20:11 Istanbul) | 2: `BRIEF.md` (sha256 9f7a9256), `statement-debt-call-flow.pdf` (1092fe84) | first |
 | s02-20261011T174012Z | 17:40:12 (20:40 Istanbul) | 18 | 16 added: `README.md`, `example-scenarios.md`, `cloudflare-mock/` (4), `sources/documents/` (FAQ, IVR prompt sheet, service contract), `sources/emails/` (2 threads, 2 analysis versions), `sources/meetings/` (1 transcript), `test-environment/` (2). Changed: `BRIEF.md` (the Inputs list now matches the pack: no third analysis version, no data models, no abbreviations) |
+| s03-20261011T180249Z | 18:02:49 (21:02 Istanbul) | 19 | 1 added: `sources/meetings/2026-10-10-follow-up-session-transcript.txt` (currency names in full, ask about another card before the offer, no invented date for a card without a statement, total debt on the cut day). No service change: the mock stays as it is |
 
 `BRIEF.md` ("Inputs") names these files. s01 does not have them:
 - `README.md`
@@ -79,4 +80,25 @@ builder that probes the mock with plain urllib gets 403.
 
 ## Builds
 
-None yet.
+- 21:04, two builds on s02 (`final-chat`, `final-ref`): stopped after 47 s when s03 arrived. Kept as
+  `runs/*-aborted-s02`; no export.
+- 21:05, two builds on s03, each with its own state, mock version 33b80bc5:
+  `--skill builder/skills/reference-chat --label final-chat` and `--skill builder/skills/reference --label final-ref`.
+
+Results:
+- `final-chat` (reference-chat, 20261011-210522): 1168 s, exit 3. The runner rejected it for three probe workflows
+  that the builder saved while it studied the chat route; they call the kit's old practice mock. The agent itself
+  (BRIEF, version 4) has 0 errors. Its own tests: chat tests of Examples 1, 2, 3 and 5; two real defects found and
+  fixed (empty card choice and week fields). But the chat route hung on an opening tool step, and the builder made the
+  first step silent ("Say nothing", wait for the caller). One chat-mode simulation of Example 1 at 21:30 (simulation
+  95cf2fb8, the kit's run_simulation) shows the result: one event, node_enter start; nobody speaks; 0 s,
+  customer-ended-call, outcome inconclusive. NO-GO.
+- `final-ref` (reference, 20261011-210530): 1801 s, exit 1, stopped at the 30-minute limit. NO-GO.
+
+Next candidate: `builder/skills/reference-chat-open` (sha256 37e6f222): reference-chat plus two generic rules: the
+agent speaks first and a chat-route limit never changes the opening, checked with one simulation after the first
+save; save only the agent's own slot.
+
+Mock state: the write services (`statement.week.change`, `statement.pdf.send`) return the fixed answers of the test
+data and change nothing. Contract section 6 asks for exactly those answers, and `test-customers.md` says the dates are
+fixed in the data. A stateful mock would answer differently from the test environment.
