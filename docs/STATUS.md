@@ -1,9 +1,9 @@
-# Status (updated 2026-10-11 04:25 UTC+3)
+# Status (updated 2026-10-11 05:07 UTC+3)
 
 Branch `builder-integration` on GitHub. Read with `docs/START_HERE.md`, `docs/PLATFORM_NOTES.md` and
 `docs/EVAL_PROTOCOL.md`.
 
-## Handoff, 2026-10-11 04:25 UTC+3
+## Handoff, 2026-10-11 05:07 UTC+3
 
 - Final builder unchanged: `--skill builder/skills/reference` (sha256 `7659a7bd2e6c`) with a fresh `--state` per
   run; commands in `docs/FINAL_RUNBOOK.md`. Freeze the skill and the helpers kitrun copies until the final.
@@ -16,20 +16,32 @@ Branch `builder-integration` on GitHub. Read with `docs/START_HERE.md`, `docs/PL
   2. That A 10/10 is the rerun triple after a stalled run. The two earlier clean runs had 9/10 and 8/10; over all
      five clean runs PUB-07 passed 3/5 and PUB-05 4/5.
   3. The g3 attempts comparison is void: the fixture contradicts itself (`docs/FAILURE_MODES.md` #11).
-  4. Every lowering skill says the goodbye after `close_call` (`builder/lower.py:328`): 24/24 calls of the lowering
-     agents, 21 of them judge PASS. lowering-precedence writes the same step shape.
+  4. The measured lowering-family builds said thanks and goodbye only after `close_call`: they used the closing `say`
+     field, which `builder/lower.py:328` puts on the step that runs the tool. lowering 24/24 Persona Lab calls (21 judge
+     PASS), blind lowering-precedence 37/39 official calls. A lowering build without `say` would not have it.
   5. Blind results of one build per skill (11, 9, 8, 6 of 13) overlap in their 95% intervals; they do not rank skills.
 - New, not yet measured: `builder/skills/reference-v2` (reference + four general rules), the transcript checker
   `tools/evaluation/policy_audit.py` (with `tests/test_policy_audit.py`), `docs/FAILURE_MODES.md` (failure catalog,
   engineering preference, what we took from EVRE) and `docs/REFERENCE_V2.md` (experiment and switch rule).
 - Stage 0 of that experiment done at 04:20 (read-only `policy_audit --fetch` on the stored official calls): the
-  blind lowering-precedence agent says the goodbye after `close_call` in 39/39 calls; the blind reference agent leaves
-  out the text-message sentence in 5 of 9 official B calls (judge PASS). Table in `docs/REFERENCE_V2.md`.
-- Next, needs approval because it uses Freya: stages 1-4 of `docs/REFERENCE_V2.md` (fresh reference build vs
-  reference-v2 build, ~2 hours). If its gate fails or time runs out, the final uses `reference`.
+  blind lowering-precedence agent has no goodbye before `close_call` in 37/39 calls; the blind reference agent leaves
+  out the text-message sentence in 5 of 9 official B calls (judge PASS, read and confirmed). Table in
+  `docs/REFERENCE_V2.md`.
+- Done by 05:07, after a second outside review (A and B of its plan, no Freya use):
+  - A, runner acceptance (`builder/kitrun.py`, commits 7e4e2a0, c077158, 0c59ba3, the last two after security reviews;
+    what the builder sees is unchanged): a run is accepted only with a successful SDK result as the last record of
+    the trace read through the handle opened at its creation, unchanged inputs, a valid contract checked against a
+    snapshot of the inputs taken before the build, exported workflows with their sha256, and the time limit counted
+    to the end of the checks; the whole process group is stopped. `docs/FAILURE_MODES.md` #16.
+  - B, measurement: `policy_audit` is a triage with classes, coverage, persona triggers and review statuses; its false
+    positives and negatives from the review are fixed and tested; the switch rule is revision 2 (three dimensions,
+    confirmed findings only, per-mechanism veto, a floor). `docs/REFERENCE_V2.md`.
+- Next, needs approval because it uses Freya: stages 1-4 of `docs/REFERENCE_V2.md` with runner 0c59ba3 (fresh
+  reference build vs reference-v2 build, ~2 hours). If its rule fails or time runs out, the final uses `reference`.
 - Known weak spots of `reference`: an item skipped after an out-of-turn refusal (V09), "this call is recorded" in the
-  greeting judged as an early "recorded", an occasional missing text-message sentence, 7 to 10 code hooks on bank
-  tools (sandbox exposure).
+  greeting judged as an early "recorded", the text-message sentence missing after several promises (5 of 9 official
+  B calls of its blind build), 7 to 10 code hooks on bank tools (sandbox exposure). Not known: how it does on hidden
+  briefs; "flawless" is not a claim any of this supports.
 - Housekeeping left: the experiment worktree `.claude/worktrees/evre-graph-safety` (branch
   `worktree-evre-graph-safety`, merged) can be removed; local `main` is the stale initial import.
 

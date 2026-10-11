@@ -30,8 +30,8 @@ and in which helper tools kitrun copies into the workspace. They are skill varia
 | `reference-v2` | (uncommitted) | 999681cea4e0 | `reference` + four general rules: closing speech before the terminal step, per-item steps not shortened by early statements, a once-for-all question outside the item loop, word-for-word sentences and reserved words | Candidate, not built; experiment and switch rule in `docs/REFERENCE_V2.md` |
 | `reference-fb88831` | fb88831 | 8b8e4ba58d1f | `reference` without the no-practice rule of step 6: always runs the practice test. Built the best official agents (A 6a9597ac) | Kept to reproduce run 161811 |
 | `counted-rules` | d4bc3c1 | 5d6669717e9e | Counted and ordered rules kept in code steps | Rejected: timed out; design multiplied sandbox exposure |
-| `lowering` | 959453c | ad17c5b808d7 | Endings declared in a plan and written by `tools/lower.py` | Experimental; speaks the goodbye after `close_call` (below) |
-| `lowering-precedence` | 4e8f616 | c401cbfb82b2 | `lowering` + endings decided by tool results (`precedence`) | Experimental; same closing step shape as `lowering` |
+| `lowering` | 959453c | ad17c5b808d7 | Endings declared in a plan and written by `tools/lower.py` | Experimental; the measured builds said thanks and goodbye after `close_call` (below) |
+| `lowering-precedence` | 4e8f616 | c401cbfb82b2 | `lowering` + endings decided by tool results (`precedence`) | Experimental; the measured build has the same closing steps and the same defect |
 | `ladder` | 8fc6afc | b53b9768aef7 | `lowering` + counted attempts per item as steps | Rejected: timed out |
 | `selfcheck` | 95d4d00 | 64896af74fcb | `reference` + a no-practice check loop and three general rules | Rejected: regressed in blind test |
 
@@ -103,12 +103,15 @@ Eight personas, three reps, on blind-ref (9bd08f14), public-ref (6a9597ac/3aa5a3
 fails on all three agents (1/3, 1/3 of which one is a judge miss, 0/3); blind-ref also loses V06 to "this call is
 recorded" in its greeting. Details, judge-missed deviations and a platform observation: `docs/PERSONA_LAB_P_RESULTS.md`.
 
-Found afterwards (independent audit, re-checked with timestamps): the lowering agents speak the goodbye after
-`close_call` in 24/24 calls (Brief A rule 47), 21 of them judge PASS. Cause: `builder/lower.py:328` puts the closing
-line on the `api_request` step that runs the terminal tool. The blind lowering-precedence agent does the same in 39/39
-of its stored official calls; reference builds say the goodbye in an earlier step (0/24 Persona Lab, 0/39 official).
-The blind reference agent instead leaves out the text-message sentence in 5 of 9 official B calls (judge PASS). `tools/evaluation/policy_audit.py` now finds this
-and the other judge-missed deviations in any stored call.
+Found afterwards (two outside reviews, re-checked with timestamps): the lowering agents say no goodbye before
+`close_call` in 24/24 calls (Brief A rule 47), 21 of them judge PASS. Cause: the builder put the farewell in the
+closing `say` field, an option the lowering skills offer (`builder/skills/lowering/SKILL.md:56`), and
+`builder/lower.py:328` makes it the `on_enter` line of the `api_request` step that runs the terminal tool. The blind
+lowering-precedence agent has no goodbye before `close_call` in 37/39 of its stored official calls and speaks after it
+in all 39; reference builds say the goodbye in an earlier step (0/24 Persona Lab, 0/39 official). The blind reference
+agent instead leaves out the text-message sentence in 5 of 9 official B calls (judge PASS, read and confirmed).
+`tools/evaluation/policy_audit.py` finds these and the other judge-missed deviations in stored calls, as findings to
+read.
 
 ## Tools the skills use
 

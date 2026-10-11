@@ -9,7 +9,7 @@ customer. Measure in stages and stop early.
 | 0 | `builder/workflow_check.py` on the exported workflow, with the build's contract | seconds | 0 errors |
 | 1 | One run of the agent's own brief cases (`run_cases.py <agent> --brief X --out ...`) | ~2 min for 10 cases | score at least the current best |
 | 2 | Two more runs (`--reps 2`), combined with stage 1 per customer (`tools/evaluation/classify.py`) | ~4 to 6 min | gives the 3-run result |
-| 3 | `tools/evaluation/policy_audit.py` on every call of stages 1 and 2 (`--fetch REPO RESULTS.json`, read-only) and on Persona Lab raw records | ~2 min | read each finding; a PASS with a finding is a rule deviation the judge did not see |
+| 3 | `tools/evaluation/policy_audit.py` on every call of stages 1 and 2 (`--fetch REPO RESULTS.json --save DIR`, read-only) and on Persona Lab raw records | ~2 min, plus reading | a triage, not a score: read each violation and wording finding and mark it in a `--review` file (confirmed, false positive, unclear); only confirmed findings are violations; a check counts only where it applied, a persona only where its trigger happened; no finding is not compliance |
 
 - Keep official Brief A and Brief B scores separate. Combined or mutated-policy runs are diagnostics, reported apart.
 - Builder self-tests inside the 30-minute build stay at one run.

@@ -16,7 +16,8 @@ then this one path changes and nothing else.
 
 The configuration is the skill plus what kitrun copies into the workspace (`builder/workflow_check.py`,
 `builder/lower.py`, `builder/dryrun.py`) plus `builder/kitrun.py` itself, all at the agreed commit. Do not change any
-of them between the runs of the final.
+of them between the runs of the final. Runner from commit 0c59ba3 on: what the builder sees is the same as before
+(helpers and workspace unchanged since fe8bd5b); only the runner's acceptance decision is stricter.
 
 ## Before the briefs open
 
@@ -40,9 +41,13 @@ cp <downloaded tool API>.json briefs/final/<name>.openapi.json
 - One brief per run, with its own tool API. If a final brief says it extends the other one, pass both brief files
   to that run (as Brief A + B were), still with that brief's own tool API.
 - A hidden brief gets no practice customers; the builder then runs no practice test. Expect 6 to 15 minutes.
-- Exit 0: done. Exit 3: a static check failed or the export failed; read `runs/<stamp>-final-<name>/trace.txt`.
-  After an API outage, `python3 -I tools/evaluation/reexport.py "$PWD" runs/<run> state/final-<name>-1` exports
-  the saved workflows again and reruns the checks. Exit 1: the builder failed or timed out.
+- The run's acceptance is at the end of `trace.txt` and under `acceptance` in `summary.json`, with every reason.
+  Exit 0: accepted. Exit 1: the builder failed, its SDK result was an error or missing, it was stopped at the limit, or
+  build, export and checks together took over 30 minutes. Exit 3: a check failed (static errors, no export, no or
+  empty contract, a contract quote that is not in the input files, a changed input or trace). Exit 2: a secret in the
+  output. Only an exit-0 run is submitted.
+- After an API outage, `python3 -I tools/evaluation/reexport.py "$PWD" runs/<run> state/final-<name>-1` exports
+  the saved workflows again and reruns the checks (exit 0 or 3). It does not undo another reason of the original run.
 - A second run of the same brief uses a new `--state` (`state/final-<name>-2`) so it cannot update the first run's
   agent. Run again only when a run failed (timeout, check errors, no export). There is no reliable signal for
   choosing between two successful runs without customer scores.
@@ -50,7 +55,8 @@ cp <downloaded tool API>.json briefs/final/<name>.openapi.json
 ## What to submit, per brief
 
 From `runs/<stamp>-final-<name>/`:
-- `<name>.workflow.json`: the export kitrun took with `freya.export_workflow` (what the organisers load and score).
+- `<name>.workflow.json`: the export kitrun took with `freya.export_workflow` (what the organisers load and score). Its
+  sha256 is in `summary.json` (`freya[].export_sha256`); check that the file you submit has it.
 - `trace.txt`: start and end, every model call with a one-line purpose, what was created on Freya, tests run. Before
   submitting, search it for paths outside the run's `workspace/` (for example `cd ..` or the repository root): nothing
   stops a builder from leaving its workspace, and a final trace should show that it did not.
