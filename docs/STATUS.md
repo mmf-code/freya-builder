@@ -38,6 +38,10 @@ Branch `builder-integration` on GitHub. Read with `docs/START_HERE.md`, `docs/PL
     confirmed findings only, per-mechanism veto, a floor). `docs/REFERENCE_V2.md`.
 - Next, needs approval because it uses Freya: stages 1-4 of `docs/REFERENCE_V2.md` with runner 560ccfe (fresh
   reference build vs reference-v2 build, ~2 hours). If its rule fails or time runs out, the final uses `reference`.
+- Experiment C stopped at 14:28 (`docs/REFERENCE_V2.md`, Outcome): the simulation service failed most of the afternoon,
+  ten runs were lost, one run per customer was all that completed. Final builder stays `reference`. Kept for after the
+  final: `reference-v2` and `reference-v3` (both built and accepted, unmeasured). Measurement tools now retry platform
+  errors (`tools/evaluation/freya_retry.py`).
 - Known weak spots of `reference`: an item skipped after an out-of-turn refusal (V09), "this call is recorded" in the
   greeting judged as an early "recorded", the text-message sentence missing after several promises (5 of 9 official
   B calls of its blind build), 7 to 10 code hooks on bank tools (sandbox exposure). Not known: how it does on hidden

@@ -1,0 +1,53 @@
+[00:06]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/brief-a-raw.md briefs/brief-b-raw.md'}
+[00:08]   [Bash] {'command': 'ls -R | head -50 && cat briefs/brief-a-raw.md && echo ===== && cat briefs/brief-b-raw.md && echo ==== && ca
+[00:11]   [Bash] {'command': "sed -n '/### 2.3 Security/,/### 2.8/p' briefs/brief-a-raw.md", 'description': 'Read truncated middle of bri
+[00:12]   [Bash] {'command': 'cat briefs/brief-b-raw.md; echo; echo =====; cat public-test-set.json | head -80; cat README.md', 'descript
+[00:16]   [Bash] {'command': "cat public-test-set.json | head -100; echo '---'; cat README.md; echo '---'; cat tools/openapi.json", 'desc
+[00:23]   [Bash] {'command': 'cat docs/workflow-format.md docs/tools-and-code.md', 'description': 'Read workflow format and tools docs'}
+[00:25] Reading the platform docs (about 72KB) before I write the two workflows.
+[00:26]   [Read] {'file_path': '<repo>/runs/20261011-130830-c-v3/workspace/docs/workflow-format.md'}
+[00:26]   [Read] {'file_path': '<repo>/runs/20261011-130830-c-v3/workspace/docs/tools-and-code.md'}
+[00:27]   [Bash] {'command': 'cat examples/base-agent.json; ls out 2>/dev/null; git log --oneline | head', 'description': 'Read example a
+[00:31]   [Bash] {'command': 'wc -l tools/*.py && sed -n 1,400p tools/check_workflow.py', 'description': 'Read workflow checker'}
+[00:56]   [Bash] {'command': 'sed -n 400,579p tools/check_workflow.py; cat tools/dryrun.py; sed -n 1,60p tools/lower.py; grep -n "def " f
+[01:00]   [Bash] {'command': 'sed -n 60,378p tools/lower.py', 'description': 'Read lower.py implementation'}
+[05:57]   [Bash] {'command': "cat docs/api.md | head -80; cat .freya-agents.json 2>/dev/null; ls; cat env.sh 2>/dev/null | sed 's/=.*/=..
+[06:03] Now writing the generator. It holds the shared date/plan code and both graphs.
+[10:38]   [Write] {'file_path': '<repo>/runs/20261011-130830-c-v3/workspace/out/generate.py', 'content': '"
+[10:46]   [Edit] {'replace_all': False, 'file_path': '<repo>/runs/20261011-130830-c-v3/workspace/out/gener
+[10:48]   [Bash] {'command': 'python3 out/generate.py && for s in brief-a-raw brief-b-raw; do echo "== $s"; python3 tools/check_workflow.
+[10:51] Both pass the checker with no errors or warnings. Next I'll dry-run the date and offer code on several calendar days and product shapes.
+[10:57]   [Bash] {'command': 'mkdir -p /tmp/fb && cd <repo>/runs/20261011-130830-c-v3/workspace && cat > /
+[11:10]   [Bash] {'command': 'env | grep -c FREYA; for s in brief-a-raw brief-b-raw; do python3 tools/check_workflow.py out/$s.workflow.j
+[11:20] Saved. I'll export one back to confirm the platform kept the hooks and the tool-call transitions.
+[11:24]   [Bash] {'command': 'python3 -c "\nimport freya,json\nfor wid in [\'7c6a4276-70f8-4721-8a58-9559f00240da\',\'b2ebce21-7489-4807-
+[11:44] I built and saved both agents. Neither was tested on simulated customers: `public-test-set.json` is empty, so the skill rules out `tools/run_cases.py`. My testing was the workflow checker, a local run of the date code, and reading each workflow against the brief rules.
+[11:44] 
+[11:44] **What was checked**
+[11:44] - **Checker:** both workflows pass `tools/check_workflow.py` with the close-call contract, 0 errors and 0 warnings. I exported both from the platform afterwards. The hooks, the tool-call transitions and the code survived the save, and the exported B workflow still passes the checker.
+[11:44] - **Date code:** I ran it on four days: a Wednesday, a Friday evening, a Saturday morning and a Friday after 19:00. I checked the results by hand:
+[11:44]   - Deadlines land on the 7th business day (8 to 45 days late) or the 12th (1 to 7 days late), and skip the new 26 October holiday from the memo.
+[11:44]   - On a Friday, the first offer moves to the last business day of next week.
+[11:44]   - Callbacks are limited to today or the next business day, 10:00 to 19:00, later than `now`.
+[11:44] 
+[11:44] **How the calls are built**
+[11:44] - `close_call` runs only in its own fixed steps, with the outcome and reason preset. The goodbye is said in the step before it, and only the hang-up comes after. The agent never fills in close codes itself.
+[11:44] - `get_account` and every transfer run automatically, with the queue preset.
+[11:44] - A code step lists the coming days with their weekdays, plus each product's deadline, lowest accepted amount and offers. The prompts tell the agent to look dates up there, never work them out.
+[11:44] - On every customer answer the agent checks the brief's exceptions in order before it counts a refusal: hardship first, then a new payment plan, a human, already paid, dispute.
+[11:44] 
+[11:44] **Judgment calls you may want to change**
+[11:44] - **The word "recorded":** the brief allows it only after a promise is saved, so the greeting says "we keep an audio recording of this call" instead.
+[11:44] - **Notes for one-product customers in B:** I applied B's notes rule to all of them, because the change notice says one to three products. The e-mail only mentions customers with more than one.
+[11:44] - **Hardship in B:** if the customer declines support, every remaining product without an agreed promise ends as hardship.
+[11:44] 
+[11:44] **Known risks a test run should look at**
+[11:44] - In B, the agent itself picks the reason for a call that ends without any promise. A promise already saved always overrides its pick.
+[11:44] - In B, the agent could send its last note and the move to the goodbye in the same message, so the call might close before the note lands. The prompt forbids this, but nothing in the graph prevents it.
+[11:44] - In A, the call ends straight after a saved promise, so a request after that point cannot be served.
+[11:44] 
+[11:44] Everything is in `out/`. To change the agents, edit `out/generate.py`; it rewrites both workflow and contract files.
+[11:44] 
+[11:44] brief-a-raw: workflow_id 7c6a4276-70f8-4721-8a58-9559f00240da, agent_id 66767ab1-d05a-422a-b748-c8cc6e8c96f2. brief-b-raw: workflow_id b2ebce21-7489-4807-a4b9-a2f5e1bb33a8, agent_id ec4e3926-1338-4711-8274-b609cb0c8e37. Customers passed in last run: none run (no practice customers for these briefs).
+[11:44] 
+[11:44] done: 21 turns, 559 s, $2.11. Trace: <repo>/runs/20261011-130830-c-v3/workspace/traces/20261011-130831.jsonl

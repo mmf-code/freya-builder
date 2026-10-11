@@ -126,6 +126,25 @@ Stage 2 so far (one run each, slow platform: median slowest agent turn 9-18 s ag
 A 9/10, B 1/3; v2 A 7/10, B void (403 on reading the simulation, then the simulation hung); personas not started
 (API outage 12:38-12:46).
 
+## Outcome: stopped at 14:28, not enough data; the final uses `reference`
+
+The simulation service failed most of the afternoon: create requests answered 504, polls 503 and 504, two simulations
+hung (cancelled with `POST /api/v2/simulations/{id}/cancel`), one never started its calls. Ten official runs were lost
+to it; each log is kept as `*-void*.log` in the arm's `eval/`, and runs stopped by hand as `*-stopped.log`. No persona
+run started.
+
+| Arm | Build | Official A | Official B | Personas |
+|---|---|---|---|---|
+| v1-fresh (`reference`) | accepted, 550 s | 9/10 (one run; PUB-05 hardship) | 1/3 (one run; PUB-12 not closed, PUB-13 card date) | none |
+| v2 | accepted, 563 s | 7/10 (one run; PUB-03 identity loop, PUB-05, PUB-06 floor twice) | none (three attempts lost to the platform) | none |
+| v3 | accepted, 705 s | none | none | none |
+
+The agent was slow in every completed run (median slowest turn 9 to 18 s, against 2 s on 2026-10-10), which the kit
+warns lowers scores. With one run per customer and no personas, no criterion of the switch rule can be applied: by rule
+7 the final stays on `reference`. What did come out: a fresh `reference` build put the goodbye on the terminal step
+(defect #1, which the 2026-10-10 build avoided by chance), and v2 and v3 built the per-product and separate goodbye
+steps they ask for (static reading of the exports).
+
 ## Not planned
 
 - A lowering or lowering-precedence build: both carry defect #1 when the builder uses `say`, and precedence's

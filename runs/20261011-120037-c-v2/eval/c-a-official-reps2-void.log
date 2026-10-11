@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "<repo>/tools/evaluation/freya_retry.py", line 55, in <module>
+    runpy.run_path(script, run_name="__main__")
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "tools/run_cases.py", line 121, in <module>
+    if __name__ == "__main__": main()
+                               ~~~~^^
+  File "tools/run_cases.py", line 67, in main
+    rows, sim_id, it_id, status, took, med = run_once(a.agent_id, cases, ids)
+                                             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tools/run_cases.py", line 88, in run_once
+    sim_id, it_id, status = freya.run_simulation(agent_id, f"cases {time.strftime('%H:%M:%S')}", {ids[c["id"]]: sessions[c["id"]] for c in cases})
+                            ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/runs/20261011-120037-c-v2/workspace/freya.py", line 91, in run_simulation
+    sim = api("POST", "/api/v2/simulations", {
+        "agentId": agent_id, "name": name, "mode": "chat", "selectedPersonaIds": list(variables_by_persona),
+        "customerVariablesMap": variables_by_persona, "maxConcurrentCalls": concurrency, "runsPerPersona": 1, "maxCallDurationSeconds": max_seconds,
+        "assistantLlmOverride": AGENT_LLM, "routingLlmOverride": AGENT_LLM, "extractionLlmOverride": AGENT_LLM,
+        "personaLlmOverride": SIM_LLM, "analysisLlmOverride": SIM_LLM})
+  File "<repo>/tools/evaluation/freya_retry.py", line 37, in api
+    return plain(method, path, body, **params)
+  File "<repo>/runs/20261011-120037-c-v2/workspace/freya.py", line 19, in api
+    raise RuntimeError(f"{method} {path} -> {e.code}: {e.read().decode()[:1500]}") from None
+RuntimeError: POST /api/v2/simulations -> 504: error code: 504
+

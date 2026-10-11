@@ -27,7 +27,9 @@ env = load_env(env_file)
 secrets = secrets_of(env)
 out = a.run_dir.resolve() / "eval"
 out.mkdir(exist_ok=True)
-cmd = ["python3", "-u", "tools/run_cases.py", a.agent, "--brief", a.brief, "--out", str(out / f"{a.name}.json")]
+# run_cases.py with the kit client's API calls retried on platform errors (tools/evaluation/freya_retry.py)
+cmd = ["python3", "-u", str(a.repo.resolve() / "tools/evaluation/freya_retry.py"), "tools/run_cases.py", a.agent, "--brief", a.brief,
+       "--out", str(out / f"{a.name}.json")]
 if a.reps > 1:
     cmd += ["--reps", str(a.reps)]
 if a.cases:

@@ -1,0 +1,219 @@
+{
+ "run": "20261011-130830-c-v3",
+ "start": "2026-10-11T10:08:30+00:00",
+ "end": "2026-10-11T10:20:16+00:00",
+ "seconds": 705,
+ "limit_minutes": 30.0,
+ "timed_out": false,
+ "exit_code": 0,
+ "acceptance": {
+  "accepted": true,
+  "exit": 0,
+  "reasons": [],
+  "sdk_result": {
+   "subtype": "success",
+   "is_error": false
+  },
+  "inputs_unchanged": true,
+  "end_total": "2026-10-11T10:20:18+00:00",
+  "seconds_total": 708
+ },
+ "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill <repo>/builder/skills/reference-v3 (sha256:62c464d98486)",
+ "builder_model": "claude-opus-5-5 (agent_builder.py default)",
+ "agent_model": {
+  "provider": "experimental-5",
+  "model": "experimental-5"
+ },
+ "repo_commit": "55188dea81ec5f2f9cf16ebd045521a15c44d599",
+ "repo_dirty": true,
+ "isolation": {
+  "CLAUDE_CONFIG_DIR": "<repo>/.claude-builder",
+  "HOME": "<repo>/.claude-builder/home",
+  "state": "<repo>/state/exp-c-v3"
+ },
+ "inputs": {
+  "briefs": [
+   {
+    "name": "brief-a-raw.md",
+    "sha256": "5ebf283ab00fc6a09cf6bf71983635b6624424788d58d2533dad9d9ef65ca3a0"
+   },
+   {
+    "name": "brief-b-raw.md",
+    "sha256": "e0fd3205c7ec1dcc37c77864a0f22b3c32dfdfe1ba8779b0b0b8874028d22434"
+   }
+  ],
+  "tools": {
+   "name": "openapi.json",
+   "sha256": "9a8410b12e5c82b6c6a30e9ed7030574d6f919cafdb1e035cef7bd876b0badb8"
+  }
+ },
+ "practice_cases": [],
+ "freya": [
+  {
+   "slot": "brief-a-raw",
+   "workflow_id": "7c6a4276-70f8-4721-8a58-9559f00240da",
+   "agent_id": "66767ab1-d05a-422a-b748-c8cc6e8c96f2",
+   "created": true,
+   "export": "brief-a-raw.workflow.json",
+   "export_sha256": "6017e5e4e0632473a5b7e3720cd4d9f7d283830e63b2eb3a1c1a3036af8e0606"
+  },
+  {
+   "slot": "brief-b-raw",
+   "workflow_id": "b2ebce21-7489-4807-a4b9-a2f5e1bb33a8",
+   "agent_id": "ec4e3926-1338-4711-8274-b609cb0c8e37",
+   "created": true,
+   "export": "brief-b-raw.workflow.json",
+   "export_sha256": "e6af2ca547911d07f7accbbb8c84e3112277b4bd9841e11e038fe8c56f797c40"
+  }
+ ],
+ "tests": [],
+ "written": [
+  "<repo>/runs/20261011-130830-c-v3/workspace/out/generate.py"
+ ],
+ "cost_usd": 2.1133962,
+ "num_turns": 21,
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1211,
+   "outputTokens": 29,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.00013560000000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  },
+  "claude-opus-5-5": {
+   "inputTokens": 32,
+   "outputTokens": 55111,
+   "cacheReadInputTokens": 1222363,
+   "cacheCreationInputTokens": 153288,
+   "webSearchRequests": 0,
+   "costUSD": 2.1132606,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 32840,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "model_calls": [
+  {
+   "n": 1,
+   "model": "claude-opus-5-5",
+   "at_s": 6.6,
+   "purpose": "Skill: {\"skill\": \"build-phone-agent\", \"args\": \"briefs/brief-a-raw.md briefs/brief-b-raw.md\"}"
+  },
+  {
+   "n": 2,
+   "model": "claude-opus-5-5",
+   "at_s": 8.1,
+   "purpose": "Bash: List kit and read briefs"
+  },
+  {
+   "n": 3,
+   "model": "claude-opus-5-5",
+   "at_s": 11.6,
+   "purpose": "Bash: Read truncated middle of brief A; Bash: Read brief B, test set, readme"
+  },
+  {
+   "n": 4,
+   "model": "claude-opus-5-5",
+   "at_s": 15.6,
+   "purpose": "Bash: Read test set, readme, tool API"
+  },
+  {
+   "n": 5,
+   "model": "claude-opus-5-5",
+   "at_s": 23.2,
+   "purpose": "Bash: Read workflow format and tools docs"
+  },
+  {
+   "n": 6,
+   "model": "claude-opus-5-5",
+   "at_s": 25.8,
+   "purpose": "Reading the platform docs (about 72KB) before I write the two workflows.; Read: docs/workflow-format.md; Read: docs/tools-and-code.md"
+  },
+  {
+   "n": 7,
+   "model": "claude-opus-5-5",
+   "at_s": 30.8,
+   "purpose": "Bash: Read workflow checker"
+  },
+  {
+   "n": 8,
+   "model": "claude-opus-5-5",
+   "at_s": 55.2,
+   "purpose": "Bash: Read rest of checker, dryrun, lower"
+  },
+  {
+   "n": 9,
+   "model": "claude-opus-5-5",
+   "at_s": 59.7,
+   "purpose": "Bash: Read lower.py implementation"
+  },
+  {
+   "n": 10,
+   "model": "claude-opus-5-5",
+   "at_s": 357.2,
+   "purpose": "Bash: Check API doc head and saved agent state"
+  },
+  {
+   "n": 11,
+   "model": "claude-opus-5-5",
+   "at_s": 363.2,
+   "purpose": "Now writing the generator. It holds the shared date/plan code and both graphs.; Write: out/generate.py"
+  },
+  {
+   "n": 12,
+   "model": "claude-opus-5-5",
+   "at_s": 646.0,
+   "purpose": "Edit: out/generate.py; Bash: Generate both workflows and run the checker"
+  },
+  {
+   "n": 13,
+   "model": "claude-opus-5-5",
+   "at_s": 652.0,
+   "purpose": "Both pass the checker with no errors or warnings. Next I'll dry-run the date and offer code on several calendar days and product shapes.; Bash: Dry-run the plan code on sample days"
+  },
+  {
+   "n": 14,
+   "model": "claude-opus-5-5",
+   "at_s": 670.2,
+   "purpose": "Bash: Check and save both workflows to Freya"
+  },
+  {
+   "n": 15,
+   "model": "claude-opus-5-5",
+   "at_s": 681.3,
+   "purpose": "Saved. I'll export one back to confirm the platform kept the hooks and the tool-call transitions.; Bash: Export saved workflows and verify stored fields"
+  },
+  {
+   "n": 16,
+   "model": "claude-opus-5-5",
+   "at_s": 700.4,
+   "purpose": "I built and saved both agents. Neither was tested on simulated customers: `public-test-set.json` is empty, so the skill rules out `tools/run"
+  }
+ ],
+ "checks": [
+  {
+   "slot": "brief-a-raw",
+   "contract": "brief-a-raw.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "not lowered: no out/<slot>.body.json and out/<slot>.closing.json"
+  },
+  {
+   "slot": "brief-b-raw",
+   "contract": "brief-b-raw.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "not lowered: no out/<slot>.body.json and out/<slot>.closing.json"
+  }
+ ]
+}

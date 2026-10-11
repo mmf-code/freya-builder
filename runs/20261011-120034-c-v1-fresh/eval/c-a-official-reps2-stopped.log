@@ -1,0 +1,23 @@
+freya_retry: POST /api/v2/simulations failed (POST /api/v2/simulations -> 504: error code: 504
+) and created nothing; retrying
+freya_retry: POST /api/v2/simulations failed (POST /api/v2/simulations -> 504: error code: 504
+) and created nothing; retrying
+freya_retry: POST /api/v2/simulations failed (POST /api/v2/simulations -> 504: error code: 504
+) and created nothing; retrying
+freya_retry: POST /api/v2/simulations failed (POST /api/v2/simulations -> 504: error code: 504
+) and created nothing; retrying
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+freya_retry: POST /api/v2/simulations failed (POST /api/v2/simulations -> 504: error code: 504
+) and created nothing; retrying
+another simulation is running in this workspace, waiting 30 s
+freya_retry: POST /api/v2/simulations failed (POST /api/v2/simulations -> 504: error code: 504
+) and created nothing; retrying
+freya_retry: POST /api/v2/simulations failed (POST /api/v2/simulations -> 504: error code: 504
+) and created nothing; retrying
+freya_retry: POST /api/v2/simulations failed (POST /api/v2/simulations -> 504: error code: 504
+) and created nothing; retrying
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+freya_retry: POST /api/v2/simulations failed (POST /api/v2/simulations -> 504: error code: 504
+) and created nothing; retrying

@@ -1,0 +1,52 @@
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+another simulation is running in this workspace, waiting 30 s
+freya_retry: POST /api/v2/simulations failed (POST /api/v2/simulations -> 504: error code: 504
+) and created nothing; retrying
+freya_retry: GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 failed (GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 -> 504: error code:); retrying in 10 s
+freya_retry: GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 failed (GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 -> 504: error code:); retrying in 10 s
+freya_retry: GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 failed (GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 -> 504: error code:); retrying in 10 s
+freya_retry: GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 failed (GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 -> 504: error code:); retrying in 20 s
+freya_retry: GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 failed (GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 -> 504: error code:); retrying in 30 s
+freya_retry: GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 failed (GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 -> 504: error code:); retrying in 10 s
+freya_retry: GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 failed (GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 -> 504: error code:); retrying in 20 s
+freya_retry: GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 failed (GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 -> 504: error code:); retrying in 30 s
+freya_retry: GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 failed (GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 -> 504: error code:); retrying in 45 s
+freya_retry: GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 failed (GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 -> 504: error code:); retrying in 60 s
+freya_retry: GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 failed (GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 -> 504: error code:); retrying in 90 s
+Traceback (most recent call last):
+  File "<repo>/tools/evaluation/freya_retry.py", line 80, in <module>
+    runpy.run_path(script, run_name="__main__")
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "tools/run_cases.py", line 121, in <module>
+    if __name__ == "__main__": main()
+                               ~~~~^^
+  File "tools/run_cases.py", line 67, in main
+    rows, sim_id, it_id, status, took, med = run_once(a.agent_id, cases, ids)
+                                             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tools/run_cases.py", line 88, in run_once
+    sim_id, it_id, status = freya.run_simulation(agent_id, f"cases {time.strftime('%H:%M:%S')}", {ids[c["id"]]: sessions[c["id"]] for c in cases})
+                            ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/runs/20261011-130830-c-v3/workspace/freya.py", line 103, in run_simulation
+    s = api("GET", f"/api/v2/simulations/{sim_id}"); s = s.get("simulation") or s
+  File "<repo>/tools/evaluation/freya_retry.py", line 53, in api
+    return plain(method, path, body, **params)
+  File "<repo>/runs/20261011-130830-c-v3/workspace/freya.py", line 19, in api
+    raise RuntimeError(f"{method} {path} -> {e.code}: {e.read().decode()[:1500]}") from None
+RuntimeError: GET /api/v2/simulations/019c15e8-db4c-411a-990e-45520ca6b601 -> 504: error code: 504
+

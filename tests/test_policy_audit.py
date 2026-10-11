@@ -162,3 +162,65 @@ class TriggerTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FreyaRetryTest(unittest.TestCase):
+    def test_get_is_retried_and_a_post_only_on_key_validation(self):
+        import types
+        spec2 = importlib.util.spec_from_file_location("freya_retry", Path(__file__).resolve().parent.parent / "tools/evaluation/freya_retry.py")
+        fr = importlib.util.module_from_spec(spec2)
+        spec2.loader.exec_module(fr)
+        fr.WAITS = (0, 0)
+        calls = []
+
+        def api(method, path, body=None, **params):
+            calls.append(method)
+            if len(calls) < 3:
+                raise RuntimeError(f"{method} {path} -> 504: error code: 504")
+            return {"ok": True}
+        fake = types.SimpleNamespace(api=api)
+        fr.install(fake)
+        self.assertEqual(fake.api("GET", "/api/v2/simulations/x"), {"ok": True})
+        self.assertEqual(calls, ["GET", "GET", "GET"])
+        calls.clear()
+        with self.assertRaises(RuntimeError):
+            fake.api("POST", "/api/v2/personas", {})              # another POST: a 504 may have done it, no retry
+        self.assertEqual(calls, ["POST"])
+        calls.clear()
+
+        state = {"posts": 0, "listed": []}
+
+        def sims(method, path, body=None, **params):
+            if method == "GET":
+                return {"simulations": state["listed"]}
+            state["posts"] += 1
+            if state["posts"] == 1:
+                state["listed"] = [{"id": "s1", "name": body["name"], "agentId": body["agentId"]}]   # created despite the 504
+                raise RuntimeError(f"POST {path} -> 504: error code: 504")
+            return {"simulation": {"id": "s2"}}
+        fake3 = types.SimpleNamespace(api=sims)
+        fr.install(fake3)
+        self.assertEqual(fake3.api("POST", "/api/v2/simulations", {"name": "cases 1", "agentId": "a"})["simulation"]["id"], "s1")
+        self.assertEqual(state["posts"], 1)                      # found, not sent twice
+        state.update(posts=0, listed=[])
+
+        def sims_none(method, path, body=None, **params):
+            if method == "GET":
+                return {"simulations": []}
+            state["posts"] += 1
+            if state["posts"] == 1:
+                raise RuntimeError(f"POST {path} -> 504: error code: 504")
+            return {"simulation": {"id": "s2"}}
+        fake4 = types.SimpleNamespace(api=sims_none)
+        fr.install(fake4)
+        self.assertEqual(fake4.api("POST", "/api/v2/simulations", {"name": "cases 2", "agentId": "a"})["simulation"]["id"], "s2")
+        calls.clear()
+
+        def key(method, path, body=None, **params):
+            calls.append(method)
+            if len(calls) < 2:
+                raise RuntimeError(f"{method} {path} -> 503: API key validation is temporarily unavailable. Retry shortly.")
+            return {"id": "s"}
+        fake2 = types.SimpleNamespace(api=key)
+        fr.install(fake2)
+        self.assertEqual(fake2.api("POST", "/api/v2/simulations", {}), {"id": "s"})

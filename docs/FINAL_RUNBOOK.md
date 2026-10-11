@@ -72,6 +72,18 @@ git add runs/<run> && git add -f runs/<run>/out runs/<run>/written
 git commit -m "Final run <name>"
 ```
 
+## When the platform misbehaves (seen 2026-10-10 and -11)
+
+- The final build runs no simulation (a hidden brief has no practice customers); it needs the API for saving and for
+  kitrun's export. Start a run only after `api_probe.py` prints `OK` in a few seconds; an `OK` after 30 s or more means
+  the platform is struggling, so wait and probe again.
+- A failed export after an accepted build: `reexport.py` (above). A run rejected for an SDK error or the time limit:
+  run again with a new `--state`.
+- A simulation started by anyone that hangs: `GET /api/v2/simulations?limit=10` shows it; `POST
+  /api/v2/simulations/{id}/cancel` stops it (worked twice on 2026-10-11).
+- Our evaluation tools retry 5xx errors (`tools/evaluation/freya_retry.py`); the kit's `freya.py`, which the builder
+  uses, does not, and stays unchanged.
+
 ## Do not
 
 - Do not edit the exported workflow or the agent on Freya.

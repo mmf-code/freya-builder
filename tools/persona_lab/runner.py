@@ -108,6 +108,11 @@ def run(chosen: list[str], agents: dict, reps: int = 1, live: bool = False, work
     from .common import kit_path
     kit_path()
     import freya                                  # reads FREYA_API_KEY at import, so only after _env()
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("freya_retry", Path(__file__).resolve().parents[1] / "evaluation" / "freya_retry.py")
+    retry = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(retry)
+    retry.install(freya)                          # platform errors are retried, as in tools/evaluation/evaluate.py
     import run_cases
     from score import http
     out = out or RESULTS / time.strftime("%Y%m%d-%H%M%S")

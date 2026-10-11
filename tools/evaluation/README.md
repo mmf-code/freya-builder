@@ -14,6 +14,7 @@ build and do not save workflows; the ones marked "simulation" start Freya simula
 | `transcript.py REPO CALL_ID` | Dialogue of one simulated call with tool calls and step changes | read only |
 | `policy_audit.py PATH ... \| --fetch REPO RESULTS.json ... [--save DIR] [--review FILE]` | Triage of public-brief rules the ledger cannot see and the judge has missed (thanks and goodbye before `close_call`, "recorded" too early, the text-message sentence and its exact wording, "today?" again, skipped product or attempt, product order, weekday), per call with the sentence it fired on, a class (violation, wording, judge risk, observation), the checks that applied, Persona Lab triggers and review statuses. PATH: raw records or their directories | none; read only with `--fetch` |
 | `api_probe.py REPO` | One read call to see whether the API answers | read only |
+| `freya_retry.py` | Retries the kit client's API calls on platform errors (GET on 5xx and timeouts; a simulation create is looked up by name before it is sent again); used by `evaluate.py` and the Persona Lab runner, never inside a build | as the wrapped call |
 | `secret_scan.py REPO < FILE_LIST` | Fails loudly if any env.sh secret value occurs in the listed files; prints only names | none |
 
 What each proves: `classify.py` gives per-customer counts and infrastructure labels, not causes; read the transcript.
