@@ -1,11 +1,12 @@
 """Check simulated calls against public-brief rules that the ledger cannot see and the judge has missed. Pure by default.
 
     python3 -I tools/evaluation/policy_audit.py PATH [PATH ...] [--json OUT]
-    python3 -I tools/evaluation/policy_audit.py --fetch REPO RESULTS.json [...] [--json OUT]
+    python3 -I tools/evaluation/policy_audit.py --fetch REPO RESULTS.json [...] [--json OUT] [--save DIR]
 
 PATH is a Persona Lab raw record (`tools/persona_lab/results/<run>/raw/*.json`) or a directory holding them. With
 `--fetch`, each RESULTS.json is a `run_cases.py --out` file: the call transcripts and ledgers are read from Freya and
-the bank (read-only) and the case comes from the kit's public test set.
+the bank (read-only) and the case comes from the kit's public test set; "judge" is then the kit's PASS/FAIL (ledger
+and judge together). `--save DIR` keeps the fetched records for a later run without the API.
 
 The checks encode Brief A and Brief B (A28, A30, A31, A37, A38, A47, B4, B5) and serve evaluation only; nothing here
 goes into a builder. Text checks are heuristics: every finding prints the sentence it fired on, so a reader can
@@ -262,8 +263,9 @@ def load_records(paths: list[Path]) -> list[dict]:
     return out
 
 
-def fetch_records(repo: Path, results: list[Path]) -> list[dict]:
-    """run_cases --out files -> records, reading each call and ledger from the API (read-only)."""
+def fetch_records(repo: Path, results: list[Path], save: Path | None = None) -> list[dict]:
+    """run_cases --out files -> records, reading each call and ledger from the API (read-only). With `save`, each
+    record is also written as SAVE/<results file stem>/raw/<case>-r<rep>.json, readable as a PATH later."""
     import os
     sys.path.insert(0, str(repo))
     from builder.kitrun import load_env
@@ -280,9 +282,16 @@ def fetch_records(repo: Path, results: list[Path]) -> list[dict]:
         for rep, run in enumerate(r.get("all_rows") or [r["rows"]], 1):
             for row in run:
                 msgs = freya.get_call(row["call_id"]).get("messages", []) if row.get("call_id") else []
-                out.append({"label": f.stem, "id": f"{row['id']}-r{rep}", "call_id": row.get("call_id"),
-                            "judge": "pass" if row.get("pass") else "fail", "case": cases.get(row["id"], {}),
-                            "ledger": http("/v1/practice/ledger/" + row["customer_id"]), "messages": msgs})
+                rec = {"label": f.stem, "id": f"{row['id']}-r{rep}", "call_id": row.get("call_id"),
+                       "judge": "pass" if row.get("pass") else "fail", "case": cases.get(row["id"], {}),
+                       "ledger": http("/v1/practice/ledger/" + row["customer_id"]), "messages": msgs}
+                out.append(rec)
+                if save:
+                    d = save / f.stem / "raw"
+                    d.mkdir(parents=True, exist_ok=True)
+                    (d / f"{rec['id']}.json").write_text(json.dumps(
+                        {"variant": row["id"], "rep": rep, "case": rec["case"], "ledger": rec["ledger"], "messages": msgs,
+                         "kit_row": row, "judge": {"outcome": rec["judge"], "note": "kit PASS/FAIL: ledger and judge"}}, indent=1))
     return out
 
 
@@ -291,8 +300,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("paths", nargs="+", type=Path)
     p.add_argument("--fetch", type=Path, metavar="REPO", help="treat PATHS as run_cases --out files and read calls from the API")
     p.add_argument("--json", type=Path, help="write all findings to this file")
+    p.add_argument("--save", type=Path, metavar="DIR", help="with --fetch: also store each fetched record under DIR")
     a = p.parse_args(argv)
-    records = fetch_records(a.fetch, a.paths) if a.fetch else load_records(a.paths)
+    records = fetch_records(a.fetch, a.paths, a.save) if a.fetch else load_records(a.paths)
     rows = []
     for r in records:
         rows.append({k: r[k] for k in ("label", "id", "call_id", "judge")} | {"findings": audit(r["case"], r["ledger"], r["messages"])})
