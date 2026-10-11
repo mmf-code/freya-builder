@@ -1,4 +1,4 @@
-# Builder candidates (state at 2026-10-11, 04:20 UTC+3)
+# Builder candidates (state at 2026-10-11, 17:45 UTC+3)
 
 There is one runner. Every candidate below runs the kit's example builder `examples/agent_builder.py` unchanged
 (Claude Agent SDK, model `claude-opus-5-5`) through `builder/kitrun.py`; the candidates differ only in the skill text
@@ -27,7 +27,8 @@ and in which helper tools kitrun copies into the workspace. They are skill varia
 |---|---|---|---|---|
 | (none: kit skill) | kit v3 | n/a | nothing | Reference from the kit |
 | `reference` | 92a695a | 7659a7bd2e6c | Terminal-tool ordering in the graph, static check before every save, no practice test when the brief has none | **Recommended** |
-| `reference-v2` | (uncommitted) | 999681cea4e0 | `reference` + four general rules: closing speech before the terminal step, per-item steps not shortened by early statements, a once-for-all question outside the item loop, word-for-word sentences and reserved words | Candidate, not built; experiment and switch rule in `docs/REFERENCE_V2.md` |
+| `reference-v2` | 2026-10-11 | 999681cea4e0 | `reference` + four general rules: closing speech before the terminal step, per-item steps not shortened by early statements, a once-for-all question outside the item loop, word-for-word sentences and reserved words | Not used: failed the switch rule on 2026-10-11 (`docs/REFERENCE_V2.md`, "Healthy rounds"); its closing and greeting are kept for after the final |
+| `reference-v3` | 55188de | 62c464d98486 | `reference-v2` + dates and per-item attempt plans computed in code, priority cases checked first | Not used: goes silent after a write (`docs/FAILURE_MODES.md` #17) |
 | `reference-fb88831` | fb88831 | 8b8e4ba58d1f | `reference` without the no-practice rule of step 6: always runs the practice test. Built the best official agents (A 6a9597ac) | Kept to reproduce run 161811 |
 | `counted-rules` | d4bc3c1 | 5d6669717e9e | Counted and ordered rules kept in code steps | Rejected: timed out; design multiplied sandbox exposure |
 | `lowering` | 959453c | ad17c5b808d7 | Endings declared in a plan and written by `tools/lower.py` | Experimental; the measured builds said thanks and goodbye after `close_call` (below) |
@@ -45,6 +46,55 @@ Tool versions: kitrun copies the repo's current `workflow_check.py`, `lower.py` 
 workspace, whatever the skill uses, and builders do read them (the blind reference build read `lower.py`). Runs used
 the tools of their commit: lowering runs before 4e8f616 had no `precedence`; the precedence run used `lower.py`
 before 49de20a (one unreachable router, a warning); runs before 0000450 had no `dryrun.py`.
+
+## All builds in order (2026-10-10 to 2026-10-11)
+
+Times are local (UTC+3), from the run stamp. "A" and "B" are the official customers (10 and 3); a customer counts
+only if it passed every run, and the column says how many runs that is. "Closing" is `closing_check.py` on the export:
+SPEAKS means a line is spoken after the terminal tool (#1); "model" means the model calls `close_call` itself, which
+the static check does not judge. Policy findings: **confirmed** were read and marked; the rest are unreviewed triage
+counts (calls with the finding / calls where it applied), claims to read, not results.
+
+| # | Run (time) | Skill (sha256) | Inputs, practice | Build | A | B | Personas | Closing | Policy findings | Status |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | `20261010-kit-builder-brief-a` | kit skill | official A, before kitrun | ? | not measured | - | - | - | - | Historical |
+| 2 | `154045-kit-ab` (15:40) | kit skill | official A+B, practice | 976 s | not measured | 2/3 (3 runs; PUB-12 2/3) | - | no contract | unreviewed: `WEEKDAY` 1/9 | Kit baseline |
+| 3 | `161811-candidate-ab` (16:18) | `reference-fb88831` (8b8e4ba58d1f) | official A+B, practice | 654 s | 10/10 (rerun triple; clean runs before 9/10, 8/10) | 2/3 (PUB-12 0/3) | P layer "public-ref": 22/24 calls, 7/8 personas | clean | unreviewed: `RECORDED_EARLY` 1/39, `TODAY_AGAIN` 2/9, `ORDER` 1/9, `ATTEMPTS_SHORT` 1/3, `ATTEMPTS_OVER` 1/3 | Best official result (12/13), but it used practice customers; in hidden-brief mode it is `reference` |
+| 4 | `171132-candidate-a-raw` (17:11) | `reference` (7659a7bd2e6c) | raw A, none | 348 s | 5/10 over 3 runs (one run with sandbox errors; 9/10 and 10/10 in the others) | - | - | **SPEAKS** | unreviewed: `NO_GOODBYE` 30/30, `NO_THANKS` 2/30 | First blind `reference` build |
+| 5 | `172700-candidate2-ab` (17:27) | `counted-rules` (5d6669717e9e) | official A+B, practice | 1902 s, **timed out** | - | - | - | SPEAKS | - | Rejected |
+| 6 | `185544-lowering-ab` (18:55) | `lowering` (ad17c5b808d7) | official A+B, practice | 1382 s | 10/10 (3 runs) | 2/3 (PUB-12 2/3) | P layer: 21/24, 7/8 | **SPEAKS** | `NO_GOODBYE` 24/24 persona calls (read); official unreviewed: `NO_GOODBYE` 39/39, `ATTEMPTS_OVER` 1/3, `WEEKDAY` 2/24 | Experimental; closing defect |
+| 7 | `201333-ladder-ab` (20:13) | `ladder` (b53b9768aef7) | official A+B, practice | 1882 s, **timed out** | - | - | - | SPEAKS | - | Rejected |
+| 8 | `204555-blind-raw-ab` (20:45) | `lowering` (ad17c5b808d7) | raw A+B, none | 404 s | 6/10 (3 runs) | 2/3 | - | **SPEAKS** | unreviewed: `NO_GOODBYE` 6/39, `SMS_MISSING` 5/24, `ATTEMPTS_OVER` 3/3 | Blind 8/13 |
+| 9 | `212547-blind-prec-ab` (21:25) | `lowering-precedence` (c401cbfb82b2) | raw A+B, none | 501 s | 8/10 (3 runs) | 1/3 | - | **SPEAKS** | unreviewed: `NO_GOODBYE` 37/39, `RECORDED_EARLY` 5/9 B, `ATTEMPTS_OVER` 2 | Blind 9/13 |
+| 10 | `212550-blind-ref-ab` (21:25) | `reference` (7659a7bd2e6c) | raw A+B, none | 887 s | 8/10 (3 runs) | 3/3 | P layer "blind-ref": 20/24, 6/8 (V09 1/3, V06 1/3) | clean | **confirmed**: `SMS_MISSING` 5/9 B, `RECORDED_EARLY` 1/30; greeting judge risk 39/39 | **Best blind result (11/13)** |
+| 11 | `223940-blind-selfcheck-ab` (22:39) | `selfcheck` (64896af74fcb) | raw A+B, none | 856 s | 3/10 (3 runs) | 3/3 | - | model | unreviewed: `ATTEMPTS_SHORT` 3/3, `RECORDED_EARLY` 1/39, `TODAY_AGAIN` 1/9, `WEEKDAY` 1/19 | Rejected (6/13) |
+| 12-25 | `234909` to `001313` (23:49-00:13) | `reference` x7, `lowering-precedence` x7 | Persona Lab blind scenarios g3, g5, g6, g7, none | 370-695 s | - | - | graded offline (table below) | reference: 4 clean, 3 SPEAKS; precedence: 7 SPEAKS | - | Generalization check |
+| 26 | `20261011-120034-c-v1-fresh` (12:00) | `reference` (7659a7bd2e6c) | raw A+B, none | 550 s, accepted | 7/10 (3 runs) | 3/3 | V09 FAIL, V07 PASS, V06 PASS (not triggered) | **SPEAKS** | **confirmed**: `NO_GOODBYE` 39/39, `NO_THANKS` 3/39, `ITEM_SKIPPED` V09; greeting judge risk 39/39 | Today's baseline, 10/13 |
+| 27 | `120037-c-v2` (12:00) | `reference-v2` (999681cea4e0) | raw A+B, none | 563 s, accepted | 9/10 (3 runs) | 1/3 | V09 FAIL, V07 PASS, V06 PASS (not triggered) | clean | **confirmed**: `RECORDED_EARLY` 2/39 + V09, `ATTEMPTS_OVER` 1/2, `TODAY_AGAIN` V09, `ORDER` V07 | 10/13; failed the switch rule |
+| 28 | `130830-c-v3` (13:08) | `reference-v3` (62c464d98486) | raw A+B, none | 705 s, accepted | 6/10 (2 runs) | 3/3 (1 valid run) | V09, V07, V06 PASS | clean | **confirmed**: `SMS_MISSING` 2/13 (silent after the write, #17) | 9/13; build defect |
+| 29 | `150036-final-rehearsal-a` (15:00) | `reference` (7659a7bd2e6c) | rehearsal of the final runbook on raw A, none | 1033 s, accepted | not measured | - | - | **SPEAKS** | - | Runbook rehearsal |
+
+Which builders are good, in short:
+
+- `reference` is the best skill we measured without practice customers: 11/13 (row 10) and 10/13 (row 26) on
+  separate builds, no timeout, no in-build fixing. Its builds differ: 6 of 11 speak the goodbye after `close_call`
+  (rows 4, 26, 29 and three scenario builds), 5 do not. The final runs it twice per brief and submits a clean build.
+- `reference-fb88831` gave the best official agent (12/13), with practice customers the final does not have.
+- `reference-v2` matched `reference` on customers (10/13) with no closing or greeting defect and PUB-05 3/3, but
+  broke confirmation and attempt rules; it is the source of the next candidates after the final.
+- `lowering`, `lowering-precedence`, `counted-rules`, `ladder`, `selfcheck`, `reference-v3`: not used (closing defect,
+  timeouts, a blind regression, a silent-after-write defect).
+
+## Open questions and tests not done
+
+| Gap | Why it matters | Cost | When |
+|---|---|---|---|
+| V06 ("put it in twice") never triggered in the 2026-10-11 persona calls (0 of 3 arms) | The greeting-word judge risk of `reference` (P layer V06 1/3) is unmeasured on today's builds | 3 persona calls per agent, ~5 min | Optional before the final; needs approval |
+| V09 ran once per agent today | `ITEM_SKIPPED` on `reference` (#2) is known, but its rate on today's build is one call | 3 calls, ~5 min | After the final |
+| The unreviewed official findings of rows 2, 3, 4, 6, 8, 9, 11 | Counts are triage until read; row 3's `ATTEMPTS_OVER` and `RECORDED_EARLY` would say whether the 12/13 agent had the same weak spots | reading, no Freya | After the final |
+| Two or three builds per final brief | Two builds give a clean closing about 7 times in 10, three about 8 in 10 (if independent at 6 of 11) | build time in parallel, no simulation | Decide before 20:00 |
+| `reference` vs `reference-v2` | Equal on customers; the rule chose `reference` on confirmed violations the kit judge passed once. An outside reader may weigh the closing and greeting defects higher | no test settles it now: the rule was fixed before the run | Recorded in `docs/REFERENCE_V2.md` |
+| Hidden-brief behaviour | Persona Lab g3-g7 are graded offline only; g3's attempts are void (fixture) | - | Not measurable before the final |
 
 ## Measured results
 

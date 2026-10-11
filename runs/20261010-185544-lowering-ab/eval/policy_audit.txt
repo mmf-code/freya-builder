@@ -1,0 +1,144 @@
+a-official-1 PUB-01-r1 kit=pass call=bb747d6e
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=28.71   Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, Mr Reyes. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=28.53   no goodbye before close_call
+a-official-1 PUB-02-r1 kit=pass call=324ffa90
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=17.34   Thank you, we will call back then. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=17.21   no goodbye before close_call
+    NO_THANKS            violation   unreviewed     t=17.21   no thanks before close_call
+a-official-1 PUB-03-r1 kit=pass call=16664446
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=31.26   I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=31.18   no goodbye before close_call
+a-official-1 PUB-04-r1 kit=pass call=1c36c420
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=39.7    Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, Ms Hoffmann. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=39.55   no goodbye before close_call
+a-official-1 PUB-05-r1 kit=pass call=aa7f7791
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=35.58   I understand. Thank you for your time, and take care. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=35.5    no goodbye before close_call
+a-official-1 PUB-06-r1 kit=pass call=23d17c6b
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=33.69   Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, Ms Nair. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=33.61   no goodbye before close_call
+a-official-1 PUB-07-r1 kit=pass call=a5d19f43
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=38.93   Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, Mr Ortiz. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=38.74   no goodbye before close_call
+a-official-1 PUB-08-r1 kit=pass call=62bcd900
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=24.25   Thank you for letting me know. Payments can take one business day to appear. Thank you for your time, Ms Schmidt. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=24.06   no goodbye before close_call
+a-official-1 PUB-09-r1 kit=pass call=228dfe47
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=31.28   I am transferring you to our restructuring team now. Thank you for your time. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=31.09   no goodbye before close_call
+a-official-1 PUB-10-r1 kit=pass call=15f580c0
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=38.66   Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, Ms Lin. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=38.58   no goodbye before close_call
+a-official-reps2 PUB-01-r1 kit=pass call=c50c8821
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=27.66   Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, Mr Reyes. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=27.53   no goodbye before close_call
+a-official-reps2 PUB-02-r1 kit=pass call=949a7601
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=19.98   Thank you, we will call back then. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=19.8    no goodbye before close_call
+    NO_THANKS            violation   unreviewed     t=19.8    no thanks before close_call
+a-official-reps2 PUB-03-r1 kit=pass call=10011bee
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=20.4    I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=20.23   no goodbye before close_call
+a-official-reps2 PUB-04-r1 kit=pass call=c84de33a
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=30.91   Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, Ms Hoffmann. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=30.73   no goodbye before close_call
+a-official-reps2 PUB-05-r1 kit=pass call=461432e1
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=31.44   I understand. Thank you for your time, and take care. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=31.37   no goodbye before close_call
+a-official-reps2 PUB-06-r1 kit=pass call=e79e1be7
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=31.5    Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, Ms Nair. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=31.41   no goodbye before close_call
+a-official-reps2 PUB-07-r1 kit=pass call=a55a64e0
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=38.51   Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, Mr Ortiz. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=38.29   no goodbye before close_call
+a-official-reps2 PUB-08-r1 kit=pass call=bd1ef06f
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=15.87   Thank you for letting me know. Payments can take one business day to appear. Thank you for your time, Ms Schmidt. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=15.79   no goodbye before close_call
+a-official-reps2 PUB-09-r1 kit=pass call=3d84e914
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=17.86   I am transferring you to our restructuring team now. Thank you for your time. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=17.78   no goodbye before close_call
+a-official-reps2 PUB-10-r1 kit=pass call=dbdf8ca7
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=30.77   Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, Ms Lin. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=30.65   no goodbye before close_call
+a-official-reps2 PUB-01-r2 kit=pass call=e5f7de2c
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=24.72   Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, Mr Reyes. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=24.55   no goodbye before close_call
+a-official-reps2 PUB-02-r2 kit=pass call=464b02d0
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=16.95   Thank you, we will call back then. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=16.77   no goodbye before close_call
+    NO_THANKS            violation   unreviewed     t=16.77   no thanks before close_call
+a-official-reps2 PUB-03-r2 kit=pass call=d35658d3
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=18.78   I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=18.73   no goodbye before close_call
+a-official-reps2 PUB-04-r2 kit=pass call=9277a02c
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=34.31   Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, Ms Hoffmann. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=34.14   no goodbye before close_call
+a-official-reps2 PUB-05-r2 kit=pass call=753f3723
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=18.01   I understand. Thank you for your time, and take care. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=17.83   no goodbye before close_call
+a-official-reps2 PUB-06-r2 kit=pass call=e2b7aa0b
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=26.13   Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, Ms Nair. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=26.06   no goodbye before close_call
+a-official-reps2 PUB-07-r2 kit=pass call=f706adf6
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=27.59   Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, Mr Ortiz. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=27.51   no goodbye before close_call
+a-official-reps2 PUB-08-r2 kit=pass call=78393fca
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=14.37   Thank you for letting me know. Payments can take one business day to appear. Thank you for your time, Ms Schmidt. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=14.3    no goodbye before close_call
+a-official-reps2 PUB-09-r2 kit=pass call=6de57c8f
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=14.86   I am transferring you to our restructuring team now. Thank you for your time. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=14.8    no goodbye before close_call
+a-official-reps2 PUB-10-r2 kit=pass call=bb829436
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=33.01   Thank you, your promise is recorded. You will receive a text message confirming this promise. Thank you for your time, Ms Lin. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=32.94   no goodbye before close_call
+b-official-1 PUB-11-r1 kit=pass call=6d451111
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=60.49   You will receive a text message confirming this promise. Thank you for your time, Ms Almeida. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=60.32   no goodbye before close_call
+b-official-1 PUB-12-r1 kit=fail call=14505d8e
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=81.76   You will receive a text message confirming this promise. Thank you for your time, Mr Bell. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=81.63   no goodbye before close_call
+    ATTEMPTS_OVER        violation   unreviewed     t=52.64   car_loan p3: 2 offer(s), band wants 1; extra: Would you be able to do that?
+b-official-1 PUB-13-r1 kit=pass call=c6893bbf
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=41.34   You will receive a text message confirming this promise. Thank you for your time, Ms Rossi. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=41.25   no goodbye before close_call
+b-official-reps2 PUB-11-r1 kit=pass call=b7877dc4
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=49.37   You will receive a text message confirming this promise. Thank you for your time, Ms Almeida. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=49.29   no goodbye before close_call
+b-official-reps2 PUB-12-r1 kit=pass call=968decbe
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=51.57   You will receive a text message confirming this promise. Thank you for your time, Mr Bell. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=51.51   no goodbye before close_call
+b-official-reps2 PUB-13-r1 kit=pass call=ff142704
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=30.68   You will receive a text message confirming this promise. Thank you for your time, Ms Rossi. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=30.61   no goodbye before close_call
+    WEEKDAY              violation   unreviewed     t=17.84   'Thursday 30 October' is a Friday
+    WEEKDAY              violation   unreviewed     t=22.77   'Thursday 30 October' is a Friday
+b-official-reps2 PUB-11-r2 kit=pass call=edc1a48d
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=41.93   You will receive a text message confirming this promise. Thank you for your time, Ms Almeida. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=41.83   no goodbye before close_call
+b-official-reps2 PUB-12-r2 kit=pass call=ca53e4d8
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=45.46   You will receive a text message confirming this promise. Thank you for your time, Mr Bell. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=45.4    no goodbye before close_call
+b-official-reps2 PUB-13-r2 kit=pass call=7237d26e
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=35.84   You will receive a text message confirming this promise. Thank you for your time, Ms Rossi. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=35.77   no goodbye before close_call
+    WEEKDAY              violation   unreviewed     t=12.64   'Thursday 30 October 2026' is a Friday
+    WEEKDAY              violation   unreviewed     t=20.98   'Thursday 30 October 2026' is a Friday
+
+Calls with a finding / calls where the check applied, per label (calls in brackets):
+| code | class | a-official-1 (10) | a-official-reps2 (20) | b-official-1 (3) | b-official-reps2 (6) |
+|---|---|---|---|---|---|
+| NO_GOODBYE | violation | 10/10 | 20/20 | 3/3 | 6/6 |
+| NO_THANKS | violation | 1/10 | 2/20 | 0/3 | 0/6 |
+| RECORDED_EARLY | violation | 0/10 | 0/20 | 0/3 | 0/6 |
+| SMS_MISSING | violation | 0/5 | 0/10 | 0/3 | 0/6 |
+| TODAY_AGAIN | violation | 0/0 | 0/0 | 0/3 | 0/6 |
+| ORDER | violation | 0/0 | 0/0 | 0/3 | 0/6 |
+| ITEM_SKIPPED | violation | 0/0 | 0/0 | 0/1 | 0/2 |
+| ATTEMPTS_SHORT | violation | 0/0 | 0/0 | 0/1 | 0/2 |
+| ATTEMPTS_OVER | violation | 0/0 | 0/0 | 1/1 | 0/2 |
+| WEEKDAY | violation | 0/5 | 0/10 | 0/3 | 2/6 |
+| SMS_NOT_VERBATIM | wording | 0/5 | 0/10 | 0/3 | 0/6 |
+| RECORDED_IN_GREETING | judge risk | 0/10 | 0/20 | 0/3 | 0/6 |
+| SPEECH_AFTER_CLOSE | observation | 10/10 | 20/20 | 3/3 | 6/6 |
+
+39 calls. PASS calls with a violation-class finding: 38 (confirmed 0, unreviewed or unclear the rest). A finding is a claim to read; no finding is not compliance.

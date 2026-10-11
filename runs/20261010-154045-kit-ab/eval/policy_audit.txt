@@ -1,0 +1,21 @@
+b-official-3reps PUB-13-r2 kit=pass call=99b99ab0
+    WEEKDAY              violation   unreviewed     t=22.52   'Thursday 30 October' is a Friday
+
+Calls with a finding / calls where the check applied, per label (calls in brackets):
+| code | class | b-official-3reps (9) |
+|---|---|---|
+| NO_GOODBYE | violation | 0/9 |
+| NO_THANKS | violation | 0/9 |
+| RECORDED_EARLY | violation | 0/9 |
+| SMS_MISSING | violation | 0/9 |
+| TODAY_AGAIN | violation | 0/9 |
+| ORDER | violation | 0/9 |
+| ITEM_SKIPPED | violation | 0/3 |
+| ATTEMPTS_SHORT | violation | 0/3 |
+| ATTEMPTS_OVER | violation | 0/3 |
+| WEEKDAY | violation | 1/9 |
+| SMS_NOT_VERBATIM | wording | 0/9 |
+| RECORDED_IN_GREETING | judge risk | 0/9 |
+| SPEECH_AFTER_CLOSE | observation | 0/9 |
+
+9 calls. PASS calls with a violation-class finding: 1 (confirmed 0, unreviewed or unclear the rest). A finding is a claim to read; no finding is not compliance.

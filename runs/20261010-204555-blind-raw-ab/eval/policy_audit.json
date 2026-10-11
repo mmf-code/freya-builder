@@ -1,0 +1,1532 @@
+[
+ {
+  "label": "blind-a-official-1",
+  "id": "PUB-01-r1",
+  "call_id": "1f426af3-b55a-4b69-a340-52938d1be359",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 17.11,
+    "text": "Thank you for your time, Mr Reyes. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.25,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-1",
+  "id": "PUB-02-r1",
+  "call_id": "db75af54-1187-4e06-aae7-64535c3fdf90",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 5.6,
+    "text": "Thank you, we will call back then. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.15,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-1",
+  "id": "PUB-03-r1",
+  "call_id": "3a4e083c-6da0-4ab4-a2d5-503b956a4480",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 9.74,
+    "text": "Thank you for your time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.22,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-1",
+  "id": "PUB-04-r1",
+  "call_id": "85ae7bf5-2f0f-42a9-8125-4782b353c9ad",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 34.48,
+    "text": "Thank you for your time, Ms Hoffmann. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.77,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-1",
+  "id": "PUB-05-r1",
+  "call_id": "3597dc45-cc76-42cd-9719-f654ceacf26c",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 20.39,
+    "text": "Thank you for your time, Mr Novak. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.14,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-1",
+  "id": "PUB-06-r1",
+  "call_id": "4b9013c7-d248-409a-a717-8e10563022be",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 28.19,
+    "text": "Thank you for your time, Ms Nair. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.5,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-1",
+  "id": "PUB-07-r1",
+  "call_id": "ceace5f6-9756-4205-879b-3e4ac2ebf0b6",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 28.88,
+    "text": "Thank you for your time, Mr Ortiz. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.39,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 27.03,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-1",
+  "id": "PUB-08-r1",
+  "call_id": "bbf2c825-70f8-4970-8430-1686c138c79a",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 14.59,
+    "text": "Thank you. Payments can take one business day to appear. Thank you for your time, Ms Schmidt. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 14.43,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 1.52,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-1",
+  "id": "PUB-09-r1",
+  "call_id": "f11333da-2b8f-4a77-8fad-c59c06989e50",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 15.18,
+    "text": "I am connecting you now. Thank you for your time, Mr Ionescu. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 15.11,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 1.48,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-1",
+  "id": "PUB-10-r1",
+  "call_id": "728a02f6-4d1d-4688-b6a0-2a529640b7c3",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 28.11,
+    "text": "Thank you for your time, Ms Lin. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.38,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-01-r1",
+  "call_id": "ce6eeabf-332c-41ee-bc3c-1137c880096c",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 23.62,
+    "text": "Thank you for your time, Mr Reyes. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.15,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-02-r1",
+  "call_id": "72fb6605-00a9-4d4e-a745-8529004808ea",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 8.87,
+    "text": "Thank you, we will call back then. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.53,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-03-r1",
+  "call_id": "228401ba-436a-4235-b449-431fd9ca161c",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 16.73,
+    "text": "Thank you for your time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.15,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-04-r1",
+  "call_id": "5173a2cd-3d5c-4a87-bff3-dd0754ac4b4b",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 21.89,
+    "text": "Thank you for your time, Ms Hoffmann. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 1.13,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 21.39,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-05-r1",
+  "call_id": "78492802-c7f4-42a2-8210-54ebdd625c1a",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 14.72,
+    "text": "Thank you for your time, Mr Novak. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.17,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-06-r1",
+  "call_id": "7c0a48f4-b211-4dbb-a715-1d26f1e5dc40",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 27.88,
+    "text": "Thank you for your time, Ms Nair. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.27,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-07-r1",
+  "call_id": "8f7bf7dc-950a-4915-adf5-40bcdc6ef650",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 24.43,
+    "text": "Thank you for your time, Mr Ortiz. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.36,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 23.64,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-08-r1",
+  "call_id": "eade6af1-e8b9-4a66-a377-cb5a9e9f945f",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 13.28,
+    "text": "Thank you. Payments can take one business day to appear. Thank you for your time, Ms Schmidt. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 13.19,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.3,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-09-r1",
+  "call_id": "53a224cc-c5c6-4ce8-89cf-bd04b711f1d6",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 13.84,
+    "text": "I am connecting you now. Thank you for your time, Mr Ionescu. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 13.73,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.29,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-10-r1",
+  "call_id": "d311806a-43c2-4a27-9e8c-ebef7d183dfc",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 22.97,
+    "text": "Thank you for your time, Ms Lin. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.17,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-01-r2",
+  "call_id": "cb4ae619-7238-4dec-9a40-9ff022a31a96",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 21.04,
+    "text": "Thank you for your time, Mr Reyes. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.21,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-02-r2",
+  "call_id": "6d6e6859-4734-4a00-afc0-49051d8b8e71",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 13.17,
+    "text": "Thank you, we will call back then. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.21,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-03-r2",
+  "call_id": "de78bd55-e1d3-4f77-99c3-b454ff58a411",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 18.21,
+    "text": "I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.6,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-04-r2",
+  "call_id": "8eeb150c-e0c1-44b0-b41b-6c9558590e72",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 29.17,
+    "text": "Thank you for your time, Ms Hoffmann. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.45,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 27.77,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-05-r2",
+  "call_id": "7a588b82-80cd-4fd1-bc37-3be5ca9833e1",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.3,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-06-r2",
+  "call_id": "cf7469f0-77c5-43a0-92b0-6df613f47e2d",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 23.02,
+    "text": "Thank you for your time, Ms Nair. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.17,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-07-r2",
+  "call_id": "b9fa4b7e-cae5-4747-b633-7b7686b861f7",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 42.13,
+    "text": "Thank you for your time, Mr Ortiz. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 1.12,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 40.9,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-08-r2",
+  "call_id": "387300c5-37e8-4c92-bad0-107a55c9d40f",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 14.44,
+    "text": "Thank you. Payments can take one business day to appear. Thank you for your time, Ms Schmidt. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 14.34,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.35,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-09-r2",
+  "call_id": "d562fe9c-f339-405a-b80d-042a7ac798cc",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 21.04,
+    "text": "I am connecting you now. Thank you for your time, Mr Ionescu. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 20.97,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.48,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-a-official-reps2",
+  "id": "PUB-10-r2",
+  "call_id": "9ed1ecbb-e6e0-44b7-b693-d31d193591f6",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 23.77,
+    "text": "Thank you for your time, Ms Lin. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.21,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-b-official-1",
+  "id": "PUB-11-r1",
+  "call_id": "7f6f04f3-44d5-4ef2-acb8-b43de13de7fe",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 27.44,
+    "text": "You will receive a text message confirming your promise. Thank you for your time, Ms Almeida. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.15,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-b-official-1",
+  "id": "PUB-12-r1",
+  "call_id": "5dcfef94-0869-49c1-9206-a8d03b0cd546",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 42.06,
+    "text": "You will receive a text message confirming your promise. Thank you for your time, Mr Bell. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.15,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "ATTEMPTS_OVER",
+    "class": "violation",
+    "rule": "A31",
+    "t": 26.32,
+    "text": "car_loan p3: 2 offer(s), band wants 1; extra: Would you be able to pay the minimum instalment of 46.00 on Friday 16 October 2026 instead?",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "ATTEMPTS_OVER",
+   "ATTEMPTS_SHORT",
+   "ITEM_SKIPPED",
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-b-official-1",
+  "id": "PUB-13-r1",
+  "call_id": "a3e89a06-240f-4f23-98e1-435ee5fcdb03",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 21.4,
+    "text": "You will receive a text message confirming your promise. Thank you for your time, Ms Rossi. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.17,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-b-official-reps2",
+  "id": "PUB-11-r1",
+  "call_id": "69cac4cd-5ef3-462b-91e6-db13bc8bc175",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 46.83,
+    "text": "You will receive a text message confirming your promise. Thank you for your time, Ms Almeida. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.3,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-b-official-reps2",
+  "id": "PUB-12-r1",
+  "call_id": "6f03f758-d992-4db1-9746-fc4f0c15a996",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 60.62,
+    "text": "You will receive a text message confirming your promise. Thank you for your time, Mr Bell. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.31,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "ATTEMPTS_OVER",
+    "class": "violation",
+    "rule": "A31",
+    "t": 41.45,
+    "text": "car_loan p3: 2 offer(s), band wants 1; extra: Can you instead pay the instalment of 46.00 for your car loan on Friday 16 October 2026?",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "ATTEMPTS_OVER",
+   "ATTEMPTS_SHORT",
+   "ITEM_SKIPPED",
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-b-official-reps2",
+  "id": "PUB-13-r1",
+  "call_id": "577fe99c-d6ca-4383-9814-4fff4efdb91f",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 18.14,
+    "text": "You will receive a text message confirming your promise. Thank you for your time, Ms Rossi. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.17,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-b-official-reps2",
+  "id": "PUB-11-r2",
+  "call_id": "4821b165-0e48-450a-8f0f-29638e3d13b4",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 30.33,
+    "text": "You will receive a text message confirming your promise. Thank you for your time, Ms Almeida. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.28,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-b-official-reps2",
+  "id": "PUB-12-r2",
+  "call_id": "4a0c9f69-d7be-495c-bcdb-d5f18a349c79",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 32.61,
+    "text": "You will receive a text message confirming your promise. Thank you for your time, Mr Bell. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.15,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "ATTEMPTS_OVER",
+    "class": "violation",
+    "rule": "A31",
+    "t": 23.74,
+    "text": "car_loan p3: 2 offer(s), band wants 1; extra: Could you instead pay the minimum instalment of 46.00 this Friday 16 October 2026?",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "ATTEMPTS_OVER",
+   "ATTEMPTS_SHORT",
+   "ITEM_SKIPPED",
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "blind-b-official-reps2",
+  "id": "PUB-13-r2",
+  "call_id": "7fb615a4-6257-4ca5-b90d-bbad6b10306f",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 26.1,
+    "text": "You will receive a text message confirming your promise. Thank you for your time, Ms Rossi. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.19,
+    "text": "Hello, this is Freya Bank's digital assistant calling, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ }
+]

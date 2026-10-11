@@ -1,0 +1,1336 @@
+[
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-01-r1",
+  "call_id": "d9af96f5-ca39-4d8b-bb7c-6260ae5645fd",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 49.01,
+    "text": "Thank you for your time, Mr Reyes. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 48.94,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 6.05,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-02-r1",
+  "call_id": "0e7b3127-3524-42c1-935a-9e0651769e29",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 18.69,
+    "text": "Thank you, we will call back at that time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 18.56,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_THANKS",
+    "class": "violation",
+    "rule": "A47",
+    "t": 18.56,
+    "text": "no thanks before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 7.18,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-03-r1",
+  "call_id": "aeb7ae3f-2b83-4a26-937a-4d2c11e0cda5",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 31.77,
+    "text": "I am sorry, I could not verify your identity, so I cannot continue. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 31.7,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 4.87,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-04-r1",
+  "call_id": "5a8830c8-55fd-4855-b2e1-9e28312ac154",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 53.55,
+    "text": "Thank you for your time, Ms Hoffmann. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 53.43,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 5.47,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-05-r1",
+  "call_id": "67f1f3f5-18a1-4521-a86a-92ac7ad42300",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 33.18,
+    "text": "Thank you for your time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 33.11,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 4.88,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-06-r1",
+  "call_id": "2abafdf2-b2ff-4ac1-a77b-a0034a293361",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 50.38,
+    "text": "Thank you for your time, Ms Nair. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 50.3,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 6.01,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-07-r1",
+  "call_id": "c4258de6-b5f4-4484-b35d-c231a5808465",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 45.15,
+    "text": "Thank you for your time, Mr Ortiz. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 44.98,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 4.56,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-08-r1",
+  "call_id": "decef553-ab4d-4181-9257-d52fec752225",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 36.46,
+    "text": "Thank you for letting us know, Ms Schmidt. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 36.39,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 7.46,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-09-r1",
+  "call_id": "3ac5c6cb-e42a-4b38-ba26-78fbe221adba",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 32.66,
+    "text": "I am connecting you now with our team that handles payment plans.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 32.66,
+    "text": "Thank you for your time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 32.59,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 4.74,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-10-r1",
+  "call_id": "1cb7bf39-51b8-41c9-9ed0-27ea16a6d348",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 39.02,
+    "text": "Thank you for your time, Ms Lin. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 38.9,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 4.72,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-01-r2",
+  "call_id": "5ae4f05b-095c-43fa-bbf3-e7371a34b1ac",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 17.2,
+    "text": "Thank you for your time, Mr Reyes. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 17.14,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 1.96,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-02-r2",
+  "call_id": "c16bc2d9-ffa0-41c4-ae90-962fd92d8bde",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 24.1,
+    "text": "Thank you for your time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 23.96,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 11.95,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-03-r2",
+  "call_id": "349abefb-6521-4fd2-ba7e-3d7477ee2f0b",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 10.35,
+    "text": "I am sorry, I could not verify your identity, so I cannot continue. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 10.29,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 1.68,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-04-r2",
+  "call_id": "5b0d0d57-246a-4c01-9f76-493ac4588357",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 23.61,
+    "text": "Thank you for your time, Ms Hoffmann. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 23.56,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 2.41,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-05-r2",
+  "call_id": "dcaa6db8-e93c-4ad4-8237-226bae52a2f0",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 57.23,
+    "text": "Thank you for your time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 57.22,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 12.49,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-06-r2",
+  "call_id": "d43aab97-0454-4d93-bdda-099703663574",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 18.77,
+    "text": "Thank you for your time, Ms Nair. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 18.7,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.46,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-07-r2",
+  "call_id": "a4034f75-4c26-43a3-b9cc-be5d57903ba8",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 47.08,
+    "text": "Thank you for your time, Mr Ortiz. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 46.97,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.05,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-08-r2",
+  "call_id": "2c5bb2b5-aa43-4ada-a550-948cdd913b29",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 65.22,
+    "text": "Thank you for your time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 65.2,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 12.57,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-09-r2",
+  "call_id": "6132c6a8-e4bd-4ce9-b50e-609e0fecedd6",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 58.81,
+    "text": "Thank you for your time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 58.8,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 12.45,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-10-r2",
+  "call_id": "b028ac54-c524-4ce6-84d3-0b695655a8dd",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 59.57,
+    "text": "Thank you for your time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 59.49,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 12.58,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-01-r3",
+  "call_id": "d8c6d0ca-7ca0-4912-bb46-29e41ae81b5d",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 41.35,
+    "text": "Thank you for your time, Mr Reyes. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 41.28,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 7.73,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-02-r3",
+  "call_id": "1f6f2422-c685-4fd7-b5b0-518c309b190e",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 18.02,
+    "text": "Thank you, we will call back at that time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 17.96,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_THANKS",
+    "class": "violation",
+    "rule": "A47",
+    "t": 17.96,
+    "text": "no thanks before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 7.57,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-03-r3",
+  "call_id": "15159f4a-450f-4479-af9c-269b7b94060e",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 33.3,
+    "text": "I am sorry, I could not verify your identity, so I cannot continue. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 33.22,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 7.21,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-04-r3",
+  "call_id": "74864da7-d1fa-43e8-992a-b068f6febe7d",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 54.12,
+    "text": "Thank you for your time, Ms Hoffmann. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 54.05,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 5.5,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-05-r3",
+  "call_id": "6ea10be1-d8db-4664-abcf-2022bd3b62ac",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 29.28,
+    "text": "Thank you for your time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 29.22,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 3.74,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-06-r3",
+  "call_id": "865bcb83-6b45-4d1f-8056-597b5e6bbb3f",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 42.97,
+    "text": "Thank you for your time, Ms Nair. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 42.9,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 7.59,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-07-r3",
+  "call_id": "fdd47bbd-0694-457a-a6ca-04a9413c6154",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 46.57,
+    "text": "Thank you for your time, Mr Ortiz. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 46.4,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 3.82,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-08-r3",
+  "call_id": "9e39db48-2032-425a-b7dc-d1db3a58e06c",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 33.73,
+    "text": "Thank you for letting us know, Ms Schmidt. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 33.61,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 7.78,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-09-r3",
+  "call_id": "af6cd8b4-66f0-4d23-85db-2c6d7df521ac",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 25.22,
+    "text": "I am connecting you now with our team that handles payment plans.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 25.22,
+    "text": "Thank you for your time. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 25.12,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 3.16,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps",
+  "id": "PUB-10-r3",
+  "call_id": "b9c5ade4-7e77-4b89-873a-36594806c126",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 44.42,
+    "text": "Thank you for your time, Ms Lin. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 44.36,
+    "text": "no goodbye before close_call",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 3.78,
+    "text": "This call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ }
+]

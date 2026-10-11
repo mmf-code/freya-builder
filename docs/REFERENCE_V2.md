@@ -212,7 +212,7 @@ after `create_promise` the model returned no speakable content and the call went
 of A h2).
 
 What this means for the final: `reference` stays, and v1-fresh shows its weak spot again, the goodbye after the
-terminal tool in every call (#1). Half of the stored `reference` builds have it and half do not, and it is visible in
+terminal tool in every call (#1). 6 of the 11 stored `reference` builds have it, and it is visible in
 the export, so the final runs two builds per brief and submits a clean one (`docs/FINAL_RUNBOOK.md`,
 `tools/evaluation/closing_check.py`; decided 2026-10-11 16:40).
 

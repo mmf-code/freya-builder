@@ -1,0 +1,149 @@
+blind-a-official-1 PUB-01-r1 kit=pass call=1f426af3
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=17.11   Thank you for your time, Mr Reyes. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.25    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-1 PUB-02-r1 kit=pass call=db75af54
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=5.6     Thank you, we will call back then. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.15    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-1 PUB-03-r1 kit=fail call=3a4e083c
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=9.74    Thank you for your time. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.22    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-1 PUB-04-r1 kit=pass call=85ae7bf5
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=34.48   Thank you for your time, Ms Hoffmann. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.77    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-1 PUB-05-r1 kit=pass call=3597dc45
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=20.39   Thank you for your time, Mr Novak. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.14    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-1 PUB-06-r1 kit=pass call=4b9013c7
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=28.19   Thank you for your time, Ms Nair. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.5     Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-1 PUB-07-r1 kit=fail call=ceace5f6
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=28.88   Thank you for your time, Mr Ortiz. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.39    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=27.03   no text-message sentence after the recorded promise
+blind-a-official-1 PUB-08-r1 kit=pass call=bbf2c825
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=14.59   Thank you. Payments can take one business day to appear. Thank you for your time, Ms Schmidt. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=14.43   no goodbye before close_call
+    RECORDED_IN_GREETING judge risk  unreviewed     t=1.52    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-1 PUB-09-r1 kit=pass call=f11333da
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=15.18   I am connecting you now. Thank you for your time, Mr Ionescu. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=15.11   no goodbye before close_call
+    RECORDED_IN_GREETING judge risk  unreviewed     t=1.48    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-1 PUB-10-r1 kit=fail call=728a02f6
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=28.11   Thank you for your time, Ms Lin. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.38    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-01-r1 kit=pass call=ce6eeabf
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=23.62   Thank you for your time, Mr Reyes. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.15    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-02-r1 kit=pass call=72fb6605
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=8.87    Thank you, we will call back then. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.53    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-03-r1 kit=fail call=228401ba
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=16.73   Thank you for your time. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.15    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-04-r1 kit=fail call=5173a2cd
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=21.89   Thank you for your time, Ms Hoffmann. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=1.13    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=21.39   no text-message sentence after the recorded promise
+blind-a-official-reps2 PUB-05-r1 kit=pass call=78492802
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=14.72   Thank you for your time, Mr Novak. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.17    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-06-r1 kit=pass call=7c0a48f4
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=27.88   Thank you for your time, Ms Nair. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.27    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-07-r1 kit=fail call=8f7bf7dc
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=24.43   Thank you for your time, Mr Ortiz. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.36    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=23.64   no text-message sentence after the recorded promise
+blind-a-official-reps2 PUB-08-r1 kit=pass call=eade6af1
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=13.28   Thank you. Payments can take one business day to appear. Thank you for your time, Ms Schmidt. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=13.19   no goodbye before close_call
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.3     Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-09-r1 kit=pass call=53a224cc
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=13.84   I am connecting you now. Thank you for your time, Mr Ionescu. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=13.73   no goodbye before close_call
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.29    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-10-r1 kit=pass call=d311806a
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=22.97   Thank you for your time, Ms Lin. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.17    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-01-r2 kit=pass call=cb4ae619
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=21.04   Thank you for your time, Mr Reyes. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.21    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-02-r2 kit=pass call=6d6e6859
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=13.17   Thank you, we will call back then. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.21    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-03-r2 kit=pass call=de78bd55
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=18.21   I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.6     Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-04-r2 kit=fail call=8eeb150c
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=29.17   Thank you for your time, Ms Hoffmann. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.45    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=27.77   no text-message sentence after the recorded promise
+blind-a-official-reps2 PUB-05-r2 kit=pass call=7a588b82
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.3     Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-06-r2 kit=pass call=cf7469f0
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=23.02   Thank you for your time, Ms Nair. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.17    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-07-r2 kit=fail call=b9fa4b7e
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=42.13   Thank you for your time, Mr Ortiz. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=1.12    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=40.9    no text-message sentence after the recorded promise
+blind-a-official-reps2 PUB-08-r2 kit=pass call=387300c5
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=14.44   Thank you. Payments can take one business day to appear. Thank you for your time, Ms Schmidt. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=14.34   no goodbye before close_call
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.35    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-09-r2 kit=pass call=d562fe9c
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=21.04   I am connecting you now. Thank you for your time, Mr Ionescu. Goodbye.
+    NO_GOODBYE           violation   unreviewed     t=20.97   no goodbye before close_call
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.48    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-a-official-reps2 PUB-10-r2 kit=pass call=9ed1ecbb
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=23.77   Thank you for your time, Ms Lin. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.21    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-b-official-1 PUB-11-r1 kit=pass call=7f6f04f3
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=27.44   You will receive a text message confirming your promise. Thank you for your time, Ms Almeida. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.15    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-b-official-1 PUB-12-r1 kit=fail call=5dcfef94
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=42.06   You will receive a text message confirming your promise. Thank you for your time, Mr Bell. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.15    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+    ATTEMPTS_OVER        violation   unreviewed     t=26.32   car_loan p3: 2 offer(s), band wants 1; extra: Would you be able to pay the minimum instalment of 46.00 on Friday 16 October 2026 instead?
+blind-b-official-1 PUB-13-r1 kit=pass call=a3e89a06
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=21.4    You will receive a text message confirming your promise. Thank you for your time, Ms Rossi. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.17    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-b-official-reps2 PUB-11-r1 kit=pass call=69cac4cd
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=46.83   You will receive a text message confirming your promise. Thank you for your time, Ms Almeida. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.3     Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-b-official-reps2 PUB-12-r1 kit=fail call=6f03f758
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=60.62   You will receive a text message confirming your promise. Thank you for your time, Mr Bell. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.31    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+    ATTEMPTS_OVER        violation   unreviewed     t=41.45   car_loan p3: 2 offer(s), band wants 1; extra: Can you instead pay the instalment of 46.00 for your car loan on Friday 16 October 2026?
+blind-b-official-reps2 PUB-13-r1 kit=pass call=577fe99c
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=18.14   You will receive a text message confirming your promise. Thank you for your time, Ms Rossi. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.17    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-b-official-reps2 PUB-11-r2 kit=pass call=4821b165
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=30.33   You will receive a text message confirming your promise. Thank you for your time, Ms Almeida. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.28    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+blind-b-official-reps2 PUB-12-r2 kit=fail call=4a0c9f69
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=32.61   You will receive a text message confirming your promise. Thank you for your time, Mr Bell. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.15    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+    ATTEMPTS_OVER        violation   unreviewed     t=23.74   car_loan p3: 2 offer(s), band wants 1; extra: Could you instead pay the minimum instalment of 46.00 this Friday 16 October 2026?
+blind-b-official-reps2 PUB-13-r2 kit=pass call=7fb615a4
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=26.1    You will receive a text message confirming your promise. Thank you for your time, Ms Rossi. Goodbye.
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.19    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+
+Calls with a finding / calls where the check applied, per label (calls in brackets):
+| code | class | blind-a-official-1 (10) | blind-a-official-reps2 (20) | blind-b-official-1 (3) | blind-b-official-reps2 (6) |
+|---|---|---|---|---|---|
+| NO_GOODBYE | violation | 2/10 | 4/20 | 0/3 | 0/6 |
+| NO_THANKS | violation | 0/10 | 0/20 | 0/3 | 0/6 |
+| RECORDED_EARLY | violation | 0/10 | 0/20 | 0/3 | 0/6 |
+| SMS_MISSING | violation | 1/5 | 4/10 | 0/3 | 0/6 |
+| TODAY_AGAIN | violation | 0/0 | 0/0 | 0/3 | 0/6 |
+| ORDER | violation | 0/0 | 0/0 | 0/3 | 0/6 |
+| ITEM_SKIPPED | violation | 0/0 | 0/0 | 0/1 | 0/2 |
+| ATTEMPTS_SHORT | violation | 0/0 | 0/0 | 0/1 | 0/2 |
+| ATTEMPTS_OVER | violation | 0/0 | 0/0 | 1/1 | 2/2 |
+| WEEKDAY | violation | 0/5 | 0/11 | 0/3 | 0/6 |
+| SMS_NOT_VERBATIM | wording | 0/5 | 0/10 | 0/3 | 0/6 |
+| RECORDED_IN_GREETING | judge risk | 10/10 | 20/20 | 3/3 | 6/6 |
+| SPEECH_AFTER_CLOSE | observation | 10/10 | 19/20 | 3/3 | 6/6 |
+
+39 calls. PASS calls with a violation-class finding: 6 (confirmed 0, unreviewed or unclear the rest). A finding is a claim to read; no finding is not compliance.

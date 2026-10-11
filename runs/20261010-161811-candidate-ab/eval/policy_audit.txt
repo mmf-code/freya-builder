@@ -1,0 +1,29 @@
+b-official-3reps PUB-12-r1 kit=fail call=fe266074
+    ATTEMPTS_OVER        violation   unreviewed     t=35.57   car_loan p3: 2 offer(s), band wants 1; extra: For your car loan, could you pay the full amount of 140.00 on Friday 16 October?
+    TODAY_AGAIN          violation   unreviewed     t=32.75   Moving to your car loan, could you pay the full amount of 140.00 today?
+b-official-3reps PUB-12-r2 kit=fail call=a374bf66
+    RECORDED_EARLY       violation   unreviewed     t=19.62   I have recorded that you will pay 510.00 for your credit card ending 9015 tomorrow, Thursday 15 October.
+    TODAY_AGAIN          violation   unreviewed     t=19.62   Regarding your personal loan, can you pay the full past-due amount of 1320.00 today?
+    TODAY_AGAIN          violation   unreviewed     t=25.29   Regarding your car loan, can you pay the full past-due amount of 140.00 today?
+    ORDER                violation   unreviewed     t=19.62   personal_loan asked before credit_card: Regarding your personal loan, can you pay the full past-due amount of 1320.00 today?
+b-official-3reps PUB-12-r3 kit=fail call=25e326c6
+    ATTEMPTS_SHORT       violation   unreviewed     t=22.85   personal_loan p2: 1 offer(s), band wants 2; last: Could you pay the full past-due amount of 1320.00 by this Friday, 16 October?
+
+Calls with a finding / calls where the check applied, per label (calls in brackets):
+| code | class | a-official-3reps-rerun (30) | b-official-3reps (9) |
+|---|---|---|---|
+| NO_GOODBYE | violation | 0/30 | 0/9 |
+| NO_THANKS | violation | 0/30 | 0/9 |
+| RECORDED_EARLY | violation | 0/30 | 1/9 |
+| SMS_MISSING | violation | 0/15 | 0/9 |
+| TODAY_AGAIN | violation | 0/0 | 2/9 |
+| ORDER | violation | 0/0 | 1/9 |
+| ITEM_SKIPPED | violation | 0/0 | 0/3 |
+| ATTEMPTS_SHORT | violation | 0/0 | 1/3 |
+| ATTEMPTS_OVER | violation | 0/0 | 1/3 |
+| WEEKDAY | violation | 0/15 | 0/9 |
+| SMS_NOT_VERBATIM | wording | 0/15 | 0/9 |
+| RECORDED_IN_GREETING | judge risk | 0/30 | 0/9 |
+| SPEECH_AFTER_CLOSE | observation | 0/30 | 0/9 |
+
+39 calls. PASS calls with a violation-class finding: 0 (confirmed 0, unreviewed or unclear the rest). A finding is a claim to read; no finding is not compliance.

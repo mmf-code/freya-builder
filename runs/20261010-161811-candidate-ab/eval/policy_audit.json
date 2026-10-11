@@ -1,0 +1,823 @@
+[
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-01-r1",
+  "call_id": "7e5734fa-c44f-4026-8c01-3c513c5ed3e6",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-02-r1",
+  "call_id": "6cd01764-9afd-4a75-bb01-b75c2668f9bf",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-03-r1",
+  "call_id": "f41c8e43-4c8d-4ef8-b41e-4e58a916c945",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-04-r1",
+  "call_id": "f6870440-8dcc-4c8d-bff4-d30c35d60803",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-05-r1",
+  "call_id": "08626e2e-471f-45f6-a2e4-a8ac486f9719",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-06-r1",
+  "call_id": "3edc92e6-8ef2-49c0-8cb5-2d500e7b64e0",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-07-r1",
+  "call_id": "b32274db-f3de-4ce3-8af0-1f53b6794496",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-08-r1",
+  "call_id": "5d39c092-f25e-4c45-ac2d-516585b2a145",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-09-r1",
+  "call_id": "bb71d793-db04-409d-babc-d20d8ad4dde1",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-10-r1",
+  "call_id": "2acd2eb3-8417-4842-8ec2-277045512026",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-01-r2",
+  "call_id": "19df50d1-e05b-4c7d-ab5e-6566778ba0e3",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-02-r2",
+  "call_id": "319bbec9-8352-4512-be3d-6fee45c907d7",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-03-r2",
+  "call_id": "fde56348-8535-4d8b-9676-a921b414766e",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-04-r2",
+  "call_id": "a33547bb-4858-4438-8752-1877320a6b4a",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-05-r2",
+  "call_id": "fa50eb8f-d214-41fa-9bbc-358f8e7d75e9",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-06-r2",
+  "call_id": "865a3488-6abf-4bdd-a3b8-b1635d5b9565",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-07-r2",
+  "call_id": "5207eafa-e8f4-4a17-bedd-6f8b4e8e0a3e",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-08-r2",
+  "call_id": "2fc7290b-65e4-4b23-87e4-01ffbb807250",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-09-r2",
+  "call_id": "e43dcbec-f4b1-4bf7-965f-f3ac46111f3c",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-10-r2",
+  "call_id": "bbaac81c-97c8-495d-8cd8-f75b5f11dce7",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-01-r3",
+  "call_id": "b808d5e5-556e-41c7-a507-50eda8d05f62",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-02-r3",
+  "call_id": "19d17268-4f9b-4de0-8945-8f166801b638",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-03-r3",
+  "call_id": "c3a6093c-56d9-42f2-9e46-b5e813cc4a3c",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-04-r3",
+  "call_id": "9f1c3c27-f245-4a57-836c-f848fe784195",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-05-r3",
+  "call_id": "7282665d-a68d-4433-9755-e43e4da56c54",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-06-r3",
+  "call_id": "1e1bcc20-0f61-4f63-9206-f710961fb6c9",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-07-r3",
+  "call_id": "db7604ab-46d1-44f3-b776-c66897d25053",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-08-r3",
+  "call_id": "657877ba-e96f-4d75-a336-25cbf2a5a3c4",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-09-r3",
+  "call_id": "2fd4ccaa-3278-4d2a-a1bc-622ccd090cf3",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "a-official-3reps-rerun",
+  "id": "PUB-10-r3",
+  "call_id": "bb878503-02ec-485c-8054-14ad236bbce0",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "b-official-3reps",
+  "id": "PUB-11-r1",
+  "call_id": "896559b1-a66c-4bfa-a4d0-5c3002860500",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "b-official-3reps",
+  "id": "PUB-12-r1",
+  "call_id": "fe266074-c464-4876-8dd4-0ffe407dde5b",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "ATTEMPTS_OVER",
+    "class": "violation",
+    "rule": "A31",
+    "t": 35.57,
+    "text": "car_loan p3: 2 offer(s), band wants 1; extra: For your car loan, could you pay the full amount of 140.00 on Friday 16 October?",
+    "status": "unreviewed"
+   },
+   {
+    "code": "TODAY_AGAIN",
+    "class": "violation",
+    "rule": "B4",
+    "t": 32.75,
+    "text": "Moving to your car loan, could you pay the full amount of 140.00 today?",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "ATTEMPTS_OVER",
+   "ATTEMPTS_SHORT",
+   "ITEM_SKIPPED",
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "b-official-3reps",
+  "id": "PUB-13-r1",
+  "call_id": "ffade6b0-148a-4191-a952-61dd751e0ef1",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "b-official-3reps",
+  "id": "PUB-11-r2",
+  "call_id": "e39705a8-e8c2-4260-94b3-d5aab1a4788f",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "b-official-3reps",
+  "id": "PUB-12-r2",
+  "call_id": "a374bf66-a8b4-42a8-a896-65e08ecf4df7",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_EARLY",
+    "class": "violation",
+    "rule": "A37",
+    "t": 19.62,
+    "text": "I have recorded that you will pay 510.00 for your credit card ending 9015 tomorrow, Thursday 15 October.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "TODAY_AGAIN",
+    "class": "violation",
+    "rule": "B4",
+    "t": 19.62,
+    "text": "Regarding your personal loan, can you pay the full past-due amount of 1320.00 today?",
+    "status": "unreviewed"
+   },
+   {
+    "code": "TODAY_AGAIN",
+    "class": "violation",
+    "rule": "B4",
+    "t": 25.29,
+    "text": "Regarding your car loan, can you pay the full past-due amount of 140.00 today?",
+    "status": "unreviewed"
+   },
+   {
+    "code": "ORDER",
+    "class": "violation",
+    "rule": "B4",
+    "t": 19.62,
+    "text": "personal_loan asked before credit_card: Regarding your personal loan, can you pay the full past-due amount of 1320.00 today?",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "ATTEMPTS_OVER",
+   "ATTEMPTS_SHORT",
+   "ITEM_SKIPPED",
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "b-official-3reps",
+  "id": "PUB-13-r2",
+  "call_id": "0f6a211c-5ba0-424b-853a-67cfaae44643",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "b-official-3reps",
+  "id": "PUB-11-r3",
+  "call_id": "ca53749e-ef3a-4e47-9f74-4665ccd4e89a",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "b-official-3reps",
+  "id": "PUB-12-r3",
+  "call_id": "25e326c6-16ef-4520-8f8b-2d540407be10",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "ATTEMPTS_SHORT",
+    "class": "violation",
+    "rule": "A30/B5",
+    "t": 22.85,
+    "text": "personal_loan p2: 1 offer(s), band wants 2; last: Could you pay the full past-due amount of 1320.00 by this Friday, 16 October?",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "ATTEMPTS_OVER",
+   "ATTEMPTS_SHORT",
+   "ITEM_SKIPPED",
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "b-official-3reps",
+  "id": "PUB-13-r3",
+  "call_id": "0d92c673-adc0-4a7d-a81b-7956f78b8e58",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ }
+]

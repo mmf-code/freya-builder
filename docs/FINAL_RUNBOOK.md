@@ -10,7 +10,7 @@ shorter build time, then earlier submission. A workspace holds 200 workflows.
 
 `builder/skills/reference` (92a695a, sha256 `7659a7bd2e6c`), run through `builder/kitrun.py`. Why: the best blind
 result (raw A+B, no practice customers: 11/13 from one build), no timeout, and of the deterministic defects in
-`docs/FAILURE_MODES.md` only #1, in half of its builds, which the two-run pick below handles. The official 12/13 came from its practice-test variant `reference-fb88831`, not from this
+`docs/FAILURE_MODES.md` only #1, in 6 of its 11 stored builds, which the two-run pick below handles. The official 12/13 came from its practice-test variant `reference-fb88831`, not from this
 exact skill. `reference-v2` and `reference-v3` did not pass the switch rule on the healthy platform of 2026-10-11
 afternoon (`docs/REFERENCE_V2.md`, "Healthy rounds"), so this path stays.
 
@@ -44,11 +44,11 @@ wait
 python3 -I tools/evaluation/closing_check.py "$PWD" briefs/final/<name>.openapi.json runs/*-final-<name>-1 runs/*-final-<name>-2
 ```
 
-Why two (decided 2026-10-11 16:40): half of the stored `reference` builds (5 of 10, both of 2026-10-11 among them)
+Why two (decided 2026-10-11 16:40): 6 of the 11 stored `reference` builds (both of 2026-10-11 among them, and the raw-A build of 2026-10-10)
 speak their goodbye in the steps that run the terminal tool, so the line comes after it (`docs/FAILURE_MODES.md` #1,
 Brief A rule 47). The defect is visible in the export. `closing_check.py` reads each run's acceptance, its exports
 (sha256 checked) and its contract, and prints `pick:`: an accepted run whose terminal steps are silent, between
-equals the shorter build. If both builds are independent with that rate, at least one is clean about 3 times in 4.
+equals the shorter build. If both builds are independent with that rate, at least one is clean about 7 times in 10 (three builds: about 8 in 10).
 On 2026-10-11 it said SPEAKS for v1-fresh (14 terminal steps and 3 transfer steps that pass into one) and the
 rehearsal (17 terminal steps), CLEAN for the reference-v2 and reference-v3 builds; a farewell on the end_call step is
 caught too (synthetic copy). In v1-fresh's official calls `policy_audit` found no goodbye before `close_call` in 39 of

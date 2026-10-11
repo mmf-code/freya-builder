@@ -7,7 +7,7 @@ Branch `builder-integration` on GitHub. Read with `docs/START_HERE.md`, `docs/PL
 
 - Final builder unchanged: `--skill builder/skills/reference` (sha256 `7659a7bd2e6c`), now **two runs per final brief
   side by side**, each with its own `--state`, and `tools/evaluation/closing_check.py` picks the accepted run whose
-  terminal steps are silent (`docs/FINAL_RUNBOOK.md`; approved 16:40). Reason: 5 of 10 stored `reference` builds,
+  terminal steps are silent (`docs/FINAL_RUNBOOK.md`; approved 16:40). Reason: 6 of 11 stored `reference` builds,
   both of today among them, speak their goodbye after `close_call` (#1); v1-fresh did so in 39 of 39 official calls.
 - Experiment C on a healthy platform (16:10-17:15, `docs/REFERENCE_V2.md`, section "Healthy rounds"): three official
   rounds for v1-fresh and v2, two for v3, personas V09/V07/V06 once each, every violation finding read. Customers 3/3:

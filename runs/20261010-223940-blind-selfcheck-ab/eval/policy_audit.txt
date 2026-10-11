@@ -1,0 +1,29 @@
+selfcheck-b-official-1 PUB-12-r1 kit=pass call=455a5fb0
+    ATTEMPTS_SHORT       violation   unreviewed     t=28.07   personal_loan p2: 1 offer(s), band wants 2; last: Can you pay the full 1,320 pounds by Friday 23 October 2026?
+selfcheck-b-official-reps2 PUB-12-r1 kit=pass call=e933c37f
+    ATTEMPTS_SHORT       violation   unreviewed     t=16.64   personal_loan p2: 1 offer(s), band wants 2; last: Regarding your personal loan, can you pay the full past-due amount of 1,320 GBP by Friday, October 23rd?
+selfcheck-b-official-reps2 PUB-12-r2 kit=pass call=afdd2bd6
+    RECORDED_EARLY       violation   unreviewed     t=44.36   I have recorded a payment of 510 GBP for your credit card on Friday, October 15th.
+    ATTEMPTS_SHORT       violation   unreviewed     t=33.69   personal_loan p2: 1 offer(s), band wants 2; last: Would that work for you?
+    TODAY_AGAIN          violation   unreviewed     t=30.07   Would you be able to pay the full 1320 GBP today?
+    TODAY_AGAIN          violation   unreviewed     t=36.87   Would you be able to pay the full 140 GBP today?
+    WEEKDAY              violation   unreviewed     t=44.36   'Friday, October 15th' is a Thursday
+
+Calls with a finding / calls where the check applied, per label (calls in brackets):
+| code | class | selfcheck-a-official-1 (10) | selfcheck-a-official-reps2 (20) | selfcheck-b-official-1 (3) | selfcheck-b-official-reps2 (6) |
+|---|---|---|---|---|---|
+| NO_GOODBYE | violation | 0/10 | 0/17 | 0/3 | 0/6 |
+| NO_THANKS | violation | 0/10 | 0/17 | 0/3 | 0/6 |
+| RECORDED_EARLY | violation | 0/10 | 0/20 | 0/3 | 1/6 |
+| SMS_MISSING | violation | 0/4 | 0/8 | 0/3 | 0/6 |
+| TODAY_AGAIN | violation | 0/0 | 0/0 | 0/3 | 1/6 |
+| ORDER | violation | 0/0 | 0/0 | 0/3 | 0/6 |
+| ITEM_SKIPPED | violation | 0/0 | 0/0 | 0/1 | 0/2 |
+| ATTEMPTS_SHORT | violation | 0/0 | 0/0 | 1/1 | 2/2 |
+| ATTEMPTS_OVER | violation | 0/0 | 0/0 | 0/1 | 0/2 |
+| WEEKDAY | violation | 0/3 | 0/7 | 0/3 | 1/6 |
+| SMS_NOT_VERBATIM | wording | 0/4 | 0/8 | 0/3 | 0/6 |
+| RECORDED_IN_GREETING | judge risk | 0/10 | 0/20 | 0/3 | 0/6 |
+| SPEECH_AFTER_CLOSE | observation | 0/10 | 0/17 | 0/3 | 0/6 |
+
+39 calls. PASS calls with a violation-class finding: 3 (confirmed 0, unreviewed or unclear the rest). A finding is a claim to read; no finding is not compliance.
