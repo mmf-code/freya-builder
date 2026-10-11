@@ -334,3 +334,48 @@ class AcceptanceTest(unittest.TestCase):
                 time.sleep(0.1)
             else:
                 self.fail("the grandchild survived")
+
+
+class TrustBoundaryTest(unittest.TestCase):
+    """What the builder can write must not decide its own acceptance."""
+
+    def test_sdk_result_counts_only_as_the_last_record(self):
+        from builder.kitrun import final_result, sdk_outcome
+        ok = {"type": "ResultMessage", "subtype": "success", "is_error": False}
+        self.assertEqual(final_result([{"type": "AssistantMessage"}, ok]), {"subtype": "success", "is_error": False})
+        self.assertEqual(final_result([ok, {"type": "AssistantMessage"}]), {})       # a line planted mid-run
+        self.assertIsNotNone(sdk_outcome(final_result([ok, {"type": "AssistantMessage"}])))
+
+    def test_trace_files_the_runner_did_not_watch(self):
+        from builder.kitrun import unexpected_traces
+        with tempfile.TemporaryDirectory() as d:
+            ws = Path(d)
+            (ws / "traces").mkdir()
+            real = ws / "traces" / "20261011-050000.jsonl"
+            real.write_text("{}")
+            self.assertEqual(unexpected_traces(ws, real), [])
+            (ws / "traces" / "zzz.jsonl").write_text("{}")
+            self.assertEqual(len(unexpected_traces(ws, real)), 1)
+            self.assertTrue(unexpected_traces(ws, None))
+
+    def test_evidence_must_name_an_input_file(self):
+        import shutil
+        from builder.kitrun import KIT, check_exports, input_manifest, pristine_inputs
+        wf = {"workflow": {"initial_node": "e", "nodes": {"e": {"node_type": "end_call", "transitions": []}}}}
+        with tempfile.TemporaryDirectory() as d:
+            run_dir, ws = Path(d), Path(d) / "workspace"
+            (ws / "tools").mkdir(parents=True)
+            (ws / "out").mkdir()
+            shutil.copy2(KIT / "tools" / "openapi.json", ws / "tools" / "openapi.json")
+            (run_dir / "x.workflow.json").write_text(json.dumps(wf))
+            manifest = input_manifest([KIT / "briefs" / "brief-a.md"], KIT / "tools" / "openapi.json")
+            pristine = pristine_inputs(manifest, Path(d) / "orig")
+            quote = "Always the last tool call."
+            for src in (str(ws / "tools" / "openapi.json"), "../workspace/tools/openapi.json", "tools/../tools/openapi.json"):
+                (ws / "out" / "x.contract.json").write_text(json.dumps({"terminal_tools": [{"tool": "close_call", "evidence": [{"source": src, "quote": quote}]}]}))
+                errors = check_exports(run_dir, ws, [{"slot": "x"}], contract_required=True, api_path=KIT / "tools" / "openapi.json",
+                                       evidence_base=pristine, evidence_sources=set(manifest))[0]["errors"]
+                self.assertTrue(any("not one of the input files" in e for e in errors), (src, errors))
+            (ws / "out" / "x.contract.json").write_text(json.dumps({"terminal_tools": "close_call"}))
+            errors = check_exports(run_dir, ws, [{"slot": "x"}], contract_required=True)[0]["errors"]
+            self.assertTrue(any("not a list of objects" in e for e in errors))

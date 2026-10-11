@@ -134,6 +134,21 @@ def pristine_inputs(manifest: dict[str, dict], into: Path) -> Path:
     return into
 
 
+def final_result(records: list[dict]) -> dict:
+    """The SDK result, only when it is the trace's last record: agent_builder.py writes it after the builder's last
+    action, so a ResultMessage line the builder wrote into the file earlier cannot stand in for a missing one."""
+    if records and records[-1].get("type") == "ResultMessage":
+        return {k: records[-1].get(k) for k in ("subtype", "is_error")}
+    return {}
+
+
+def unexpected_traces(ws: Path, trace: Path | None) -> list[str]:
+    """Trace files the runner did not watch from the start: the builder could have written them."""
+    if trace is None:
+        return ["the builder wrote no trace file"]
+    return [f"traces/{p.name} was not written by the builder runner" for p in sorted((ws / "traces").glob("*.jsonl")) if p != trace]
+
+
 def sdk_outcome(result: dict) -> str | None:
     """Why the SDK's final result is not a success, or None. A missing final result is not a success."""
     if not result:
@@ -272,14 +287,17 @@ def make_workspace(run_dir: Path, briefs: list[Path], tools: Path, skill: Path |
     return ws
 
 
-def _tail(path_glob_dir: Path, t0: float, stop: threading.Event, out: list) -> None:
-    """Stamp each trace line with the second it appeared. agent_builder.py flushes after every message."""
+def _tail(path_glob_dir: Path, t0: float, stop: threading.Event, out: list, chosen: list | None = None) -> None:
+    """Stamp each trace line with the second it appeared. agent_builder.py flushes after every message.
+    The first trace file to appear is agent_builder.py's own (it opens it before the model runs); `chosen` gets it."""
     pos, f = 0, None
     while not stop.is_set() or f is not None:
         if f is None:
             found = sorted(path_glob_dir.glob("*.jsonl"))
             if found:
                 f = found[-1]
+                if chosen is not None:
+                    chosen.append(f)
             elif stop.is_set():
                 return
         if f is not None:
@@ -330,8 +348,9 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     watchdog = threading.Timer(minutes * 60, lambda: (timed_out.set(), kill_group(proc)))
     watchdog.start()
     arrivals: list[float] = []
+    chosen: list[Path] = []
     stop = threading.Event()
-    tailer = threading.Thread(target=_tail, args=(ws / "traces", t0, stop, arrivals), daemon=True)
+    tailer = threading.Thread(target=_tail, args=(ws / "traces", t0, stop, arrivals, chosen), daemon=True)
     tailer.start()
     try:
         with open(run_dir / "console.log", "w") as log:
@@ -350,11 +369,17 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     tailer.join(timeout=5)
     end = datetime.now(timezone.utc)
 
-    raw = sorted((ws / "traces").glob("*.jsonl"))
-    records = [json.loads(l) for l in raw[-1].read_text().splitlines()] if raw else []
+    trace_file = chosen[0] if chosen else None
+    records = []
+    if trace_file is not None and trace_file.is_file():
+        for line in trace_file.read_text().splitlines():
+            try:
+                records.append(json.loads(line))
+            except ValueError:
+                records.append({"type": "unreadable line"})
     summary = summarize_trace(records, arrivals if len(arrivals) == len(records) else None, str(ws))
-    if raw:
-        (run_dir / "trace.jsonl").write_text(redact(raw[-1].read_text(), secrets))
+    if trace_file is not None and trace_file.is_file():
+        (run_dir / "trace.jsonl").write_text(redact(trace_file.read_text(), secrets))
 
     # What the run created or updated on Freya: slots that are new or whose version moved.
     sys.path.insert(0, str(ws))
@@ -373,9 +398,9 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
                                   "export_sha256": sha256(path) if path.is_file() else None})
 
     with tempfile.TemporaryDirectory() as d:
-        checks = check_exports(run_dir, ws, freya_objects, contract_required=skill is not None,
-                               api_path=tools, evidence_base=pristine_inputs(manifest, Path(d)))
-    input_problems = input_changes(manifest, ws)
+        checks = check_exports(run_dir, ws, freya_objects, contract_required=skill is not None, api_path=tools,
+                               evidence_base=pristine_inputs(manifest, Path(d)), evidence_sources=set(manifest))
+    input_problems = input_changes(manifest, ws) + unexpected_traces(ws, trace_file)
     end_total = datetime.now(timezone.utc)
 
     for sub in ("out", "results"):
@@ -390,12 +415,13 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
 
     res = summary["result"]
     seconds_total = (end_total - start).total_seconds()
-    exit_status, reasons = accept(code, timed_out.is_set(), sdk_outcome(res), seconds_total, minutes * 60, checks, input_problems)
+    exit_status, reasons = accept(code, timed_out.is_set(), sdk_outcome(final_result(records)), seconds_total, minutes * 60,
+                                  checks, input_problems)
     info = {
         "run": run_dir.name, "start": start.isoformat(timespec="seconds"), "end": end.isoformat(timespec="seconds"),
         "seconds": round((end - start).total_seconds()), "limit_minutes": minutes, "timed_out": timed_out.is_set(), "exit_code": code,
         "acceptance": {"accepted": exit_status == 0, "exit": exit_status, "reasons": reasons,
-                       "sdk_result": {k: res.get(k) for k in ("subtype", "is_error")},
+                       "sdk_result": final_result(records) or "no ResultMessage as the trace's last record",
                        "inputs_unchanged": not input_problems, "end_total": end_total.isoformat(timespec="seconds"),
                        "seconds_total": round(seconds_total)},
         "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill "
@@ -423,12 +449,14 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
 
 
 def check_exports(run_dir: Path, ws: Path, freya_objects: list[dict], contract_required: bool = False,
-                  api_path: Path | None = None, evidence_base: Path | None = None) -> list[dict]:
+                  api_path: Path | None = None, evidence_base: Path | None = None,
+                  evidence_sources: set[str] | None = None) -> list[dict]:
     """Static checks of every exported workflow against the run's tool API, with the builder's contract if it wrote one.
 
     Fails closed: a run that saved nothing, a missing export, and (when the skill requires one) a missing, unreadable or
     empty contract are errors, so they cannot pass as a clean check. `api_path` and `evidence_base` name the original
-    inputs; without them the workspace copies are used, which the builder could have changed."""
+    inputs; without them the workspace copies are used, which the builder could have changed. With `evidence_sources`
+    a contract quote may name only those input paths: an absolute path or `..` would leave `evidence_base`."""
     from .workflow_check import check
     if not freya_objects:
         return [{"slot": "(none)", "contract": None, "errors": ["the run saved no workflow on Freya"], "warnings": 0}]
@@ -452,8 +480,18 @@ def check_exports(run_dir: Path, ws: Path, freya_objects: list[dict], contract_r
             if contract is not None and not isinstance(contract, dict):
                 entry["errors"].append(f"{cpath.name} is not a JSON object")
                 contract = None
+            elif contract is not None and not (isinstance(contract.get("terminal_tools", []), list)
+                                               and all(isinstance(t, dict) for t in contract.get("terminal_tools") or [])):
+                entry["errors"].append(f"{cpath.name}: terminal_tools is not a list of objects")
+                contract = None
             elif contract_required and contract is not None and not contract.get("terminal_tools"):
                 entry["errors"].append(f"{cpath.name} declares no terminal tool, so terminal-tool ordering was not checked")
+            if contract is not None and evidence_sources is not None:
+                for t in contract.get("terminal_tools") or []:
+                    for ev in (t.get("evidence") if isinstance(t, dict) else None) or []:
+                        src = str(ev.get("source", "")) if isinstance(ev, dict) else ""
+                        if src not in evidence_sources:
+                            entry["errors"].append(f"{cpath.name}: evidence source {src[:80]!r} is not one of the input files {sorted(evidence_sources)}")
         elif contract_required:
             entry["errors"].append(f"{cpath.name} is missing, so terminal-tool ordering could not be checked")
         found = check(json.loads(path.read_text()), api, contract, evidence_base or ws)
