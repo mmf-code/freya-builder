@@ -110,9 +110,15 @@ def convert(case: Path, dest: Path) -> dict:
     """Write every usable file of `case` into `dest` (flat). Returns the manifest, also written to dest/../manifest.json."""
     dest.mkdir(parents=True, exist_ok=True)
     manifest = {"case": str(case), "files": []}
+    root = case.resolve()
     for src in sorted(p for p in case.rglob("*") if p.is_file()):
         rel = src.relative_to(case)
         if any(part.startswith(".") or part == "__MACOSX" for part in rel.parts):
+            continue
+        # A link, or a path that resolves outside the case folder, is never read: it could point at a secret.
+        if any((case / Path(*rel.parts[:i + 1])).is_symlink() for i in range(len(rel.parts))) \
+                or not src.resolve().is_relative_to(root):
+            manifest["files"].append({"source": str(rel), "skipped": "symbolic link or outside the case folder: not read"})
             continue
         ext = src.suffix.lower()
         entry = {"source": str(rel), "sha256": sha256(src), "outputs": []}

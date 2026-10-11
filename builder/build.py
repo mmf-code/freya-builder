@@ -14,6 +14,7 @@ import json
 import subprocess
 import sys
 import time
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -31,6 +32,14 @@ def find_openapi(case: Path) -> Path | None:
         if isinstance(d, dict) and ("openapi" in d or "swagger" in d) and isinstance(d.get("paths"), dict):
             return p
     return None
+
+
+def under(url: str, base: str) -> bool:
+    """Same scheme and host as `base`, and a path at or below its path (not a mere string prefix)."""
+    u, b = urllib.parse.urlsplit(url), urllib.parse.urlsplit(base)
+    path, root = u.path or "/", (b.path.rstrip("/") or "")
+    return (u.scheme.lower(), u.netloc.lower()) == (b.scheme.lower(), b.netloc.lower()) \
+        and (root == "" or path == root or path.startswith(root + "/"))
 
 
 def urls_in(obj, out: list[str]) -> list[str]:
@@ -96,7 +105,7 @@ def main() -> int:
             exp = run / str(f.get("export"))
             if exp.is_file():
                 exports += 1
-                bad += [u for u in urls_in(json.loads(exp.read_text()), []) if not u.startswith(mock)]
+                bad += [u for u in urls_in(json.loads(exp.read_text()), []) if not under(u, mock)]
         print(f"build.py: run {run.relative_to(ROOT)}, inputs {inputs.relative_to(ROOT)}, state {state.relative_to(ROOT)}")
         if bad:
             print(f"build.py: {len(bad)} URL(s) in the export are outside {mock}: {sorted(set(bad))[:5]}", file=sys.stderr)
