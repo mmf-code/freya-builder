@@ -108,6 +108,11 @@ Results:
   the week change and the PDF send. The contract gives `cards.balance` and `statement.week.*` no customer number,
   so the bank side cannot check ownership. Exploiting it needs another customer's masked number. Not fixed: a fix
   needs a builder change and a new run.
+  Regression at 22:03 (simulation 362a9d26, 53 s, tool events read from the call records): E4 twice PASS
+  (send_statement_pdf after "Evet" with the caller's own card, number and address; 200 DONE; "gönderildi" after the
+  result); card ownership PASS (the caller gave another customer's 540000******2000 twice; no cards.balance call
+  with it, "Bu numara ile eşleşen bir kartınız bulunmuyor"); PDF 404 (93635512) PASS (send_statement_pdf called,
+  the agent says it cannot send, no success claim). Minor: in E4b the agent spoke one customer-like line.
 
 Next candidate: `builder/skills/reference-chat-open` (sha256 37e6f222): reference-chat plus two generic rules: the
 agent speaks first and a chat-route limit never changes the opening, checked with one simulation after the first
