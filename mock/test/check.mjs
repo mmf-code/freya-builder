@@ -1,5 +1,6 @@
 // Compare the mock with expected answers: node test/check.mjs CASES.json [BASE_URL]
-// CASES.json is a list of { name, method, path, query?, body?, headers?, status, response }.
+// CASES.json is a list of { name, method, path, query?, body?, rawBody?, headers?, status, response | code }.
+// With `code` instead of `response`, only the status and result.code are compared (error bodies carry a fresh guid).
 // Without BASE_URL, the script calls the Worker's fetch in this process. With BASE_URL (wrangler dev or the
 // deployed URL), it sends the requests over HTTP. Status and JSON body must match exactly.
 // It also checks that openapi.js and routes.js name the same operations. Exit 1 on a difference.
@@ -21,6 +22,7 @@ for (const c of cases) {
   for (const [k, v] of Object.entries(c.query || {})) url.searchParams.set(k, v);
   const init = { method: c.method, headers: { "content-type": "application/json", ...(c.headers || {}) } };
   if (c.body !== undefined) init.body = JSON.stringify(c.body);
+  if (c.rawBody !== undefined) init.body = c.rawBody;
   const res = base ? await fetch(url, init) : await worker.fetch(new Request(url, init), {});
   const text = await res.text();
   let got;
@@ -29,11 +31,11 @@ for (const c of cases) {
   } catch {
     got = text;
   }
-  const ok = res.status === c.status && isDeepStrictEqual(got, c.response);
+  const ok = res.status === c.status && ("code" in c ? got?.result?.code === c.code : isDeepStrictEqual(got, c.response));
   console.log(`${ok ? "PASS" : "FAIL"} ${c.name || ""} ${c.method} ${c.path} -> ${res.status}`);
   if (!ok) {
     failed++;
-    console.log(`  want ${c.status} ${JSON.stringify(c.response)}\n  got  ${res.status} ${JSON.stringify(got)}`);
+    console.log(`  want ${c.status} ${JSON.stringify(c.code ?? c.response)}\n  got  ${res.status} ${JSON.stringify(got)}`);
   }
 }
 console.log(`${cases.length - failed}/${cases.length} match`);

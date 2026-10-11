@@ -1,6 +1,6 @@
 // Bank API mock for the final, on Cloudflare Workers. It is not part of the builder.
-// The case-specific parts are in ./routes.js (handlers from the service contract), ./data.js (the test customers)
-// and ./openapi.js (the tool API that the builder reads at MOCK_URL/openapi.json).
+// The case-specific parts are in ./routes.js (handlers from the service contract and the test customers) and
+// ./openapi.js (the tool API that the builder reads at MOCK_URL/openapi.json).
 // This file routes requests, answers JSON and keeps a request log per isolate for our own tests.
 // GET /_log serves the log only when the header `x-log-token` equals the LOG_TOKEN secret
 // (`wrangler secret put LOG_TOKEN`). Without that secret, the route does not exist. Error answers carry no internals.
@@ -43,14 +43,19 @@ function match(method, path) {
   return { handler: null, params: {} };
 }
 
+const CORS = { "access-control-allow-origin": "*" };
+
 function json(body, status = 200) {
-  return new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json; charset=utf-8" } });
+  return new Response(JSON.stringify(body), { status, headers: { ...CORS, "content-type": "application/json; charset=utf-8" } });
 }
 
 export default {
   async fetch(request, env = {}) {
     const url = new URL(request.url);
     const path = url.pathname.replace(/\/+$/, "") || "/";
+    if (request.method === "OPTIONS") {
+      return new Response(null, { status: 204, headers: { ...CORS, "access-control-allow-methods": "GET, POST, OPTIONS", "access-control-allow-headers": "*" } });
+    }
     if (request.method === "GET" && path === "/openapi.json") return json(openapi);
     if (request.method === "GET" && path === "/_log") {
       const token = env.LOG_TOKEN;
@@ -64,15 +69,8 @@ export default {
       record({ method: request.method, path, status: 404 });
       return json({ ok: false, error: "not found" }, 404);
     }
-    let body = {};
-    if (request.method !== "GET") {
-      const text = await request.text();
-      try {
-        body = text ? JSON.parse(text) : {};
-      } catch {
-        return json({ ok: false, error: "body is not JSON" }, 400);
-      }
-    }
+    // A body that is not JSON (the token request is a form) reaches the handler as null.
+    const body = request.method === "GET" ? null : await request.json().catch(() => null);
     const query = Object.fromEntries(url.searchParams);
     let status, out, error;
     try {
@@ -81,7 +79,7 @@ export default {
     } catch (e) {
       [status, out, error] = [500, { ok: false, error: "internal error" }, String(e)];
     }
-    record({ method: request.method, path, body, status, out, error });
+    record({ method: request.method, path, ua: request.headers.get("user-agent"), body, status, out, error });
     return json(out, status);
   },
 };

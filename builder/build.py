@@ -57,7 +57,9 @@ def main() -> int:
     for f in skipped:
         print(f"build.py: not converted: {f['source']}: {f['skipped']}", file=sys.stderr)
 
-    with urllib.request.urlopen(f"{mock}/openapi.json", timeout=30) as r:
+    # Cloudflare answers 403 (error 1010) to urllib's default User-Agent on workers.dev.
+    req = urllib.request.Request(f"{mock}/openapi.json", headers={"User-Agent": "freya-builder-build/1.0"})
+    with urllib.request.urlopen(req, timeout=30) as r:
         api = json.loads(r.read().decode("utf-8"))
     manifest["tool_api"] = f"{mock}/openapi.json"
     api["servers"] = [{"url": mock}]

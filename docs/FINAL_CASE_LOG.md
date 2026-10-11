@@ -16,6 +16,7 @@ The organisers announced:
 | Snapshot | Downloaded (Drive stamp, UTC) | Files | Change |
 |---|---|---|---|
 | s01-20261011T171112Z | 17:11:12 (20:11 Istanbul) | 2: `BRIEF.md` (sha256 9f7a9256), `statement-debt-call-flow.pdf` (1092fe84) | first |
+| s02-20261011T174012Z | 17:40:12 (20:40 Istanbul) | 18 | 16 added: `README.md`, `example-scenarios.md`, `cloudflare-mock/` (4), `sources/documents/` (FAQ, IVR prompt sheet, service contract), `sources/emails/` (2 threads, 2 analysis versions), `sources/meetings/` (1 transcript), `test-environment/` (2). Changed: `BRIEF.md` (the Inputs list now matches the pack: no third analysis version, no data models, no abbreviations) |
 
 `BRIEF.md` ("Inputs") names these files. s01 does not have them:
 - `README.md`
@@ -28,6 +29,9 @@ The organisers announced:
 - `cloudflare-mock/`
 
 Not confirmed: at 17:11 UTC the folder probably held only these two files. This agrees with the announcement.
+
+s02 has every file that its `BRIEF.md` names. Probably still to come: the 9 Oct recap mail says that Ozan writes up
+the statement week and joint statement points "separately with the sample sentences". s02 has no such document.
 
 ## What s01 says (no contract yet)
 
@@ -50,15 +54,28 @@ Not confirmed: at 17:11 UTC the folder probably held only these two files. This 
 
 ## Mock
 
-No case-specific code exists until the contract and the test customers arrive. Prepared at 20:20-20:30:
-- path parameters (`{name}` segments) in `mock/src/index.js`;
-- handlers return `{ status, body }`, so a bank `status` field stays in the body;
-- `mock/test/check.mjs` compares answers exactly, in-process or against a URL, and checks that `openapi.js` and
-  `routes.js` name the same operations.
+Written at 20:45-20:55 from s02: the service contract (sections 2-6) and `test-environment/test-customers.json`,
+copied unchanged to `mock/src/test-customers.json` (sha256 d6ce1556).
+- Seven `POST /voice/v1/<service>` routes and `POST /oauth2/token`. The test environment does not check the token.
+- Lookup as in `test-customers.md`: customer number or card number, then the week. A number and a string are the
+  same. The `delaySeconds` entry (94907600, `cards.balance`, 12 s) waits before the answer.
+- No entry: the 404 of that service from contract section 4. A service without a 404 answers 400
+  `INVALID_ARGUMENTS_ERROR`. A missing required field also answers 400.
+- A `{{variable}}` value gets the first test customer's record, as the case's example Worker does.
+- CORS and OPTIONS as in the example Worker. The request log records the User-Agent.
 
-Deployed with approval at 20:29: `https://freya-bank-mock-final.atakan-yamana.workers.dev` (version 0f79d350,
-skeleton only, no bank data). Checked on the public URL: `/`, `/health` and `/openapi.json` answer 200, an unknown
-path answers 404. The `LOG_TOKEN` secret is set; `/_log` answers 200 with the token and 404 without it.
+Checks: `mock/test/build-cases.mjs` writes 673 cases (every entry of the test data, a number variant, and 17 error
+and edge cases). 673/673 match in-process, under `wrangler dev`, and on the public URL after the deploy.
+
+Deploys, each with approval: 20:29 skeleton (0f79d350), 20:52 contract (52c9ecea), 20:56 User-Agent in the log
+(ad4e2ad8). URL: `https://freya-bank-mock-final.atakan-yamana.workers.dev`.
+
+Found: Cloudflare answers 403 (error 1010) to Python urllib's default User-Agent on workers.dev. requests, httpx,
+aiohttp, Go, Java, okhttp, Node, curl and an empty User-Agent get 200. `build.py` now sends its own User-Agent. A
+builder that probes the mock with plain urllib gets 403.
+
+`build.py --prepare-only` on s02 at 20:55: 17 of 18 files converted. The example Worker's `worker.js` and
+`wrangler.toml` have no converter and are listed as skipped. The tool API comes from the mock, with 8 paths.
 
 ## Builds
 
