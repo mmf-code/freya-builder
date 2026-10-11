@@ -19,10 +19,14 @@ neither update another run's workflows nor share its personas.
 After the build every exported workflow is checked statically (builder/workflow_check.py), with the builder's
 out/<slot>.contract.json when it wrote one, against the tool API and brief files as the runner read them into memory
 before the build (not the workspace copies, not the files on disk afterwards). The trace is read through the file
-handle the runner opened when agent_builder.py created it, and its SDK result must match the "done:" line
+handle the runner opened when agent_builder.py created it, and its SDK result is cross-checked with the "done:" line
 agent_builder.py printed to the runner's pipe. A run is accepted only when the builder exited 0 with that confirmed
 successful SDK result, within the time limit counted up to the end of the export and checks, with every input file and
-the trace unchanged, and with no check error. Nothing is deleted when a
+the trace unchanged, and with no check error.
+Threat model: these checks catch accidents (an SDK error result, a crashed or stopped builder, a stray or edited file)
+and make a forged success hard; they are not authentication. The builder runs as the same user with Bash and no
+sandbox, and its own text reaches the same pipe, so a builder that set out to forge both the trace and the "done:" line
+could. Containing that needs OS-level isolation of the builder, which would change what the builder can do. Nothing is deleted when a
 run is rejected; summary.json and trace.txt give the reasons under "acceptance".
 Exit status: 0 accepted, 1 builder failed, SDK error, timed out or over the limit, 2 a secret was found in the output,
 3 a check failed (static errors, missing export or contract, contract without a terminal tool, changed input).
@@ -142,9 +146,10 @@ def pristine_inputs(manifest: dict[str, dict], into: Path) -> Path:
 
 
 def console_confirms(lines: list[str], trace: Path | None, records: list[dict]) -> str | None:
-    """agent_builder.py prints 'done: N turns, S s, $C. Trace: <file>' when it receives the SDK result. The runner
-    owns that pipe; the builder's commands do not write to it. A missing or different line means the trace's result
-    is not confirmed. Lines after it (warnings on exit) do not matter."""
+    """agent_builder.py prints 'done: N turns, S s, $C. Trace: <file>' when it receives the SDK result. A missing or
+    different line means the trace's result is not confirmed. Lines after it (warnings on exit) do not matter.
+    A consistency check, not authentication: agent_builder.py also prints the model's text to this pipe, so a builder
+    that deliberately wrote such a line, together with a forged trace record, would pass it."""
     last = records[-1] if records and records[-1].get("type") == "ResultMessage" else None
     if last is None or trace is None:
         return None                                 # sdk_outcome already rejects the run
