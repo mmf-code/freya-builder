@@ -1,0 +1,13 @@
+{
+ "terminal_tools": [
+  {
+   "tool": "voice/v1/statement.week.change",
+   "evidence": [
+    {"source": "briefs/sources__emails__attachments__2026-10-08-statement-debt-analysis.md", "quote": "Moves the card's statement closing week, which moves the next closing date and due date. Permanent; cannot be undone in the call."},
+    {"source": "briefs/sources__emails__attachments__2026-10-08-statement-debt-analysis.md", "quote": "Dates are the ones from the preview. Then “Sizi ana menüye yönlendiriyorum.”"},
+    {"source": "briefs/sources__emails__attachments__2026-10-08-statement-debt-analysis.md", "quote": "`statement.week.change` failing after a good preview is a service error like any other: step 1's sentence, agent."}
+   ]
+  }
+ ],
+ "every_call_ends_with_terminal": false
+}

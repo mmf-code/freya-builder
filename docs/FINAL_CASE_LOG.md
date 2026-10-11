@@ -114,6 +114,15 @@ Results:
   with it, "Bu numara ile eşleşen bir kartınız bulunmuyor"); PDF 404 (93635512) PASS (send_statement_pdf called,
   the agent says it cannot send, no success claim). Minor: in E4b the agent spoke one customer-like line.
 
+- `final-secure` (reference-chat-secure, 20261011-220853, run commit 143aa69): 1311 s, ACCEPTED (exit 0). Bank
+  calls are fixed steps; card numbers come only from the stored cards.list answer; code matches the caller's pick
+  and blocks a card not on the list before any bank call. Own tests: opening simulation, three fix rounds (enum
+  reset, "Tamam"/payment misread as main menu, a leaked thought line), last rounds 9/9 and 2/2, a foreign-card test
+  with no bank call. Independent check 22:31 (simulation ae761100): E2, E4 x2, E5, E6, PDF 404 pass; foreign card
+  (540000******2000 twice) sent to no bank call, judge fail on a goodbye loop after "nothing else" during card
+  choice. E6 transfers to an agent on the digits request instead of continuing. SELECTED over final-open:
+  ownership enforced in code, runner acceptance, E4 2/2.
+
 Next candidate: `builder/skills/reference-chat-open` (sha256 37e6f222): reference-chat plus two generic rules: the
 agent speaks first and a chat-route limit never changes the opening, checked with one simulation after the first
 save; save only the agent's own slot.

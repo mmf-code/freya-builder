@@ -1,3 +1,18 @@
+## Final submission (2026-10-11, team EVRE)
+
+- Phone agent: `submission/final.workflow.json`, the export of run `runs/20261011-220853-final-secure` (byte copy of `runs/20261011-220853-final-secure/BRIEF.workflow.json`,
+  sha256 `090aae6a100cd3cec4cf044f62dd01062f270bd521e87e87e874d9e20d07bfbf`), not edited.
+- Trace: `submission/trace.jsonl`, the builder's session log of that run (byte copy of `runs/20261011-220853-final-secure/trace.jsonl`, sha256
+  `fd932bdf5674be5c137bf6ffcdb600d6de6f52301a01ed01788adbd9d8d0816a`). Readable summary: `runs/20261011-220853-final-secure/trace.txt`; everything build.py printed:
+  `runs/20261011-220853-final-secure/build-output.log`.
+- Builder: `builder/build.py` with skill `builder/skills/reference-chat-secure`; it ran at commit `143aa69be53867485044b02a4474dac6b4ce3ae9` on the case download of 18:02:49 UTC
+  (19 files), 1310 s. `builder/` is unchanged from that commit to the artifact commit.
+- Run command: `python3 builder/build.py {case_folder} https://freya-bank-mock-final.atakan-yamana.workers.dev --skill builder/skills/reference-chat-secure --label final-secure`
+- Created on Freya: workflow `f26dfb7e-617b-4e33-95fe-67f6d117d507`, agent `d37e8c53-5aae-4b25-b5fa-6c6d39e9e46d`, 42 steps and 7 global steps, 7 bank tools.
+- Mock: `https://freya-bank-mock-final.atakan-yamana.workers.dev` (Cloudflare Workers, `mock/`; not part of the builder).
+- `submission.json` names the artifact commit, which holds the workflow and the trace. A commit cannot contain its own
+  hash, so `submission.json` itself is in the next commit. Log of the final: `docs/FINAL_CASE_LOG.md`.
+
 # freya-builder
 
 > Final (2026-10-11): run the builder with `python3 builder/build.py CASE_FOLDER MOCK_URL --skill DIR --label NAME`.

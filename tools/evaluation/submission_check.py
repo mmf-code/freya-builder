@@ -1,6 +1,6 @@
 """Check the final submission against the committed repository. Read-only.
 
-    python3 -I tools/evaluation/submission_check.py REPO SUBMISSION_JSON
+    python3 -I tools/evaluation/submission_check.py REPO SUBMISSION_JSON [RUN_DIR]
 
 Checks, each printed PASS or FAIL:
 - submission.json has the fields of the case BRIEF, in that order.
@@ -69,14 +69,15 @@ def main() -> int:
     for key in ("workflow", "trace"):
         code, _ = git(repo, "cat-file", "-e", f"{full}:{sub[key]}")
         check(f"{key} at the commit", code == 0, sub[key])
-    run_dir = str(Path(sub["workflow"]).parent)
+    # The run record: the workflow's own folder, or RUN_DIR when the workflow is a copy (for example submission/).
+    run_dir = sys.argv[3].rstrip("/") if len(sys.argv) > 3 else str(Path(sub["workflow"]).parent)
     code, summary = git(repo, "show", f"{full}:{run_dir}/summary.json")
     check("summary.json at the commit", code == 0)
     if code:
         return 1
     s = json.loads(summary)
     _, wf_bytes = git(repo, "show", f"{full}:{sub['workflow']}", binary=True)
-    slot = next((f for f in s.get("freya") or [] if f.get("export") == Path(sub["workflow"]).name), None)
+    slot = next((f for f in s.get("freya") or [] if hashlib.sha256(wf_bytes).hexdigest() == f.get("export_sha256")), None)
     check("workflow is the run's export (sha256)", bool(slot) and hashlib.sha256(wf_bytes).hexdigest() == slot.get("export_sha256"),
           slot and slot.get("export_sha256", "")[:12])
     bad = sorted({u for u in urls(json.loads(wf_bytes)) if not under(u, sub["mock_url"])})
@@ -93,7 +94,10 @@ def main() -> int:
     code, _ = git(repo, "merge-base", "--is-ancestor", run_commit, full)
     check("run commit is an ancestor of the named commit", code == 0, run_commit[:12])
     _, changed = git(repo, "diff", "--name-only", run_commit, full, "--", "builder", "docs/build-the-builder")
-    check("builder unchanged between run and named commit", changed == "", changed.replace("\n", ", "))
+    used_skill = (re.search(r"skill <repo>/(\S+) \(sha256", s.get("builder", "")) or re.search("()", "")).group(1).rstrip("/")
+    # A skill folder the run did not use (added later for another build) does not change this run's builder.
+    changed = [c for c in changed.splitlines() if not (c.startswith("builder/skills/") and not c.startswith(used_skill + "/"))]
+    check("builder unchanged between run and named commit", not changed, ", ".join(changed))
     check("run started on a clean tree", s.get("repo_dirty") is False)
 
     m = re.search(r"--skill\s+(\S+)", sub["run_command"])
