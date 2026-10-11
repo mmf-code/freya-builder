@@ -17,9 +17,12 @@ With --skill DIR the given skill replaces the kit's skill in the workspace and t
 tools/lower.py and tools/dryrun.py are added. With --state DIR the run keeps its slot and persona ids there instead of state/, so it can
 neither update another run's workflows nor share its personas.
 After the build every exported workflow is checked statically (builder/workflow_check.py), with the builder's
-out/<slot>.contract.json when it wrote one.
-Exit status: 0 done, 1 builder failed or timed out, 2 a secret was found in the output,
-3 an exported workflow has static check errors.
+out/<slot>.contract.json when it wrote one, against the original tool API and brief files (not the workspace copies).
+A run is accepted only when the builder exited 0 with a successful SDK result, within the time limit counted up to
+the end of the export and checks, with every input file unchanged, and with no check error. Nothing is deleted when a
+run is rejected; summary.json and trace.txt give the reasons under "acceptance".
+Exit status: 0 accepted, 1 builder failed, SDK error, timed out or over the limit, 2 a secret was found in the output,
+3 a check failed (static errors, missing export or contract, contract without a terminal tool, changed input).
 """
 from __future__ import annotations
 
@@ -30,7 +33,9 @@ import json
 import os
 import re
 import shutil
+import signal
 import subprocess
+import tempfile
 import sys
 import threading
 import time
@@ -98,6 +103,76 @@ def scrub(run_dir: Path, workspace: Path, secrets: dict[str, str]) -> list[str]:
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+# ---------------------------------------------------------------- acceptance (outside the builder's view)
+
+def input_manifest(briefs: list[Path], tools: Path) -> dict[str, dict]:
+    """Workspace path -> source file and sha256 of every input, taken before the build starts."""
+    m = {f"briefs/{b.name}": {"source": b, "sha256": sha256(b)} for b in briefs}
+    m["tools/openapi.json"] = {"source": tools, "sha256": sha256(tools)}
+    return m
+
+
+def input_changes(manifest: dict[str, dict], ws: Path) -> list[str]:
+    """Inputs whose workspace copy or original source no longer has the hash taken at the start."""
+    out = []
+    for rel, m in manifest.items():
+        for where, path in (("workspace copy", ws / rel), ("source", Path(m["source"]))):
+            if not path.is_file():
+                out.append(f"{rel}: {where} is missing")
+            elif sha256(path) != m["sha256"]:
+                out.append(f"{rel}: {where} changed during the run")
+    return out
+
+
+def pristine_inputs(manifest: dict[str, dict], into: Path) -> Path:
+    """The original inputs at their workspace paths, so contract quotes are checked against what the bank gave."""
+    for rel, m in manifest.items():
+        (into / rel).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(m["source"], into / rel)
+    return into
+
+
+def sdk_outcome(result: dict) -> str | None:
+    """Why the SDK's final result is not a success, or None. A missing final result is not a success."""
+    if not result:
+        return "the builder gave no final SDK result"
+    if result.get("is_error") or result.get("subtype") != "success":
+        return f"the builder's SDK result is an error (subtype {result.get('subtype')!r}, is_error {result.get('is_error')!r})"
+    return None
+
+
+def accept(code: int, timed_out: bool, sdk_reason: str | None, seconds_total: float, limit_s: float,
+           checks: list[dict], input_problems: list[str]) -> tuple[int, list[str]]:
+    """The run's exit status and every reason it is not accepted. 1 outranks 3; 0 only with no reason at all."""
+    fail, bad = [], []
+    if timed_out:
+        fail.append("the builder was stopped at the time limit")
+    if code != 0:
+        fail.append(f"the builder exited with status {code}")
+    if sdk_reason:
+        fail.append(sdk_reason)
+    if seconds_total > limit_s:
+        fail.append(f"build, export and checks took {seconds_total:.0f} s, over the limit of {limit_s:.0f} s")
+    bad += [f"input changed: {x}" for x in input_problems]
+    bad += [f"{c['slot']}: {e}" for c in checks for e in c["errors"]]
+    return (1 if fail else 3 if bad else 0), fail + bad
+
+
+def kill_group(proc: subprocess.Popen, grace: float = 5.0) -> None:
+    """Stop the builder and every process it started (they share its process group), politely first."""
+    for sig in (signal.SIGTERM, signal.SIGKILL):
+        try:
+            os.killpg(proc.pid, sig)
+        except (ProcessLookupError, PermissionError):
+            return
+        try:
+            proc.wait(timeout=grace)
+        except subprocess.TimeoutExpired:
+            pass
+        if sig == signal.SIGTERM:
+            time.sleep(0.2)
 
 
 # ---------------------------------------------------------------- trace analysis
@@ -231,6 +306,7 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     run_dir = ROOT / "runs" / f"{stamp}-{label}"
     run_dir.mkdir(parents=True)
+    manifest = input_manifest(briefs, tools)
     ws = make_workspace(run_dir, briefs, tools, skill, state)
     state_before = json.loads((state / "freya-agents.json").read_text())
     print(f"state {redact(str(state), {})}: slots {sorted(state_before) or 'none'}, "
@@ -247,21 +323,29 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     start = datetime.now(timezone.utc)
     t0 = time.time()
     print(f"run {run_dir.name}: {' '.join(cmd[2:])}  (limit {minutes:g} min)", flush=True)
-    proc = subprocess.Popen(cmd, cwd=ws, env=child_env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1)
+    # Own process group: at the limit the builder and everything it started (Claude Code, Bash, tests) are stopped.
+    proc = subprocess.Popen(cmd, cwd=ws, env=child_env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1,
+                            start_new_session=True)
     timed_out = threading.Event()
-    watchdog = threading.Timer(minutes * 60, lambda: (timed_out.set(), proc.kill()))
+    watchdog = threading.Timer(minutes * 60, lambda: (timed_out.set(), kill_group(proc)))
     watchdog.start()
     arrivals: list[float] = []
     stop = threading.Event()
     tailer = threading.Thread(target=_tail, args=(ws / "traces", t0, stop, arrivals), daemon=True)
     tailer.start()
-    with open(run_dir / "console.log", "w") as log:
-        for line in proc.stdout:
-            stamped = f"[{int(time.time() - t0) // 60:02d}:{int(time.time() - t0) % 60:02d}] {redact(line.rstrip(), secrets)}"
-            print(stamped, flush=True)
-            log.write(stamped + "\n")
-    code = proc.wait()
+    try:
+        with open(run_dir / "console.log", "w") as log:
+            for line in proc.stdout:
+                stamped = f"[{int(time.time() - t0) // 60:02d}:{int(time.time() - t0) % 60:02d}] {redact(line.rstrip(), secrets)}"
+                print(stamped, flush=True)
+                log.write(stamped + "\n")
+        code = proc.wait()
+    except BaseException:          # Ctrl-C no longer reaches the builder's own group: stop it here
+        watchdog.cancel()
+        kill_group(proc, grace=1.0)
+        raise
     watchdog.cancel()
+    kill_group(proc, grace=1.0)    # nothing the builder started may keep running (and saving) after it ended
     stop.set()
     tailer.join(timeout=5)
     end = datetime.now(timezone.utc)
@@ -285,9 +369,14 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
                 exported = path.name
             except Exception as e:  # keep the run record even if the export fails
                 exported = f"export failed: {e}"
-            freya_objects.append({"slot": slot, **s, "created": slot not in state_before, "export": exported})
+            freya_objects.append({"slot": slot, **s, "created": slot not in state_before, "export": exported,
+                                  "export_sha256": sha256(path) if path.is_file() else None})
 
-    checks = check_exports(run_dir, ws, freya_objects, contract_required=skill is not None)
+    with tempfile.TemporaryDirectory() as d:
+        checks = check_exports(run_dir, ws, freya_objects, contract_required=skill is not None,
+                               api_path=tools, evidence_base=pristine_inputs(manifest, Path(d)))
+    input_problems = input_changes(manifest, ws)
+    end_total = datetime.now(timezone.utc)
 
     for sub in ("out", "results"):
         if (ws / sub).exists():
@@ -300,9 +389,15 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
             shutil.copy2(src, run_dir / "written" / rel)
 
     res = summary["result"]
+    seconds_total = (end_total - start).total_seconds()
+    exit_status, reasons = accept(code, timed_out.is_set(), sdk_outcome(res), seconds_total, minutes * 60, checks, input_problems)
     info = {
         "run": run_dir.name, "start": start.isoformat(timespec="seconds"), "end": end.isoformat(timespec="seconds"),
         "seconds": round((end - start).total_seconds()), "limit_minutes": minutes, "timed_out": timed_out.is_set(), "exit_code": code,
+        "acceptance": {"accepted": exit_status == 0, "exit": exit_status, "reasons": reasons,
+                       "sdk_result": {k: res.get(k) for k in ("subtype", "is_error")},
+                       "inputs_unchanged": not input_problems, "end_total": end_total.isoformat(timespec="seconds"),
+                       "seconds_total": round(seconds_total)},
         "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill "
                    + (f"{redact(str(skill), {})} (sha256:{sha256(skill / 'SKILL.md')[:12]})" if skill else "build-phone-agent from the kit"),
         "builder_model": model or "claude-opus-5-5 (agent_builder.py default)", "agent_model": freya.AGENT_LLM,
@@ -321,21 +416,23 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     print(f"\n{render_result(info)}\noutput: {run_dir.relative_to(ROOT)}", flush=True)
     if leaks:
         print(f"SECRET FOUND and redacted in {leaks}. Check how it got there before using this run.", file=sys.stderr)
+        info["acceptance"].update(accepted=False, exit=2, reasons=info["acceptance"]["reasons"] + [f"secret found in {leaks}"])
+        (run_dir / "summary.json").write_text(redact(json.dumps(info, indent=1, default=str), secrets))
         return 2
-    if code != 0 or timed_out.is_set():
-        return 1
-    return 3 if any(c["errors"] for c in checks) else 0
+    return exit_status
 
 
-def check_exports(run_dir: Path, ws: Path, freya_objects: list[dict], contract_required: bool = False) -> list[dict]:
+def check_exports(run_dir: Path, ws: Path, freya_objects: list[dict], contract_required: bool = False,
+                  api_path: Path | None = None, evidence_base: Path | None = None) -> list[dict]:
     """Static checks of every exported workflow against the run's tool API, with the builder's contract if it wrote one.
 
-    Fails closed: a run that saved nothing, a missing export, and (when the skill requires one) a missing or unreadable
-    contract are errors, so they cannot pass as a clean check."""
+    Fails closed: a run that saved nothing, a missing export, and (when the skill requires one) a missing, unreadable or
+    empty contract are errors, so they cannot pass as a clean check. `api_path` and `evidence_base` name the original
+    inputs; without them the workspace copies are used, which the builder could have changed."""
     from .workflow_check import check
     if not freya_objects:
         return [{"slot": "(none)", "contract": None, "errors": ["the run saved no workflow on Freya"], "warnings": 0}]
-    api = json.loads((ws / "tools" / "openapi.json").read_text())
+    api = json.loads((api_path or ws / "tools" / "openapi.json").read_text())
     out = []
     for f in freya_objects:
         entry = {"slot": f["slot"], "contract": None, "errors": [], "warnings": 0}
@@ -352,9 +449,14 @@ def check_exports(run_dir: Path, ws: Path, freya_objects: list[dict], contract_r
                 entry["contract"] = cpath.name
             except ValueError as e:
                 entry["errors"].append(f"{cpath.name} is not valid JSON: {e}")
+            if contract is not None and not isinstance(contract, dict):
+                entry["errors"].append(f"{cpath.name} is not a JSON object")
+                contract = None
+            elif contract_required and contract is not None and not contract.get("terminal_tools"):
+                entry["errors"].append(f"{cpath.name} declares no terminal tool, so terminal-tool ordering was not checked")
         elif contract_required:
             entry["errors"].append(f"{cpath.name} is missing, so terminal-tool ordering could not be checked")
-        found = check(json.loads(path.read_text()), api, contract, ws)
+        found = check(json.loads(path.read_text()), api, contract, evidence_base or ws)
         entry["errors"] += [str(x) for x in found if x.level == "error"]
         entry["warnings"] = sum(x.level == "warning" for x in found)
         entry["lowering"] = lowering_provenance(ws, f["slot"], json.loads(path.read_text()), api)
@@ -402,6 +504,7 @@ def render_trace(info: dict) -> str:
     """Plain-text trace: start and end, every model call with a one-line purpose, what was created on Freya, tests."""
     L = [f"Freya builder trace: {info['run']}",
          f"start {info['start']}  end {info['end']}  ({info['seconds']} s, limit {info['limit_minutes']:g} min{', TIMED OUT' if info['timed_out'] else ''})",
+         *([f"with export and checks: end {info['acceptance']['end_total']} ({info['acceptance']['seconds_total']} s)"] if info.get("acceptance") else []),
          f"builder: {info['builder']}; model {info['builder_model']}",
          f"phone agent model: {info['agent_model']['provider']}/{info['agent_model']['model']} (set by freya.py)",
          f"repo commit {info['repo_commit']}{' (uncommitted changes)' if info['repo_dirty'] else ''}",
@@ -431,7 +534,13 @@ def render_trace(info: dict) -> str:
         L += [f"     {e}" for e in c["errors"]]
         if c.get("lowering"):
             L.append(f"     endings: {c['lowering']}")
-    L += ["", f"files the builder wrote: {', '.join(info['written']) or 'none'}", f"result: {render_result(info)}", ""]
+    L += ["", f"files the builder wrote: {', '.join(info['written']) or 'none'}", f"result: {render_result(info)}"]
+    if info.get("acceptance"):
+        a = info["acceptance"]
+        L.append(f"acceptance: {'ACCEPTED' if a['accepted'] else 'NOT ACCEPTED'} (exit {a['exit']}), SDK result {a['sdk_result']}, "
+                 f"inputs {'unchanged' if a['inputs_unchanged'] else 'CHANGED'}")
+        L += [f"  - {r}" for r in a["reasons"]]
+    L.append("")
     return "\n".join(L)
 
 

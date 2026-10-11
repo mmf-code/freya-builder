@@ -3,582 +3,1169 @@
   "label": "ref-a-official-1",
   "id": "PUB-01-r1",
   "call_id": "f95dfb9d-f4e2-464d-bb0a-574447cafd11",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.2,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Reyes?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-1",
   "id": "PUB-02-r1",
   "call_id": "fce00857-0edd-4424-a5ee-e9a97b3fa271",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.3,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Costa?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-1",
   "id": "PUB-03-r1",
   "call_id": "617de1db-6994-4870-a9ad-6525e1951eb1",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.45,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Park?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-1",
   "id": "PUB-04-r1",
   "call_id": "5a493d70-6440-4509-bc6a-86de6351d8f0",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.33,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Hoffmann?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-1",
   "id": "PUB-05-r1",
   "call_id": "105f47b4-0b1f-40b7-9443-d3f118be5214",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.24,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Novak?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-1",
   "id": "PUB-06-r1",
   "call_id": "916fd746-57b4-4746-be51-14dd4f4b5d1e",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.15,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Nair?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-1",
   "id": "PUB-07-r1",
   "call_id": "2d6e99c3-c4bc-48a0-a1fa-cc0d1bdb9c9e",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.25,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ortiz?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-1",
   "id": "PUB-08-r1",
   "call_id": "28960936-ce0d-47b8-a295-247bafd36a28",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.13,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Schmidt?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-1",
   "id": "PUB-09-r1",
   "call_id": "4e609cda-30df-4ca5-af7e-439161fdfe1a",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.15,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ionescu?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-1",
   "id": "PUB-10-r1",
   "call_id": "e296becc-d332-4678-a31f-5d63a901a8a4",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.17,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Lin?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-reps2",
   "id": "PUB-01-r1",
   "call_id": "2db44e62-f0b7-4a69-956d-cf4fb1a7b07b",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.65,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Reyes?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
- },
- {
-  "label": "ref-a-official-reps2",
-  "id": "PUB-02-r1",
-  "call_id": "b83bf193-8fd5-4fbf-b0f0-89780ae3ce45",
-  "judge": "pass",
-  "findings": [
-   {
-    "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
-    "t": 0.17,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Costa?"
-   }
-  ]
- },
- {
-  "label": "ref-a-official-reps2",
-  "id": "PUB-03-r1",
-  "call_id": "c60c4a08-93c8-47b2-9553-28df963faad3",
-  "judge": "pass",
-  "findings": [
-   {
-    "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
-    "t": 0.27,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Park?"
-   }
-  ]
- },
- {
-  "label": "ref-a-official-reps2",
-  "id": "PUB-04-r1",
-  "call_id": "0debe821-dc00-4df8-bb34-988b371bbc4a",
-  "judge": "pass",
-  "findings": [
-   {
-    "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
-    "t": 0.18,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Hoffmann?"
-   }
-  ]
- },
- {
-  "label": "ref-a-official-reps2",
-  "id": "PUB-05-r1",
-  "call_id": "1e892d9f-1b7b-4980-998b-a3190b2adbe4",
-  "judge": "pass",
-  "findings": [
-   {
-    "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
-    "t": 0.62,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Novak?"
-   }
-  ]
- },
- {
-  "label": "ref-a-official-reps2",
-  "id": "PUB-06-r1",
-  "call_id": "2a517358-89af-4d78-8fbd-3089213c18a4",
-  "judge": "pass",
-  "findings": [
-   {
-    "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
-    "t": 0.17,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Nair?"
-   }
-  ]
- },
- {
-  "label": "ref-a-official-reps2",
-  "id": "PUB-07-r1",
-  "call_id": "f5463f85-28e6-440e-aea5-54a6c35b2dbc",
-  "judge": "pass",
-  "findings": [
-   {
-    "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
-    "t": 0.37,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ortiz?"
-   },
-   {
-    "code": "RECORDED_EARLY",
-    "rule": "A37",
-    "t": 15.01,
-    "text": "For your personal loan, I have a payment of 540 recorded for Tuesday, October 27th."
-   }
-  ]
- },
- {
-  "label": "ref-a-official-reps2",
-  "id": "PUB-08-r1",
-  "call_id": "f97453f2-4071-414c-83ca-70c373ba6a95",
-  "judge": "pass",
-  "findings": [
-   {
-    "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
-    "t": 0.3,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Schmidt?"
-   }
-  ]
- },
- {
-  "label": "ref-a-official-reps2",
-  "id": "PUB-09-r1",
-  "call_id": "65da5a7e-a5ae-4b02-9b09-b0b8687fc697",
-  "judge": "pass",
-  "findings": [
-   {
-    "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
-    "t": 0.16,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ionescu?"
-   }
-  ]
- },
- {
-  "label": "ref-a-official-reps2",
-  "id": "PUB-10-r1",
-  "call_id": "e1a8ea2d-4f70-4dfa-8949-674b4ef14226",
-  "judge": "fail",
-  "findings": [
-   {
-    "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
-    "t": 0.75,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Lin?"
-   }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-reps2",
   "id": "PUB-01-r2",
   "call_id": "26845796-36b1-4139-a3ad-750b227507dc",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 1.96,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Reyes?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-reps2",
+  "id": "PUB-02-r1",
+  "call_id": "b83bf193-8fd5-4fbf-b0f0-89780ae3ce45",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.17,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-reps2",
   "id": "PUB-02-r2",
   "call_id": "745cf539-3739-4a75-921a-7e951c3ba6e5",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.31,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Costa?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-reps2",
+  "id": "PUB-03-r1",
+  "call_id": "c60c4a08-93c8-47b2-9553-28df963faad3",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.27,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-reps2",
   "id": "PUB-03-r2",
   "call_id": "50f74353-62c7-4056-88d0-30768b3ddbe5",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.24,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Park?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-reps2",
+  "id": "PUB-04-r1",
+  "call_id": "0debe821-dc00-4df8-bb34-988b371bbc4a",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.18,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-reps2",
   "id": "PUB-04-r2",
   "call_id": "699cce9c-ce1a-46c4-b2c5-00dbffcfd437",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.84,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Hoffmann?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-reps2",
+  "id": "PUB-05-r1",
+  "call_id": "1e892d9f-1b7b-4980-998b-a3190b2adbe4",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.62,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-reps2",
   "id": "PUB-05-r2",
   "call_id": "52d99438-34b1-49b6-95c4-58656856ce39",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.18,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Novak?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-reps2",
+  "id": "PUB-06-r1",
+  "call_id": "2a517358-89af-4d78-8fbd-3089213c18a4",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.17,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-reps2",
   "id": "PUB-06-r2",
   "call_id": "978bf9e2-a7af-44ea-a38d-27d56968d0b5",
-  "judge": "fail",
+  "verdict": "fail",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.16,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Nair?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-reps2",
+  "id": "PUB-07-r1",
+  "call_id": "f5463f85-28e6-440e-aea5-54a6c35b2dbc",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.37,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "RECORDED_EARLY",
+    "class": "violation",
+    "rule": "A37",
+    "t": 15.01,
+    "text": "For your personal loan, I have a payment of 540 recorded for Tuesday, October 27th.",
+    "status": "confirmed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-reps2",
   "id": "PUB-07-r2",
   "call_id": "875d935e-60cb-4f5a-baa2-538699e9d65f",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.34,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ortiz?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-reps2",
+  "id": "PUB-08-r1",
+  "call_id": "f97453f2-4071-414c-83ca-70c373ba6a95",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.3,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-reps2",
   "id": "PUB-08-r2",
   "call_id": "f8f7a54d-a20d-4940-9ba2-2407af9f6225",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.35,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Schmidt?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-reps2",
+  "id": "PUB-09-r1",
+  "call_id": "65da5a7e-a5ae-4b02-9b09-b0b8687fc697",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.16,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-reps2",
   "id": "PUB-09-r2",
   "call_id": "d22ace59-19fe-4fff-a794-40f53aa091af",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.49,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ionescu?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-reps2",
+  "id": "PUB-10-r1",
+  "call_id": "e1a8ea2d-4f70-4dfa-8949-674b4ef14226",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.75,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-a-official-reps2",
   "id": "PUB-10-r2",
   "call_id": "cdab3f80-379a-4b20-ad66-0ce6e33f4d77",
-  "judge": "fail",
+  "verdict": "fail",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.16,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Lin?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-b-official-1",
   "id": "PUB-11-r1",
   "call_id": "659d22fc-ffeb-465a-bbeb-9d50dc3c00bd",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.2,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Almeida?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    },
    {
     "code": "SMS_MISSING",
+    "class": "violation",
     "rule": "A38",
     "t": 16.96,
-    "text": "no text-message sentence after the recorded promise"
+    "text": "no text-message sentence after the recorded promise",
+    "status": "confirmed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-b-official-1",
   "id": "PUB-12-r1",
   "call_id": "7f223baf-0982-482a-91e2-5c27f934365c",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.43,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Bell?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "ATTEMPTS_OVER",
+   "ATTEMPTS_SHORT",
+   "ITEM_SKIPPED",
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-b-official-1",
   "id": "PUB-13-r1",
   "call_id": "d920d784-6e0b-4a5b-a617-69279cc328fc",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.2,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Rossi?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    },
    {
     "code": "SMS_MISSING",
+    "class": "violation",
     "rule": "A38",
     "t": 20.08,
-    "text": "no text-message sentence after the recorded promise"
+    "text": "no text-message sentence after the recorded promise",
+    "status": "confirmed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-b-official-reps2",
   "id": "PUB-11-r1",
   "call_id": "2e53cc8e-bd40-4ffe-8db9-a1c37b9c0e18",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.16,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Almeida?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    },
    {
     "code": "SMS_MISSING",
+    "class": "violation",
     "rule": "A38",
     "t": 89.38,
-    "text": "no text-message sentence after the recorded promise"
+    "text": "no text-message sentence after the recorded promise",
+    "status": "confirmed"
    }
-  ]
- },
- {
-  "label": "ref-b-official-reps2",
-  "id": "PUB-12-r1",
-  "call_id": "9ae7d73c-7711-4be4-8415-f9754985c20c",
-  "judge": "pass",
-  "findings": [
-   {
-    "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
-    "t": 0.15,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Bell?"
-   }
-  ]
- },
- {
-  "label": "ref-b-official-reps2",
-  "id": "PUB-13-r1",
-  "call_id": "4613b967-0e97-46f0-b720-8a45d9236f79",
-  "judge": "pass",
-  "findings": [
-   {
-    "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
-    "t": 0.54,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Rossi?"
-   },
-   {
-    "code": "SMS_MISSING",
-    "rule": "A38",
-    "t": 15.29,
-    "text": "no text-message sentence after the recorded promise"
-   }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-b-official-reps2",
   "id": "PUB-11-r2",
   "call_id": "008bced4-4bae-470e-adaa-c47631fdf776",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.14,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Almeida?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_NOT_VERBATIM",
+    "class": "wording",
+    "rule": "A38",
+    "t": 22.84,
+    "text": "You will receive a text message confirming these.",
+    "status": "confirmed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-b-official-reps2",
+  "id": "PUB-12-r1",
+  "call_id": "9ae7d73c-7711-4be4-8415-f9754985c20c",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.15,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "ATTEMPTS_OVER",
+   "ATTEMPTS_SHORT",
+   "ITEM_SKIPPED",
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-b-official-reps2",
   "id": "PUB-12-r2",
   "call_id": "c8325de0-68d7-4d6c-b947-21748baa65e5",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.94,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Bell?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    }
-  ]
+  ],
+  "checked": [
+   "ATTEMPTS_OVER",
+   "ATTEMPTS_SHORT",
+   "ITEM_SKIPPED",
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-b-official-reps2",
+  "id": "PUB-13-r1",
+  "call_id": "4613b967-0e97-46f0-b720-8a45d9236f79",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.54,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 15.29,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "confirmed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  },
  {
   "label": "ref-b-official-reps2",
   "id": "PUB-13-r2",
   "call_id": "c887fffa-9732-4925-82b7-d5140f5e36e5",
-  "judge": "pass",
+  "verdict": "pass",
+  "verdict_source": "kit",
   "findings": [
    {
     "code": "RECORDED_IN_GREETING",
-    "rule": "A1/A37",
+    "class": "judge risk",
+    "rule": "A1",
     "t": 0.72,
-    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Rossi?"
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
    },
    {
     "code": "SMS_MISSING",
+    "class": "violation",
     "rule": "A38",
     "t": 51.63,
-    "text": "no text-message sentence after the recorded promise"
+    "text": "no text-message sentence after the recorded promise",
+    "status": "confirmed"
    }
-  ]
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
  }
 ]

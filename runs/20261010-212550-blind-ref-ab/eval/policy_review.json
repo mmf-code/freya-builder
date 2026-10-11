@@ -1,0 +1,10 @@
+{
+ "f5463f85-28e6-440e-aea5-54a6c35b2dbc|RECORDED_EARLY": "confirmed",
+ "659d22fc-ffeb-465a-bbeb-9d50dc3c00bd|SMS_MISSING": "confirmed",
+ "d920d784-6e0b-4a5b-a617-69279cc328fc|SMS_MISSING": "confirmed",
+ "2e53cc8e-bd40-4ffe-8db9-a1c37b9c0e18|SMS_MISSING": "confirmed",
+ "008bced4-4bae-470e-adaa-c47631fdf776|SMS_NOT_VERBATIM": "confirmed",
+ "4613b967-0e97-46f0-b720-8a45d9236f79|SMS_MISSING": "confirmed",
+ "c887fffa-9732-4925-82b7-d5140f5e36e5|SMS_MISSING": "confirmed",
+ "_note": "Read 2026-10-11 by Claude against the stored transcripts: five SMS_MISSING calls say only 'One moment, please' after the writes, then goodbye; RECORDED_EARLY is the read-back 'I have a payment of 540 recorded ... Do you confirm?'; SMS_NOT_VERBATIM says 'confirming these'."
+}

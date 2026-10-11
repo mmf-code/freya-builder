@@ -237,3 +237,100 @@ class LoweringWorkspaceTest(unittest.TestCase):
             self.assertEqual(done.returncode, 1)
             self.assertIn("REJECTED step 'talk' offers or runs the terminal tool close_call", done.stdout)
             self.assertFalse((ws / "out" / "brief-a.workflow.json").exists())
+
+
+class AcceptanceTest(unittest.TestCase):
+    """The wrapper's acceptance decision, with made-up SDK results and fixtures; no Freya, no builder."""
+
+    def test_sdk_result_must_be_a_success(self):
+        from builder.kitrun import sdk_outcome
+        self.assertIsNone(sdk_outcome({"subtype": "success", "is_error": False}))
+        self.assertIn("no final", sdk_outcome({}))
+        self.assertIn("error_max_turns", sdk_outcome({"subtype": "error_max_turns", "is_error": True}))
+        self.assertIsNotNone(sdk_outcome({"subtype": "success", "is_error": True}))
+
+    def test_accept_orders_reasons_and_exit(self):
+        from builder.kitrun import accept
+        clean = [{"slot": "a", "errors": []}]
+        self.assertEqual(accept(0, False, None, 600, 1800, clean, []), (0, []))
+        code, why = accept(0, False, "the builder's SDK result is an error", 600, 1800, [{"slot": "a", "errors": ["E-X"]}], [])
+        self.assertEqual(code, 1)
+        self.assertEqual(len(why), 2)                       # both reasons kept, the exit takes the stronger one
+        self.assertEqual(accept(0, False, None, 1805, 1800, clean, [])[0], 1)
+        self.assertEqual(accept(0, False, None, 600, 1800, clean, ["briefs/a.md: workspace copy changed during the run"])[0], 3)
+        self.assertEqual(accept(0, True, None, 1800, 1800, clean, [])[0], 1)
+
+    def test_input_changes_in_workspace_or_source(self):
+        from builder.kitrun import input_changes, input_manifest
+        with tempfile.TemporaryDirectory() as d:
+            src, ws = Path(d) / "src", Path(d) / "ws"
+            (src).mkdir()
+            (ws / "briefs").mkdir(parents=True)
+            (ws / "tools").mkdir()
+            brief, api = src / "b.md", src / "api.json"
+            brief.write_text("rule 1")
+            api.write_text("{}")
+            m = input_manifest([brief], api)
+            (ws / "briefs" / "b.md").write_text("rule 1")
+            (ws / "tools" / "openapi.json").write_text("{}")
+            self.assertEqual(input_changes(m, ws), [])
+            (ws / "briefs" / "b.md").write_text("rule 1, edited")
+            api.write_text('{"x": 1}')
+            found = input_changes(m, ws)
+            self.assertTrue(any("briefs/b.md: workspace copy changed" in x for x in found))
+            self.assertTrue(any("tools/openapi.json: source changed" in x for x in found))
+
+    def test_empty_or_wrong_contracts_fail_and_quotes_come_from_the_originals(self):
+        import shutil
+        from builder.kitrun import KIT, check_exports, input_manifest, pristine_inputs
+        wf = {"workflow": {"initial_node": "e", "nodes": {"e": {"node_type": "end_call", "transitions": []}}}}
+        with tempfile.TemporaryDirectory() as d:
+            run_dir, ws = Path(d), Path(d) / "workspace"
+            (ws / "tools").mkdir(parents=True)
+            (ws / "out").mkdir()
+            shutil.copy2(KIT / "tools" / "openapi.json", ws / "tools" / "openapi.json")
+            (run_dir / "x.workflow.json").write_text(json.dumps(wf))
+            contract = ws / "out" / "x.contract.json"
+            for bad, expect in (({}, "declares no terminal tool"), ({"terminal_tools": []}, "declares no terminal tool"),
+                                ([], "not a JSON object"),
+                                ({"terminal_tools": [{"tool": "no_such_tool", "evidence": [{"source": "tools/openapi.json", "quote": "x"}]}]}, "E-CONTRACT-TOOL")):
+                contract.write_text(json.dumps(bad))
+                errors = check_exports(run_dir, ws, [{"slot": "x"}], contract_required=True)[0]["errors"]
+                self.assertTrue(any(expect in e for e in errors), (bad, errors))
+            # A quote the builder added to its own copy of the tool API is not evidence.
+            planted = json.loads((KIT / "tools" / "openapi.json").read_text())
+            planted["info"]["description"] = str(planted["info"].get("description", "")) + " Planted sentence."
+            (ws / "tools" / "openapi.json").write_text(json.dumps(planted))
+            contract.write_text(json.dumps({"terminal_tools": [{"tool": "close_call", "evidence": [
+                {"source": "tools/openapi.json", "quote": "Planted sentence."}]}]}))
+            pristine = pristine_inputs(input_manifest([KIT / "briefs" / "brief-a.md"], KIT / "tools" / "openapi.json"), Path(d) / "orig")
+            errors = check_exports(run_dir, ws, [{"slot": "x"}], contract_required=True,
+                                   api_path=KIT / "tools" / "openapi.json", evidence_base=pristine)[0]["errors"]
+            self.assertTrue(any("Planted sentence" in e for e in errors))
+            self.assertFalse(any("Planted sentence" in e for e in check_exports(run_dir, ws, [{"slot": "x"}], contract_required=True)[0]["errors"]))
+
+    def test_kill_group_stops_grandchildren(self):
+        import os
+        import subprocess
+        import sys
+        import time
+        from builder.kitrun import kill_group
+        with tempfile.TemporaryDirectory() as d:
+            pidfile = Path(d) / "pid"
+            code = f"import subprocess,time; p=subprocess.Popen(['sleep','60']); open({str(pidfile)!r},'w').write(str(p.pid)); time.sleep(60)"
+            proc = subprocess.Popen([sys.executable, "-c", code], start_new_session=True)
+            for _ in range(50):
+                if pidfile.exists() and pidfile.read_text():
+                    break
+                time.sleep(0.1)
+            grandchild = int(pidfile.read_text())
+            kill_group(proc, grace=1.0)
+            self.assertIsNotNone(proc.poll())
+            for _ in range(30):
+                try:
+                    os.kill(grandchild, 0)
+                except ProcessLookupError:
+                    break
+                time.sleep(0.1)
+            else:
+                self.fail("the grandchild survived")
