@@ -1,0 +1,388 @@
+[
+ {
+  "label": "ref-a-official-h4",
+  "id": "PUB-01-r1",
+  "call_id": "dbb19c60-8b03-4d5e-a482-8d75b07e834d",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 3.84,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-h4",
+  "id": "PUB-02-r1",
+  "call_id": "ac8c59a4-e8b0-42ff-9648-dc6650a6b50f",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.65,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-h4",
+  "id": "PUB-03-r1",
+  "call_id": "ff9b3346-21ec-4524-8adc-5fe649039f25",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 1.1,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-h4",
+  "id": "PUB-04-r1",
+  "call_id": "bfe62d7c-934f-4c11-af84-72dc79733e06",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.22,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-h4",
+  "id": "PUB-05-r1",
+  "call_id": "00552388-da64-4266-b939-e2e43d709ff9",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 2.39,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-h4",
+  "id": "PUB-06-r1",
+  "call_id": "e082370a-88c5-4814-ba95-81cb468f8ab7",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 1.72,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-h4",
+  "id": "PUB-07-r1",
+  "call_id": "07386599-7ed1-4271-b84e-b78457ee8226",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.19,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-h4",
+  "id": "PUB-08-r1",
+  "call_id": "125a230b-cd8c-4173-ac8c-6d45a19dade8",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.6,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-h4",
+  "id": "PUB-09-r1",
+  "call_id": "685e0a6a-f437-4c22-8ad5-e897935c1b97",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.42,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SPEECH_AFTER_CLOSE"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-a-official-h4",
+  "id": "PUB-10-r1",
+  "call_id": "99426228-f883-4371-92f7-fdec0a8d0ecc",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.67,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-b-official-h4",
+  "id": "PUB-11-r1",
+  "call_id": "99a5fb5c-68bf-440c-b587-cf0027f62925",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.67,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_NOT_VERBATIM",
+    "class": "wording",
+    "rule": "A38",
+    "t": 43.26,
+    "text": "You will receive a text message confirming these.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-b-official-h4",
+  "id": "PUB-12-r1",
+  "call_id": "a9cb54a8-10f1-40ea-933a-264a2c848be4",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.22,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "ATTEMPTS_OVER",
+   "ATTEMPTS_SHORT",
+   "ITEM_SKIPPED",
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "ref-b-official-h4",
+  "id": "PUB-13-r1",
+  "call_id": "690a7afd-1b80-4af8-b37a-0694de05cba0",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.49,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 30.6,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ }
+]

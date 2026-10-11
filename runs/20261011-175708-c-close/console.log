@@ -1,0 +1,51 @@
+[00:04]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/brief-a-raw.md briefs/brief-b-raw.md'}
+[00:06]   [Bash] {'command': 'cd <repo>/runs/20261011-175708-c-close/workspace; ls -R | head -50; cat brie
+[00:11]   [Bash] {'command': 'cd <repo>/runs/20261011-175708-c-close/workspace; cat tools/openapi.json; ca
+[00:15]   [Bash] {'command': 'cd <repo>/runs/20261011-175708-c-close/workspace; wc -c tools/openapi.json d
+[00:18]   [Read] {'file_path': '<repo>/runs/20261011-175708-c-close/workspace/docs/workflow-format.md'}
+[00:18]   [Read] {'file_path': '<repo>/runs/20261011-175708-c-close/workspace/docs/tools-and-code.md'}
+[00:19]   [Read] {'file_path': '<repo>/runs/20261011-175708-c-close/workspace/examples/base-agent.json'}
+[00:19]   [Read] {'file_path': '<repo>/runs/20261011-175708-c-close/workspace/README.md'}
+[00:49] Reading the briefs and docs is done. There are no practice customers for these briefs, so I'll build both workflows and validate them with the checker. Next I'm reading the checker.
+[00:51]   [Bash] {'command': 'cd <repo>/runs/20261011-175708-c-close/workspace; cat tools/check_workflow.p
+[00:55]   [Read] {'file_path': '<repo>/.claude-builder/projects/-Users-atakan-Developer-freya-builder-runs
+[01:00]   [Bash] {'command': 'cd <repo>/runs/20261011-175708-c-close/workspace; sed -n 80,400p tools/lower
+[05:18]   [Bash] {'command': 'cd <repo>/runs/20261011-175708-c-close/workspace; ls out 2>/dev/null; cat .f
+[07:40]   [Write] {'file_path': '<repo>/runs/20261011-175708-c-close/workspace/out/build_workflows.py', 'co
+[07:49]   [Bash] {'command': 'cd <repo>/runs/20261011-175708-c-close/workspace; python3 out/build_workflow
+[07:52] Both workflows pass the checker with 0 errors. Now I'm running the code steps locally on sample dates to verify the date math.
+[07:56]   [Bash] {'command': 'cd <repo>/runs/20261011-175708-c-close/workspace; mkdir -p /tmp/fb && cat >
+[08:02] Dates check out (holiday on 26 October skipped, deadlines correct). Quick look at the callback text and calendar lines:
+[08:04]   [Bash] {'command': "cd <repo>/runs/20261011-175708-c-close/workspace; python3 - <<'EOF'\nimport
+[08:09] Code output is correct. Saving both workflows to Freya.
+[08:10]   [Bash] {'command': 'cd <repo>/runs/20261011-175708-c-close/workspace; for s in brief-a-raw brief
+[08:15] Saved. Next I'm exporting one workflow back to confirm the platform kept the tools, hooks and routes. It can drop fields without an error.
+[08:20]   [Bash] {'command': "cd <repo>/runs/20261011-175708-c-close/workspace; python3 - <<'EOF'\nimport
+[08:25] The platform kept every step, tool, hook and route. Last, a one-turn chat to confirm the agent starts. The README recommends this check.
+[08:26]   [Grep] {'pattern': 'chat', 'path': '<repo>/runs/20261011-175708-c-close/workspace/docs/api.md',
+[08:32]   [Bash] {'command': 'cd <repo>/runs/20261011-175708-c-close/workspace; python3 - <<\'EOF\'\nimpor
+[08:51] I built both phone agents and saved them to Freya. Neither was tested on practice customers: `public-test-set.json` is empty for these briefs, so `run_cases.py` was not run. Whether the model follows the rules in a real conversation is still unknown.
+[08:51] 
+[08:51] **What was checked:**
+[08:51] - **Checker:** 0 errors and 0 warnings on both workflows. I also ran it on the copy exported back from Freya, and every step, tool, hook and route was still there.
+[08:51] - **Code steps:** I ran them locally on four sample "now" dates.
+[08:51]   - The deadlines are right: early stage is the 12th business day after today, late stage the 7th (the memo's change).
+[08:51]   - The 26 October holiday from the memo is skipped.
+[08:51]   - The "this/next weekday" table and the callback window (today or the next business day, 10:00–19:00, later than now) come out correctly.
+[08:51] - **Chat:** two turns on each agent. Each one gives the recorded-call opening and asks for the date of birth after "Yes, speaking."
+[08:51] - I also read both workflows against the brief rules.
+[08:51] 
+[08:51] **How the calls are built:**
+[08:51] - **Steps:** setup → identity confirmation (with a separate step for someone else answering) → security → load account → negotiation → closing. Brief B adds a wrap-up step for `add_note`.
+[08:51] - **Ending a call:** a fixed thank-you and goodbye line, then a silent step that only runs `close_call` with the outcome and reason already set, then hang up. Every end-of-call path goes through `close_call`.
+[08:51] - **Transfers:** these also pass through `close_call`, and on Brief B they never reach the note step.
+[08:51] - **Brief A:** a recorded promise, or a second `create_promise` failure, moves the call to the matching close on its own, without the model deciding.
+[08:51] - **Brief B, close reason:** the model picks it in the wrap-up step. But if any promise was recorded, a fixed route forces the `promise` close.
+[08:51] - **Brief B, notes and promises:** the model also decides which products get `add_note` and makes the `create_promise` calls. These are less certain than the fixed routes and are what a first test run should look at.
+[08:51] 
+[08:51] Brief B says all of the Brief A material still applies, so the B workflow uses A's rules plus the B change notice. The generator is `out/build_workflows.py`; it writes both workflows and their contract files.
+[08:51] 
+[08:51] - **brief-a-raw:** workflow_id `968032b5-2782-422e-9cb6-1cd27f9f8693`, agent_id `b71c5bbc-e53f-4b5c-acdf-0e64762af071`, no practice customers run (0 of 0).
+[08:51] - **brief-b-raw:** workflow_id `744e1de7-1d89-4e83-99b9-538a1b1ee358`, agent_id `4e850ba0-3ad3-4e22-94ec-6063a876671a`, no practice customers run (0 of 0).
+[08:51] 
+[08:51] done: 22 turns, 531 s, $2.15. Trace: <repo>/runs/20261011-175708-c-close/workspace/traces/20261011-175708.jsonl

@@ -1,0 +1,164 @@
+{
+ "agent_id": "335c0ed7-bb56-44aa-b833-90b885186209",
+ "simulation_id": "7aa8f964-9a6b-4e7b-abc4-08220955d63a",
+ "iteration_id": "b0e2e42d-9b46-488e-b970-3e8dfaaf9941",
+ "seconds": 83,
+ "passed": 2,
+ "total": 3,
+ "runs": 1,
+ "final": [
+  {
+   "id": "PUB-11",
+   "family": "Multi-product",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-12",
+   "family": "Multi-product",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-13",
+   "family": "Multi-product",
+   "passes": 0,
+   "runs": 1,
+   "pass": false
+  }
+ ],
+ "rows": [
+  {
+   "id": "PUB-11",
+   "level": "medium",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "34725d2e-1453-43b3-b0b3-c0c6d97758c8",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_c7e1bbf0-5ac",
+   "slowest_turn_s": 14.7,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-12",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "c156bf94-0596-4f64-9a6a-39cb7dac6e5d",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "add_note",
+    "create_promise",
+    "add_note",
+    "close_call"
+   ],
+   "customer_id": "c_07c0a716-4ca",
+   "slowest_turn_s": 13.9,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-13",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": false,
+   "failed": [
+    "promises [('p1', 300.0, '2026-10-16'), ('p2', 900.0, '2026-10-23')], expected [('p1', 300.0, '2026-10-30'), ('p2', 900.0, '2026-10-23')]",
+    "conversation: The success criteria required the credit card payment promise to be recorded for 30 October. However, the assistant recorded the credit card payment for 16 October, as seen in the read-back and system events. While the loan was correctly recorded for 23 October and both dates were mentioned in the read-back, the specific date requirement for the credit card was not satisfied."
+   ],
+   "call_id": "3d5a9f79-bcdb-4ddd-b2ca-0455388a6173",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_8622d502-853",
+   "slowest_turn_s": 2.5,
+   "ended": "assistant-ended-call"
+  }
+ ],
+ "all_rows": [
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "34725d2e-1453-43b3-b0b3-c0c6d97758c8",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_c7e1bbf0-5ac",
+    "slowest_turn_s": 14.7,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "c156bf94-0596-4f64-9a6a-39cb7dac6e5d",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "add_note",
+     "create_promise",
+     "add_note",
+     "close_call"
+    ],
+    "customer_id": "c_07c0a716-4ca",
+    "slowest_turn_s": 13.9,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "promises [('p1', 300.0, '2026-10-16'), ('p2', 900.0, '2026-10-23')], expected [('p1', 300.0, '2026-10-30'), ('p2', 900.0, '2026-10-23')]",
+     "conversation: The success criteria required the credit card payment promise to be recorded for 30 October. However, the assistant recorded the credit card payment for 16 October, as seen in the read-back and system events. While the loan was correctly recorded for 23 October and both dates were mentioned in the read-back, the specific date requirement for the credit card was not satisfied."
+    ],
+    "call_id": "3d5a9f79-bcdb-4ddd-b2ca-0455388a6173",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_8622d502-853",
+    "slowest_turn_s": 2.5,
+    "ended": "assistant-ended-call"
+   }
+  ]
+ ]
+}

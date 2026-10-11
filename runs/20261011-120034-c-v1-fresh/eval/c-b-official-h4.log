@@ -1,0 +1,10 @@
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+PASS PUB-12 hard   Multi-product  | verify > verify > verify > get_account > add_note > promise > add_note > close_call
+FAIL PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise > close_call
+       - promises [('p1', 300.0, '2026-10-16'), ('p2', 900.0, '2026-10-23')], expected [('p1', 300.0, '2026-10-30'), ('p2', 900.0, '2026-10-23')]
+       - conversation: The success criteria required the credit card payment promise to be recorded for 30 October. However, the assistant recorded the credit card payment for 16 October, as seen in the read-back and system events. While the loan was correctly recorded
+
+slowest agent turn per call: median 14 s, worst 15 s. Failed calls where the customer hung up: 0.
+WARNING: the phone agent was slow in this run. If the same agent is fast in another run, the model was busy and this score is too low.
+
+2 / 3 passed (bank records and conversation checks). Last simulation 7aa8f964-9a6b-4e7b-abc4-08220955d63a, status completed, 83 s.
