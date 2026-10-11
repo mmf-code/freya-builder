@@ -1,0 +1,369 @@
+[
+ {
+  "label": "cs-b-official-reps3",
+  "id": "PUB-11-r1",
+  "call_id": "63ac97ac-3b06-48a0-9cc7-032396c89e6d",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.27,
+    "text": "Hello, this is the digital assistant of Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 25.64,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "cs-b-official-reps3",
+  "id": "PUB-12-r1",
+  "call_id": "992179fc-6865-4bbf-9048-f5abc17608d8",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.55,
+    "text": "Hello, this is the digital assistant of Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 26.79,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "cs-b-official-reps3",
+  "id": "PUB-13-r1",
+  "call_id": "567ec186-8aa1-40ed-ad4d-03d17897ade2",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.26,
+    "text": "Hello, this is the digital assistant of Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 27.48,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "cs-b-official-reps3",
+  "id": "PUB-11-r2",
+  "call_id": "7fd4ecae-9a63-406f-87bd-67c8e6c0f1b7",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.16,
+    "text": "Hello, this is the digital assistant of Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 22.84,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "cs-b-official-reps3",
+  "id": "PUB-12-r2",
+  "call_id": "452622e0-7514-4d86-ace5-fe6eaa5aae35",
+  "verdict": "fail",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.25,
+    "text": "Hello, this is the digital assistant of Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 42.43,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "cs-b-official-reps3",
+  "id": "PUB-13-r2",
+  "call_id": "5a402f3e-1710-4fad-836d-95eb6ed40fa1",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.19,
+    "text": "Hello, this is the digital assistant of Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 26.66,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "cs-b-official-reps3",
+  "id": "PUB-11-r3",
+  "call_id": "1cb4346c-3009-4e50-a442-3f22ffc2a365",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.49,
+    "text": "Hello, this is the digital assistant of Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 24.8,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "cs-b-official-reps3",
+  "id": "PUB-12-r3",
+  "call_id": "f283636b-be1d-4073-88a0-1df3c07a5243",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 1.71,
+    "text": "Hello, this is the digital assistant of Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 43.94,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "unreviewed"
+   },
+   {
+    "code": "ATTEMPTS_SHORT",
+    "class": "violation",
+    "rule": "A30/B5",
+    "t": 28.27,
+    "text": "personal_loan p2: 1 offer(s), band wants 2; last: To avoid further issues with your personal loan, could you at least pay the minimum instalment of 440 by Friday 23 October 2026?",
+    "status": "unreviewed"
+   },
+   {
+    "code": "ITEM_SKIPPED",
+    "class": "violation",
+    "rule": "B4/A30",
+    "t": 16.59,
+    "text": "car_loan p3: 0 offer(s), band wants 1",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "ATTEMPTS_OVER",
+   "ATTEMPTS_SHORT",
+   "ITEM_SKIPPED",
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ },
+ {
+  "label": "cs-b-official-reps3",
+  "id": "PUB-13-r3",
+  "call_id": "cfdb6fb6-bd5d-4cef-8f34-4924344515fc",
+  "verdict": "pass",
+  "verdict_source": "kit",
+  "findings": [
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.52,
+    "text": "Hello, this is the digital assistant of Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "SMS_MISSING",
+    "class": "violation",
+    "rule": "A38",
+    "t": 28.6,
+    "text": "no text-message sentence after the recorded promise",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": null,
+  "variant": null
+ }
+]

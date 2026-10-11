@@ -1,0 +1,32 @@
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise
+       - outcome (None, None), expected ('promise', None)
+       - notes [], expected [('p2', 'refused'), ('p3', 'refused')]
+       - the call was not closed with close_call
+       - conversation: - The phone question was correctly repeated once (Message 6) and the date of birth was not, meeting the security question criteria. - Exactly one promise was made for the credit card, as confirmed by the system events. - FAILED: No 'refused' note
+PASS PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 8 s, worst 11 s. Failed calls where the customer hung up: 1.
+-- run 1 of 3: 2 / 3 passed, 73 s
+
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise > close_call
+       - notes [], expected [('p2', 'refused'), ('p3', 'refused')]
+       - conversation: The conversation satisfied several criteria but failed on two accounts. First, while the assistant correctly handled security questions (re-asking phone once in [Message 6] and DOB only once), secured a credit card promise, and performed the corr
+PASS PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 4 s, worst 9 s. Failed calls where the customer hung up: 0.
+-- run 2 of 3: 2 / 3 passed, 94 s
+
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+PASS PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise > add_note > add_note > close_call
+PASS PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 4 s, worst 6 s. Failed calls where the customer hung up: 0.
+-- run 3 of 3: 3 / 3 passed, 73 s
+
+PASS PUB-11 3/3
+FAIL PUB-12 1/3
+PASS PUB-13 3/3
+
+2 / 3 passed (bank records and conversation checks), a customer counts with 3 of 3 runs. Last simulation f9d78bb3-e673-4c2a-be76-65901bf856e4, status completed, 240 s.

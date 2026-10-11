@@ -1,0 +1,48 @@
+cs-b-official-reps3 PUB-11-r1 kit=pass call=63ac97ac
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.27    Hello, this is the digital assistant of Freya Bank, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=25.64   no text-message sentence after the recorded promise
+cs-b-official-reps3 PUB-12-r1 kit=fail call=992179fc
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.55    Hello, this is the digital assistant of Freya Bank, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=26.79   no text-message sentence after the recorded promise
+cs-b-official-reps3 PUB-13-r1 kit=pass call=567ec186
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.26    Hello, this is the digital assistant of Freya Bank, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=27.48   no text-message sentence after the recorded promise
+cs-b-official-reps3 PUB-11-r2 kit=pass call=7fd4ecae
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.16    Hello, this is the digital assistant of Freya Bank, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=22.84   no text-message sentence after the recorded promise
+cs-b-official-reps3 PUB-12-r2 kit=fail call=452622e0
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.25    Hello, this is the digital assistant of Freya Bank, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=42.43   no text-message sentence after the recorded promise
+cs-b-official-reps3 PUB-13-r2 kit=pass call=5a402f3e
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.19    Hello, this is the digital assistant of Freya Bank, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=26.66   no text-message sentence after the recorded promise
+cs-b-official-reps3 PUB-11-r3 kit=pass call=1cb4346c
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.49    Hello, this is the digital assistant of Freya Bank, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=24.8    no text-message sentence after the recorded promise
+cs-b-official-reps3 PUB-12-r3 kit=pass call=f283636b
+    RECORDED_IN_GREETING judge risk  unreviewed     t=1.71    Hello, this is the digital assistant of Freya Bank, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=43.94   no text-message sentence after the recorded promise
+    ATTEMPTS_SHORT       violation   unreviewed     t=28.27   personal_loan p2: 1 offer(s), band wants 2; last: To avoid further issues with your personal loan, could you at least pay the minimum instalment of 440 by Friday 23 October 2026?
+    ITEM_SKIPPED         violation   unreviewed     t=16.59   car_loan p3: 0 offer(s), band wants 1
+cs-b-official-reps3 PUB-13-r3 kit=pass call=cfdb6fb6
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.52    Hello, this is the digital assistant of Freya Bank, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=28.6    no text-message sentence after the recorded promise
+
+Calls with a finding / calls where the check applied, per label (calls in brackets):
+| code | class | cs-b-official-reps3 (9) |
+|---|---|---|
+| NO_GOODBYE | violation | 0/8 |
+| NO_THANKS | violation | 0/8 |
+| RECORDED_EARLY | violation | 0/9 |
+| SMS_MISSING | violation | 9/9 |
+| TODAY_AGAIN | violation | 0/9 |
+| ORDER | violation | 0/9 |
+| ITEM_SKIPPED | violation | 1/1 |
+| ATTEMPTS_SHORT | violation | 1/1 |
+| ATTEMPTS_OVER | violation | 0/1 |
+| WEEKDAY | violation | 0/9 |
+| SMS_NOT_VERBATIM | wording | 0/9 |
+| RECORDED_IN_GREETING | judge risk | 9/9 |
+| SPEECH_AFTER_CLOSE | observation | 0/8 |
+
+9 calls. PASS calls with a violation-class finding: 7 (confirmed 0, unreviewed or unclear the rest). A finding is a claim to read; no finding is not compliance.

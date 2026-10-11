@@ -1,0 +1,50 @@
+[00:04]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/brief-a-raw.md briefs/brief-b-raw.md'}
+[00:06]   [Bash] {'command': 'ls -R | head -50 && cat briefs/brief-a-raw.md && echo ===== && cat briefs/brief-b-raw.md && echo ==== && ca
+[00:09]   [Read] {'file_path': '<repo>/runs/20261011-191037-c-close-safe/workspace/briefs/brief-a-raw.md',
+[00:10]   [Read] {'file_path': '<repo>/runs/20261011-191037-c-close-safe/workspace/briefs/brief-b-raw.md'}
+[00:10]   [Read] {'file_path': '<repo>/runs/20261011-191037-c-close-safe/workspace/public-test-set.json'}
+[00:14]   [Read] {'file_path': '<repo>/runs/20261011-191037-c-close-safe/workspace/briefs/brief-a-raw.md',
+[00:15]   [Read] {'file_path': '<repo>/runs/20261011-191037-c-close-safe/workspace/briefs/brief-a-raw.md',
+[00:16]   [Read] {'file_path': '<repo>/runs/20261011-191037-c-close-safe/workspace/tools/openapi.json'}
+[00:16]   [Read] {'file_path': '<repo>/runs/20261011-191037-c-close-safe/workspace/docs/workflow-format.md
+[00:17]   [Read] {'file_path': '<repo>/runs/20261011-191037-c-close-safe/workspace/docs/tools-and-code.md'
+[00:18]   [Read] {'file_path': '<repo>/runs/20261011-191037-c-close-safe/workspace/examples/base-agent.jso
+[00:22]   [Bash] {'command': 'cat README.md && wc -l tools/*.py freya.py docs/api.md && git log --oneline | head && ls out 2>/dev/null',
+[00:27]   [Read] {'file_path': '<repo>/runs/20261011-191037-c-close-safe/workspace/tools/check_workflow.py
+[00:33]   [Bash] {'command': 'head -30 tools/dryrun.py; head -40 tools/lower.py; sed -n 1,106p freya.py', 'description': 'Skim dryrun, lo
+[06:10]   [Bash] {'command': 'sed -n 1,80p docs/api.md | head -80; cat .gitignore 2>/dev/null; ls -a; cat .freya-agents.json 2>/dev/null'
+[06:17] Now the generator. It writes both workflows and both contracts.
+[08:34]   [Write] {'file_path': '<repo>/runs/20261011-191037-c-close-safe/workspace/scripts/gen_workflows.p
+[08:45]   [Bash] {'command': 'python3 scripts/gen_workflows.py && for s in brief-a-raw brief-b-raw; do echo "--- $s"; python3 tools/check
+[08:59]   [Bash] {'command': 'python3 - <<\'EOF\'\nimport re\np=\'scripts/gen_workflows.py\'\ns=open(p).read()\ns=s.replace(\'\'\'
+[09:09] The date code is correct on all four samples (weekday, Friday, Saturday, and a week with the 26 October holiday). Re-checking and saving both workflows.
+[09:10]   [Bash] {'command': 'ls env.sh 2>/dev/null; [ -f env.sh ] && source env.sh; for s in brief-a-raw brief-b-raw; do python3 tools/c
+[09:15] Both saved. Checking that the platform kept what I sent, by exporting and re-running the checker on the export.
+[09:18]   [Bash] {'command': "python3 - <<'EOF'\nimport freya, json, subprocess\nst=json.load(open('.freya-agents.json'))\nfor s in ('bri
+[09:42]   [Bash] {'command': 'python3 - <<\'EOF\'\np=\'scripts/gen_workflows.py\'\ns=open(p).read()\nold=\'\'\'                route(f"af
+[09:57] I built and saved both agents, but neither has been tested on a call. `public-test-set.json` is empty, so I did not run `run_cases.py`. My tests were the static checker, which passes with 0 errors and 0 warnings on both local files and on the exports from the platform, and a rule-by-rule reading against both briefs.
+[09:57] 
+[09:57] **How the call runs (both agents)**
+[09:57] - **Before security:** the agent opens and confirms it is talking to the customer. If someone else answers, it can book a callback inside the memo's window.
+[09:57] - **Security:** two questions, each checked with `verify_identity`.
+[09:57] - **Account and promise:** the engine fetches the account, then the agent states what is overdue and works towards a promise to pay. Promise writes are routed on the write's success and failure counts.
+[09:57] - **Every ending** has a spoken line with thanks and goodbye, then a silent step that sends `close_call` with fixed values, then the hang-up. No ending skips `close_call`, and no bank tool can run after it.
+[09:57] - **Transfers** run as engine steps. "I am connecting you now" is said only after the transfer succeeds.
+[09:57] - **Dates and amounts:** a code step computes them from `now`: the calendar with the memo's 26 October holiday, the deadlines (12th or 7th business day), the first-offer date, the callback window, and each product's floor. I dry-ran it on four dates, including a Friday, a Saturday and the holiday week, and the results were correct.
+[09:57] 
+[09:57] **Brief B on top of A**
+[09:57] - There is one negotiation step for each product count (1 to 3), each with its own `create_promise` and `add_note` tool per product, product id filled in by the engine.
+[09:57] - Notes are written only at the very end, after any chance of a transfer, so a call with a transfer never gets a note (D2).
+[09:57] - The close code (rule E) is chosen by engine conditions on the promise results and the note reasons.
+[09:57] 
+[09:57] **Risks a test run would show**
+[09:57] - **Leaving B's negotiation:** this relies on the engine storing the model's arguments as `create_promise_pK_args.*`. The kit saw that in one trial call only. If it doesn't hold, the agent must call a fallback transition I added, or it stays in that step.
+[09:57] - **B's close code:** it reads `add_note_pK_args.reason` the same way. If that variable is missing, the call closes as `no_promise`, `refused`, so "paid", "dispute" or "hardship" calls would get the wrong code.
+[09:57] - **If `transfer_to_agent` fails:** the agent apologises and still closes as `transferred`. The briefs don't cover this case.
+[09:57] - **If `get_account` fails:** the call closes as `no_promise`, `service_error`. The briefs don't cover this case either.
+[09:57] 
+[09:57] The generator is `scripts/gen_workflows.py`. The workflows and contracts are in `out/`.
+[09:57] 
+[09:57] Brief A: workflow_id `c41f5c14-22c7-4d11-8892-0027862d2abf`, agent_id `6034041c-517a-4414-8eae-8bd7a64c4472`, 0 customers tested (no practice customers). Brief B: workflow_id `44797ae4-6795-407d-a599-fb7bc17dc9fc`, agent_id `a85a0f5e-b814-403c-a8f8-a3eade4abce1`, 0 customers tested (no practice customers).
+[09:57] 
+[09:57] done: 23 turns, 597 s, $2.66. Trace: <repo>/runs/20261011-191037-c-close-safe/workspace/traces/20261011-191037.jsonl
