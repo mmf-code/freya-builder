@@ -95,6 +95,15 @@ Results:
   customer-ended-call, outcome inconclusive. NO-GO.
 - `final-ref` (reference, 20261011-210530): 1801 s, exit 1, stopped at the 30-minute limit. NO-GO.
 
+- `final-open` (reference-chat-open, 20261011-213919, run commit f0919c0): 856 s, exit 3 with one reason only:
+  "BRIEF.contract.json declares no terminal tool" (true for this case: no service ends a call). One slot, 0 static
+  errors, every URL under the mock. Its own tests: an opening simulation of Example 1 (the agent speaks first), one
+  fix (version 2: three extraction fields), then simulations of Examples 2 and 3 on version 2; 3 of 3 passed.
+  Independent check at 21:55 (simulation 585b5908, chat mode, the kit's run_simulation): E1, E5, E6 pass; E4 fail
+  (the caller spoke during the opening; after the reading the agent went to the main menu without the offer). E4
+  again at 21:57 (78ff03a4): pass, e-mail read, confirmed, sent, "gönderildi" after the service answer. Seen and not
+  fixed: E6 offered the e-mail to a caller with no registered address in one extra line. GO.
+
 Next candidate: `builder/skills/reference-chat-open` (sha256 37e6f222): reference-chat plus two generic rules: the
 agent speaks first and a chat-route limit never changes the opening, checked with one simulation after the first
 save; save only the agent's own slot.

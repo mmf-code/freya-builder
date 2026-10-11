@@ -1,0 +1,1242 @@
+{
+ "openapi": "3.0.3",
+ "info": {
+  "title": "Freya Bank voice statement and debt services (test environment mock)",
+  "version": "2026-10-01"
+ },
+ "paths": {
+  "/voice/v1/cards.list": {
+   "post": {
+    "summary": "The customer's cards the assistant may talk about",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "data": {
+          "type": "object",
+          "properties": {
+           "customerNo": {
+            "oneOf": [
+             {
+              "type": "string"
+             },
+             {
+              "type": "integer"
+             }
+            ],
+            "description": "8-digit customer number"
+           },
+           "aiFlow": {
+            "type": "string",
+            "example": "CardOps"
+           }
+          },
+          "required": [
+           "customerNo"
+          ]
+         },
+         "call": {
+          "type": "object",
+          "properties": {
+           "ani": {
+            "type": "string",
+            "description": "caller's number"
+           },
+           "lang": {
+            "type": "string",
+            "example": "tr"
+           }
+          }
+         }
+        },
+        "required": [
+         "data"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "success",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "data": {
+           "type": "object",
+           "properties": {
+            "cards": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "cardNumber": {
+                "type": "string"
+               },
+               "cardNumberLast4": {
+                "type": "string"
+               },
+               "productName": {
+                "type": "string"
+               },
+               "status": {
+                "type": "string"
+               },
+               "isMainCard": {
+                "type": "boolean"
+               }
+              }
+             }
+            },
+            "validCardsCount": {
+             "type": "integer"
+            },
+            "exitState": {
+             "type": "string",
+             "enum": [
+              "1_CARD",
+              "MULTI_CARD"
+             ]
+            }
+           }
+          },
+          "result": {
+           "type": "object",
+           "properties": {
+            "guid": {
+             "type": "string"
+            },
+            "returnCode": {
+             "type": "string",
+             "description": "\"1\" on success, else the error code"
+            },
+            "messageText": {
+             "type": "string"
+            },
+            "code": {
+             "type": "string"
+            },
+            "message": {
+             "type": "string"
+            },
+            "type": {
+             "type": "string",
+             "nullable": true,
+             "description": "null, ERROR or WARNING"
+            },
+            "details": {
+             "type": "object",
+             "properties": {
+              "guid": {
+               "type": "string"
+              },
+              "rootCause": {
+               "type": "string",
+               "nullable": true
+              },
+              "errorOrigin": {
+               "type": "string",
+               "nullable": true
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "INVALID_ARGUMENTS_ERROR: a required field is missing or empty, or no entry in the test data"
+     },
+     "404": {
+      "description": "not found (code per service, contract section 4)"
+     },
+     "500": {
+      "description": "FBE00099: technical error"
+     }
+    }
+   }
+  },
+  "/voice/v1/cards.balance": {
+   "post": {
+    "summary": "Statement and due dates, debt per currency. A currency block can be missing.",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "data": {
+          "type": "object",
+          "properties": {
+           "cardNumber": {
+            "type": "string",
+            "description": "exactly as cards.list returned it"
+           }
+          },
+          "required": [
+           "cardNumber"
+          ]
+         },
+         "call": {
+          "type": "object",
+          "properties": {
+           "ani": {
+            "type": "string",
+            "description": "caller's number"
+           },
+           "lang": {
+            "type": "string",
+            "example": "tr"
+           }
+          }
+         }
+        },
+        "required": [
+         "data"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "success",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "data": {
+           "type": "object",
+           "properties": {
+            "cardNumber": {
+             "type": "string"
+            },
+            "cardNumberLast4": {
+             "type": "string"
+            },
+            "productName": {
+             "type": "string"
+            },
+            "statementDate": {
+             "type": "string",
+             "description": "dd.MM.yyyy"
+            },
+            "lastPayDate": {
+             "type": "string",
+             "description": "dd.MM.yyyy"
+            },
+            "nextStatementDate": {
+             "type": "string",
+             "description": "dd.MM.yyyy"
+            },
+            "nextLastPayDate": {
+             "type": "string",
+             "description": "dd.MM.yyyy"
+            },
+            "debtTL": {
+             "type": "object",
+             "properties": {
+              "statementPaymentStatus": {
+               "type": "string",
+               "enum": [
+                "HAS_DEBT",
+                "NO_DEBT"
+               ]
+              },
+              "transferAmount": {
+               "type": "number"
+              },
+              "statementDebt": {
+               "type": "number"
+              },
+              "minPayment": {
+               "type": "number"
+              },
+              "remainingDebt": {
+               "type": "number"
+              },
+              "remainingMinPayment": {
+               "type": "number"
+              },
+              "currentPeriodExpense": {
+               "type": "number"
+              },
+              "totalDebt": {
+               "type": "number"
+              },
+              "totalDebtPaymentStatus": {
+               "type": "string",
+               "enum": [
+                "HAS_DEBT",
+                "NO_DEBT"
+               ]
+              },
+              "remainAutomaticPaymentAmount": {
+               "type": "number"
+              }
+             }
+            },
+            "debtUSD": {
+             "type": "object",
+             "properties": {
+              "statementPaymentStatus": {
+               "type": "string",
+               "enum": [
+                "HAS_DEBT",
+                "NO_DEBT"
+               ]
+              },
+              "transferAmount": {
+               "type": "number"
+              },
+              "statementDebt": {
+               "type": "number"
+              },
+              "minPayment": {
+               "type": "number"
+              },
+              "remainingDebt": {
+               "type": "number"
+              },
+              "remainingMinPayment": {
+               "type": "number"
+              },
+              "currentPeriodExpense": {
+               "type": "number"
+              },
+              "totalDebt": {
+               "type": "number"
+              },
+              "totalDebtPaymentStatus": {
+               "type": "string",
+               "enum": [
+                "HAS_DEBT",
+                "NO_DEBT"
+               ]
+              },
+              "remainAutomaticPaymentAmount": {
+               "type": "number"
+              }
+             }
+            },
+            "debtEUR": {
+             "type": "object",
+             "properties": {
+              "statementPaymentStatus": {
+               "type": "string",
+               "enum": [
+                "HAS_DEBT",
+                "NO_DEBT"
+               ]
+              },
+              "transferAmount": {
+               "type": "number"
+              },
+              "statementDebt": {
+               "type": "number"
+              },
+              "minPayment": {
+               "type": "number"
+              },
+              "remainingDebt": {
+               "type": "number"
+              },
+              "remainingMinPayment": {
+               "type": "number"
+              },
+              "currentPeriodExpense": {
+               "type": "number"
+              },
+              "totalDebt": {
+               "type": "number"
+              },
+              "totalDebtPaymentStatus": {
+               "type": "string",
+               "enum": [
+                "HAS_DEBT",
+                "NO_DEBT"
+               ]
+              },
+              "remainAutomaticPaymentAmount": {
+               "type": "number"
+              }
+             }
+            },
+            "debtGBP": {
+             "type": "object",
+             "properties": {
+              "statementPaymentStatus": {
+               "type": "string",
+               "enum": [
+                "HAS_DEBT",
+                "NO_DEBT"
+               ]
+              },
+              "transferAmount": {
+               "type": "number"
+              },
+              "statementDebt": {
+               "type": "number"
+              },
+              "minPayment": {
+               "type": "number"
+              },
+              "remainingDebt": {
+               "type": "number"
+              },
+              "remainingMinPayment": {
+               "type": "number"
+              },
+              "currentPeriodExpense": {
+               "type": "number"
+              },
+              "totalDebt": {
+               "type": "number"
+              },
+              "totalDebtPaymentStatus": {
+               "type": "string",
+               "enum": [
+                "HAS_DEBT",
+                "NO_DEBT"
+               ]
+              },
+              "remainAutomaticPaymentAmount": {
+               "type": "number"
+              }
+             }
+            },
+            "statementPaymentStatus": {
+             "type": "string"
+            },
+            "totalDebtPaymentStatus": {
+             "type": "string"
+            },
+            "automaticPaymentFlag": {
+             "type": "string",
+             "enum": [
+              "Y",
+              "N"
+             ]
+            }
+           }
+          },
+          "result": {
+           "type": "object",
+           "properties": {
+            "guid": {
+             "type": "string"
+            },
+            "returnCode": {
+             "type": "string",
+             "description": "\"1\" on success, else the error code"
+            },
+            "messageText": {
+             "type": "string"
+            },
+            "code": {
+             "type": "string"
+            },
+            "message": {
+             "type": "string"
+            },
+            "type": {
+             "type": "string",
+             "nullable": true,
+             "description": "null, ERROR or WARNING"
+            },
+            "details": {
+             "type": "object",
+             "properties": {
+              "guid": {
+               "type": "string"
+              },
+              "rootCause": {
+               "type": "string",
+               "nullable": true
+              },
+              "errorOrigin": {
+               "type": "string",
+               "nullable": true
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "INVALID_ARGUMENTS_ERROR: a required field is missing or empty, or no entry in the test data"
+     },
+     "404": {
+      "description": "not found (code per service, contract section 4)"
+     },
+     "500": {
+      "description": "FBE00099: technical error"
+     }
+    }
+   }
+  },
+  "/voice/v1/statement.week.get": {
+   "post": {
+    "summary": "The card's current statement week and day, joint statement info",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "data": {
+          "type": "object",
+          "properties": {
+           "cardNumber": {
+            "type": "string",
+            "description": "exactly as cards.list returned it"
+           }
+          },
+          "required": [
+           "cardNumber"
+          ]
+         },
+         "call": {
+          "type": "object",
+          "properties": {
+           "ani": {
+            "type": "string",
+            "description": "caller's number"
+           },
+           "lang": {
+            "type": "string",
+            "example": "tr"
+           }
+          }
+         }
+        },
+        "required": [
+         "data"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "success",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "data": {
+           "type": "object",
+           "properties": {
+            "cardNumber": {
+             "type": "string"
+            },
+            "cardNumberLast4": {
+             "type": "string"
+            },
+            "productName": {
+             "type": "string"
+            },
+            "statementWeek": {
+             "type": "integer"
+            },
+            "statementDay": {
+             "type": "integer"
+            },
+            "statementDate": {
+             "type": "string",
+             "description": "dd.MM.yyyy"
+            },
+            "lastPayDate": {
+             "type": "string",
+             "description": "dd.MM.yyyy"
+            },
+            "nextStatementDate": {
+             "type": "string",
+             "description": "dd.MM.yyyy"
+            },
+            "nextLastPayDate": {
+             "type": "string",
+             "description": "dd.MM.yyyy"
+            },
+            "relationType": {
+             "type": "string",
+             "description": "\"\" own statement, \"M\" main card of a shared statement, \"C\" linked card"
+            },
+            "relatedCardNumber": {
+             "type": "string"
+            },
+            "relatedCardProductName": {
+             "type": "string"
+            }
+           }
+          },
+          "result": {
+           "type": "object",
+           "properties": {
+            "guid": {
+             "type": "string"
+            },
+            "returnCode": {
+             "type": "string",
+             "description": "\"1\" on success, else the error code"
+            },
+            "messageText": {
+             "type": "string"
+            },
+            "code": {
+             "type": "string"
+            },
+            "message": {
+             "type": "string"
+            },
+            "type": {
+             "type": "string",
+             "nullable": true,
+             "description": "null, ERROR or WARNING"
+            },
+            "details": {
+             "type": "object",
+             "properties": {
+              "guid": {
+               "type": "string"
+              },
+              "rootCause": {
+               "type": "string",
+               "nullable": true
+              },
+              "errorOrigin": {
+               "type": "string",
+               "nullable": true
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "INVALID_ARGUMENTS_ERROR: a required field is missing or empty, or no entry in the test data"
+     },
+     "404": {
+      "description": "not found (code per service, contract section 4)"
+     },
+     "500": {
+      "description": "FBE00099: technical error"
+     }
+    }
+   }
+  },
+  "/voice/v1/statement.week.decide": {
+   "post": {
+    "summary": "Preview of the dates with the requested week. Does not change the card.",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "data": {
+          "type": "object",
+          "properties": {
+           "cardNumber": {
+            "type": "string",
+            "description": "exactly as cards.list returned it"
+           },
+           "newStatementWeek": {
+            "oneOf": [
+             {
+              "type": "integer"
+             },
+             {
+              "type": "string"
+             }
+            ],
+            "description": "1 to 4"
+           },
+           "statementDay": {
+            "type": "integer",
+            "description": "current statementDay from statement.week.get"
+           }
+          },
+          "required": [
+           "cardNumber",
+           "newStatementWeek"
+          ]
+         },
+         "call": {
+          "type": "object",
+          "properties": {
+           "ani": {
+            "type": "string",
+            "description": "caller's number"
+           },
+           "lang": {
+            "type": "string",
+            "example": "tr"
+           }
+          }
+         }
+        },
+        "required": [
+         "data"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "success",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "data": {
+           "type": "object",
+           "properties": {
+            "statementDate": {
+             "type": "string",
+             "description": "dd.MM.yyyy"
+            },
+            "statementDueDate": {
+             "type": "string",
+             "description": "dd.MM.yyyy"
+            },
+            "statementDay": {
+             "type": "integer"
+            },
+            "responseCode": {
+             "type": "integer"
+            },
+            "responseMessage": {
+             "type": "string"
+            }
+           }
+          },
+          "result": {
+           "type": "object",
+           "properties": {
+            "guid": {
+             "type": "string"
+            },
+            "returnCode": {
+             "type": "string",
+             "description": "\"1\" on success, else the error code"
+            },
+            "messageText": {
+             "type": "string"
+            },
+            "code": {
+             "type": "string"
+            },
+            "message": {
+             "type": "string"
+            },
+            "type": {
+             "type": "string",
+             "nullable": true,
+             "description": "null, ERROR or WARNING"
+            },
+            "details": {
+             "type": "object",
+             "properties": {
+              "guid": {
+               "type": "string"
+              },
+              "rootCause": {
+               "type": "string",
+               "nullable": true
+              },
+              "errorOrigin": {
+               "type": "string",
+               "nullable": true
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "INVALID_ARGUMENTS_ERROR: a required field is missing or empty, or no entry in the test data"
+     },
+     "500": {
+      "description": "FBE00099: technical error"
+     }
+    }
+   }
+  },
+  "/voice/v1/statement.week.change": {
+   "post": {
+    "summary": "Changes the statement week",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "data": {
+          "type": "object",
+          "properties": {
+           "cardNumber": {
+            "type": "string",
+            "description": "exactly as cards.list returned it"
+           },
+           "newStatementWeek": {
+            "oneOf": [
+             {
+              "type": "integer"
+             },
+             {
+              "type": "string"
+             }
+            ],
+            "description": "1 to 4"
+           },
+           "statementDay": {
+            "type": "integer",
+            "description": "current statementDay from statement.week.get"
+           }
+          },
+          "required": [
+           "cardNumber",
+           "newStatementWeek",
+           "statementDay"
+          ]
+         },
+         "call": {
+          "type": "object",
+          "properties": {
+           "ani": {
+            "type": "string",
+            "description": "caller's number"
+           },
+           "lang": {
+            "type": "string",
+            "example": "tr"
+           }
+          }
+         }
+        },
+        "required": [
+         "data"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "success",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "data": {
+           "type": "object",
+           "properties": {
+            "responseCode": {
+             "type": "integer"
+            },
+            "responseMessage": {
+             "type": "string"
+            },
+            "statementWeek": {
+             "type": "string"
+            },
+            "statementDay": {
+             "type": "string"
+            },
+            "exitState": {
+             "type": "string"
+            }
+           }
+          },
+          "result": {
+           "type": "object",
+           "properties": {
+            "guid": {
+             "type": "string"
+            },
+            "returnCode": {
+             "type": "string",
+             "description": "\"1\" on success, else the error code"
+            },
+            "messageText": {
+             "type": "string"
+            },
+            "code": {
+             "type": "string"
+            },
+            "message": {
+             "type": "string"
+            },
+            "type": {
+             "type": "string",
+             "nullable": true,
+             "description": "null, ERROR or WARNING"
+            },
+            "details": {
+             "type": "object",
+             "properties": {
+              "guid": {
+               "type": "string"
+              },
+              "rootCause": {
+               "type": "string",
+               "nullable": true
+              },
+              "errorOrigin": {
+               "type": "string",
+               "nullable": true
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "INVALID_ARGUMENTS_ERROR: a required field is missing or empty, or no entry in the test data"
+     },
+     "500": {
+      "description": "FBE00099: technical error"
+     }
+    }
+   }
+  },
+  "/voice/v1/contact.email.get": {
+   "post": {
+    "summary": "Registered e-mail and phone",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "data": {
+          "type": "object",
+          "properties": {
+           "customerNo": {
+            "oneOf": [
+             {
+              "type": "string"
+             },
+             {
+              "type": "integer"
+             }
+            ]
+           },
+           "intAddressInfoType": {
+            "type": "string",
+            "enum": [
+             "E",
+             "P",
+             "B"
+            ]
+           }
+          },
+          "required": [
+           "customerNo",
+           "intAddressInfoType"
+          ]
+         },
+         "call": {
+          "type": "object",
+          "properties": {
+           "ani": {
+            "type": "string",
+            "description": "caller's number"
+           },
+           "lang": {
+            "type": "string",
+            "example": "tr"
+           }
+          }
+         }
+        },
+        "required": [
+         "data"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "success",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "data": {
+           "type": "object",
+           "properties": {
+            "communicationType": {
+             "type": "string"
+            },
+            "ibanCountryCode": {
+             "type": "string"
+            },
+            "ibanAreaCode": {
+             "type": "string"
+            },
+            "ibanPhoneNum": {
+             "type": "string"
+            },
+            "ibanEmail": {
+             "type": "string"
+            },
+            "ttsEmail": {
+             "type": "string"
+            },
+            "commGramType": {
+             "type": "string"
+            },
+            "exitState": {
+             "type": "string"
+            }
+           }
+          },
+          "result": {
+           "type": "object",
+           "properties": {
+            "guid": {
+             "type": "string"
+            },
+            "returnCode": {
+             "type": "string",
+             "description": "\"1\" on success, else the error code"
+            },
+            "messageText": {
+             "type": "string"
+            },
+            "code": {
+             "type": "string"
+            },
+            "message": {
+             "type": "string"
+            },
+            "type": {
+             "type": "string",
+             "nullable": true,
+             "description": "null, ERROR or WARNING"
+            },
+            "details": {
+             "type": "object",
+             "properties": {
+              "guid": {
+               "type": "string"
+              },
+              "rootCause": {
+               "type": "string",
+               "nullable": true
+              },
+              "errorOrigin": {
+               "type": "string",
+               "nullable": true
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "INVALID_ARGUMENTS_ERROR: a required field is missing or empty, or no entry in the test data"
+     },
+     "500": {
+      "description": "FBE00099: technical error"
+     }
+    }
+   }
+  },
+  "/voice/v1/statement.pdf.send": {
+   "post": {
+    "summary": "Sends the statement PDF by e-mail to emailAddress",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "data": {
+          "type": "object",
+          "properties": {
+           "customerNo": {
+            "oneOf": [
+             {
+              "type": "string"
+             },
+             {
+              "type": "integer"
+             }
+            ]
+           },
+           "cardNumber": {
+            "type": "string",
+            "description": "exactly as cards.list returned it"
+           },
+           "currencyType": {
+            "type": "string",
+            "enum": [
+             "TL",
+             "USD",
+             "EUR",
+             "GBP"
+            ]
+           },
+           "statementDate": {
+            "type": "string",
+            "description": "dd.MM.yyyy, the statementDate from cards.balance"
+           },
+           "emailAddress": {
+            "type": "string"
+           }
+          },
+          "required": [
+           "customerNo",
+           "cardNumber",
+           "currencyType",
+           "statementDate",
+           "emailAddress"
+          ]
+         },
+         "call": {
+          "type": "object",
+          "properties": {
+           "ani": {
+            "type": "string",
+            "description": "caller's number"
+           },
+           "lang": {
+            "type": "string",
+            "example": "tr"
+           }
+          }
+         }
+        },
+        "required": [
+         "data"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "success",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "data": {
+           "type": "object",
+           "properties": {
+            "exitState": {
+             "type": "string"
+            }
+           }
+          },
+          "result": {
+           "type": "object",
+           "properties": {
+            "guid": {
+             "type": "string"
+            },
+            "returnCode": {
+             "type": "string",
+             "description": "\"1\" on success, else the error code"
+            },
+            "messageText": {
+             "type": "string"
+            },
+            "code": {
+             "type": "string"
+            },
+            "message": {
+             "type": "string"
+            },
+            "type": {
+             "type": "string",
+             "nullable": true,
+             "description": "null, ERROR or WARNING"
+            },
+            "details": {
+             "type": "object",
+             "properties": {
+              "guid": {
+               "type": "string"
+              },
+              "rootCause": {
+               "type": "string",
+               "nullable": true
+              },
+              "errorOrigin": {
+               "type": "string",
+               "nullable": true
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "INVALID_ARGUMENTS_ERROR: a required field is missing or empty, or no entry in the test data"
+     },
+     "404": {
+      "description": "not found (code per service, contract section 4)"
+     },
+     "500": {
+      "description": "FBE00099: technical error"
+     }
+    }
+   }
+  }
+ },
+ "servers": [
+  {
+   "url": "https://freya-bank-mock-final.atakan-yamana.workers.dev"
+  }
+ ]
+}

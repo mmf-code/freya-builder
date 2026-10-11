@@ -1,0 +1,139 @@
+{
+ "case": "/Users/atakan/Developer/freya-builder/case/_snapshots/s03-20261011T180249Z/extracted/Build the Builder - Final Case",
+ "files": [
+  {
+   "source": "BRIEF.md",
+   "sha256": "b81506df0cb43ab5ce023b3e3880d6f477021da81bc4ed3c8b5d0aab61e42da9",
+   "outputs": [
+    "BRIEF.md"
+   ]
+  },
+  {
+   "source": "README.md",
+   "sha256": "476f99af2e66739de8ed4a192b04c003cc6ab5d31a9bce6825af4d9608852cc6",
+   "outputs": [
+    "README.md"
+   ]
+  },
+  {
+   "source": "cloudflare-mock/README.md",
+   "sha256": "6e50898b1bcc91ca76646b557786d722888bb8ae96aa719f20b659daa23abd6a",
+   "outputs": [
+    "cloudflare-mock__README.md"
+   ]
+  },
+  {
+   "source": "cloudflare-mock/example/example-response.json",
+   "sha256": "0deeee4de065d3fdbd78818ba270547c5d9601ab8398b1e4d5596603196401a9",
+   "outputs": [
+    "cloudflare-mock__example__example-response.json"
+   ]
+  },
+  {
+   "source": "cloudflare-mock/example/worker.js",
+   "sha256": "0fb2a47300c8e131a47e6e265ff33350733e0bdb19c17097aab4168dc6901d24",
+   "outputs": [],
+   "skipped": "no converter for .js"
+  },
+  {
+   "source": "cloudflare-mock/example/wrangler.toml",
+   "sha256": "a7a80f867f971916c521ef2133d405ce8698423b4db19f93f734f03f987ea60b",
+   "outputs": [],
+   "skipped": "no converter for .toml"
+  },
+  {
+   "source": "example-scenarios.md",
+   "sha256": "c7534cb5d591d6399a72c3c717f35d75c81ff2d07c1587ba5ab90245d283d989",
+   "outputs": [
+    "example-scenarios.md"
+   ]
+  },
+  {
+   "source": "sources/documents/2025-08-14-cards-faq.md",
+   "sha256": "bb26e035f72da6d5add21d62271dc798106c1a859deb00fa9a9878dc8f6d8f26",
+   "outputs": [
+    "sources__documents__2025-08-14-cards-faq.md"
+   ]
+  },
+  {
+   "source": "sources/documents/2026-09-10-ivr-prompt-sheet.md",
+   "sha256": "dfb0d352d57dc22466c0b11ee557b4af1ba0f266be48b455aabae140a64dd463",
+   "outputs": [
+    "sources__documents__2026-09-10-ivr-prompt-sheet.md"
+   ]
+  },
+  {
+   "source": "sources/documents/2026-10-01-service-contract.md",
+   "sha256": "692414a06036911509072d602b6c85bf38cbf2c791d26488d53d28be1cf35470",
+   "outputs": [
+    "sources__documents__2026-10-01-service-contract.md"
+   ]
+  },
+  {
+   "source": "sources/emails/2026-09-24-kickoff-questions.txt",
+   "sha256": "d19e44e8098850f378fd6816892f7b9196ec6f469ccd6dc8dea76566b850be74",
+   "outputs": [
+    "sources__emails__2026-09-24-kickoff-questions.txt"
+   ]
+  },
+  {
+   "source": "sources/emails/2026-10-09-decisions-recap.txt",
+   "sha256": "709f18f3d73c4e9398a3ed9dc7249a54b7ca48dcdde8ce7aa7ebbbcdef1b0732",
+   "outputs": [
+    "sources__emails__2026-10-09-decisions-recap.txt"
+   ]
+  },
+  {
+   "source": "sources/emails/attachments/2026-09-02-statement-debt-analysis.md",
+   "sha256": "16915b44652e16afeea64d5f3ecf6d09b9bcce54d7d39b132ff8237369c507a2",
+   "outputs": [
+    "sources__emails__attachments__2026-09-02-statement-debt-analysis.md"
+   ]
+  },
+  {
+   "source": "sources/emails/attachments/2026-10-08-statement-debt-analysis.md",
+   "sha256": "c33b5640a06f6be6e6d3cc7f86189ab75bf4ffb4e935874b3ee3b48b03ff1094",
+   "outputs": [
+    "sources__emails__attachments__2026-10-08-statement-debt-analysis.md"
+   ]
+  },
+  {
+   "source": "sources/meetings/2026-10-07-analysis-session-transcript.txt",
+   "sha256": "6e75d0013cf6c653f4a25a6ce0c2f6e0a96b4472474e530d6ab4bebf8b21b20d",
+   "outputs": [
+    "sources__meetings__2026-10-07-analysis-session-transcript.txt"
+   ]
+  },
+  {
+   "source": "sources/meetings/2026-10-10-follow-up-session-transcript.txt",
+   "sha256": "860e3a0249492482535af48c2103430e7de4abc351efe53e6d872b4db837137b",
+   "outputs": [
+    "sources__meetings__2026-10-10-follow-up-session-transcript.txt"
+   ]
+  },
+  {
+   "source": "statement-debt-call-flow.pdf",
+   "sha256": "1092fe84329911c89477e794ed874f8216aeb31cc4c825931c4e017374eb69ca",
+   "outputs": [
+    "statement-debt-call-flow.pdf.txt",
+    "statement-debt-call-flow.pdf"
+   ]
+  },
+  {
+   "source": "test-environment/test-customers.json",
+   "sha256": "d6ce155638f61ab17910d53ea993a2b0d68cf4e10d6b9db2fb8e4a7add0ef44d",
+   "outputs": [
+    "test-environment__test-customers.json"
+   ]
+  },
+  {
+   "source": "test-environment/test-customers.md",
+   "sha256": "f0c6607e8ad2c874608dc39d8ab13fbb11f5f1f2975c08fe871a378c32815375",
+   "outputs": [
+    "test-environment__test-customers.md"
+   ]
+  }
+ ],
+ "tool_api": "https://freya-bank-mock-final.atakan-yamana.workers.dev/openapi.json",
+ "mock_url": "https://freya-bank-mock-final.atakan-yamana.workers.dev"
+}
