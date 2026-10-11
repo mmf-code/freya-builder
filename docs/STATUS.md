@@ -22,8 +22,11 @@ Branch `builder-integration` on GitHub. Read with `docs/START_HERE.md`, `docs/PL
 - New, not yet measured: `builder/skills/reference-v2` (reference + four general rules), the transcript checker
   `tools/evaluation/policy_audit.py` (with `tests/test_policy_audit.py`), `docs/FAILURE_MODES.md` (failure catalog,
   engineering preference, what we took from EVRE) and `docs/REFERENCE_V2.md` (experiment and switch rule).
-- Next, needs approval because it uses Freya: the paired experiment of `docs/REFERENCE_V2.md` (fresh reference build
-  vs reference-v2 build, ~2 hours). If its gate fails or time runs out, the final uses `reference`.
+- Stage 0 of that experiment done at 05:50 (read-only `policy_audit --fetch` on the stored official calls): the
+  blind lowering-precedence agent says the goodbye after `close_call` in 39/39 calls; the blind reference agent leaves
+  out the text-message sentence in 5 of 9 official B calls (judge PASS). Table in `docs/REFERENCE_V2.md`.
+- Next, needs approval because it uses Freya: stages 1-4 of `docs/REFERENCE_V2.md` (fresh reference build vs
+  reference-v2 build, ~2 hours). If its gate fails or time runs out, the final uses `reference`.
 - Known weak spots of `reference`: an item skipped after an out-of-turn refusal (V09), "this call is recorded" in the
   greeting judged as an early "recorded", an occasional missing text-message sentence, 7 to 10 code hooks on bank
   tools (sandbox exposure).

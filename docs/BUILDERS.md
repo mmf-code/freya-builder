@@ -105,8 +105,9 @@ recorded" in its greeting. Details, judge-missed deviations and a platform obser
 
 Found afterwards (independent audit, re-checked with timestamps): the lowering agents speak the goodbye after
 `close_call` in 24/24 calls (Brief A rule 47), 21 of them judge PASS. Cause: `builder/lower.py:328` puts the closing
-line on the `api_request` step that runs the terminal tool. The blind lowering-precedence export has the same step
-shape; reference builds say the goodbye in an earlier step (0/24). `tools/evaluation/policy_audit.py` now finds this
+line on the `api_request` step that runs the terminal tool. The blind lowering-precedence agent does the same in 39/39
+of its stored official calls; reference builds say the goodbye in an earlier step (0/24 Persona Lab, 0/39 official).
+The blind reference agent instead leaves out the text-message sentence in 5 of 9 official B calls (judge PASS). `tools/evaluation/policy_audit.py` now finds this
 and the other judge-missed deviations in any stored call.
 
 ## Tools the skills use

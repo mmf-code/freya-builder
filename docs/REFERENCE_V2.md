@@ -1,6 +1,6 @@
 # reference-v2: the one candidate, its experiment and the switch rule
 
-Status 2026-10-11 05:00 UTC+3: written, not built, not measured. The final uses `builder/skills/reference` unless
+Status 2026-10-11 05:50 UTC+3: written, not built, not measured; stage 0 (read-only baseline) done. The final uses `builder/skills/reference` unless
 the gate below passes before the freeze.
 
 ## What it is
@@ -14,7 +14,7 @@ customers). `diff builder/skills/reference/SKILL.md builder/skills/reference-v2/
 | Say what the brief wants said before the terminal tool in a step before the terminal step; no spoken line in the terminal step | #1 | Every lowering build did this wrong (24/24 calls); reference builds did it right by the builder's choice, so a new build could still get it wrong |
 | Items taken one at a time each get all their own steps when their turn comes; an earlier statement about an item does not shorten them, unless the brief says so; named exceptions still apply | #2 | V09 skip in three agents from two skills; the trigger is the timing of the refusal, not the case |
 | A question asked once for all items is asked before the per-item steps, not inside them | #3, #4 | "today?" re-asked per product and order lost in two builds |
-| A word-for-word sentence is said as written; a word reserved for an event appears in no fixed line, including the greeting | #5, #6 | The greeting cost blind-ref V06 2/3 and PUB-10 1/3; one missing text-message sentence |
+| A word-for-word sentence is said as written; a word reserved for an event appears in no fixed line, including the greeting | #5, #6, #15 | The greeting cost blind-ref V06 2/3 and PUB-10 1/3; the text-message sentence is missing in 5 of 9 official B calls of the blind reference agent |
 
 Kept out on purpose: an in-build check loop (selfcheck regressed with one, #8), a checker change (the checker is part
 of the frozen configuration), anything with a case id, a brief value or a bank name.
@@ -35,11 +35,29 @@ Pre-registered here before any run. One commit for both arms; a fresh `--state` 
 
 | Stage | What | Cost |
 |---|---|---|
-| 0 | `policy_audit --fetch` on the stored official calls of the blind reference and blind precedence agents (call ids in their `eval/*.json`). Read-only; gives the official-customer baseline of deviations the judge did not see | ~5 min, no simulation |
+| 0 | `policy_audit --fetch` on the stored official calls of the blind reference and blind precedence agents (call ids in their `eval/*.json`). Read-only; gives the official-customer baseline of deviations the judge did not see. **Done, result below** | ~5 min, no simulation |
 | 1 | Two blind builds from `briefs/mutations/brief-a-raw.md` + `brief-b-raw.md`, no practice customers: `reference` (v1-fresh) and `reference-v2`. They can run side by side: a no-practice build starts no simulation | 15-25 min |
 | 2 | Each agent: official A x1, B x1, Persona Lab V09, V07, V06 x1. Stop here if v2 is 3 or more customers below v1-fresh, or shows a defect in every call that v1-fresh does not | ~25 min |
 | 3 | Complete to three runs: A x3, B x3, V09 x3, V07 x3, V06 x3 per agent (96 calls in all) | ~50 min |
 | 4 | `policy_audit` on every call of both agents; read the greeting of each agent once | ~10 min |
+
+### Stage 0 result (2026-10-11 05:50 UTC+3, read-only)
+
+`policy_audit --fetch` on the 39 stored official calls of each blind agent; output in
+`runs/20261010-212550-blind-ref-ab/eval/policy_audit.txt` and `runs/20261010-212547-blind-prec-ab/eval/policy_audit.txt`.
+
+| Finding | blind reference | blind lowering-precedence |
+|---|---|---|
+| Goodbye after `close_call` (`SPEECH_AFTER_CLOSE`) | 0/39 | **39/39** |
+| No text-message sentence after recorded promises (`SMS_MISSING`) | **5 of 9 B calls** (all judge PASS; after the writes the agent says only "One moment, please" and goodbye) | 0 |
+| "recorded" before the write returned (`RECORDED_EARLY`) | 1 (A, "a payment of 540 recorded ... Do you confirm?") | 5 of 9 B calls |
+| More offers than the band allows (`ATTEMPTS_OVER`) | 0 | 2 (PUB-12, judge FAIL) |
+| "this call is recorded" in the greeting | 39/39 | 39/39 |
+| Judge PASS calls with a finding (greeting not counted) | 6 | 32 |
+
+Read: precedence's closing defect is confirmed in calls, not only in its export. The reference build's hidden weakness
+on the official customers is the confirmation after several promises; v2's word-for-word rule targets it, so the
+switch rule below now counts it. Amended at 05:50, after stage 0 and before any v1-fresh or v2 run.
 
 v1-fresh is also the replication the outside audit asked for: a second blind build of `reference`, so we see how far
 two builds of the same skill differ.
@@ -48,9 +66,9 @@ two builds of the same skill differ.
 
 1. Official A+B customers 3/3: v2 at least v1-fresh minus 1. One customer is within build-to-build noise; this is a
    non-inferiority test, not a claim that v2 scores higher.
-2. Mechanisms: on V09, V07 and V06, the `policy_audit` findings `ITEM_SKIPPED`, `ATTEMPTS_SHORT`, `TODAY_AGAIN`,
-   `ORDER` and `RECORDED_IN_GREETING` together are fewer for v2 than for v1-fresh, and at least 2 of 3 V09 calls of v2
-   have none of them.
+2. Mechanisms: over all calls of stages 2 and 3, the `policy_audit` findings `ITEM_SKIPPED`, `ATTEMPTS_SHORT`,
+   `TODAY_AGAIN`, `ORDER`, `RECORDED_IN_GREETING`, `RECORDED_EARLY` and `SMS_MISSING` together are fewer for v2 than
+   for v1-fresh, and at least 2 of 3 V09 calls of v2 have none of them.
 3. No new deterministic defect: no finding in every v2 call of a kind that v1-fresh does not have; the greeting still
    discloses the recording.
 4. v2's build takes at most 20 minutes.

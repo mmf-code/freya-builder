@@ -18,7 +18,7 @@ confirm it. They do not replace the official scorer or the judge.
 | RECORDED_IN_GREETING | A1/A37 | the first line contains "recorded"; allowed by A1, but the judge has failed it as an early "recorded" |
 | RECORDED_EARLY | A37 | "recorded" (not negated) before the first `create_promise` with `ok: true` |
 | SMS_MISSING | A38 | a promise was recorded and no later line mentions a text message |
-| TODAY_AGAIN | A28/B4 | after `get_account`, more than one question about paying today |
+| TODAY_AGAIN | A28/B4 | after `get_account`, more than one question that ends by asking to pay today |
 | ITEM_SKIPPED | B4/A30 | a product closed without a promise got no offer of its own |
 | ATTEMPTS_SHORT, ATTEMPTS_OVER | A30/A31/B5 | offers for a product closed without a promise differ from its band's attempts |
 | ORDER | B4 | the first offers per product do not follow `get_account` order |
@@ -167,7 +167,8 @@ def audit(case: dict, ledger: dict, messages: list[dict]) -> list[dict]:
     acct_t = next((e["t"] for e in tl if e["kind"] == "result" and e["tool"] == "get_account" and e["ok"]), None)
     prods = products_of(ledger)
     if acct_t is not None:
-        today_qs = [(e["t"], s) for e in says if e["t"] >= acct_t for s in sentences(e["text"]) if TODAY_ASK.search(s)]
+        today_qs = [(e["t"], s) for e in says if e["t"] >= acct_t for s in sentences(e["text"])
+                    if TODAY_ASK.search(s) and re.search(r"\bpay(ing|ment)?\b", s, re.I)]
         if len(today_qs) > 1:
             for t, s in today_qs[1:]:
                 add("TODAY_AGAIN", "A28/B4", t, s)
@@ -217,12 +218,20 @@ def audit(case: dict, ledger: dict, messages: list[dict]) -> list[dict]:
             # Skipped when the customer first named one date for everything (Brief B rule 6 handles that case).
             hears = [e for e in tl if e["kind"] == "hear"]
             one_date = re.compile(r"\b(both|all|everything)\b.*\b(" + "|".join(MONTHS + DAYS) + r"|tomorrow|\d{1,2}(st|nd|rd|th)|first|second|third|[a-z]+tieth|[a-z]+teenth)\b", re.I)
+            when = re.compile(r"\b(today|tomorrow|" + "|".join(MONTHS + DAYS) + r"|\d{1,2}(st|nd|rd|th)|[a-z]+tieth|[a-z]+teenth)\b", re.I)
+            names = {"credit_card": r"\bcard\b", "personal_loan": r"\bpersonal\b", "car_loan": r"\bcar\b"}
+
+            def settled(p, t):                           # the customer already gave this product a day before t
+                pat = names.get(p.get("type"))
+                return bool(pat) and any(h["t"] <= t and re.search(pat + r"[^.?!]*" + when.pattern, h["text"], re.I) for h in hears)
+
             ids = [p["product_id"] for p in prods]
             for pj in sorted((x for x in ids if asks[x]), key=lambda x: asks[x][0][0]):
                 j, tj = ids.index(pj), asks[pj][0][0]
                 if any(h["t"] <= tj and one_date.search(h["text"]) for h in hears):
                     continue
-                late = [pi for pi in ids[:j] if (asks[pi] and asks[pi][0][0] > tj) or (not asks[pi] and pi in promised)]
+                late = [pi for pi in ids[:j] if ((asks[pi] and asks[pi][0][0] > tj) or (not asks[pi] and pi in promised))
+                        and not settled(prods[ids.index(pi)], tj)]
                 if late:
                     add("ORDER", "B4", tj, f"{prods[j].get('type')} asked before {', '.join(prods[ids.index(x)].get('type') for x in late)}: {asks[pj][0][1]}")
                     break

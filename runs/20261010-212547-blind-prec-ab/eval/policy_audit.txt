@@ -1,0 +1,177 @@
+prec-a-official-1 PUB-01-r1 judge=pass call=d65c8c4b
+    SPEECH_AFTER_CLOSE   A47     t=26.47   You will receive a text message confirming this promise. Thank you for your time, Mr Reyes. Goodbye.
+    NO_GOODBYE           A47     t=26.23   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.26    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Reyes?
+prec-a-official-1 PUB-02-r1 judge=pass call=47035cff
+    SPEECH_AFTER_CLOSE   A47     t=7.86    Thank you, we will call back at that time. Goodbye.
+    NO_GOODBYE           A47     t=7.65    no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.35    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Costa?
+prec-a-official-1 PUB-03-r1 judge=pass call=d1e0ca42
+    SPEECH_AFTER_CLOSE   A47     t=18.21   I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time, Mr Park. Goodbye.
+    NO_GOODBYE           A47     t=18.09   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.2     Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Park?
+prec-a-official-1 PUB-04-r1 judge=pass call=f04da5ba
+    SPEECH_AFTER_CLOSE   A47     t=21.0    You will receive a text message confirming this promise. Thank you for your time, Ms Hoffmann. Goodbye.
+    NO_GOODBYE           A47     t=20.84   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.16    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Hoffmann?
+prec-a-official-1 PUB-05-r1 judge=pass call=a97492e6
+    SPEECH_AFTER_CLOSE   A47     t=11.88   Thank you for your time, Mr Novak. Goodbye.
+    NO_GOODBYE           A47     t=11.81   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.16    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Novak?
+prec-a-official-1 PUB-06-r1 judge=pass call=5063f691
+    SPEECH_AFTER_CLOSE   A47     t=15.84   You will receive a text message confirming this promise. Thank you for your time, Ms Nair. Goodbye.
+    NO_GOODBYE           A47     t=15.52   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.15    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Nair?
+prec-a-official-1 PUB-07-r1 judge=fail call=1506e75b
+    SPEECH_AFTER_CLOSE   A47     t=19.56   You will receive a text message confirming this promise. Thank you for your time, Mr Ortiz. Goodbye.
+    NO_GOODBYE           A47     t=19.42   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.19    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ortiz?
+prec-a-official-1 PUB-08-r1 judge=pass call=768c3680
+    SPEECH_AFTER_CLOSE   A47     t=11.25   Thank you for your time, Ms Schmidt. Goodbye.
+    NO_GOODBYE           A47     t=11.06   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.24    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Schmidt?
+prec-a-official-1 PUB-09-r1 judge=pass call=4fda0d20
+    SPEECH_AFTER_CLOSE   A47     t=14.63   I am transferring you now. Thank you for your time, Mr Ionescu. Goodbye.
+    NO_GOODBYE           A47     t=14.16   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.16    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ionescu?
+prec-a-official-1 PUB-10-r1 judge=fail call=2e24197a
+    SPEECH_AFTER_CLOSE   A47     t=15.68   You will receive a text message confirming this promise. Thank you for your time, Ms Lin. Goodbye.
+    NO_GOODBYE           A47     t=15.55   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.18    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Lin?
+prec-a-official-reps2 PUB-01-r1 judge=pass call=b343f0d9
+    SPEECH_AFTER_CLOSE   A47     t=18.72   You will receive a text message confirming this promise. Thank you for your time, Mr Reyes. Goodbye.
+    NO_GOODBYE           A47     t=18.65   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.29    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Reyes?
+prec-a-official-reps2 PUB-02-r1 judge=pass call=8583a453
+    SPEECH_AFTER_CLOSE   A47     t=6.31    Thank you, we will call back at that time. Goodbye.
+    NO_GOODBYE           A47     t=6.11    no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.24    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Costa?
+prec-a-official-reps2 PUB-03-r1 judge=pass call=9f0c9868
+    SPEECH_AFTER_CLOSE   A47     t=8.96    I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time, Mr Park. Goodbye.
+    NO_GOODBYE           A47     t=8.76    no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.21    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Park?
+prec-a-official-reps2 PUB-04-r1 judge=pass call=8e4285a4
+    SPEECH_AFTER_CLOSE   A47     t=16.52   You will receive a text message confirming this promise. Thank you for your time, Ms Hoffmann. Goodbye.
+    NO_GOODBYE           A47     t=16.32   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.28    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Hoffmann?
+prec-a-official-reps2 PUB-05-r1 judge=pass call=d6f0f6ab
+    SPEECH_AFTER_CLOSE   A47     t=25.98   Thank you for your time, Mr Novak. Goodbye.
+    NO_GOODBYE           A47     t=25.91   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.2     Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Novak?
+prec-a-official-reps2 PUB-06-r1 judge=pass call=f1512768
+    SPEECH_AFTER_CLOSE   A47     t=20.24   You will receive a text message confirming this promise. Thank you for your time, Ms Nair. Goodbye.
+    NO_GOODBYE           A47     t=20.06   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.26    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Nair?
+prec-a-official-reps2 PUB-07-r1 judge=fail call=873d5c3b
+    SPEECH_AFTER_CLOSE   A47     t=19.72   You will receive a text message confirming this promise. Thank you for your time, Mr Ortiz. Goodbye.
+    NO_GOODBYE           A47     t=19.65   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.18    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ortiz?
+prec-a-official-reps2 PUB-08-r1 judge=pass call=4bebf051
+    SPEECH_AFTER_CLOSE   A47     t=12.4    Thank you for your time, Ms Schmidt. Goodbye.
+    NO_GOODBYE           A47     t=12.34   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.33    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Schmidt?
+prec-a-official-reps2 PUB-09-r1 judge=pass call=cdc53409
+    SPEECH_AFTER_CLOSE   A47     t=13.12   I am transferring you now. Thank you for your time, Mr Ionescu. Goodbye.
+    NO_GOODBYE           A47     t=13.06   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.15    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ionescu?
+prec-a-official-reps2 PUB-10-r1 judge=pass call=4426de4f
+    SPEECH_AFTER_CLOSE   A47     t=18.96   You will receive a text message confirming this promise. Thank you for your time, Ms Lin. Goodbye.
+    NO_GOODBYE           A47     t=18.83   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.33    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Lin?
+prec-a-official-reps2 PUB-01-r2 judge=pass call=b528bac4
+    SPEECH_AFTER_CLOSE   A47     t=18.48   You will receive a text message confirming this promise. Thank you for your time, Mr Reyes. Goodbye.
+    NO_GOODBYE           A47     t=18.42   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.14    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Reyes?
+prec-a-official-reps2 PUB-02-r2 judge=pass call=fedb4ff3
+    SPEECH_AFTER_CLOSE   A47     t=6.88    Thank you, we will call back at that time. Goodbye.
+    NO_GOODBYE           A47     t=6.76    no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.17    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Costa?
+prec-a-official-reps2 PUB-03-r2 judge=pass call=c2c344d4
+    SPEECH_AFTER_CLOSE   A47     t=9.18    I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time, Mr Park. Goodbye.
+    NO_GOODBYE           A47     t=8.95    no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.15    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Park?
+prec-a-official-reps2 PUB-04-r2 judge=pass call=6edc7981
+    SPEECH_AFTER_CLOSE   A47     t=22.87   You will receive a text message confirming this promise. Thank you for your time, Ms Hoffmann. Goodbye.
+    NO_GOODBYE           A47     t=22.81   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.42    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Hoffmann?
+prec-a-official-reps2 PUB-05-r2 judge=pass call=fed3c294
+    SPEECH_AFTER_CLOSE   A47     t=14.99   Thank you for your time, Mr Novak. Goodbye.
+    NO_GOODBYE           A47     t=14.86   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.14    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Novak?
+prec-a-official-reps2 PUB-06-r2 judge=pass call=6df4c3d1
+    SPEECH_AFTER_CLOSE   A47     t=16.81   You will receive a text message confirming this promise. Thank you for your time, Ms Nair. Goodbye.
+    NO_GOODBYE           A47     t=16.47   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.19    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Nair?
+    TODAY_AGAIN          A28/B4  t=9.91    Would you be able to pay that today?
+prec-a-official-reps2 PUB-07-r2 judge=fail call=648008f1
+    SPEECH_AFTER_CLOSE   A47     t=16.76   You will receive a text message confirming this promise. Thank you for your time, Mr Ortiz. Goodbye.
+    NO_GOODBYE           A47     t=16.69   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.15    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ortiz?
+prec-a-official-reps2 PUB-08-r2 judge=pass call=dba0cdd5
+    SPEECH_AFTER_CLOSE   A47     t=10.05   Thank you for your time, Ms Schmidt. Goodbye.
+    NO_GOODBYE           A47     t=9.92    no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.18    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Schmidt?
+prec-a-official-reps2 PUB-09-r2 judge=pass call=5495d335
+    SPEECH_AFTER_CLOSE   A47     t=15.63   I am transferring you now. Thank you for your time, Mr Ionescu. Goodbye.
+    NO_GOODBYE           A47     t=15.49   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.23    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ionescu?
+prec-a-official-reps2 PUB-10-r2 judge=pass call=f39554c4
+    SPEECH_AFTER_CLOSE   A47     t=19.62   You will receive a text message confirming this promise. Thank you for your time, Ms Lin. Goodbye.
+    NO_GOODBYE           A47     t=19.49   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.22    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Lin?
+prec-b-official-1 PUB-11-r1 judge=pass call=488e3a25
+    SPEECH_AFTER_CLOSE   A47     t=38.26   You will receive a text message confirming this promise. Thank you for your time, Ms Almeida. Goodbye.
+    RECORDED_IN_GREETING A1/A37  t=0.13    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Almeida?
+    RECORDED_EARLY       A37     t=33.49   We have recorded those payments.
+prec-b-official-1 PUB-12-r1 judge=fail call=dfe1f910
+    SPEECH_AFTER_CLOSE   A47     t=38.36   You will receive a text message confirming this promise. Thank you for your time, Mr Bell. Goodbye.
+    RECORDED_IN_GREETING A1/A37  t=0.17    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Bell?
+    RECORDED_EARLY       A37     t=31.92   I have recorded a payment of 510.00 for your credit card ending 9015 on Thursday 15 October.
+    RECORDED_EARLY       A37     t=34.21   I have recorded that payment.
+    ATTEMPTS_OVER        A31     t=27.32   personal_loan p2: 3 offer(s), band wants 2; extra: For the personal loan, could you pay the minimum of 440.00 on the deadline, Friday 23 October?
+    ATTEMPTS_OVER        A31     t=30.52   car_loan p3: 2 offer(s), band wants 1; extra: For the car loan, could you instead pay the minimum of 46.00 this Friday 16 October?
+prec-b-official-1 PUB-13-r1 judge=pass call=1e35911e
+    SPEECH_AFTER_CLOSE   A47     t=28.86   You will receive a text message confirming this promise. Thank you for your time, Ms Rossi. Goodbye.
+    NO_GOODBYE           A47     t=28.73   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.24    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Rossi?
+prec-b-official-reps2 PUB-11-r1 judge=pass call=2cc82223
+    SPEECH_AFTER_CLOSE   A47     t=38.44   You will receive a text message confirming this promise. Thank you for your time, Ms Almeida. Goodbye.
+    NO_GOODBYE           A47     t=38.32   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.15    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Almeida?
+prec-b-official-reps2 PUB-12-r1 judge=fail call=cd9516eb
+    SPEECH_AFTER_CLOSE   A47     t=28.96   You will receive a text message confirming this promise. Thank you for your time, Mr Bell. Goodbye.
+    NO_GOODBYE           A47     t=28.69   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.16    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Bell?
+    RECORDED_EARLY       A37     t=21.04   I have recorded a payment of 510.00 for your credit card ending 9015 on Thursday 15 October 2026.
+    RECORDED_EARLY       A37     t=23.49   I have recorded that.
+    ATTEMPTS_OVER        A31     t=19.61   car_loan p3: 2 offer(s), band wants 1; extra: For the car loan, would you be able to pay the minimum amount of 46.00 this Friday 16 October 2026?
+prec-b-official-reps2 PUB-13-r1 judge=pass call=604548c5
+    SPEECH_AFTER_CLOSE   A47     t=35.44   You will receive a text message confirming this promise. Thank you for your time, Ms Rossi. Goodbye.
+    NO_GOODBYE           A47     t=35.37   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.14    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Rossi?
+prec-b-official-reps2 PUB-11-r2 judge=pass call=070fe199
+    SPEECH_AFTER_CLOSE   A47     t=25.23   You will receive a text message confirming this promise. Thank you for your time, Ms Almeida. Goodbye.
+    NO_GOODBYE           A47     t=25.15   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.38    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Almeida?
+    RECORDED_EARLY       A37     t=19.31   I have recorded those payment dates.
+prec-b-official-reps2 PUB-12-r2 judge=pass call=536c8778
+    SPEECH_AFTER_CLOSE   A47     t=31.11   You will receive a text message confirming this promise. Thank you for your time, Mr Bell. Goodbye.
+    NO_GOODBYE           A47     t=31.04   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.63    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Bell?
+    RECORDED_EARLY       A37     t=26.31   I have recorded that payment.
+prec-b-official-reps2 PUB-13-r2 judge=fail call=1987446b
+    SPEECH_AFTER_CLOSE   A47     t=23.85   You will receive a text message confirming this promise. Thank you for your time, Ms Rossi. Goodbye.
+    NO_GOODBYE           A47     t=23.76   no goodbye before close_call
+    RECORDED_IN_GREETING A1/A37  t=0.25    Hello, I am a digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Rossi?
+
+Calls with each finding (calls audited per label in brackets):
+| code | prec-a-official-1 (10) | prec-a-official-reps2 (20) | prec-b-official-1 (3) | prec-b-official-reps2 (6) |
+|---|---|---|---|---|
+| ATTEMPTS_OVER | 0 | 0 | 1 | 1 |
+| NO_GOODBYE | 10 | 20 | 1 | 6 |
+| RECORDED_EARLY | 0 | 0 | 2 | 3 |
+| RECORDED_IN_GREETING | 10 | 20 | 3 | 6 |
+| SPEECH_AFTER_CLOSE | 10 | 20 | 3 | 6 |
+| TODAY_AGAIN | 0 | 1 | 0 | 0 |
+
+39 calls; 32 judge-passed calls carry a finding other than RECORDED_IN_GREETING.

@@ -1,0 +1,93 @@
+ref-a-official-1 PUB-01-r1 judge=pass call=f95dfb9d
+    RECORDED_IN_GREETING A1/A37  t=0.2     Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Reyes?
+ref-a-official-1 PUB-02-r1 judge=pass call=fce00857
+    RECORDED_IN_GREETING A1/A37  t=0.3     Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Costa?
+ref-a-official-1 PUB-03-r1 judge=pass call=617de1db
+    RECORDED_IN_GREETING A1/A37  t=0.45    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Park?
+ref-a-official-1 PUB-04-r1 judge=pass call=5a493d70
+    RECORDED_IN_GREETING A1/A37  t=0.33    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Hoffmann?
+ref-a-official-1 PUB-05-r1 judge=pass call=105f47b4
+    RECORDED_IN_GREETING A1/A37  t=0.24    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Novak?
+ref-a-official-1 PUB-06-r1 judge=pass call=916fd746
+    RECORDED_IN_GREETING A1/A37  t=0.15    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Nair?
+ref-a-official-1 PUB-07-r1 judge=pass call=2d6e99c3
+    RECORDED_IN_GREETING A1/A37  t=0.25    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ortiz?
+ref-a-official-1 PUB-08-r1 judge=pass call=28960936
+    RECORDED_IN_GREETING A1/A37  t=0.13    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Schmidt?
+ref-a-official-1 PUB-09-r1 judge=pass call=4e609cda
+    RECORDED_IN_GREETING A1/A37  t=0.15    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ionescu?
+ref-a-official-1 PUB-10-r1 judge=pass call=e296becc
+    RECORDED_IN_GREETING A1/A37  t=0.17    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Lin?
+ref-a-official-reps2 PUB-01-r1 judge=pass call=2db44e62
+    RECORDED_IN_GREETING A1/A37  t=0.65    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Reyes?
+ref-a-official-reps2 PUB-02-r1 judge=pass call=b83bf193
+    RECORDED_IN_GREETING A1/A37  t=0.17    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Costa?
+ref-a-official-reps2 PUB-03-r1 judge=pass call=c60c4a08
+    RECORDED_IN_GREETING A1/A37  t=0.27    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Park?
+ref-a-official-reps2 PUB-04-r1 judge=pass call=0debe821
+    RECORDED_IN_GREETING A1/A37  t=0.18    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Hoffmann?
+ref-a-official-reps2 PUB-05-r1 judge=pass call=1e892d9f
+    RECORDED_IN_GREETING A1/A37  t=0.62    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Novak?
+ref-a-official-reps2 PUB-06-r1 judge=pass call=2a517358
+    RECORDED_IN_GREETING A1/A37  t=0.17    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Nair?
+ref-a-official-reps2 PUB-07-r1 judge=pass call=f5463f85
+    RECORDED_IN_GREETING A1/A37  t=0.37    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ortiz?
+    RECORDED_EARLY       A37     t=15.01   For your personal loan, I have a payment of 540 recorded for Tuesday, October 27th.
+ref-a-official-reps2 PUB-08-r1 judge=pass call=f97453f2
+    RECORDED_IN_GREETING A1/A37  t=0.3     Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Schmidt?
+ref-a-official-reps2 PUB-09-r1 judge=pass call=65da5a7e
+    RECORDED_IN_GREETING A1/A37  t=0.16    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ionescu?
+ref-a-official-reps2 PUB-10-r1 judge=fail call=e1a8ea2d
+    RECORDED_IN_GREETING A1/A37  t=0.75    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Lin?
+ref-a-official-reps2 PUB-01-r2 judge=pass call=26845796
+    RECORDED_IN_GREETING A1/A37  t=1.96    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Reyes?
+ref-a-official-reps2 PUB-02-r2 judge=pass call=745cf539
+    RECORDED_IN_GREETING A1/A37  t=0.31    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Costa?
+ref-a-official-reps2 PUB-03-r2 judge=pass call=50f74353
+    RECORDED_IN_GREETING A1/A37  t=0.24    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Park?
+ref-a-official-reps2 PUB-04-r2 judge=pass call=699cce9c
+    RECORDED_IN_GREETING A1/A37  t=0.84    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Hoffmann?
+ref-a-official-reps2 PUB-05-r2 judge=pass call=52d99438
+    RECORDED_IN_GREETING A1/A37  t=0.18    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Novak?
+ref-a-official-reps2 PUB-06-r2 judge=fail call=978bf9e2
+    RECORDED_IN_GREETING A1/A37  t=0.16    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Nair?
+ref-a-official-reps2 PUB-07-r2 judge=pass call=875d935e
+    RECORDED_IN_GREETING A1/A37  t=0.34    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ortiz?
+ref-a-official-reps2 PUB-08-r2 judge=pass call=f8f7a54d
+    RECORDED_IN_GREETING A1/A37  t=0.35    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Schmidt?
+ref-a-official-reps2 PUB-09-r2 judge=pass call=d22ace59
+    RECORDED_IN_GREETING A1/A37  t=0.49    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Ionescu?
+ref-a-official-reps2 PUB-10-r2 judge=fail call=cdab3f80
+    RECORDED_IN_GREETING A1/A37  t=0.16    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Lin?
+ref-b-official-1 PUB-11-r1 judge=pass call=659d22fc
+    RECORDED_IN_GREETING A1/A37  t=0.2     Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Almeida?
+    SMS_MISSING          A38     t=16.96   no text-message sentence after the recorded promise
+ref-b-official-1 PUB-12-r1 judge=pass call=7f223baf
+    RECORDED_IN_GREETING A1/A37  t=0.43    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Bell?
+ref-b-official-1 PUB-13-r1 judge=pass call=d920d784
+    RECORDED_IN_GREETING A1/A37  t=0.2     Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Rossi?
+    SMS_MISSING          A38     t=20.08   no text-message sentence after the recorded promise
+ref-b-official-reps2 PUB-11-r1 judge=pass call=2e53cc8e
+    RECORDED_IN_GREETING A1/A37  t=0.16    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Almeida?
+    SMS_MISSING          A38     t=89.38   no text-message sentence after the recorded promise
+ref-b-official-reps2 PUB-12-r1 judge=pass call=9ae7d73c
+    RECORDED_IN_GREETING A1/A37  t=0.15    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Bell?
+ref-b-official-reps2 PUB-13-r1 judge=pass call=4613b967
+    RECORDED_IN_GREETING A1/A37  t=0.54    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Rossi?
+    SMS_MISSING          A38     t=15.29   no text-message sentence after the recorded promise
+ref-b-official-reps2 PUB-11-r2 judge=pass call=008bced4
+    RECORDED_IN_GREETING A1/A37  t=0.14    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Almeida?
+ref-b-official-reps2 PUB-12-r2 judge=pass call=c8325de0
+    RECORDED_IN_GREETING A1/A37  t=0.94    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Mr Bell?
+ref-b-official-reps2 PUB-13-r2 judge=pass call=c887fffa
+    RECORDED_IN_GREETING A1/A37  t=0.72    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded. Am I speaking with Ms Rossi?
+    SMS_MISSING          A38     t=51.63   no text-message sentence after the recorded promise
+
+Calls with each finding (calls audited per label in brackets):
+| code | ref-a-official-1 (10) | ref-a-official-reps2 (20) | ref-b-official-1 (3) | ref-b-official-reps2 (6) |
+|---|---|---|---|---|
+| RECORDED_EARLY | 0 | 1 | 0 | 0 |
+| RECORDED_IN_GREETING | 10 | 20 | 3 | 6 |
+| SMS_MISSING | 0 | 0 | 2 | 3 |
+
+39 calls; 6 judge-passed calls carry a finding other than RECORDED_IN_GREETING.
