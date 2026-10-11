@@ -118,6 +118,33 @@ Counted from the stored transcripts (V07 order by the amount offered in the firs
 - Neither is proven to improve the Builder until a build with the change passes the official A and B runs and V09/V06
   three times each.
 
+## Found after this write-up (2026-10-11 morning)
+
+An independent audit of the stored calls, re-checked here against the raw records with their timestamps, found what
+the judge passed and this write-up missed. `tools/evaluation/policy_audit.py` now checks every stored call; it
+reproduces the counts above and these:
+
+| Finding (`policy_audit` code) | Rule | blind-ref | public-ref | lowering |
+|---|---|---|---|---|
+| Goodbye spoken after `close_call` started (`SPEECH_AFTER_CLOSE`) | A47 | 0/24 | 0/24 | **24/24** (21 judge PASS) |
+| "recorded" in the greeting (`RECORDED_IN_GREETING`) | A1/A37 | 24/24 | 0/24 | 0/24 |
+| No text-message sentence after a recorded promise (`SMS_MISSING`) | A38 | 1 (V08 r1, judge PASS) | 0 | 0 |
+| Product skipped (`ITEM_SKIPPED`) or attempt 2 dropped (`ATTEMPTS_SHORT`) | B4/A30 | 1 + 1 | 3 | 3 |
+| "today?" asked again (`TODAY_AGAIN`) | A28/B4 | 0 | 6 | 1 |
+| First per-product ask out of `get_account` order (`ORDER`) | B4 | 1 | 3 | 3 |
+| Weekday does not match the date (`WEEKDAY`) | dates | 0 | 0 | 3 |
+
+27 of the 72 calls are judge PASS with at least one finding (the greeting finding not counted).
+
+The lowering close order is deterministic: `builder/lower.py:328` puts the closing line on the `api_request` step whose
+`pre_actions` run `close_call`, and the call record has the line after the tool (V01 r1: `close_call` at 15.48 s, the
+goodbye at 15.59 s). The blind lowering-precedence agent was not run here, but its export has the same closing steps.
+The line "lowering is solid on single-product personas" in "Reading" holds for the ledger and the judge, not for the
+brief.
+
+Labels: the `-reps23` batches store their reps as 1 and 2; they are reps 2 and 3 of each cell (`policy_audit` and the
+tables here use 1 to 3).
+
 ## Limits
 
 Three reps per cell; 1/3 against 0/3 is not a reliable difference. A persona is a prompt to the simulator, not a

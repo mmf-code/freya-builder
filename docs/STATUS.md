@@ -1,26 +1,38 @@
-# Status at the end of 2026-10-10
+# Status (updated 2026-10-11 05:00 UTC+3)
 
 Branch `builder-integration` on GitHub. Read with `docs/START_HERE.md`, `docs/PLATFORM_NOTES.md` and
 `docs/EVAL_PROTOCOL.md`.
 
-## Builders
+## Handoff, 2026-10-11 05:00 UTC+3
 
-## Handoff, 2026-10-11 00:30 UTC+3
-
-- `builder-integration` holds everything (Persona Lab included); local main checkout and GitHub agree.
-- Final builder: `--skill builder/skills/reference` with a fresh `--state` per run; commands in
-  `docs/FINAL_RUNBOOK.md`. Freeze the skill and tools until the final.
-- Evidence: `docs/BUILDERS.md` (all candidates, official, blind raw A+B, Persona Lab g3/g5/g6/g7). Best blind result:
-  reference 11/13 customers 3/3 from one build; builds of one skill vary widely.
-- Next: Persona Lab behavioural runs (P layer, `tools/persona_lab/README.md`), one simulation at a time; agent ids
-  for the reference, lowering and blind-reference agents are in `runs/*/summary.json`
-  (161811-candidate-ab, 185544-lowering-ab, 212550-blind-ref-ab).
-- Known weak spots: per-product attempt counting (PUB-12 type), the judge counting "this call is recorded" as
-  "recorded" too early, 7 to 10 code hooks on bank tools (sandbox exposure).
+- Final builder unchanged: `--skill builder/skills/reference` (sha256 `7659a7bd2e6c`) with a fresh `--state` per
+  run; commands in `docs/FINAL_RUNBOOK.md`. Freeze the skill and the helpers kitrun copies until the final.
+- Done since 00:30: the Persona Lab P layer (72 calls, `docs/PERSONA_LAB_P_RESULTS.md`) and an independent audit of
+  the evidence (bundle of fe8bd5b). Its claims were re-checked against the raw records; the corrections are below and
+  in the docs.
+- Corrections:
+  1. The official 12/13 (A 10/10, B 2/3) belongs to `reference-fb88831`, built with practice customers. `reference`
+     itself is measured blind only: 11/13 from one build.
+  2. That A 10/10 is the rerun triple after a stalled run. The two earlier clean runs had 9/10 and 8/10; over all
+     five clean runs PUB-07 passed 3/5 and PUB-05 4/5.
+  3. The g3 attempts comparison is void: the fixture contradicts itself (`docs/FAILURE_MODES.md` #11).
+  4. Every lowering skill says the goodbye after `close_call` (`builder/lower.py:328`): 24/24 calls of the lowering
+     agents, 21 of them judge PASS. lowering-precedence writes the same step shape.
+  5. Blind results of one build per skill (11, 9, 8, 6 of 13) overlap in their 95% intervals; they do not rank skills.
+- New, not yet measured: `builder/skills/reference-v2` (reference + four general rules), the transcript checker
+  `tools/evaluation/policy_audit.py` (with `tests/test_policy_audit.py`), `docs/FAILURE_MODES.md` (failure catalog,
+  engineering preference, what we took from EVRE) and `docs/REFERENCE_V2.md` (experiment and switch rule).
+- Next, needs approval because it uses Freya: the paired experiment of `docs/REFERENCE_V2.md` (fresh reference build
+  vs reference-v2 build, ~2 hours). If its gate fails or time runs out, the final uses `reference`.
+- Known weak spots of `reference`: an item skipped after an out-of-turn refusal (V09), "this call is recorded" in the
+  greeting judged as an early "recorded", an occasional missing text-message sentence, 7 to 10 code hooks on bank
+  tools (sandbox exposure).
 - Housekeeping left: the experiment worktree `.claude/worktrees/evre-graph-safety` (branch
   `worktree-evre-graph-safety`, merged) can be removed; local `main` is the stale initial import.
 
-Updated at 23:45: every candidate skill now has its own directory under `builder/skills/`, with source commit,
+## Builders
+
+Updated at 23:45 on 2026-10-10: every candidate skill now has its own directory under `builder/skills/`, with source commit,
 sha256, status and measured results in `docs/BUILDERS.md`. Recommended: `--skill builder/skills/reference` with a
 fresh `--state` directory per run. The blind comparison (raw A+B, no practice customers) and the experiments of the
 evening are summarized there.
@@ -28,7 +40,7 @@ evening are summarized there.
 | Builder | How to run | Notes |
 |---|---|---|
 | Kit example builder, unchanged | `.venv/bin/python -m builder.kitrun BRIEF... --tools OPENAPI` | Reference from the kit |
-| Candidate, reference skill (92a695a) | `--skill builder/skills/reference` | Terminal-tool ordering, static check, hidden-brief-safe testing. Best measured, also in the blind test (11/13). |
+| Candidate, reference skill (92a695a) | `--skill builder/skills/reference` | Terminal-tool ordering, static check, hidden-brief-safe testing. Blind test 11/13 (one build). The official 12/13 is from its practice-test variant `reference-fb88831`. |
 | Candidate, counted rules (d4bc3c1) | `--skill builder/skills/counted-rules` | Rejected for the final: the build hit the 30-minute limit. Its policy effect stays inconclusive (tested during a platform outage). |
 
 Every `kitrun` run: isolated Claude config, only the input briefs in the workspace, practice customers only for kit
@@ -38,7 +50,7 @@ briefs identical to an input, static checks of the exports (exit 3 on errors), t
 
 | Agent | From | Official result |
 |---|---|---|
-| A 6a9597ac (workflow fbf21573 v2) | candidate skill of fb88831 (`builder/skills/reference-fb88831`; = `reference` except step 6), clean clone | Brief A 3 runs: 10/10, every customer 3/3 |
+| A 6a9597ac (workflow fbf21573 v2) | candidate skill of fb88831 (`builder/skills/reference-fb88831`; = `reference` except step 6), clean clone | Brief A: clean runs 9/10 (PUB-07) and 8/10 (PUB-05, PUB-07), third run stalled (excluded), rerun 3 runs 10/10 with every customer 3/3. Over the five clean runs PUB-07 3/5, PUB-05 4/5 |
 | B 3aa5a39a (workflow 0b8ba909 v2) | same build | Brief B 3 runs: 2/3 (PUB-12 0/3, attempt counting) |
 | B 84719013 (workflow adf8b837 v3) | kit builder, A+B | Brief B 3 runs: 2/3 (PUB-12 2/3); 4 of 13 calls had calls overlapping close_call |
 | A-raw 5313a08c (workflow ded64a3a) | candidate, hidden-brief mode, raw-material Brief A | Brief A 3 runs: 9/10, 5/10 (all failures with sandbox errors), 10/10 |
@@ -65,5 +77,7 @@ events before drawing conclusions.
 - Done on 2026-10-10 evening: sandbox-exposure count and the unbounded-loop error in the checker
   (`E-ENGINE-LOOP`), the per-customer merge of result files (`tools/evaluation/classify.py`), Persona Lab blind
   scenarios. See `docs/BUILDERS.md` and `docs/FINAL_RUNBOOK.md`.
-- Still open: one run of B 4f317fbf on the three B cases; brief-derived test scenarios to choose between runs of a
-  hidden brief (no reliable selection signal exists without customer scores).
+- Done on 2026-10-11 night: Persona Lab P layer, independent audit and corrections, `reference-v2`, `policy_audit`.
+- Still open: the `reference-v2` experiment (`docs/REFERENCE_V2.md`); brief-derived test scenarios to choose between
+  runs of a hidden brief (no reliable selection signal exists without customer scores); one run of B 4f317fbf on the
+  three B cases (an experiment agent, low priority).

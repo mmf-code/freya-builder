@@ -8,8 +8,15 @@ shorter build time, then earlier submission. A workspace holds 200 workflows.
 
 ## Builder
 
-`builder/skills/reference` (92a695a), run through `builder/kitrun.py`. Why: best measured on the official briefs and
-in the blind test (`docs/BUILDERS.md`). Do not change the skill or the tools between the runs of the final.
+`builder/skills/reference` (92a695a, sha256 `7659a7bd2e6c`), run through `builder/kitrun.py`. Why: the best blind
+result (raw A+B, no practice customers: 11/13 from one build), no timeout, and none of the deterministic defects in
+`docs/FAILURE_MODES.md`. The official 12/13 came from its practice-test variant `reference-fb88831`, not from this
+exact skill. `reference-v2` replaces it only if the switch rule in `docs/REFERENCE_V2.md` passes before the freeze;
+then this one path changes and nothing else.
+
+The configuration is the skill plus what kitrun copies into the workspace (`builder/workflow_check.py`,
+`builder/lower.py`, `builder/dryrun.py`) plus `builder/kitrun.py` itself, all at the agreed commit. Do not change any
+of them between the runs of the final.
 
 ## Before the briefs open
 
@@ -44,7 +51,9 @@ cp <downloaded tool API>.json briefs/final/<name>.openapi.json
 
 From `runs/<stamp>-final-<name>/`:
 - `<name>.workflow.json`: the export kitrun took with `freya.export_workflow` (what the organisers load and score).
-- `trace.txt`: start and end, every model call with a one-line purpose, what was created on Freya, tests run.
+- `trace.txt`: start and end, every model call with a one-line purpose, what was created on Freya, tests run. Before
+  submitting, search it for paths outside the run's `workspace/` (for example `cd ..` or the repository root): nothing
+  stops a builder from leaving its workspace, and a final trace should show that it did not.
 - The repository commit: `summary.json` records `repo_commit` and the skill's sha256.
 
 Commit the run record, including the ignored `out/` and `written/` folders, and check for secrets first:
