@@ -91,16 +91,17 @@ def main() -> int:
     run = runs[-1] if runs else None
     if run and (run / "summary.json").is_file():
         s = json.loads((run / "summary.json").read_text())
-        bad = []
+        bad, exports = [], 0
         for f in s.get("freya") or []:
             exp = run / str(f.get("export"))
             if exp.is_file():
+                exports += 1
                 bad += [u for u in urls_in(json.loads(exp.read_text()), []) if not u.startswith(mock)]
         print(f"build.py: run {run.relative_to(ROOT)}, inputs {inputs.relative_to(ROOT)}, state {state.relative_to(ROOT)}")
         if bad:
             print(f"build.py: {len(bad)} URL(s) in the export are outside {mock}: {sorted(set(bad))[:5]}", file=sys.stderr)
             return code or 4
-        print(f"build.py: every URL in the export is under {mock}")
+        print(f"build.py: every URL in {exports} export(s) is under {mock}" if exports else "build.py: no export")
     return code
 
 
