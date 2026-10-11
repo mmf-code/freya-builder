@@ -40,7 +40,8 @@ cp <downloaded tool API>.json briefs/final/<name>.openapi.json
 
 - One brief per run, with its own tool API. If a final brief says it extends the other one, pass both brief files
   to that run (as Brief A + B were), still with that brief's own tool API.
-- A hidden brief gets no practice customers; the builder then runs no practice test. Expect 6 to 15 minutes.
+- A hidden brief gets no practice customers; the builder then runs no practice test. Expect 6 to 18 minutes (the
+  rehearsal of 2026-10-11 with one raw brief took 17 minutes on a slow platform day).
 - The run's acceptance is at the end of `trace.txt` and under `acceptance` in `summary.json`, with every reason.
   Exit 0: accepted. Exit 1: the builder failed, its SDK result was an error or missing, it was stopped at the limit, or
   build, export and checks together took over 30 minutes. Exit 3: a check failed (static errors, no export, no or
@@ -61,6 +62,16 @@ From `runs/<stamp>-final-<name>/`:
   submitting, search it for paths outside the run's `workspace/` (for example `cd ..` or the repository root): nothing
   stops a builder from leaving its workspace, and a final trace should show that it did not.
 - The repository commit: `summary.json` records `repo_commit` and the skill's sha256.
+
+Checks before submitting (rehearsed 2026-10-11 on an accepted run; `R=runs/<stamp>-final-<name>`):
+
+```
+grep "^acceptance" -A5 $R/trace.txt                       # must say ACCEPTED (exit 0)
+python3 -c "import json,hashlib,sys; s=json.load(open(sys.argv[1]+'/summary.json')); [print(f['slot'], 'MATCH' if f['export_sha256']==hashlib.sha256(open(sys.argv[1]+'/'+f['export'],'rb').read()).hexdigest() else 'DIFF') for f in s['freya']]" $R
+grep -n "<repo>/" $R/trace.txt | grep -v "<repo>/$R/workspace" | grep -v ":builder:" | grep -v "<repo>/.claude-builder/"   # must print nothing
+                                                          # (.claude-builder/ is the builder's own Claude Code config: large tool output is kept there)
+grep -c "cd \.\." $R/trace.txt                             # must print 0
+```
 
 Commit the run record, including the ignored `out/` and `written/` folders, and check for secrets first:
 

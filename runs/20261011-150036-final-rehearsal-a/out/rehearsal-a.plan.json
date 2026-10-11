@@ -1,0 +1,264 @@
+{
+ "terminal": {
+  "tool": "close_call",
+  "evidence": [
+   {
+    "source": "tools/openapi.json",
+    "quote": "End the call. Always the last tool call. Nothing is accepted after it."
+   },
+   {
+    "source": "briefs/rehearsal-a.md",
+    "quote": "Every call ends with exactly one `close_call`, as the last tool call, with an outcome and, where the list gives one, a reason."
+   }
+  ]
+ },
+ "fields": {
+  "customer_id": "{{customer_id}}"
+ },
+ "closings": {
+  "promise": {
+   "set": {
+    "outcome": "promise"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `promise` | (none) | at least one PTP was recorded |"
+    }
+   ]
+  },
+  "paid": {
+   "set": {
+    "outcome": "paid"
+   },
+   "say": "Payments can take one business day to appear. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `paid` | (none) | the customer already paid (CP-4 2.8 e) |"
+    }
+   ]
+  },
+  "transferred_restructuring": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "restructuring"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `transferred` | `restructuring` | new plan or lower instalments (2.8 c) |"
+    }
+   ]
+  },
+  "transferred_human": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "human"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `transferred` | `human` | the customer insisted on a person (2.8 d) |"
+    }
+   ]
+  },
+  "transferred_support": {
+   "set": {
+    "outcome": "transferred",
+    "reason": "support"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `transferred` | `support` | hardship, customer accepted the support team (2.7 d) |"
+    }
+   ]
+  },
+  "no_promise_refused": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "refused"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `no_promise` | `refused` | attempts used up, or said twice they do not want to talk (2.7 c, 2.8 g) |"
+    }
+   ]
+  },
+  "no_promise_hardship": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "hardship"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `no_promise` | `hardship` | hardship, customer declined the support team (2.7 d) |"
+    }
+   ]
+  },
+  "no_promise_dispute": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "dispute"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `no_promise` | `dispute` | not mine, never had it, closed or paid off in the past (2.8 f) |"
+    }
+   ]
+  },
+  "no_promise_service_error": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "service_error"
+   },
+   "say": "I am sorry, I could not record your promise to pay. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `no_promise` | `service_error` | `create_promise` failed twice (2.8 b) |"
+    }
+   ]
+  },
+  "no_promise_service_error_account": {
+   "set": {
+    "outcome": "no_promise",
+    "reason": "service_error"
+   },
+   "say": "I am sorry, I cannot access your account details right now. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `no_promise` | `service_error` | `create_promise` failed twice (2.8 b) |"
+    }
+   ]
+  },
+  "not_verified_failed": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "failed"
+   },
+   "say": "I am sorry, I could not verify your identity. Please use the Freya Bank mobile app or visit a branch. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `not_verified` | `failed` | three wrong security answers (2.3 d) |"
+    }
+   ]
+  },
+  "not_verified_declined": {
+   "set": {
+    "outcome": "not_verified",
+    "reason": "declined"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `not_verified` | `declined` | refused the security questions, or did not want to talk before verification (2.3 e, 2.8 g) |"
+    }
+   ]
+  },
+  "not_reached_callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "callback"
+   },
+   "say": "We will call back at that time. Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `not_reached` | `callback` | callback booked (2.2 b, memo item 2) |"
+    }
+   ]
+  },
+  "not_reached_no_callback": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "no_callback"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `not_reached` | `no_callback` | no time inside the window (2.2 c) |"
+    }
+   ]
+  },
+  "not_reached_wrong_number": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "wrong_number"
+   },
+   "say": "Thank you for letting us know. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `not_reached` | `wrong_number` | the number is not the customer's (2.2 d) |"
+    }
+   ]
+  },
+  "not_reached_deceased": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "deceased"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `not_reached` | `deceased` | the customer has died (2.2 e) |"
+    }
+   ]
+  },
+  "not_reached_unclear": {
+   "set": {
+    "outcome": "not_reached",
+    "reason": "unclear"
+   },
+   "say": "Thank you for your time. Goodbye.",
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| `not_reached` | `unclear` | still unclear who answered after the second ask (2.1 c) |"
+    }
+   ]
+  }
+ },
+ "ladder": {
+  "template": "negotiate",
+  "done": "close:no_promise_refused",
+  "items": {
+   "count": "product_count",
+   "max": 1,
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "customers who are 1 to 45 days past due on one product"
+    }
+   ]
+  },
+  "attempts": {
+   "allowed": "p{i}_attempts_allowed",
+   "max": 3,
+   "evidence": [
+    {
+     "source": "briefs/rehearsal-a.md",
+     "quote": "| 8-45 | late | 5th business day after today | 2 |"
+    }
+   ]
+  },
+  "refusal": "refused_{i}_{a}"
+ }
+}
