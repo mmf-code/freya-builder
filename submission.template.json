@@ -1,10 +1,10 @@
 {
   "team": "<team name>",
   "members": [{"name": "<name>", "email": "<email>"}],
-  "repo": "<repository URL>",
+  "repo": "https://github.com/mmf-code/freya-builder",
   "commit": "<commit of the builder run>",
-  "run_command": "python3 builder/build.py {case_folder} {mock_url}",
-  "workflow": "runs/<stamp>-final/<slot>.workflow.json",
-  "trace": "runs/<stamp>-final/trace.txt",
-  "mock_url": "https://<worker>.workers.dev"
+  "run_command": "python3 builder/build.py {case_folder} https://freya-bank-mock-final.atakan-yamana.workers.dev --skill <skill> --label <label>",
+  "workflow": "runs/<stamp>-<label>/<slot>.workflow.json",
+  "trace": "runs/<stamp>-<label>/trace.txt",
+  "mock_url": "https://freya-bank-mock-final.atakan-yamana.workers.dev"
 }

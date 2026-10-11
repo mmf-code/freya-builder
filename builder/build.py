@@ -1,14 +1,15 @@
 """The final's run command: python3 builder/build.py CASE_FOLDER MOCK_URL [--skill DIR] [--label NAME] [--minutes N]
 
-1. Turns the case folder's documents into files the builder can read (builder/docs_text.py), under
+1. Convert the case folder's documents into files the builder can read (builder/docs_text.py). They go to
    runs/inputs-<stamp>-<label>/briefs/, with a manifest of every source file and its sha256.
-2. Finds the tool API: an OpenAPI JSON file in the case folder, else MOCK_URL/openapi.json (the mock may publish
-   its own). Writes a copy whose `servers` is MOCK_URL only, so the workflow checker rejects any tool URL outside
-   the mock (E-TOOL-SERVER).
-3. Runs builder.kitrun on those files: isolated, traced, with a fresh --state and its time limit.
-4. Checks every URL in the exported workflows against MOCK_URL.
+2. Read the tool API from MOCK_URL/openapi.json. The tools call the mock, so the mock's own description is the API.
+   Write a copy whose `servers` is MOCK_URL only. The workflow checker then rejects a tool URL outside the mock
+   (E-TOOL-SERVER).
+3. Run builder.kitrun on those files: isolated, traced, with a fresh --state and its time limit.
+4. Check every URL in the exported workflows against MOCK_URL.
 
-Nothing here knows what the documents say. Exit: kitrun's exit code, or 4 when an exported URL is outside the mock."""
+This script does not read what the documents say. Exit: kitrun's exit code, or 4 when an exported URL is outside
+the mock."""
 import argparse
 import json
 import subprocess
@@ -23,35 +24,20 @@ sys.path.insert(0, str(ROOT))
 from builder.docs_text import convert  # noqa: E402
 
 
-def find_openapi(case: Path) -> Path | None:
-    for p in sorted(case.rglob("*.json")):
-        try:
-            d = json.loads(p.read_text(encoding="utf-8"))
-        except (ValueError, UnicodeDecodeError):
-            continue
-        if isinstance(d, dict) and ("openapi" in d or "swagger" in d) and isinstance(d.get("paths"), dict):
-            return p
-    return None
-
-
 def under(url: str, base: str) -> bool:
     """Same scheme and host as `base`, and a path at or below its path (not a mere string prefix)."""
     u, b = urllib.parse.urlsplit(url), urllib.parse.urlsplit(base)
-    path, root = u.path or "/", (b.path.rstrip("/") or "")
+    path, root = u.path or "/", b.path.rstrip("/")
     return (u.scheme.lower(), u.netloc.lower()) == (b.scheme.lower(), b.netloc.lower()) \
         and (root == "" or path == root or path.startswith(root + "/"))
 
 
-def urls_in(obj, out: list[str]) -> list[str]:
-    if isinstance(obj, dict):
-        for v in obj.values():
-            urls_in(v, out)
-    elif isinstance(obj, list):
-        for v in obj:
-            urls_in(v, out)
+def urls_in(obj):
+    if isinstance(obj, (dict, list)):
+        for v in obj.values() if isinstance(obj, dict) else obj:
+            yield from urls_in(v)
     elif isinstance(obj, str) and obj.startswith(("http://", "https://")):
-        out.append(obj)
-    return out
+        yield obj
 
 
 def main() -> int:
@@ -71,14 +57,9 @@ def main() -> int:
     for f in skipped:
         print(f"build.py: not converted: {f['source']}: {f['skipped']}", file=sys.stderr)
 
-    src = find_openapi(a.case)
-    if src:
-        api = json.loads(src.read_text(encoding="utf-8"))
-        manifest["tool_api"] = {"source": str(src.relative_to(a.case)), "from": "case folder"}
-    else:
-        with urllib.request.urlopen(f"{mock}/openapi.json", timeout=30) as r:
-            api = json.loads(r.read().decode("utf-8"))
-        manifest["tool_api"] = {"source": f"{mock}/openapi.json", "from": "mock"}
+    with urllib.request.urlopen(f"{mock}/openapi.json", timeout=30) as r:
+        api = json.loads(r.read().decode("utf-8"))
+    manifest["tool_api"] = f"{mock}/openapi.json"
     api["servers"] = [{"url": mock}]
     tools = inputs / "openapi.json"
     tools.write_text(json.dumps(api, indent=1, ensure_ascii=False), encoding="utf-8")
@@ -87,16 +68,18 @@ def main() -> int:
 
     briefs = sorted((inputs / "briefs").iterdir())
     if a.prepare_only:
-        print(f"build.py: prepared {inputs.relative_to(ROOT)}: {len(briefs)} files, tool API from {manifest['tool_api']['source']}, {len(api.get('paths') or {})} paths")
+        print(f"build.py: prepared {inputs.relative_to(ROOT)}: {len(briefs)} files, tool API from {manifest['tool_api']}, {len(api.get('paths') or {})} paths")
         return 0
     state = ROOT / "state" / f"final-{a.label}-{stamp}"
     py = ROOT / ".venv/bin/python"
-    cmd = [str(py if py.exists() else sys.executable), "-m", "builder.kitrun", *map(str, briefs), "--tools", str(tools),
-           "--label", a.label, "--skill", str(a.skill.resolve()), "--state", str(state), "--minutes", str(a.minutes)]
-    print("build.py:", " ".join(cmd[:3]), f"<{len(briefs)} files>", " ".join(cmd[3 + len(briefs):]), flush=True)
-    code = subprocess.call(cmd, cwd=ROOT)
+    opts = ["--tools", str(tools), "--label", a.label, "--skill", str(a.skill.resolve()), "--state", str(state),
+            "--minutes", str(a.minutes)]
+    print("build.py: -m builder.kitrun", f"<{len(briefs)} files>", " ".join(opts), flush=True)
+    code = subprocess.call([str(py if py.exists() else sys.executable), "-m", "builder.kitrun", *map(str, briefs), *opts],
+                           cwd=ROOT)
 
-    runs = sorted(ROOT.glob(f"runs/*-{a.label}"), key=lambda r: r.stat().st_mtime)
+    runs = sorted((r for r in ROOT.glob(f"runs/*-{a.label}") if not r.name.startswith("inputs-")),
+                  key=lambda r: r.stat().st_mtime)
     run = runs[-1] if runs else None
     if run and (run / "summary.json").is_file():
         s = json.loads((run / "summary.json").read_text())
@@ -105,7 +88,7 @@ def main() -> int:
             exp = run / str(f.get("export"))
             if exp.is_file():
                 exports += 1
-                bad += [u for u in urls_in(json.loads(exp.read_text()), []) if not under(u, mock)]
+                bad += [u for u in urls_in(json.loads(exp.read_text())) if not under(u, mock)]
         print(f"build.py: run {run.relative_to(ROOT)}, inputs {inputs.relative_to(ROOT)}, state {state.relative_to(ROOT)}")
         if bad:
             print(f"build.py: {len(bad)} URL(s) in the export are outside {mock}: {sorted(set(bad))[:5]}", file=sys.stderr)

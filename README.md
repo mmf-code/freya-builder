@@ -1,7 +1,9 @@
 # freya-builder
 
-> Current state (2026-10-11): the builder is `builder/kitrun.py` with a skill from `builder/skills/`. Candidates and
-> results: `docs/BUILDERS.md`. Final-day commands: `docs/FINAL_RUNBOOK.md`. Running status: `docs/STATUS.md`.
+> Final (2026-10-11): run the builder with `python3 builder/build.py CASE_FOLDER MOCK_URL --skill DIR --label NAME`.
+> `build.py` converts the case documents to text, reads the tool API from the mock, and runs `builder/kitrun.py` with
+> a skill from `builder/skills/`. The bank mock is in `mock/` (Cloudflare Workers) and is not part of the builder.
+> Steps: `docs/FINAL_LIVE.md`. Candidates and results: `docs/BUILDERS.md`. Status: `docs/STATUS.md`.
 > The paragraphs below describe the pre-kit utilities.
 
 Freya Build the Builder hackathon workspace. The official **v3 kit is now vendored**

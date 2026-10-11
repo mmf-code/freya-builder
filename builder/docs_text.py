@@ -1,12 +1,12 @@
-"""Turn a folder of bank documents into files the builder can read, without knowing what the documents say.
+"""Turn a folder of bank documents into files the builder can read. This module does not read what they say.
 
-Text files are copied as they are. Word, PDF and Excel files get a text copy next to the original:
-- .docx, .doc, .rtf, .odt: macOS `textutil` (plain text);
-- .pdf: `pdftotext -layout` (poppler);
-- .xlsx, .xlsm: read with the standard library, one Markdown table per sheet. A number in a cell whose format is a
-  date is written as an ISO date.
-Images and PDFs are also kept as they are: the builder's model can read them. Nothing is dropped silently: a file
-that cannot be converted is listed in the manifest with the reason."""
+- Text files: copied as they are.
+- .docx, .doc, .rtf, .odt: a plain-text copy made with macOS `textutil`.
+- .pdf: a text copy made with `pdftotext -layout` (poppler), and the PDF itself.
+- .xlsx, .xlsm: one Markdown table per sheet, read with the standard library. A number in a date-formatted cell
+  becomes an ISO date.
+- Images: copied as they are. The builder's model can read images and PDFs.
+The manifest lists every file. A file that cannot be converted is listed with the reason."""
 import datetime
 import hashlib
 import json
@@ -21,14 +21,14 @@ from xml.etree import ElementTree as ET
 TEXT = {".md", ".txt", ".csv", ".json", ".yaml", ".yml", ".tsv", ".html", ".htm", ".xml"}
 WORD = {".docx", ".doc", ".rtf", ".odt"}
 SHEET = {".xlsx", ".xlsm"}
-KEEP = {".pdf", ".png", ".jpg", ".jpeg", ".gif", ".webp"}
+KEEP = {".png", ".jpg", ".jpeg", ".gif", ".webp"}
 NS = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main",
       "r": "http://schemas.openxmlformats.org/officeDocument/2006/relationships"}
 DATE_FMT_IDS = set(range(14, 23)) | {45, 46, 47}
 
 
 def flat_name(rel: Path) -> str:
-    """A file name for workspace/briefs/: the path inside the case folder with '/' replaced, safe characters only."""
+    """A flat file name for the briefs folder: '/' in the path becomes '__', and only safe characters remain."""
     name = "__".join(rel.parts)
     return re.sub(r"[^\w.\-]+", "_", name, flags=re.UNICODE)
 
@@ -107,7 +107,7 @@ def xlsx_to_markdown(path: Path) -> str:
 
 
 def convert(case: Path, dest: Path) -> dict:
-    """Write every usable file of `case` into `dest` (flat). Returns the manifest, also written to dest/../manifest.json."""
+    """Write every usable file of `case` into `dest` (flat). Return the manifest."""
     dest.mkdir(parents=True, exist_ok=True)
     manifest = {"case": str(case), "files": []}
     root = case.resolve()
