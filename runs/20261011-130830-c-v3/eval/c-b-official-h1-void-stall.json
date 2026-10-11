@@ -1,0 +1,148 @@
+{
+ "agent_id": "ec4e3926-1338-4711-8274-b609cb0c8e37",
+ "simulation_id": "1fe9b508-9036-45b0-90cc-d082f6758385",
+ "iteration_id": "8f0f0c84-32e5-4863-b59f-ff4e41a4ee9b",
+ "seconds": 175,
+ "passed": 1,
+ "total": 3,
+ "runs": 1,
+ "final": [
+  {
+   "id": "PUB-11",
+   "family": "Multi-product",
+   "passes": 0,
+   "runs": 1,
+   "pass": false
+  },
+  {
+   "id": "PUB-12",
+   "family": "Multi-product",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-13",
+   "family": "Multi-product",
+   "passes": 0,
+   "runs": 1,
+   "pass": false
+  }
+ ],
+ "rows": [
+  {
+   "id": "PUB-11",
+   "level": "medium",
+   "family": "Multi-product",
+   "pass": false,
+   "failed": [
+    "outcome (None, None), expected ('promise', None)",
+    "promises [], expected [('p1', 220.0, '2026-10-16'), ('p2', 640.0, '2026-10-16'), ('p3', 75.0, '2026-10-16')]",
+    "the call was not closed with close_call",
+    "conversation: - The agent did not state any products before the call ended. - There were no read-backs or confirmations for any products. - No create_promise tool calls were executed."
+   ],
+   "call_id": "5bf1315e-e396-4075-9825-c04c0797ff8f",
+   "tools": [],
+   "customer_id": "c_00d25133-8ba",
+   "slowest_turn_s": 0.0,
+   "ended": "customer-ended-call"
+  },
+  {
+   "id": "PUB-12",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "3e4fb40c-e88d-4110-b9c6-047cc9d4db6a",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "add_note",
+    "add_note",
+    "close_call"
+   ],
+   "customer_id": "c_294bc899-509",
+   "slowest_turn_s": 29.2,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-13",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": false,
+   "failed": [
+    "outcome (None, None), expected ('promise', None)",
+    "promises [], expected [('p1', 300.0, '2026-10-30'), ('p2', 900.0, '2026-10-23')]",
+    "the call was not closed with close_call",
+    "conversation: The conversation ended immediately after the user identified themselves. None of the success criteria were met: no payment arrangements were recorded for the credit card or the loan, and no read-back of dates occurred."
+   ],
+   "call_id": "ee4cebab-692a-4858-9247-fa4a9af04d40",
+   "tools": [],
+   "customer_id": "c_1b0931b6-4c1",
+   "slowest_turn_s": 0.0,
+   "ended": "customer-ended-call"
+  }
+ ],
+ "all_rows": [
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "outcome (None, None), expected ('promise', None)",
+     "promises [], expected [('p1', 220.0, '2026-10-16'), ('p2', 640.0, '2026-10-16'), ('p3', 75.0, '2026-10-16')]",
+     "the call was not closed with close_call",
+     "conversation: - The agent did not state any products before the call ended. - There were no read-backs or confirmations for any products. - No create_promise tool calls were executed."
+    ],
+    "call_id": "5bf1315e-e396-4075-9825-c04c0797ff8f",
+    "tools": [],
+    "customer_id": "c_00d25133-8ba",
+    "slowest_turn_s": 0.0,
+    "ended": "customer-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "3e4fb40c-e88d-4110-b9c6-047cc9d4db6a",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "add_note",
+     "add_note",
+     "close_call"
+    ],
+    "customer_id": "c_294bc899-509",
+    "slowest_turn_s": 29.2,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "outcome (None, None), expected ('promise', None)",
+     "promises [], expected [('p1', 300.0, '2026-10-30'), ('p2', 900.0, '2026-10-23')]",
+     "the call was not closed with close_call",
+     "conversation: The conversation ended immediately after the user identified themselves. None of the success criteria were met: no payment arrangements were recorded for the credit card or the loan, and no read-back of dates occurred."
+    ],
+    "call_id": "ee4cebab-692a-4858-9247-fa4a9af04d40",
+    "tools": [],
+    "customer_id": "c_1b0931b6-4c1",
+    "slowest_turn_s": 0.0,
+    "ended": "customer-ended-call"
+   }
+  ]
+ ]
+}

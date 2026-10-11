@@ -1,7 +1,21 @@
-# Status (updated 2026-10-11 05:07 UTC+3)
+# Status (updated 2026-10-11 17:10 UTC+3)
 
 Branch `builder-integration` on GitHub. Read with `docs/START_HERE.md`, `docs/PLATFORM_NOTES.md` and
 `docs/EVAL_PROTOCOL.md`.
+
+## Handoff, 2026-10-11 17:10 UTC+3 (final 20:00-23:00)
+
+- Final builder unchanged: `--skill builder/skills/reference` (sha256 `7659a7bd2e6c`), now **two runs per final brief
+  side by side**, each with its own `--state`, and `tools/evaluation/closing_check.py` picks the accepted run whose
+  terminal steps are silent (`docs/FINAL_RUNBOOK.md`; approved 16:40). Reason: 5 of 10 stored `reference` builds,
+  both of today among them, speak their goodbye after `close_call` (#1); v1-fresh did so in 26 of 26 official calls.
+- Experiment C on a healthy platform (16:10-17:50, `docs/REFERENCE_V2.md`, section "Healthy rounds"): the switch rule
+  fails for v2 (confirmed `RECORDED_EARLY` and `ATTEMPTS_OVER` that v1-fresh does not have; V09 ran once, so rule 3
+  cannot hold) and for v3 (build defect #17: silent after the write). Official, two rounds: v1-fresh 10/13, v2 10/13,
+  v3 9/13 customers passing every run; no customer can be called 3/3 from two rounds.
+- The platform was slow in most runs (median slowest turn over 5 s in 8 of 11 valid runs) and four calls of v2 and v3
+  went silent with no event; see `docs/FAILURE_MODES.md` #10.
+- Freeze: the skill, the helpers kitrun copies, `kitrun.py` and `closing_check.py` at the commit of this handoff.
 
 ## Handoff, 2026-10-11 05:07 UTC+3
 

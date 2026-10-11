@@ -1,0 +1,18 @@
+PASS PUB-01 easy   Happy path     | verify > verify > get_account > promise > close_call
+PASS PUB-02 medium Third party    | schedule_callback > close_call
+PASS PUB-03 medium Identity       | verify > verify > verify > close_call
+PASS PUB-04 medium Dates          | verify > verify > get_account > promise > close_call
+FAIL PUB-05 medium Hardship       | verify > verify > get_account > close_call
+       - conversation: The assistant offered the support team twice (Message 8 and Message 10), failing the criterion that the support team should be offered only once. All other criteria were met: the assistant provided one sentence of sympathy in Message 8, did not a
+FAIL PUB-06 hard   Amounts        | verify > verify > get_account > promise > close_call
+       - conversation: - The agent failed to include the required note that the rest of the balance stays overdue when offering the minimum payment. - The agent successfully avoided asking the customer how much they could pay. - The promise for 637.50 on Friday, Octobe
+PASS PUB-07 hard   Dates          | verify > verify > get_account > promise > close_call
+PASS PUB-08 medium Already paid   | verify > verify > get_account > close_call
+PASS PUB-09 medium Restructuring  | verify > verify > get_account > transfer_to_agent > close_call
+FAIL PUB-10 hard   Tool failure   | verify > verify > get_account > promise > promise > close_call
+       - conversation: The conversation failed the success criteria because the agent said the word 'recorded' before a successful API call. While the agent correctly handled the 'create_promise' API failure by retrying and only informing the user of the recorded promi
+
+slowest agent turn per call: median 20 s, worst 48 s. Failed calls where the customer hung up: 0.
+WARNING: the phone agent was slow in this run. If the same agent is fast in another run, the model was busy and this score is too low.
+
+7 / 10 passed (bank records and conversation checks). Last simulation 596d19e4-5b4f-40d2-9fcc-f31669b543b8, status completed, 308 s.

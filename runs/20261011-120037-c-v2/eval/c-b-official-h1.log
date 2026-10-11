@@ -1,0 +1,13 @@
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise > add_note > add_note > close_call
+       - conversation: The agent failed to meet the success criteria regarding the number of collection attempts. Although the agent correctly made two attempts for the personal loan (Message 16 and Message 18), it also made two attempts for the car loan (Message 20 an
+FAIL PUB-13 hard   Multi-product  | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 300.0, '2026-10-30'), ('p2', 900.0, '2026-10-23')]
+       - the call was not closed with close_call
+       - conversation: - The credit card was not recorded on 30 October. - The loan was not recorded on 23 October. - There was no read-back of dates. - The conversation ended after the user identified themselves, failing to address any of the success criteria.
+
+slowest agent turn per call: median 28 s, worst 36 s. Failed calls where the customer hung up: 1.
+WARNING: the phone agent was slow in this run. If the same agent is fast in another run, the model was busy and this score is too low.
+
+1 / 3 passed (bank records and conversation checks). Last simulation 6e689019-522e-48ff-b9f5-32f835c44de5, status completed, 226 s.

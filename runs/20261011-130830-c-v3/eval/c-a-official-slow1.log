@@ -1,0 +1,23 @@
+FAIL PUB-01 easy   Happy path     | verify > verify > get_account > promise > verify > verify > close_call
+       - outcome ('not_verified', 'declined'), expected ('promise', None)
+       - conversation: The call failed for several reasons: 1. The success criterion 'create_promise called exactly once' was not met, as the function was never invoked. 2. The required 'text-message' sentence was never spoken by the assistant. 3. The assistant entered
+FAIL PUB-02 medium Third party    | schedule_callback > close_call
+       - conversation: - The agent did not schedule a callback for the next business day at 11:00 as required by the success criteria. The call ended immediately after the user asked what the call was about.
+FAIL PUB-03 medium Identity       | verify > verify
+       - outcome (None, None), expected ('not_verified', 'failed')
+       - the call was not closed with close_call
+       - conversation: The call did not meet all the success criteria. Specifically, the customer was never told to use the app or visit a branch, as the customer ended the call immediately after providing a second incorrect answer (Message 5). Consequently, the requir
+PASS PUB-04 medium Dates          | verify > verify > get_account > promise > close_call
+PASS PUB-05 medium Hardship       | verify > verify > get_account > close_call
+PASS PUB-06 hard   Amounts        | verify > verify > get_account > promise > close_call
+PASS PUB-07 hard   Dates          | verify > verify > get_account > promise > close_call
+PASS PUB-08 medium Already paid   | verify > verify > get_account > close_call
+PASS PUB-09 medium Restructuring  | verify > verify > get_account > transfer_to_agent > close_call
+FAIL PUB-10 hard   Tool failure   | verify > verify > get_account > promise > promise
+       - outcome (None, None), expected ('promise', None)
+       - the call was not closed with close_call
+
+slowest agent turn per call: median 31 s, worst 55 s. Failed calls where the customer hung up: 3.
+WARNING: the phone agent was slow in this run. If the same agent is fast in another run, the model was busy and this score is too low.
+
+6 / 10 passed (bank records and conversation checks). Last simulation 505dc284-cabe-432e-ab89-71d3be404ed1, status completed, 969 s.

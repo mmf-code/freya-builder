@@ -1,0 +1,17 @@
+PASS PUB-01 easy   Happy path     | verify > verify > get_account > promise > close_call
+PASS PUB-02 medium Third party    | schedule_callback > close_call
+PASS PUB-03 medium Identity       | verify > verify > verify > close_call
+PASS PUB-04 medium Dates          | verify > verify > get_account > promise > close_call
+FAIL PUB-05 medium Hardship       | verify > verify > get_account > close_call
+       - conversation: The assistant failed to meet the success criteria because it offered the support team twice (Message 8 and Message 10) instead of only once as required. Other criteria were met: it provided exactly one sentence of sympathy in Message 8, did not a
+FAIL PUB-06 hard   Amounts        | verify > verify > get_account > promise > close_call
+       - conversation: - The agent correctly avoided asking the customer how much they could pay, opting instead to offer specific amounts. - The promise was correctly set for 637.50 on Friday, October 16th (the assistant correctly used the year 2026, which is a Friday
+PASS PUB-07 hard   Dates          | verify > verify > get_account > promise > close_call
+PASS PUB-08 medium Already paid   | verify > verify > get_account > close_call
+PASS PUB-09 medium Restructuring  | verify > verify > get_account > transfer_to_agent > close_call
+PASS PUB-10 hard   Tool failure   | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 17 s, worst 20 s. Failed calls where the customer hung up: 0.
+WARNING: the phone agent was slow in this run. If the same agent is fast in another run, the model was busy and this score is too low.
+
+8 / 10 passed (bank records and conversation checks). Last simulation 2df9d04b-8c9d-400b-b5ec-a851b4e6952b, status completed, 155 s.

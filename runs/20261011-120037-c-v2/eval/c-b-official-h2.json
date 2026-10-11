@@ -1,0 +1,162 @@
+{
+ "agent_id": "ac8acb5a-0a55-4df3-8dad-2d2dc907b397",
+ "simulation_id": "8bebadeb-9989-4c5c-b890-cab3db92c0e4",
+ "iteration_id": "7cb6a1b0-c335-4278-920b-13048700ab0b",
+ "seconds": 339,
+ "passed": 2,
+ "total": 3,
+ "runs": 1,
+ "final": [
+  {
+   "id": "PUB-11",
+   "family": "Multi-product",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-12",
+   "family": "Multi-product",
+   "passes": 0,
+   "runs": 1,
+   "pass": false
+  },
+  {
+   "id": "PUB-13",
+   "family": "Multi-product",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  }
+ ],
+ "rows": [
+  {
+   "id": "PUB-11",
+   "level": "medium",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "c816dc00-ab0f-4fde-a07e-6609abc8a979",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_e4f7f02c-5da",
+   "slowest_turn_s": 46.3,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-12",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": false,
+   "failed": [
+    "outcome (None, None), expected ('promise', None)",
+    "promises [], expected [('p1', 510.0, '2026-10-15')]",
+    "notes [], expected [('p2', 'refused'), ('p3', 'refused')]",
+    "the call was not closed with close_call",
+    "conversation: - The assistant correctly asked the phone question twice (Messages 4 and 6) and the date of birth once (Message 2). - No 'refused' notes were recorded via system events for the personal loan or car loan, which violates the success criteria requiring a note for each. - The assistant made two attempts to collect/negotiate the car loan (early band, 7 days late) by asking for payment in Message 8 and "
+   ],
+   "call_id": "4a98eed9-eb80-439b-93d1-568e919a0a9d",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "verify_identity",
+    "get_account"
+   ],
+   "customer_id": "c_40ea4df6-2b7",
+   "slowest_turn_s": 22.1,
+   "ended": "customer-ended-call"
+  },
+  {
+   "id": "PUB-13",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "3bc7afdd-b7c8-4f69-9c6c-76cc45643372",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_ec5d82b2-646",
+   "slowest_turn_s": 2.6,
+   "ended": "assistant-ended-call"
+  }
+ ],
+ "all_rows": [
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "c816dc00-ab0f-4fde-a07e-6609abc8a979",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_e4f7f02c-5da",
+    "slowest_turn_s": 46.3,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "outcome (None, None), expected ('promise', None)",
+     "promises [], expected [('p1', 510.0, '2026-10-15')]",
+     "notes [], expected [('p2', 'refused'), ('p3', 'refused')]",
+     "the call was not closed with close_call",
+     "conversation: - The assistant correctly asked the phone question twice (Messages 4 and 6) and the date of birth once (Message 2). - No 'refused' notes were recorded via system events for the personal loan or car loan, which violates the success criteria requiring a note for each. - The assistant made two attempts to collect/negotiate the car loan (early band, 7 days late) by asking for payment in Message 8 and "
+    ],
+    "call_id": "4a98eed9-eb80-439b-93d1-568e919a0a9d",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account"
+    ],
+    "customer_id": "c_40ea4df6-2b7",
+    "slowest_turn_s": 22.1,
+    "ended": "customer-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "3bc7afdd-b7c8-4f69-9c6c-76cc45643372",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_ec5d82b2-646",
+    "slowest_turn_s": 2.6,
+    "ended": "assistant-ended-call"
+   }
+  ]
+ ]
+}

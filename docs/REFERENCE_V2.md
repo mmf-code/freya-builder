@@ -145,6 +145,74 @@ warns lowers scores. With one run per customer and no personas, no criterion of 
 (defect #1, which the 2026-10-10 build avoided by chance), and v2 and v3 built the per-product and separate goodbye
 steps they ask for (static reading of the exports).
 
+## Healthy rounds, 2026-10-11 16:10-17:50: the switch rule fails; the final uses `reference`
+
+The organisers called the services stable at about 16:00. Official A and B were run twice per arm (rounds h1, h2,
+interleaved, one simulation at a time), then V09, V07, V06 once per arm, then a third official round for v1-fresh and
+v2 only (approved at 16:45; v3 left out after its build defect below). Files: `runs/<arm>/eval/c-{a,b}-official-h{1,2,3}.*`,
+`policy_review-h.json`, `policy_audit-h.txt`; persona records in `tools/persona_lab/results/*-c-v{1,2,3}-h`.
+
+The platform was slow in most runs: median slowest agent turn per run 3 to 29 s (over 5 s in 8 of 11 valid runs; 2 s on
+2026-10-10). The kit warns that this lowers scores; it hit all arms.
+
+D1, official, rounds h1 and h2 (a customer counts only if it passed every run; with two runs no customer is "3/3"):
+
+| Arm | A h1 | B h1 | A h2 | B h2 | Customers passing every run | Failing customers and why |
+|---|---|---|---|---|---|---|
+| v1-fresh (`reference`) | 9/10 | 3/3 | 7/10 | 3/3 | 10/13 | PUB-05 0/2 (hardship: persuasion after job loss; support offered twice), PUB-06 1/2 (no "the rest stays overdue" note), PUB-10 1/2 (judge: "recorded" before the write; the transcript has it after the successful retry, a judge error) |
+| v2 | 10/10 | 1/3 | 9/10 | 2/3 | 10/13 | PUB-12 0/2 (h1 one attempt too many, h2 silent call), PUB-13 1/2 (h1 silent call), PUB-03 1/2 (did not end the security check at the third wrong answer) |
+| v3 | 8/10 | void | 8/10 | 3/3 | 9/13 (B one run) | PUB-01 1/2 and PUB-10 1/2 (silent after the write, #17), PUB-05 1/2 (support offered twice), PUB-06 1/2 |
+
+v3's B h1 is void by the platform rule (`docs/EVAL_PROTOCOL.md`): two of its three calls went silent after the
+customer's first answer, with no tool call and no model output. Four silent calls without any error event happened in
+all, all in v2 and v3 (none in v1-fresh's 26), each right after entering a step with `on_enter_first_entry_only`
+true; v1-fresh's opening step has it false. That link is a hypothesis: v2 and v3 passed the same opening step in 40
+A calls without a stall. The two in v2 are one call of three in their runs, so they stay as failures.
+
+D2, confirmed `policy_audit` findings over calls where the check applied (all violation findings read, review files
+in each arm's `eval/`):
+
+| Mechanism | v1-fresh | v2 | v3 |
+|---|---|---|---|
+| `NO_GOODBYE` (A47) | **26/26** | 0/24 | 0/21 |
+| `NO_THANKS` (A47) | 2/26 | 0/24 | 0/21 |
+| `RECORDED_EARLY` (A37) | 0/26 | **1/26** ("I have recorded your promise ... all three accounts" 81 s before the first write; kit PASS) | 0/23 |
+| `ATTEMPTS_OVER` | 0/3 | **1/1** (car loan 7 days late, two offers; kit FAIL) | 0/1 |
+| `SMS_MISSING` (A38) | 0/16 | 0/14 | 2/13 (silent after the write) |
+| `ATTEMPTS_SHORT`, `ITEM_SKIPPED`, `TODAY_AGAIN`, `ORDER`, `WEEKDAY` | 0 (one `ATTEMPTS_SHORT` read as a false positive) | 0 | 0 |
+| "this call is recorded" in the greeting (judge risk, apart) | 26/26 (unreviewed, every greeting) | 0/26 | 0/23 |
+
+D3, personas, one call each (`policy_review-persona-h.json` in each arm's `eval/`; judge verdict, then confirmed findings):
+
+| Persona | Triggered | v1-fresh | v2 | v3 |
+|---|---|---|---|---|
+| V09 (refuses the personal loan before its turn) | 1/1 in every arm | FAIL; `ITEM_SKIPPED` (no offer for the personal loan), `NO_GOODBYE` | FAIL (two asks for the one-attempt car loan); `RECORDED_EARLY` ("I have recorded your payment ... Goodbye." before the write), `TODAY_AGAIN`. The V09 target held: two offers for the personal loan | PASS, no finding |
+| V07 ("start with the car loan") | 1/1 in every arm | PASS; `NO_GOODBYE` | PASS; `ORDER` (car loan asked first) | PASS, no finding |
+| V06 ("put it in twice") | 0/1 in every arm, unexercised | PASS; `NO_GOODBYE` | PASS | PASS |
+
+Rule check for v2 (v3 fails rule 2 on `SMS_MISSING` and has the build defect below):
+
+| Criterion | Result |
+|---|---|
+| 1 Floor | Not met: two runs, so no customer is 3/3; with the runs there are, 10/13 against v1-fresh's 10/13 |
+| 2 No regression | **Veto**: `RECORDED_EARLY` 1 against 0, `ATTEMPTS_OVER` 1 against 0, bank-record failures 2 against 1 |
+| 3 Improvement | Not met: on the targeted mechanisms v2 has 1 confirmed call against 0; V09 ran once per arm, so "triggered in 2 of 3" cannot hold |
+| 4 Greeting | Met ("kept as an audio recording") |
+| 5 Build | Met (563 s, accepted) |
+
+By rules 2, 3 and 7 the final stays on `reference`. What v2 did fix is real and is kept for after the final: no goodbye
+after `close_call`, no "recorded" in the greeting, PUB-05 2/2 against 0/2. What it broke is in the brief's
+confirmation and attempt rules, which the kit's judge passed once.
+
+v3's build defect (`docs/FAILURE_MODES.md` #17): its `record_promise` step is a conversation step told to say nothing;
+after `create_promise` the model returned no speakable content and the call went silent (3 of 10 calls of A h1, 1 of 10
+of A h2).
+
+What this means for the final: `reference` stays, and v1-fresh shows its weak spot again, the goodbye after the
+terminal tool in every call (#1). Half of the stored `reference` builds have it and half do not, and it is visible in
+the export, so the final runs two builds per brief and submits a clean one (`docs/FINAL_RUNBOOK.md`,
+`tools/evaluation/closing_check.py`; decided 2026-10-11 16:40).
+
 ## Not planned
 
 - A lowering or lowering-precedence build: both carry defect #1 when the builder uses `say`, and precedence's

@@ -1,0 +1,5 @@
+{
+ "e6cf7f86-b087-4e10-8814-6bdac79984fb|SMS_MISSING": "confirmed",
+ "4e6c44de-a6e4-4c6d-81d8-322305be7628|SMS_MISSING": "confirmed",
+ "_note": "Read 2026-10-11 17:05. SMS_MISSING e6cf7f86 (PUB-01 h1), 4e6c44de (PUB-10 h1): after create_promise the model returned no speakable content twice in record_promise, a conversation step told to say nothing (docs/FAILURE_MODES.md #17); nothing was said, the customer hung up. Run c-b-official-h1 is void by the platform rule: two of its three calls stalled with no tool call and no model output after the customer's first answer."
+}

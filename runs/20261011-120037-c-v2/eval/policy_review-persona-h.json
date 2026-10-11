@@ -1,0 +1,6 @@
+{
+ "5e0ed284-7801-462e-9eb1-29ddc2315953|ORDER": "confirmed",
+ "c3052312-5944-42c8-855b-7f176fec18d6|RECORDED_EARLY": "confirmed",
+ "c3052312-5944-42c8-855b-7f176fec18d6|TODAY_AGAIN": "confirmed",
+ "_note": "Read 2026-10-11 17:10. V09: RECORDED_EARLY ('I have recorded your payment for the credit card ... Goodbye.' before create_promise, then the call went on); TODAY_AGAIN ('Can you pay all of them today?', later 'Could you pay the full amount today?' for the car loan). The V09 target itself held: two offers for the personal loan. V07 ORDER: after 'Can we start with the car loan?' the agent asked for a car-loan payment first (#4). V06 not triggered."
+}

@@ -1,0 +1,449 @@
+{
+ "agent_id": "5bdf87b0-0e22-4168-a83d-d0b075b551d2",
+ "simulation_id": "596d19e4-5b4f-40d2-9fcc-f31669b543b8",
+ "iteration_id": "e458610c-4351-4ce4-89c1-a3b166bc6d76",
+ "seconds": 308,
+ "passed": 7,
+ "total": 10,
+ "runs": 1,
+ "final": [
+  {
+   "id": "PUB-01",
+   "family": "Happy path",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-02",
+   "family": "Third party",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-03",
+   "family": "Identity",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-04",
+   "family": "Dates",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-05",
+   "family": "Hardship",
+   "passes": 0,
+   "runs": 1,
+   "pass": false
+  },
+  {
+   "id": "PUB-06",
+   "family": "Amounts",
+   "passes": 0,
+   "runs": 1,
+   "pass": false
+  },
+  {
+   "id": "PUB-07",
+   "family": "Dates",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-08",
+   "family": "Already paid",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-09",
+   "family": "Restructuring",
+   "passes": 1,
+   "runs": 1,
+   "pass": true
+  },
+  {
+   "id": "PUB-10",
+   "family": "Tool failure",
+   "passes": 0,
+   "runs": 1,
+   "pass": false
+  }
+ ],
+ "rows": [
+  {
+   "id": "PUB-01",
+   "level": "easy",
+   "family": "Happy path",
+   "pass": true,
+   "failed": [],
+   "call_id": "fe80f4d6-d6b9-4f1b-988d-1290aa7d0cc9",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_d17a2d80-02b",
+   "slowest_turn_s": 37.0,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-02",
+   "level": "medium",
+   "family": "Third party",
+   "pass": true,
+   "failed": [],
+   "call_id": "586076f6-fc18-4ed9-a80c-6ff20ce0187c",
+   "tools": [
+    "schedule_callback",
+    "close_call"
+   ],
+   "customer_id": "c_020bc525-4ff",
+   "slowest_turn_s": 0.0,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-03",
+   "level": "medium",
+   "family": "Identity",
+   "pass": true,
+   "failed": [],
+   "call_id": "18dd3ac0-a4f3-48ee-ad21-a5753020b046",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "verify_identity",
+    "close_call"
+   ],
+   "customer_id": "c_874ba8f7-f6a",
+   "slowest_turn_s": 20.4,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-04",
+   "level": "medium",
+   "family": "Dates",
+   "pass": true,
+   "failed": [],
+   "call_id": "bc1fd8c4-005c-4691-b84a-19720b705a27",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_fbcbcff6-4fb",
+   "slowest_turn_s": 14.4,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-05",
+   "level": "medium",
+   "family": "Hardship",
+   "pass": false,
+   "failed": [
+    "conversation: The assistant offered the support team twice (Message 8 and Message 10), failing the criterion that the support team should be offered only once. All other criteria were met: the assistant provided one sentence of sympathy in Message 8, did not attempt to persuade the customer to pay after they mentioned their job loss, and correctly declined to offer a discount or plan."
+   ],
+   "call_id": "2bf9fbee-8a74-4270-ac36-1507fb58f0da",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "close_call"
+   ],
+   "customer_id": "c_fcf7fa7e-f69",
+   "slowest_turn_s": 26.9,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-06",
+   "level": "hard",
+   "family": "Amounts",
+   "pass": false,
+   "failed": [
+    "conversation: - The agent failed to include the required note that the rest of the balance stays overdue when offering the minimum payment. - The agent successfully avoided asking the customer how much they could pay. - The promise for 637.50 on Friday, October 16th was correctly captured and confirmed."
+   ],
+   "call_id": "bf8662bb-c964-42b3-8c86-26900cb4631c",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_7363d171-f7a",
+   "slowest_turn_s": 47.9,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-07",
+   "level": "hard",
+   "family": "Dates",
+   "pass": true,
+   "failed": [],
+   "call_id": "f7bad675-3bb4-4cd8-8f31-b2bf3b30eb15",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_6b3958d5-0bf",
+   "slowest_turn_s": 5.7,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-08",
+   "level": "medium",
+   "family": "Already paid",
+   "pass": true,
+   "failed": [],
+   "call_id": "ab56dc84-7876-4c10-9b94-d762a3fc944a",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "close_call"
+   ],
+   "customer_id": "c_01059db5-0cf",
+   "slowest_turn_s": 31.1,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-09",
+   "level": "medium",
+   "family": "Restructuring",
+   "pass": true,
+   "failed": [],
+   "call_id": "48a8a27e-367a-4a66-a3d8-b401a33c339c",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "transfer_to_agent",
+    "close_call"
+   ],
+   "customer_id": "c_6f59473a-53c",
+   "slowest_turn_s": 14.4,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-10",
+   "level": "hard",
+   "family": "Tool failure",
+   "pass": false,
+   "failed": [
+    "conversation: The conversation failed the success criteria because the agent said the word 'recorded' before a successful API call. While the agent correctly handled the 'create_promise' API failure by retrying and only informing the user of the recorded promise after the second attempt succeeded (ensuring exactly one promise in the ledger), the word 'recorded' was spoken in [Message 0] ('this call is recorded'"
+   ],
+   "call_id": "f086e98f-9f59-4ee7-ba5c-0a99c3492a57",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_f53e5959-5f9",
+   "slowest_turn_s": 3.1,
+   "ended": "assistant-ended-call"
+  }
+ ],
+ "all_rows": [
+  [
+   {
+    "id": "PUB-01",
+    "level": "easy",
+    "family": "Happy path",
+    "pass": true,
+    "failed": [],
+    "call_id": "fe80f4d6-d6b9-4f1b-988d-1290aa7d0cc9",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_d17a2d80-02b",
+    "slowest_turn_s": 37.0,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-02",
+    "level": "medium",
+    "family": "Third party",
+    "pass": true,
+    "failed": [],
+    "call_id": "586076f6-fc18-4ed9-a80c-6ff20ce0187c",
+    "tools": [
+     "schedule_callback",
+     "close_call"
+    ],
+    "customer_id": "c_020bc525-4ff",
+    "slowest_turn_s": 0.0,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-03",
+    "level": "medium",
+    "family": "Identity",
+    "pass": true,
+    "failed": [],
+    "call_id": "18dd3ac0-a4f3-48ee-ad21-a5753020b046",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "close_call"
+    ],
+    "customer_id": "c_874ba8f7-f6a",
+    "slowest_turn_s": 20.4,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-04",
+    "level": "medium",
+    "family": "Dates",
+    "pass": true,
+    "failed": [],
+    "call_id": "bc1fd8c4-005c-4691-b84a-19720b705a27",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_fbcbcff6-4fb",
+    "slowest_turn_s": 14.4,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-05",
+    "level": "medium",
+    "family": "Hardship",
+    "pass": false,
+    "failed": [
+     "conversation: The assistant offered the support team twice (Message 8 and Message 10), failing the criterion that the support team should be offered only once. All other criteria were met: the assistant provided one sentence of sympathy in Message 8, did not attempt to persuade the customer to pay after they mentioned their job loss, and correctly declined to offer a discount or plan."
+    ],
+    "call_id": "2bf9fbee-8a74-4270-ac36-1507fb58f0da",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "close_call"
+    ],
+    "customer_id": "c_fcf7fa7e-f69",
+    "slowest_turn_s": 26.9,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-06",
+    "level": "hard",
+    "family": "Amounts",
+    "pass": false,
+    "failed": [
+     "conversation: - The agent failed to include the required note that the rest of the balance stays overdue when offering the minimum payment. - The agent successfully avoided asking the customer how much they could pay. - The promise for 637.50 on Friday, October 16th was correctly captured and confirmed."
+    ],
+    "call_id": "bf8662bb-c964-42b3-8c86-26900cb4631c",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_7363d171-f7a",
+    "slowest_turn_s": 47.9,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-07",
+    "level": "hard",
+    "family": "Dates",
+    "pass": true,
+    "failed": [],
+    "call_id": "f7bad675-3bb4-4cd8-8f31-b2bf3b30eb15",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_6b3958d5-0bf",
+    "slowest_turn_s": 5.7,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-08",
+    "level": "medium",
+    "family": "Already paid",
+    "pass": true,
+    "failed": [],
+    "call_id": "ab56dc84-7876-4c10-9b94-d762a3fc944a",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "close_call"
+    ],
+    "customer_id": "c_01059db5-0cf",
+    "slowest_turn_s": 31.1,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-09",
+    "level": "medium",
+    "family": "Restructuring",
+    "pass": true,
+    "failed": [],
+    "call_id": "48a8a27e-367a-4a66-a3d8-b401a33c339c",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "transfer_to_agent",
+     "close_call"
+    ],
+    "customer_id": "c_6f59473a-53c",
+    "slowest_turn_s": 14.4,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-10",
+    "level": "hard",
+    "family": "Tool failure",
+    "pass": false,
+    "failed": [
+     "conversation: The conversation failed the success criteria because the agent said the word 'recorded' before a successful API call. While the agent correctly handled the 'create_promise' API failure by retrying and only informing the user of the recorded promise after the second attempt succeeded (ensuring exactly one promise in the ledger), the word 'recorded' was spoken in [Message 0] ('this call is recorded'"
+    ],
+    "call_id": "f086e98f-9f59-4ee7-ba5c-0a99c3492a57",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_f53e5959-5f9",
+    "slowest_turn_s": 3.1,
+    "ended": "assistant-ended-call"
+   }
+  ]
+ ]
+}

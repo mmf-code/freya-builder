@@ -1,0 +1,5 @@
+{
+ "2afb9f60-f107-45f7-b632-babd905f9d21|ATTEMPTS_OVER": "confirmed",
+ "c816dc00-ab0f-4fde-a07e-6609abc8a979|RECORDED_EARLY": "confirmed",
+ "_note": "Read 2026-10-11 17:05. ATTEMPTS_OVER 2afb9f60 (PUB-12 h1, kit FAIL): car loan 7 days late (one attempt), offered the full 140 by 23 October, then an instalment of 46. RECORDED_EARLY c816dc00 (PUB-11 h2, kit PASS): at 202.8 s 'I have recorded your promise to pay the full overdue amounts for all three accounts', first create_promise at 283.7 s. Also seen, no detector: two calls silent with no event (PUB-13 h1 after the customer's first answer, PUB-12 h2 after entering product_2); one of three calls in each run, so they stay as failures (docs/EVAL_PROTOCOL.md)."
+}
