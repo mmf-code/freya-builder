@@ -31,3 +31,4 @@ runs/*/workspace/
 .claude/worktrees/
 mock/node_modules/
 case/
+mock/.dev.vars
