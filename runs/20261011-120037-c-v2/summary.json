@@ -1,0 +1,213 @@
+{
+ "run": "20261011-120037-c-v2",
+ "start": "2026-10-11T09:00:37+00:00",
+ "end": "2026-10-11T09:09:59+00:00",
+ "seconds": 563,
+ "limit_minutes": 30.0,
+ "timed_out": false,
+ "exit_code": 0,
+ "acceptance": {
+  "accepted": true,
+  "exit": 0,
+  "reasons": [],
+  "sdk_result": {
+   "subtype": "success",
+   "is_error": false
+  },
+  "inputs_unchanged": true,
+  "end_total": "2026-10-11T09:10:00+00:00",
+  "seconds_total": 563
+ },
+ "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill <repo>/builder/skills/reference-v2 (sha256:999681cea4e0)",
+ "builder_model": "claude-opus-5-5 (agent_builder.py default)",
+ "agent_model": {
+  "provider": "experimental-5",
+  "model": "experimental-5"
+ },
+ "repo_commit": "7b29228a3b85c4390873d6ab2160bf9f06643303",
+ "repo_dirty": false,
+ "isolation": {
+  "CLAUDE_CONFIG_DIR": "<repo>/.claude-builder",
+  "HOME": "<repo>/.claude-builder/home",
+  "state": "<repo>/state/exp-c-v2"
+ },
+ "inputs": {
+  "briefs": [
+   {
+    "name": "brief-a-raw.md",
+    "sha256": "5ebf283ab00fc6a09cf6bf71983635b6624424788d58d2533dad9d9ef65ca3a0"
+   },
+   {
+    "name": "brief-b-raw.md",
+    "sha256": "e0fd3205c7ec1dcc37c77864a0f22b3c32dfdfe1ba8779b0b0b8874028d22434"
+   }
+  ],
+  "tools": {
+   "name": "openapi.json",
+   "sha256": "9a8410b12e5c82b6c6a30e9ed7030574d6f919cafdb1e035cef7bd876b0badb8"
+  }
+ },
+ "practice_cases": [],
+ "freya": [
+  {
+   "slot": "brief-a-raw",
+   "workflow_id": "dcc597f4-ab86-40f0-944b-0b02cfafad3e",
+   "agent_id": "25d89e3d-c32a-4655-b2fe-862737b5ebdc",
+   "created": true,
+   "export": "brief-a-raw.workflow.json",
+   "export_sha256": "e6c86264a3bb12c9bfbdb5e46662336d159f0f40ef4a9946e8f4a1eff1b16245"
+  },
+  {
+   "slot": "brief-b-raw",
+   "workflow_id": "294d0052-f25e-4842-a1c3-4465ed154d6a",
+   "agent_id": "ac8acb5a-0a55-4df3-8dad-2d2dc907b397",
+   "created": true,
+   "export": "brief-b-raw.workflow.json",
+   "export_sha256": "f62b6a7789c2ee908d64f528a0377439e574c24ad09d84b95589b77d3ae7cbc5"
+  }
+ ],
+ "tests": [],
+ "written": [
+  "<repo>/runs/20261011-120037-c-v2/workspace/gen/build.py"
+ ],
+ "cost_usd": 1.7325184,
+ "num_turns": 19,
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1211,
+   "outputTokens": 23,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.00013260000000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  },
+  "claude-opus-5-5": {
+   "inputTokens": 30,
+   "outputTokens": 51147,
+   "cacheReadInputTokens": 1199829,
+   "cacheCreationInputTokens": 93872,
+   "webSearchRequests": 0,
+   "costUSD": 1.7323858,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 25477,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "model_calls": [
+  {
+   "n": 1,
+   "model": "claude-opus-5-5",
+   "at_s": 4.0,
+   "purpose": "Skill: {\"skill\": \"build-phone-agent\", \"args\": \"briefs/brief-a-raw.md briefs/brief-b-raw.md\"}"
+  },
+  {
+   "n": 2,
+   "model": "claude-opus-5-5",
+   "at_s": 7.1,
+   "purpose": "Bash: List kit and read briefs"
+  },
+  {
+   "n": 3,
+   "model": "claude-opus-5-5",
+   "at_s": 11.1,
+   "purpose": "Bash: Read API, docs, example"
+  },
+  {
+   "n": 4,
+   "model": "claude-opus-5-5",
+   "at_s": 16.1,
+   "purpose": "Bash: Summarize tool API"
+  },
+  {
+   "n": 5,
+   "model": "claude-opus-5-5",
+   "at_s": 18.6,
+   "purpose": "Read: docs/workflow-format.md; Read: docs/tools-and-code.md; Read: examples/base-agent.json"
+  },
+  {
+   "n": 6,
+   "model": "claude-opus-5-5",
+   "at_s": 26.2,
+   "purpose": "Bash: Read workflow checker"
+  },
+  {
+   "n": 7,
+   "model": "claude-opus-5-5",
+   "at_s": 252.9,
+   "purpose": "Now I'll write a small generator script that emits both workflows, so the shared CP-4 logic stays consistent between A and B.; Bash: Read rest of checker and dryrun"
+  },
+  {
+   "n": 8,
+   "model": "claude-opus-5-5",
+   "at_s": 327.5,
+   "purpose": "Write: gen/build.py"
+  },
+  {
+   "n": 9,
+   "model": "claude-opus-5-5",
+   "at_s": 484.1,
+   "purpose": "Bash: Fix names, generate, check both workflows"
+  },
+  {
+   "n": 10,
+   "model": "claude-opus-5-5",
+   "at_s": 494.6,
+   "purpose": "Both pass the checker. Next I'll dry-run the two code steps on several dates and product shapes.; Bash: Dry-run code steps on samples"
+  },
+  {
+   "n": 11,
+   "model": "claude-opus-5-5",
+   "at_s": 503.2,
+   "purpose": "Bash: Check last sample and exit codes"
+  },
+  {
+   "n": 12,
+   "model": "claude-opus-5-5",
+   "at_s": 526.9,
+   "purpose": "Bash: Apply fixes, regenerate, recheck"
+  },
+  {
+   "n": 13,
+   "model": "claude-opus-5-5",
+   "at_s": 539.0,
+   "purpose": "Both pass the checker and the dry run. Saving both workflows.; Bash: Save both workflows to Freya"
+  },
+  {
+   "n": 14,
+   "model": "claude-opus-5-5",
+   "at_s": 544.5,
+   "purpose": "Saved. I'll export them back and run the checker on the export, to confirm the platform kept the hooks, steps and tools.; Bash: Export saved workflows and recheck"
+  },
+  {
+   "n": 15,
+   "model": "claude-opus-5-5",
+   "at_s": 559.2,
+   "purpose": "I built and saved both agents. Neither has been run against a customer: `public-test-set.json` is empty for these briefs, so the skill rules"
+  }
+ ],
+ "checks": [
+  {
+   "slot": "brief-a-raw",
+   "contract": "brief-a-raw.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "not lowered: no out/<slot>.body.json and out/<slot>.closing.json"
+  },
+  {
+   "slot": "brief-b-raw",
+   "contract": "brief-b-raw.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "not lowered: no out/<slot>.body.json and out/<slot>.closing.json"
+  }
+ ]
+}

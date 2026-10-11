@@ -1,0 +1,43 @@
+[00:03]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/brief-a-raw.md briefs/brief-b-raw.md'}
+[00:07]   [Bash] {'command': 'ls -R | head -50 && cat briefs/brief-a-raw.md briefs/brief-b-raw.md && cat public-test-set.json | head -100
+[00:11]   [Bash] {'command': 'cat tools/openapi.json docs/workflow-format.md docs/tools-and-code.md examples/base-agent.json README.md',
+[00:15]   [Bash] {'command': 'wc -c tools/openapi.json docs/* examples/* README.md && python3 -c "\nimport json;d=json.load(open(\'tools/
+[00:18]   [Read] {'file_path': '<repo>/runs/20261011-120037-c-v2/workspace/docs/workflow-format.md'}
+[00:19]   [Read] {'file_path': '<repo>/runs/20261011-120037-c-v2/workspace/docs/tools-and-code.md'}
+[00:20]   [Read] {'file_path': '<repo>/runs/20261011-120037-c-v2/workspace/examples/base-agent.json'}
+[00:20]   [Read] {'file_path': '<repo>/runs/20261011-120037-c-v2/workspace/README.md'}
+[00:26]   [Bash] {'command': 'wc -l tools/*.py && sed -n 1,400p tools/check_workflow.py', 'description': 'Read workflow checker'}
+[04:12] Now I'll write a small generator script that emits both workflows, so the shared CP-4 logic stays consistent between A and B.
+[04:13]   [Bash] {'command': 'sed -n 400,579p tools/check_workflow.py | head -80; cat tools/dryrun.py | head -40; git status --short | he
+[07:49]   [Write] {'file_path': '<repo>/runs/20261011-120037-c-v2/workspace/gen/build.py', 'content': '"""G
+[08:10]   [Bash] {'command': 'python3 - <<\'EOF\'\np=\'gen/build.py\'\ns=open(p).read()\nold=s[s.index("    if nowhm < \'{CB_END}\':"):s.
+[08:14] Both pass the checker. Next I'll dry-run the two code steps on several dates and product shapes.
+[08:17]   [Bash] {'command': 'mkdir -p gen/samples && python3 - <<\'EOF\'\nimport json\nprods=[{"product_id":"p1","type":"credit_card","c
+[08:25]   [Bash] {'command': 'python3 tools/dryrun.py out/brief-b-raw.workflow.json gen/samples/s.json > /tmp/dr.txt 2>&1; echo exit $?;
+[08:53]   [Bash] {'command': 'python3 - <<\'EOF\'\np=\'gen/build.py\'\ns=open(p).read()\ndef rep(a,b,count=1):\n    global s\n    assert
+[08:58] Both pass the checker and the dry run. Saving both workflows.
+[09:00]   [Bash] {'command': '[ -f env.sh ] && source env.sh; for s in brief-a-raw brief-b-raw; do python3 -c "import freya,json,sys; pri
+[09:04] Saved. I'll export them back and run the checker on the export, to confirm the platform kept the hooks, steps and tools.
+[09:07]   [Bash] {'command': '[ -f env.sh ] && source env.sh; mkdir -p /tmp/exp && python3 -c "\nimport freya\nfreya.export_workflow(\'dc
+[09:21] I built and saved both agents. Neither has been run against a customer: `public-test-set.json` is empty for these briefs, so the skill rules out `run_cases.py`. The only tests were the static checker and a dry run of the date code. Both workflows pass the checker with 0 errors and 0 warnings, both as written and as exported back from Freya.
+[09:21] 
+[09:21] **How the agents are built**
+[09:21] - **Call flow:** a step works out the dates from `now`, then come the opening, a callback step for when someone else answers, and the security check. After that the agent fetches the account, a code step works out each product's facts, and the agent asks for the promise.
+[09:21] - **Brief A:** one step handles getting and confirming the promise. A second step comes after the promise is saved.
+[09:21] - **Brief B:** one step asks about paying everything today. Then each product gets its own step, in the order the bank returns them. A last step does the one read-back, a `create_promise` per product, the `add_note` calls and the choice of close code. Brief B says the Brief A material still applies, so the B agent also follows the A policy.
+[09:21] - **Ending the call:** every ending goes through a fixed thank-you and goodbye line, then a step that only runs `close_call` with its outcome and reason fixed in advance, then hang-up. So `close_call` is always the last bank call. Transfers also run as fixed steps with the queue set.
+[09:21] - **Dates:** a code step works out the deadlines (12th or 7th business day, counting the memo's 26 October holiday), the first-offer date, the "this/next weekday" table and the callback slots. I checked several dates by hand: 14 Oct, Friday 23 Oct, a Saturday, and 23 Dec.
+[09:21] - **Fixed wording:** the brief only allows "recorded" after a promise is saved. So the greeting says the call "is kept as an audio recording" instead of "is recorded".
+[09:21] 
+[09:21] **My own choices where the briefs say nothing:**
+[09:21] - If `get_account` fails, the call closes as `no_promise` / `service_error`.
+[09:21] - If a transfer fails, the agent says so and still closes as `transferred` with that reason, because the code list ties that code to the customer's request.
+[09:21] - I read "today or the next business day" for callbacks to allow today even on a weekend.
+[09:21] - In Brief B, if a customer turns down the support team after naming a hardship, every product left without a promise gets a `hardship` note.
+[09:21] 
+[09:21] The generator is `gen/build.py`. Running it rewrites both files in `out/`, and the contracts are in `out/*.contract.json`. Nothing is committed.
+[09:21] 
+[09:21] - brief-a-raw: workflow_id `dcc597f4-ab86-40f0-944b-0b02cfafad3e`, agent_id `25d89e3d-c32a-4655-b2fe-862737b5ebdc`, 0 customers passed (no practice customers, no test run)
+[09:21] - brief-b-raw: workflow_id `294d0052-f25e-4842-a1c3-4465ed154d6a`, agent_id `ac8acb5a-0a55-4df3-8dad-2d2dc907b397`, 0 customers passed (no practice customers, no test run)
+[09:21] 
+[09:21] done: 19 turns, 561 s, $1.73. Trace: <repo>/runs/20261011-120037-c-v2/workspace/traces/20261011-120037.jsonl

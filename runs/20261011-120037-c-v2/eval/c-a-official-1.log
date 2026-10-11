@@ -1,0 +1,19 @@
+PASS PUB-01 easy   Happy path     | verify > verify > get_account > promise > close_call
+PASS PUB-02 medium Third party    | schedule_callback > close_call
+FAIL PUB-03 medium Identity       | verify > verify > close_call
+       - outcome ('not_verified', 'declined'), expected ('not_verified', 'failed')
+       - conversation: - The security check did not end after the third wrong answer (Message 9/11); instead, the assistant entered a loop asking for the date of birth repeatedly until the system turn limit for the 'security' node was reached. - The assistant failed to
+PASS PUB-04 medium Dates          | verify > verify > get_account > promise > close_call
+FAIL PUB-05 medium Hardship       | verify > verify > get_account > close_call
+       - outcome ('no_promise', 'refused'), expected ('no_promise', 'hardship')
+       - conversation: The agent failed on two counts: first, it attempted to persuade the customer to pay in Message 10 and Message 12 after the customer had already stated they were unemployed and unable to pay. Second, it offered a payment plan in Message 12 (propos
+FAIL PUB-06 hard   Amounts        | verify > verify > get_account > promise > close_call
+       - conversation: The agent failed the success criteria because the minimum payment was offered twice (Message 8 and Message 10) instead of once. While Message 8 included the required note about the rest remaining overdue, Message 10 repeated the offer for a diffe
+PASS PUB-07 hard   Dates          | verify > verify > get_account > promise > close_call
+PASS PUB-08 medium Already paid   | verify > verify > get_account > close_call
+PASS PUB-09 medium Restructuring  | verify > verify > get_account > transfer_to_agent > close_call
+PASS PUB-10 hard   Tool failure   | verify > verify > get_account > promise > promise > close_call
+
+slowest agent turn per call: median 9 s, worst 21 s. Failed calls where the customer hung up: 0.
+
+7 / 10 passed (bank records and conversation checks). Last simulation eaec0d09-1160-45ee-904a-06be93dd47af, status completed, 200 s.

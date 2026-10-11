@@ -1,0 +1,237 @@
+{
+ "run": "20261011-120034-c-v1-fresh",
+ "start": "2026-10-11T09:00:34+00:00",
+ "end": "2026-10-11T09:09:43+00:00",
+ "seconds": 550,
+ "limit_minutes": 30.0,
+ "timed_out": false,
+ "exit_code": 0,
+ "acceptance": {
+  "accepted": true,
+  "exit": 0,
+  "reasons": [],
+  "sdk_result": {
+   "subtype": "success",
+   "is_error": false
+  },
+  "inputs_unchanged": true,
+  "end_total": "2026-10-11T09:09:44+00:00",
+  "seconds_total": 550
+ },
+ "builder": "docs/build-the-builder/examples/agent_builder.py (unchanged), skill <repo>/builder/skills/reference (sha256:7659a7bd2e6c)",
+ "builder_model": "claude-opus-5-5 (agent_builder.py default)",
+ "agent_model": {
+  "provider": "experimental-5",
+  "model": "experimental-5"
+ },
+ "repo_commit": "7b29228a3b85c4390873d6ab2160bf9f06643303",
+ "repo_dirty": false,
+ "isolation": {
+  "CLAUDE_CONFIG_DIR": "<repo>/.claude-builder",
+  "HOME": "<repo>/.claude-builder/home",
+  "state": "<repo>/state/exp-c-v1-fresh"
+ },
+ "inputs": {
+  "briefs": [
+   {
+    "name": "brief-a-raw.md",
+    "sha256": "5ebf283ab00fc6a09cf6bf71983635b6624424788d58d2533dad9d9ef65ca3a0"
+   },
+   {
+    "name": "brief-b-raw.md",
+    "sha256": "e0fd3205c7ec1dcc37c77864a0f22b3c32dfdfe1ba8779b0b0b8874028d22434"
+   }
+  ],
+  "tools": {
+   "name": "openapi.json",
+   "sha256": "9a8410b12e5c82b6c6a30e9ed7030574d6f919cafdb1e035cef7bd876b0badb8"
+  }
+ },
+ "practice_cases": [],
+ "freya": [
+  {
+   "slot": "brief-a-raw",
+   "workflow_id": "8eaeec1a-aa4b-45a5-ae08-7bc4c527560a",
+   "agent_id": "5bdf87b0-0e22-4168-a83d-d0b075b551d2",
+   "created": true,
+   "export": "brief-a-raw.workflow.json",
+   "export_sha256": "d16dfa8cbe7c2919cb7c5afe37bbc3137560790d15535d818edfddc667515077"
+  },
+  {
+   "slot": "brief-b-raw",
+   "workflow_id": "6bc19273-c698-475b-a980-e64012b81ebb",
+   "agent_id": "335c0ed7-bb56-44aa-b833-90b885186209",
+   "created": true,
+   "export": "brief-b-raw.workflow.json",
+   "export_sha256": "e0c7bfecbd8a7e7bbae2ed756681aed2d5219d9bee93118a2370f9079ea5eaff"
+  }
+ ],
+ "tests": [],
+ "written": [
+  "<repo>/runs/20261011-120034-c-v1-fresh/workspace/build/gen.py"
+ ],
+ "cost_usd": 2.6048018,
+ "num_turns": 24,
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1211,
+   "outputTokens": 23,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.00013260000000000002,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 0,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  },
+  "claude-opus-5-5": {
+   "inputTokens": 38,
+   "outputTokens": 58151,
+   "cacheReadInputTokens": 1448911,
+   "cacheCreationInputTokens": 230343,
+   "webSearchRequests": 0,
+   "costUSD": 2.6046692000000005,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 35070,
+   "canonicalModel": "claude-opus-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "model_calls": [
+  {
+   "n": 1,
+   "model": "claude-opus-5-5",
+   "at_s": 3.5,
+   "purpose": "Skill: {\"skill\": \"build-phone-agent\", \"args\": \"briefs/brief-a-raw.md briefs/brief-b-raw.md\"}"
+  },
+  {
+   "n": 2,
+   "model": "claude-opus-5-5",
+   "at_s": 5.0,
+   "purpose": "Bash: List kit and read briefs and test set"
+  },
+  {
+   "n": 3,
+   "model": "claude-opus-5-5",
+   "at_s": 8.1,
+   "purpose": "Bash: Read truncated middle of brief A; Bash: Read brief B and test set"
+  },
+  {
+   "n": 4,
+   "model": "claude-opus-5-5",
+   "at_s": 11.1,
+   "purpose": "Bash: Read tool API and workflow format doc"
+  },
+  {
+   "n": 5,
+   "model": "claude-opus-5-5",
+   "at_s": 15.1,
+   "purpose": "Bash: Summarize tool API paths compactly"
+  },
+  {
+   "n": 6,
+   "model": "claude-opus-5-5",
+   "at_s": 18.1,
+   "purpose": "I've read both briefs and the tool API. Brief B extends A, and there are no practice customers, so testing will be the checker plus a rule-b; Bash: Check API extensions and read workflow format"
+  },
+  {
+   "n": 7,
+   "model": "claude-opus-5-5",
+   "at_s": 20.7,
+   "purpose": "Read: docs/workflow-format.md; Read: docs/tools-and-code.md; Read: examples/base-agent.json"
+  },
+  {
+   "n": 8,
+   "model": "claude-opus-5-5",
+   "at_s": 23.7,
+   "purpose": "Docs read. Next I'm checking what the workflow checker enforces, then I'll design the graph.; Bash: Read the workflow checker"
+  },
+  {
+   "n": 9,
+   "model": "claude-opus-5-5",
+   "at_s": 26.2,
+   "purpose": "Bash: Read freya.py, lower.py header, README"
+  },
+  {
+   "n": 10,
+   "model": "claude-opus-5-5",
+   "at_s": 34.8,
+   "purpose": "Bash: Read the rest of lower.py"
+  },
+  {
+   "n": 11,
+   "model": "claude-opus-5-5",
+   "at_s": 366.3,
+   "purpose": "Bash: Skim api.md and dryrun tool"
+  },
+  {
+   "n": 12,
+   "model": "claude-opus-5-5",
+   "at_s": 368.3,
+   "purpose": "Bash: Read how dryrun executes code steps"
+  },
+  {
+   "n": 13,
+   "model": "claude-opus-5-5",
+   "at_s": 370.3,
+   "purpose": "Now writing the generator.; Write: build/gen.py"
+  },
+  {
+   "n": 14,
+   "model": "claude-opus-5-5",
+   "at_s": 496.7,
+   "purpose": "Bash: Generate workflows and run the checker on both"
+  },
+  {
+   "n": 15,
+   "model": "claude-opus-5-5",
+   "at_s": 499.7,
+   "purpose": "Both pass the checker with no errors. Next I'm dry-running the code steps on several dates and account shapes.; Bash: Dry-run code steps on four sample calls"
+  },
+  {
+   "n": 16,
+   "model": "claude-opus-5-5",
+   "at_s": 510.3,
+   "purpose": "Date arithmetic checks out by hand (deadlines, the Founders' Day holiday, last business day of the week). One wording fix in the callback wi; Edit: build/gen.py; Bash: Regenerate, recheck callback text and checker"
+  },
+  {
+   "n": 17,
+   "model": "claude-opus-5-5",
+   "at_s": 516.3,
+   "purpose": "Checker is clean for both. Saving both workflows to the platform.; Bash: Save both workflows to Freya"
+  },
+  {
+   "n": 18,
+   "model": "claude-opus-5-5",
+   "at_s": 521.9,
+   "purpose": "Saved. Now confirming the platform kept what I sent (hooks, tool-call transitions, code), by exporting and re-checking.; Bash: Export saved workflows and verify contents"
+  },
+  {
+   "n": 19,
+   "model": "claude-opus-5-5",
+   "at_s": 545.6,
+   "purpose": "I built and saved both phone agents. Neither has been tested in a call yet: `public-test-set.json` is empty for these two briefs, so the ski"
+  }
+ ],
+ "checks": [
+  {
+   "slot": "brief-a-raw",
+   "contract": "brief-a-raw.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "not lowered: no out/<slot>.body.json and out/<slot>.closing.json"
+  },
+  {
+   "slot": "brief-b-raw",
+   "contract": "brief-b-raw.contract.json",
+   "errors": [],
+   "warnings": 0,
+   "lowering": "not lowered: no out/<slot>.body.json and out/<slot>.closing.json"
+  }
+ ]
+}

@@ -106,6 +106,26 @@ What the result can not say: whether v2 scores higher on hidden briefs, which of
 one- or two-customer difference. What it can say: whether one fresh v2 build loses the targeted defects without a
 regression against one fresh reference build under the same runner, inputs and judge.
 
+## Revision 3: a third arm, reference-v3 (2026-10-11 12:50, before any v3 build or call)
+
+`builder/skills/reference-v3/SKILL.md` (sha256 `62c464d98486`) is `reference-v2` plus two general instructions taken
+from the best measured build (blind reference of 2026-10-10, 11/13, PUB-07 3/3 and PUB-12 3/3):
+
+| Added instruction | Why |
+|---|---|
+| Work out every date, weekday and count in a code step and give them to the prompt as text: a table of the coming days (words a customer may use, allowed or not, the day to offer instead) and per item its stage, attempts and what each attempt offers, with an explicit "no further attempt" | That build had exactly these tables (`date_table`, `product_plan`) by its own choice. Builds without them failed PUB-07 (holiday, then next business day) 11 of 25 calls and PUB-12 (attempts per band) 11 of 22 over all stored official runs |
+| Cases the brief puts before others (hardship, dispute) are checked first on every customer answer | PUB-05 (job loss, then persuasion anyway) failed in both arms of stage 2 with the right text in the prompt; the order of checks was not stated |
+
+Measurement when the platform is healthy (API probe under 5 s): build v3 with a fresh `--state`; then rounds of
+official A and B for v1-fresh, v2 and v3, interleaved, until each has three runs (v2's void B run is repeated); then
+V09, V07, V06 per agent as time allows. Each of v2 and v3 is judged against v1-fresh by the switch rule above. If both
+pass, the one with fewer confirmed violations wins, then the one with more official customers 3/3; a tie goes to v2
+(the smaller change). If neither passes, `reference` stays. Measurement stops at 17:00 whatever is done.
+
+Stage 2 so far (one run each, slow platform: median slowest agent turn 9-18 s against 2 s on 2026-10-10): v1-fresh
+A 9/10, B 1/3; v2 A 7/10, B void (403 on reading the simulation, then the simulation hung); personas not started
+(API outage 12:38-12:46).
+
 ## Not planned
 
 - A lowering or lowering-precedence build: both carry defect #1 when the builder uses `say`, and precedence's

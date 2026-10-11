@@ -1,0 +1,14 @@
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 510.0, '2026-10-15')]
+       - notes [], expected [('p2', 'refused'), ('p3', 'refused')]
+       - the call was not closed with close_call
+       - conversation: The call failed on multiple success criteria: 1. The phone question was asked again correctly, but the assistant made three attempts for the personal loan (Messages 12, 14, 16) instead of the required two. 2. The assistant made two attempts for t
+FAIL PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise > close_call
+       - promises [('p1', 300.0, '2026-10-23'), ('p2', 900.0, '2026-10-23')], expected [('p1', 300.0, '2026-10-30'), ('p2', 900.0, '2026-10-23')]
+       - conversation: - The credit card payment was recorded for 23 October instead of 30 October as requested by the user and specified in the success criteria. - The read-back only named one date (23 October) for both items, failing the requirement to name both date
+
+slowest agent turn per call: median 3 s, worst 33 s. Failed calls where the customer hung up: 1.
+
+1 / 3 passed (bank records and conversation checks). Last simulation b5d3b713-46ee-486e-80b3-7c5a50923060, status completed, 198 s.
