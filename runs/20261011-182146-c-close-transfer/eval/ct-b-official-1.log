@@ -1,0 +1,20 @@
+FAIL PUB-11 medium Multi-product  | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 220.0, '2026-10-16'), ('p2', 640.0, '2026-10-16'), ('p3', 75.0, '2026-10-16')]
+       - the call was not closed with close_call
+       - conversation: The conversation ended prematurely after the initial identity verification. None of the success criteria were met: 1) No products were stated. 2) No read-backs or confirmations for products occurred. 3) No 'create_promise' function calls were mad
+FAIL PUB-12 hard   Multi-product  | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 510.0, '2026-10-15')]
+       - notes [], expected [('p2', 'refused'), ('p3', 'refused')]
+       - the call was not closed with close_call
+       - conversation: - The phone question was not asked a second time. - No promise was made on the credit card. - No 'refused' notes were recorded for the other products. - The required number of attempts on the personal loan and car loan did not occur. The conversa
+FAIL PUB-13 hard   Multi-product  | (no tool calls)
+       - outcome (None, None), expected ('promise', None)
+       - promises [], expected [('p1', 300.0, '2026-10-30'), ('p2', 900.0, '2026-10-23')]
+       - the call was not closed with close_call
+       - conversation: The conversation ended immediately after the user confirmed their identity. None of the success criteria were met: no dates were recorded for the credit card or the loan, and no read-back occurred.
+
+slowest agent turn per call: median 0 s, worst 0 s. Failed calls where the customer hung up: 3.
+
+0 / 3 passed (bank records and conversation checks). Last simulation 6c730272-f6b4-456b-ae2b-ddb7953737d9, status completed, 72 s.

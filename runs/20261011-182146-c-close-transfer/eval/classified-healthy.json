@@ -1,0 +1,686 @@
+[
+ {
+  "file": "ct-a-official-h1.json",
+  "rep": 1,
+  "id": "PUB-01",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "ffbb0c3b-780e-4e62-859e-cba9f63696ac"
+ },
+ {
+  "file": "ct-a-official-h1.json",
+  "rep": 1,
+  "id": "PUB-02",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "schedule_callback",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "8770edaa-773c-495b-9269-f04e4e264132"
+ },
+ {
+  "file": "ct-a-official-h1.json",
+  "rep": 1,
+  "id": "PUB-03",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "a4470f7c-5b75-48ed-b5d1-3b3f8f67843e"
+ },
+ {
+  "file": "ct-a-official-h1.json",
+  "rep": 1,
+  "id": "PUB-04",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "0f05cb33-a450-4b63-ab82-58917797e01a"
+ },
+ {
+  "file": "ct-a-official-h1.json",
+  "rep": 1,
+  "id": "PUB-05",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "d03342d2-45d3-4341-8c8f-d097fb711e58"
+ },
+ {
+  "file": "ct-a-official-h1.json",
+  "rep": 1,
+  "id": "PUB-06",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "a80d1a5e-e4bd-4cec-ba7d-56c4cff342b0"
+ },
+ {
+  "file": "ct-a-official-h1.json",
+  "rep": 1,
+  "id": "PUB-07",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "c724124e-699b-426c-9706-27ca49b34790"
+ },
+ {
+  "file": "ct-a-official-h1.json",
+  "rep": 1,
+  "id": "PUB-08",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "bf4e305c-baa4-4abf-ac5a-827f6713c3a4"
+ },
+ {
+  "file": "ct-a-official-h1.json",
+  "rep": 1,
+  "id": "PUB-09",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "transfer_to_agent",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "0362bb98-6a34-4cac-8851-fc680b123481"
+ },
+ {
+  "file": "ct-a-official-h1.json",
+  "rep": 1,
+  "id": "PUB-10",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "adf9bc75-2a39-430f-b5ff-74d53cb512c6"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-01",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "e0017abd-bf03-47a0-9b46-614d2783d013"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-02",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "schedule_callback",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "8b9adbca-8345-4206-9178-200d095e25e2"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-03",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "0afb27c0-c66f-444f-a4f1-29dffebbde47"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-04",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "edd4bc0a-13e1-4590-ab4e-3fc64bd9cd49"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-05",
+  "kind": "agent",
+  "failed": [
+   "conversation: The conversation failed one success criterion: the support team was offered twice (in [Message 8] and [Message 10]) instead of only once as required. All other criteria were met: the agent provided exactly one sentence of sympathy in [Message 8], did not attempt to persuade the customer after the initial refusal, and correctly refused to offer a discount, waiver, or payment plan. The call ended pr"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 14,
+  "infra_examples": [],
+  "call_id": "1bebf235-84a7-4a9c-ad01-17b1ae566ed8"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-06",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "f3552724-e59f-4142-9546-d75f57386479"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-07",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "547b3690-22b3-45ac-b144-e9ebf0430d78"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-08",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "e9f082a4-f161-4615-bf65-7d450b0fc93a"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-09",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "transfer_to_agent",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "d2b8ea31-2ff4-48a4-9a2f-fcacb89eb569"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-10",
+  "kind": "agent",
+  "failed": [
+   "conversation: The conversation did not meet all success criteria. Although the agent successfully managed the promise-to-pay process with exactly one promise recorded in the ledger (following an initial API failure and subsequent successful retry providing 'promise_id': 'pr1'), it failed the literal instruction regarding the word 'recorded'. The agent stated 'this call is recorded' in Message 0, which occurred "
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 16,
+  "infra_examples": [],
+  "call_id": "2ad64547-2d2a-47c1-832b-f0b96b7c8454"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-01",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "c1ffd3b8-0628-45f9-a149-cf9fd9bdb196"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-02",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "schedule_callback",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "de509249-168c-4b26-9753-40dfb2d54da1"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-03",
+  "kind": "agent",
+  "failed": [
+   "conversation: The assistant failed to meet the first criterion as the security check did not end after the third wrong answer. The user provided incorrect dates of birth in messages 3, 5, and 7. System events confirm that the third attempt (1990-07-21) was processed and the 'check has ended' status was returned. However, the assistant prompted the user for the date of birth again in message 8 ('Could you please"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "close_call"
+  ],
+  "errors": 11,
+  "infra_examples": [],
+  "call_id": "3b9579ae-557f-4f45-9468-ff618e6aa40f"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-04",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "d35a3f43-d51e-403e-a046-a7df69881f6b"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-05",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "cf9b35aa-f3df-4844-bdb0-2b959438b424"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-06",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "6450c6a4-be11-46cb-a9ed-ac04cf609d99"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-07",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "86afabf1-e61f-4d89-9e31-29d0592452f3"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-08",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "ac764ed3-5b2a-4aa9-9c0a-12a1b269b18c"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-09",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "transfer_to_agent",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "267370f0-5f8f-414e-a624-3180d04fd6b4"
+ },
+ {
+  "file": "ct-a-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-10",
+  "kind": "agent",
+  "failed": [
+   "conversation: - The agent said the word 'recorded' in Message 0 ('this call is recorded') which occurred before the successful API call to record the promise. The success criteria specify the agent must not say 'recorded' before a successful call. - There was exactly one promise in the ledger after the retry; the first 'create_promise' call failed with 'nothing was recorded' and the second attempt succeeded. Th"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 16,
+  "infra_examples": [],
+  "call_id": "0d4fad3c-dae7-4db0-abb6-ead14a67651a"
+ },
+ {
+  "file": "ct-b-official-h1.json",
+  "rep": 1,
+  "id": "PUB-11",
+  "kind": "agent",
+  "failed": [
+   "outcome (None, None), expected ('promise', None)",
+   "the call was not closed with close_call"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "create_promise"
+  ],
+  "errors": 11,
+  "infra_examples": [],
+  "call_id": "695306e6-a842-4fc6-b184-024a4e8f2593"
+ },
+ {
+  "file": "ct-b-official-h1.json",
+  "rep": 1,
+  "id": "PUB-12",
+  "kind": "agent",
+  "failed": [
+   "outcome (None, None), expected ('promise', None)",
+   "notes [], expected [('p2', 'refused'), ('p3', 'refused')]",
+   "the call was not closed with close_call"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise"
+  ],
+  "errors": 13,
+  "infra_examples": [],
+  "call_id": "2f6d47ea-a3b3-446c-897e-9c21d5ab86f9"
+ },
+ {
+  "file": "ct-b-official-h1.json",
+  "rep": 1,
+  "id": "PUB-13",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "5572f66c-8ae0-4254-9d4e-397cfb779480"
+ },
+ {
+  "file": "ct-b-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-11",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "f8884d44-ffea-488a-9a5c-37f68ed8b723"
+ },
+ {
+  "file": "ct-b-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-12",
+  "kind": "agent",
+  "failed": [
+   "outcome (None, None), expected ('promise', None)",
+   "notes [], expected [('p2', 'refused'), ('p3', 'refused')]",
+   "the call was not closed with close_call"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise"
+  ],
+  "errors": 13,
+  "infra_examples": [],
+  "call_id": "9b58fe0b-2e74-472f-baf1-5a68dc59e231"
+ },
+ {
+  "file": "ct-b-official-reps2.json",
+  "rep": 1,
+  "id": "PUB-13",
+  "kind": "agent",
+  "failed": [
+   "outcome (None, None), expected ('promise', None)",
+   "the call was not closed with close_call"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise"
+  ],
+  "errors": 11,
+  "infra_examples": [],
+  "call_id": "ecee341a-a502-400a-bc56-5f9764de7606"
+ },
+ {
+  "file": "ct-b-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-11",
+  "kind": "pass",
+  "failed": [],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise",
+   "create_promise",
+   "close_call"
+  ],
+  "errors": 0,
+  "infra_examples": [],
+  "call_id": "f8b7734f-0ee1-44cc-a436-5d845af77783"
+ },
+ {
+  "file": "ct-b-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-12",
+  "kind": "agent",
+  "failed": [
+   "outcome (None, None), expected ('promise', None)",
+   "notes [], expected [('p2', 'refused'), ('p3', 'refused')]",
+   "the call was not closed with close_call",
+   "conversation: The conversation failed on several success criteria: - Too many collection attempts were made for both loans. The personal loan received three attempts (Messages 12, 14, and 16) instead of two. The car loan received two attempts (Messages 18 and 20) instead of one. - No 'refused' notes were recorded for either loan. While a promise was correctly logged for the credit card in the system events, no "
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise"
+  ],
+  "errors": 13,
+  "infra_examples": [],
+  "call_id": "e6af01d9-db81-488d-9a51-c8ce14de242c"
+ },
+ {
+  "file": "ct-b-official-reps2.json",
+  "rep": 2,
+  "id": "PUB-13",
+  "kind": "agent",
+  "failed": [
+   "outcome (None, None), expected ('promise', None)",
+   "the call was not closed with close_call"
+  ],
+  "tools": [
+   "verify_identity",
+   "verify_identity",
+   "get_account",
+   "create_promise",
+   "create_promise"
+  ],
+  "errors": 11,
+  "infra_examples": [],
+  "call_id": "3f865f4d-5202-4bc8-b830-896bf9b7b5d7"
+ }
+]

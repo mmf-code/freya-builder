@@ -1,0 +1,104 @@
+ct-a-official-h1 PUB-01-r1 kit=pass call=ffbb0c3b
+    RECORDED_IN_GREETING judge risk  unreviewed     t=4.65    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-h1 PUB-02-r1 kit=pass call=8770edaa
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.91    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-h1 PUB-03-r1 kit=pass call=a4470f7c
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.44    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-h1 PUB-04-r1 kit=pass call=0f05cb33
+    RECORDED_IN_GREETING judge risk  unreviewed     t=8.47    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-h1 PUB-05-r1 kit=pass call=d03342d2
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.86    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-h1 PUB-06-r1 kit=pass call=a80d1a5e
+    RECORDED_IN_GREETING judge risk  unreviewed     t=4.54    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-h1 PUB-07-r1 kit=pass call=c724124e
+    RECORDED_IN_GREETING judge risk  unreviewed     t=4.06    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-h1 PUB-08-r1 kit=pass call=bf4e305c
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.67    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-h1 PUB-09-r1 kit=pass call=0362bb98
+    RECORDED_IN_GREETING judge risk  unreviewed     t=9.2     Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-h1 PUB-10-r1 kit=pass call=adf9bc75
+    RECORDED_IN_GREETING judge risk  unreviewed     t=3.61    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-01-r1 kit=pass call=e0017abd
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.36    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-02-r1 kit=pass call=8b9adbca
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.21    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-03-r1 kit=pass call=0afb27c0
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.28    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-04-r1 kit=pass call=edd4bc0a
+    RECORDED_IN_GREETING judge risk  unreviewed     t=5.04    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-05-r1 kit=fail call=1bebf235
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.23    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-06-r1 kit=pass call=f3552724
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.21    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-07-r1 kit=pass call=547b3690
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.3     Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-08-r1 kit=pass call=e9f082a4
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.41    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-09-r1 kit=pass call=d2b8ea31
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.76    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-10-r1 kit=fail call=2ad64547
+    RECORDED_IN_GREETING judge risk  unreviewed     t=9.37    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-01-r2 kit=pass call=c1ffd3b8
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.16    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-02-r2 kit=pass call=de509249
+    RECORDED_IN_GREETING judge risk  unreviewed     t=5.76    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-03-r2 kit=fail call=3b9579ae
+    RECORDED_IN_GREETING judge risk  unreviewed     t=7.73    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-04-r2 kit=pass call=d35a3f43
+    RECORDED_IN_GREETING judge risk  unreviewed     t=7.85    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-05-r2 kit=pass call=cf9b35aa
+    RECORDED_IN_GREETING judge risk  unreviewed     t=3.46    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-06-r2 kit=pass call=6450c6a4
+    RECORDED_IN_GREETING judge risk  unreviewed     t=3.8     Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-07-r2 kit=pass call=86afabf1
+    RECORDED_IN_GREETING judge risk  unreviewed     t=3.73    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-08-r2 kit=pass call=ac764ed3
+    RECORDED_IN_GREETING judge risk  unreviewed     t=7.97    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-09-r2 kit=pass call=267370f0
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.19    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-a-official-reps2 PUB-10-r2 kit=fail call=0d4fad3c
+    RECORDED_IN_GREETING judge risk  unreviewed     t=1.6     Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-b-official-h1 PUB-11-r1 kit=fail call=695306e6
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.3     Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=31.09   no text-message sentence after the recorded promise
+ct-b-official-h1 PUB-12-r1 kit=fail call=2f6d47ea
+    RECORDED_IN_GREETING judge risk  unreviewed     t=1.57    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=33.11   no text-message sentence after the recorded promise
+ct-b-official-h1 PUB-13-r1 kit=pass call=5572f66c
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.26    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-b-official-reps2 PUB-11-r1 kit=pass call=f8884d44
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.28    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+ct-b-official-reps2 PUB-12-r1 kit=fail call=9b58fe0b
+    RECORDED_IN_GREETING judge risk  unreviewed     t=5.55    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=55.24   no text-message sentence after the recorded promise
+ct-b-official-reps2 PUB-13-r1 kit=fail call=ecee341a
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.27    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=24.12   no text-message sentence after the recorded promise
+ct-b-official-reps2 PUB-11-r2 kit=pass call=f8b7734f
+    RECORDED_IN_GREETING judge risk  unreviewed     t=1.67    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+    RECORDED_EARLY       violation   unreviewed     t=26.58   I have recorded the following: 220.00 for your credit card ending 2288 on Friday 16 October, 640.00 for your personal loan on Friday 16 October, and 75.00 for your car loan on Friday 16 October.
+ct-b-official-reps2 PUB-12-r2 kit=fail call=e6af01d9
+    RECORDED_IN_GREETING judge risk  unreviewed     t=1.06    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=69.55   no text-message sentence after the recorded promise
+ct-b-official-reps2 PUB-13-r2 kit=fail call=3f865f4d
+    RECORDED_IN_GREETING judge risk  unreviewed     t=1.32    Hello, this is Freya Bank's digital assistant calling, and this call is recorded.
+    SMS_MISSING          violation   unreviewed     t=47.58   no text-message sentence after the recorded promise
+
+Calls with a finding / calls where the check applied, per label (calls in brackets):
+| code | class | ct-a-official-h1 (10) | ct-a-official-reps2 (20) | ct-b-official-h1 (3) | ct-b-official-reps2 (6) |
+|---|---|---|---|---|---|
+| NO_GOODBYE | violation | 0/10 | 0/20 | 0/1 | 0/2 |
+| NO_THANKS | violation | 0/10 | 0/20 | 0/1 | 0/2 |
+| RECORDED_EARLY | violation | 0/10 | 0/20 | 0/3 | 1/6 |
+| SMS_MISSING | violation | 0/5 | 0/10 | 2/3 | 4/6 |
+| TODAY_AGAIN | violation | 0/0 | 0/0 | 0/3 | 0/6 |
+| ORDER | violation | 0/0 | 0/0 | 0/3 | 0/6 |
+| ITEM_SKIPPED | violation | 0/0 | 0/0 | 0/0 | 0/0 |
+| ATTEMPTS_SHORT | violation | 0/0 | 0/0 | 0/0 | 0/0 |
+| ATTEMPTS_OVER | violation | 0/0 | 0/0 | 0/0 | 0/0 |
+| WEEKDAY | violation | 0/5 | 0/10 | 0/3 | 0/6 |
+| SMS_NOT_VERBATIM | wording | 0/5 | 0/10 | 0/3 | 0/6 |
+| RECORDED_IN_GREETING | judge risk | 10/10 | 20/20 | 3/3 | 6/6 |
+| SPEECH_AFTER_CLOSE | observation | 0/10 | 0/20 | 0/1 | 0/2 |
+
+39 calls. PASS calls with a violation-class finding: 1 (confirmed 0, unreviewed or unclear the rest). A finding is a claim to read; no finding is not compliance.

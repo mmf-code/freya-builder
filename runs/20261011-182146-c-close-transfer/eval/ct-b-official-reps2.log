@@ -1,0 +1,30 @@
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise
+       - outcome (None, None), expected ('promise', None)
+       - notes [], expected [('p2', 'refused'), ('p3', 'refused')]
+       - the call was not closed with close_call
+FAIL PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise
+       - outcome (None, None), expected ('promise', None)
+       - the call was not closed with close_call
+
+slowest agent turn per call: median 7 s, worst 8 s. Failed calls where the customer hung up: 2.
+-- run 1 of 2: 1 / 3 passed, 135 s
+
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise
+       - outcome (None, None), expected ('promise', None)
+       - notes [], expected [('p2', 'refused'), ('p3', 'refused')]
+       - the call was not closed with close_call
+       - conversation: The conversation failed on several success criteria: - Too many collection attempts were made for both loans. The personal loan received three attempts (Messages 12, 14, and 16) instead of two. The car loan received two attempts (Messages 18 and 
+FAIL PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise
+       - outcome (None, None), expected ('promise', None)
+       - the call was not closed with close_call
+
+slowest agent turn per call: median 5 s, worst 21 s. Failed calls where the customer hung up: 2.
+-- run 2 of 2: 1 / 3 passed, 155 s
+
+PASS PUB-11 2/2
+FAIL PUB-12 0/2
+FAIL PUB-13 0/2
+
+1 / 3 passed (bank records and conversation checks), a customer counts with 2 of 2 runs. Last simulation fdc38533-ce58-4d32-b896-3f93d48935a6, status completed, 290 s.

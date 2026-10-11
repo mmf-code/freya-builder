@@ -1,0 +1,58 @@
+[00:03]   [Skill] {'skill': 'build-phone-agent', 'args': 'briefs/brief-a-raw.md briefs/brief-b-raw.md'}
+[00:05]   [Bash] {'command': 'ls -R | head -50 && cat briefs/brief-a-raw.md briefs/brief-b-raw.md && cat public-test-set.json | head -100
+[00:08]   [Bash] {'command': 'cat tools/openapi.json docs/workflow-format.md docs/tools-and-code.md examples/base-agent.json README.md',
+[00:10]   [Bash] {'command': 'wc -c tools/openapi.json docs/* examples/* README.md && python3 -c "\nimport json;d=json.load(open(\'tools/
+[00:14]   [Read] {'file_path': '<repo>/runs/20261011-182146-c-close-transfer/workspace/docs/workflow-forma
+[00:15]   [Read] {'file_path': '<repo>/runs/20261011-182146-c-close-transfer/workspace/docs/tools-and-code
+[00:15]   [Read] {'file_path': '<repo>/runs/20261011-182146-c-close-transfer/workspace/examples/base-agent
+[00:15]   [Read] {'file_path': '<repo>/runs/20261011-182146-c-close-transfer/workspace/README.md'}
+[00:22] Reading the checker next, then I will write a generator script for both workflows.
+[00:24]   [Bash] {'command': 'cat tools/check_workflow.py; ls out 2>/dev/null; head -c 3000 traces/*.jsonl; git log --oneline | head', 'd
+[00:27]   [Bash] {'command': 'sed -n 1,200p tools/check_workflow.py', 'description': 'Read the first part of the checker'}
+[00:29]   [Bash] {'command': 'sed -n 200,520p tools/check_workflow.py', 'description': 'Read the rest of the checker'}
+[00:33]   [Bash] {'command': 'head -40 tools/dryrun.py; head -40 tools/lower.py; grep -n "def " freya.py', 'description': 'Peek at dryrun
+[00:37]   [Bash] {'command': 'wc -l tools/lower.py && sed -n 40,90p tools/lower.py; cat .freya-agents.json 2>/dev/null; ls -a', 'descript
+[05:30] Writing the generator now. It builds both workflows from one script: A for one product, B with the multi-product and `add_note` rules.
+[07:38]   [Write] {'file_path': '<repo>/runs/20261011-182146-c-close-transfer/workspace/builder/gen_workflo
+[07:45]   [Bash] {'command': 'python3 builder/gen_workflows.py && for s in brief-a-raw brief-b-raw; do echo "== $s"; python3 tools/check_
+[07:49] Both pass the checker with no errors. Now a local dry run of the two code steps on several dates and account shapes.
+[08:00]   [Bash] {'command': 'mkdir -p /tmp/fb && cat > /tmp/fb/samples.json <<\'EOF\'\n[\n {"now": "2026-10-14T11:00", "products": [{"pr
+[08:06] Date math checks out (7th and 12th business day, the 26 October holiday, the Friday rule). Saving both workflows.
+[08:07]   [Bash] {'command': 'source env.sh 2>/dev/null; for s in brief-a-raw brief-b-raw; do python3 -c "import freya,json,sys; print(js
+[08:11] Saved. Checking that the platform kept what I sent: export each one and rerun the checker on the export.
+[08:16]   [Bash] {'command': 'source env.sh 2>/dev/null; python3 - <<\'EOF\'\nimport freya, json\nfor slot, wid in (("brief-a-raw","42c94
+[08:20] The export matches the source and passes the checker. One quick chat turn to confirm the agent starts and speaks its opening line.
+[08:21]   [Bash] {'command': 'grep -n -A30 "chat/message" docs/api.md | head -60', 'description': 'Look up the chat message API'}
+[08:25]   [Bash] {'command': 'source env.sh 2>/dev/null; python3 - <<\'EOF\'\nimport freya, json\nv={"customer_id":"c_test","first_name":
+[08:41] I built and saved both phone agents. Neither one has been tested on customers: `public-test-set.json` is empty for these two briefs, so the skill told me not to run `tools/run_cases.py`. Until a simulation runs, the negotiation rules are untested.
+[08:41] 
+[08:41] What I checked instead:
+[08:41] - **Structure check:** 0 errors and 0 warnings on both workflow files, and again on the versions exported back from the platform. The export has the same 49 steps, tools, hooks and routes I sent.
+[08:41] - **Date code, run locally:** the deadlines (7th and 12th business day), the new 26 October holiday, the Friday rule for the first offer and the callback window all came out right on four sample dates. It read the product list in all three formats I fed it.
+[08:41] - **One chat turn per agent:** both start and say the opening line: "Hello, this is Freya Bank's digital assistant calling, and this call is recorded. Am I speaking with Mr Reyes?"
+[08:41] - **Reading against the brief:** I went through the rules while writing the prompts and routes.
+[08:41] 
+[08:41] How the call is built:
+[08:41] - **Order of the call:** confirm who answered, then the security questions, then a fixed line stating what is overdue (written by code), then the negotiation. If someone else answers, a separate step books a callback.
+[08:41] - **Ending the call:** `close_call` is the only tool that ends a call. It runs alone in one of 16 silent steps, each with its outcome and reason fixed in advance, so the model never chooses them. Every call reaches the hang-up through one of these steps.
+[08:41] - **Goodbyes:** the thanks and goodbye are fixed lines spoken in the step just before `close_call`.
+[08:41] - **Transfers:** `transfer_to_agent` runs in its own step. "I am connecting you now" is only said after it succeeds.
+[08:41] - **Fixed routes:** these follow tool results, not the model's judgement: identity passed, three wrong answers, callback booked, and for Brief A, promise recorded or failed twice. Brief A never uses `add_note`.
+[08:41] - **Brief B:** promises are recorded only after one combined read-back and confirmation. The notes are written in a final step and only when the call is not transferred, as the change notice requires.
+[08:41] 
+[08:41] Things to know:
+[08:41] - **Model judgement:** the persuasion steps and date checks inside the negotiation depend on the model following the prompt. So do Brief B's notes and its choice of close code. Only a real test run will show how reliable that is.
+[08:41] - **My choices where the brief is silent:**
+[08:41]   - Brief B writes notes even for a customer with only one product. The change notice covers "one to three products".
+[08:41]   - A failed transfer closes as `no_promise` with `service_error`, or `hardship` for the support team. Before identity is checked, it closes as `not_verified` with `declined`. In Brief B a failed transfer goes on to the notes step.
+[08:41]   - A failed account lookup closes as `no_promise` with `service_error`.
+[08:41] - **Repeat risk:** the result hooks on bank tools run in the platform's code sandbox. If that sandbox fails after the bank has already recorded a promise, the agent could try it again.
+[08:41] 
+[08:41] The generator is `builder/gen_workflows.py`. The workflow and contract files are in `out/`.
+[08:41] 
+[08:41] | Brief | workflow_id | agent_id | Customers passed (last run) |
+[08:41] |---|---|---|---|
+[08:41] | brief-a-raw | 42c94adf-c479-4155-a06a-2a7ce162897c | 086567bf-74cd-4b4e-a8bc-5a6443eb8a91 | none run |
+[08:41] | brief-b-raw | f1e3a4ca-2100-41aa-b987-036c6acb29b4 | c0d9abe9-d641-4275-b212-4d5d27069f3d | none run |
+[08:41] 
+[08:41] done: 22 turns, 521 s, $2.50. Trace: <repo>/runs/20261011-182146-c-close-transfer/workspace/traces/20261011-182146.jsonl

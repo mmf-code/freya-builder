@@ -1,0 +1,231 @@
+{
+ "agent_id": "c0d9abe9-d641-4275-b212-4d5d27069f3d",
+ "simulation_id": "fdc38533-ce58-4d32-b896-3f93d48935a6",
+ "iteration_id": "78e2c1d9-775f-48c4-ab31-40857f84b421",
+ "seconds": 290,
+ "passed": 1,
+ "total": 3,
+ "runs": 2,
+ "final": [
+  {
+   "id": "PUB-11",
+   "family": "Multi-product",
+   "passes": 2,
+   "runs": 2,
+   "pass": true
+  },
+  {
+   "id": "PUB-12",
+   "family": "Multi-product",
+   "passes": 0,
+   "runs": 2,
+   "pass": false
+  },
+  {
+   "id": "PUB-13",
+   "family": "Multi-product",
+   "passes": 0,
+   "runs": 2,
+   "pass": false
+  }
+ ],
+ "rows": [
+  {
+   "id": "PUB-11",
+   "level": "medium",
+   "family": "Multi-product",
+   "pass": true,
+   "failed": [],
+   "call_id": "f8b7734f-0ee1-44cc-a436-5d845af77783",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise",
+    "create_promise",
+    "close_call"
+   ],
+   "customer_id": "c_d92c2ed3-ea9",
+   "slowest_turn_s": 5.2,
+   "ended": "assistant-ended-call"
+  },
+  {
+   "id": "PUB-12",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": false,
+   "failed": [
+    "outcome (None, None), expected ('promise', None)",
+    "notes [], expected [('p2', 'refused'), ('p3', 'refused')]",
+    "the call was not closed with close_call",
+    "conversation: The conversation failed on several success criteria: - Too many collection attempts were made for both loans. The personal loan received three attempts (Messages 12, 14, and 16) instead of two. The car loan received two attempts (Messages 18 and 20) instead of one. - No 'refused' notes were recorded for either loan. While a promise was correctly logged for the credit card in the system events, no "
+   ],
+   "call_id": "e6af01d9-db81-488d-9a51-c8ce14de242c",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise"
+   ],
+   "customer_id": "c_328b65ad-87e",
+   "slowest_turn_s": 21.0,
+   "ended": "customer-ended-call"
+  },
+  {
+   "id": "PUB-13",
+   "level": "hard",
+   "family": "Multi-product",
+   "pass": false,
+   "failed": [
+    "outcome (None, None), expected ('promise', None)",
+    "the call was not closed with close_call"
+   ],
+   "call_id": "3f865f4d-5202-4bc8-b830-896bf9b7b5d7",
+   "tools": [
+    "verify_identity",
+    "verify_identity",
+    "get_account",
+    "create_promise",
+    "create_promise"
+   ],
+   "customer_id": "c_39d1e270-e1d",
+   "slowest_turn_s": 5.0,
+   "ended": "customer-ended-call"
+  }
+ ],
+ "all_rows": [
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "f8884d44-ffea-488a-9a5c-37f68ed8b723",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_fa87b4fa-e46",
+    "slowest_turn_s": 7.3,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "outcome (None, None), expected ('promise', None)",
+     "notes [], expected [('p2', 'refused'), ('p3', 'refused')]",
+     "the call was not closed with close_call"
+    ],
+    "call_id": "9b58fe0b-2e74-472f-baf1-5a68dc59e231",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise"
+    ],
+    "customer_id": "c_3a43ed71-491",
+    "slowest_turn_s": 4.3,
+    "ended": "customer-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "outcome (None, None), expected ('promise', None)",
+     "the call was not closed with close_call"
+    ],
+    "call_id": "ecee341a-a502-400a-bc56-5f9764de7606",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise"
+    ],
+    "customer_id": "c_9551cf64-f99",
+    "slowest_turn_s": 8.2,
+    "ended": "customer-ended-call"
+   }
+  ],
+  [
+   {
+    "id": "PUB-11",
+    "level": "medium",
+    "family": "Multi-product",
+    "pass": true,
+    "failed": [],
+    "call_id": "f8b7734f-0ee1-44cc-a436-5d845af77783",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise",
+     "create_promise",
+     "close_call"
+    ],
+    "customer_id": "c_d92c2ed3-ea9",
+    "slowest_turn_s": 5.2,
+    "ended": "assistant-ended-call"
+   },
+   {
+    "id": "PUB-12",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "outcome (None, None), expected ('promise', None)",
+     "notes [], expected [('p2', 'refused'), ('p3', 'refused')]",
+     "the call was not closed with close_call",
+     "conversation: The conversation failed on several success criteria: - Too many collection attempts were made for both loans. The personal loan received three attempts (Messages 12, 14, and 16) instead of two. The car loan received two attempts (Messages 18 and 20) instead of one. - No 'refused' notes were recorded for either loan. While a promise was correctly logged for the credit card in the system events, no "
+    ],
+    "call_id": "e6af01d9-db81-488d-9a51-c8ce14de242c",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise"
+    ],
+    "customer_id": "c_328b65ad-87e",
+    "slowest_turn_s": 21.0,
+    "ended": "customer-ended-call"
+   },
+   {
+    "id": "PUB-13",
+    "level": "hard",
+    "family": "Multi-product",
+    "pass": false,
+    "failed": [
+     "outcome (None, None), expected ('promise', None)",
+     "the call was not closed with close_call"
+    ],
+    "call_id": "3f865f4d-5202-4bc8-b830-896bf9b7b5d7",
+    "tools": [
+     "verify_identity",
+     "verify_identity",
+     "get_account",
+     "create_promise",
+     "create_promise"
+    ],
+    "customer_id": "c_39d1e270-e1d",
+    "slowest_turn_s": 5.0,
+    "ended": "customer-ended-call"
+   }
+  ]
+ ]
+}
