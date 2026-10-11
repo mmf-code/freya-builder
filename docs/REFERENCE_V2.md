@@ -33,8 +33,8 @@ If the rule fails, is not finished, or the platform is unstable, nothing changes
 
 ## Runner version
 
-Both arms run with the runner of commit `0c59ba3` (kitrun's acceptance decision hardened in `7e4e2a0`; its trust
-boundary tightened in `c077158` and `0c59ba3` after security reviews; see `docs/FAILURE_MODES.md` #16). What the builder sees is unchanged since `fe8bd5b`: workspace layout, skill handling and helpers
+Both arms run with the runner of commit `560ccfe` (kitrun's acceptance decision hardened in `7e4e2a0`; its trust
+boundary tightened in `c077158`, `0c59ba3` and `560ccfe` after security reviews; see `docs/FAILURE_MODES.md` #16). What the builder sees is unchanged since `fe8bd5b`: workspace layout, skill handling and helpers
 (`workflow_check.py`, `lower.py`, `dryrun.py`) are byte-identical. Earlier measurements used the earlier runner; the
 comparison is between the two new arms only.
 
@@ -119,4 +119,4 @@ regression against one fresh reference build under the same runner, inputs and j
   candidate call.
 - Revision 2 (2026-10-11 05:00): rewritten after the second outside review, before any candidate call: three
   dimensions, confirmed findings only, greeting apart, per-mechanism veto, absolute floor, triggered personas only,
-  borderline stays on `reference`; runner `0c59ba3`.
+  borderline stays on `reference`; runner `560ccfe`.

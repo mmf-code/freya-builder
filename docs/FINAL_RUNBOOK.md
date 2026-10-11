@@ -16,7 +16,7 @@ then this one path changes and nothing else.
 
 The configuration is the skill plus what kitrun copies into the workspace (`builder/workflow_check.py`,
 `builder/lower.py`, `builder/dryrun.py`) plus `builder/kitrun.py` itself, all at the agreed commit. Do not change any
-of them between the runs of the final. Runner from commit 0c59ba3 on: what the builder sees is the same as before
+of them between the runs of the final. Runner from commit 560ccfe on: what the builder sees is the same as before
 (helpers and workspace unchanged since fe8bd5b); only the runner's acceptance decision is stricter.
 
 ## Before the briefs open

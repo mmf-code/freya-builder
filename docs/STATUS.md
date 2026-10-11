@@ -28,15 +28,15 @@ Branch `builder-integration` on GitHub. Read with `docs/START_HERE.md`, `docs/PL
   out the text-message sentence in 5 of 9 official B calls (judge PASS, read and confirmed). Table in
   `docs/REFERENCE_V2.md`.
 - Done by 05:07, after a second outside review (A and B of its plan, no Freya use):
-  - A, runner acceptance (`builder/kitrun.py`, commits 7e4e2a0, c077158, 0c59ba3, the last two after security reviews;
-    what the builder sees is unchanged): a run is accepted only with a successful SDK result as the last record of
-    the trace read through the handle opened at its creation, unchanged inputs, a valid contract checked against a
-    snapshot of the inputs taken before the build, exported workflows with their sha256, and the time limit counted
+  - A, runner acceptance (`builder/kitrun.py`, commits 7e4e2a0, c077158, 0c59ba3, 560ccfe, the last three after
+    security reviews; what the builder sees is unchanged): a run is accepted only with a successful SDK result as the
+    last record of the trace read through the handle opened at its creation and confirmed by agent_builder.py's
+    "done:" line, unchanged inputs, a valid contract checked against the inputs as read into memory before the build, exported workflows with their sha256, and the time limit counted
     to the end of the checks; the whole process group is stopped. `docs/FAILURE_MODES.md` #16.
   - B, measurement: `policy_audit` is a triage with classes, coverage, persona triggers and review statuses; its false
     positives and negatives from the review are fixed and tested; the switch rule is revision 2 (three dimensions,
     confirmed findings only, per-mechanism veto, a floor). `docs/REFERENCE_V2.md`.
-- Next, needs approval because it uses Freya: stages 1-4 of `docs/REFERENCE_V2.md` with runner 0c59ba3 (fresh
+- Next, needs approval because it uses Freya: stages 1-4 of `docs/REFERENCE_V2.md` with runner 560ccfe (fresh
   reference build vs reference-v2 build, ~2 hours). If its rule fails or time runs out, the final uses `reference`.
 - Known weak spots of `reference`: an item skipped after an out-of-turn refusal (V09), "this call is recorded" in the
   greeting judged as an early "recorded", the text-message sentence missing after several promises (5 of 9 official
