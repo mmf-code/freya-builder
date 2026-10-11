@@ -1,9 +1,9 @@
-# Status (updated 2026-10-11 05:00 UTC+3)
+# Status (updated 2026-10-11 04:25 UTC+3)
 
 Branch `builder-integration` on GitHub. Read with `docs/START_HERE.md`, `docs/PLATFORM_NOTES.md` and
 `docs/EVAL_PROTOCOL.md`.
 
-## Handoff, 2026-10-11 05:00 UTC+3
+## Handoff, 2026-10-11 04:25 UTC+3
 
 - Final builder unchanged: `--skill builder/skills/reference` (sha256 `7659a7bd2e6c`) with a fresh `--state` per
   run; commands in `docs/FINAL_RUNBOOK.md`. Freeze the skill and the helpers kitrun copies until the final.
@@ -22,7 +22,7 @@ Branch `builder-integration` on GitHub. Read with `docs/START_HERE.md`, `docs/PL
 - New, not yet measured: `builder/skills/reference-v2` (reference + four general rules), the transcript checker
   `tools/evaluation/policy_audit.py` (with `tests/test_policy_audit.py`), `docs/FAILURE_MODES.md` (failure catalog,
   engineering preference, what we took from EVRE) and `docs/REFERENCE_V2.md` (experiment and switch rule).
-- Stage 0 of that experiment done at 05:50 (read-only `policy_audit --fetch` on the stored official calls): the
+- Stage 0 of that experiment done at 04:20 (read-only `policy_audit --fetch` on the stored official calls): the
   blind lowering-precedence agent says the goodbye after `close_call` in 39/39 calls; the blind reference agent leaves
   out the text-message sentence in 5 of 9 official B calls (judge PASS). Table in `docs/REFERENCE_V2.md`.
 - Next, needs approval because it uses Freya: stages 1-4 of `docs/REFERENCE_V2.md` (fresh reference build vs

@@ -1,6 +1,6 @@
 # reference-v2: the one candidate, its experiment and the switch rule
 
-Status 2026-10-11 05:50 UTC+3: written, not built, not measured; stage 0 (read-only baseline) done. The final uses `builder/skills/reference` unless
+Status 2026-10-11 04:25 UTC+3: written, not built, not measured; stage 0 (read-only baseline) done. The final uses `builder/skills/reference` unless
 the gate below passes before the freeze.
 
 ## What it is
@@ -41,7 +41,7 @@ Pre-registered here before any run. One commit for both arms; a fresh `--state` 
 | 3 | Complete to three runs: A x3, B x3, V09 x3, V07 x3, V06 x3 per agent (96 calls in all) | ~50 min |
 | 4 | `policy_audit` on every call of both agents; read the greeting of each agent once | ~10 min |
 
-### Stage 0 result (2026-10-11 05:50 UTC+3, read-only)
+### Stage 0 result (2026-10-11 04:20 UTC+3, read-only)
 
 `policy_audit --fetch` on the 39 stored official calls of each blind agent; output in
 `runs/20261010-212550-blind-ref-ab/eval/policy_audit.txt` and `runs/20261010-212547-blind-prec-ab/eval/policy_audit.txt`.
@@ -57,7 +57,7 @@ Pre-registered here before any run. One commit for both arms; a fresh `--state` 
 
 Read: precedence's closing defect is confirmed in calls, not only in its export. The reference build's hidden weakness
 on the official customers is the confirmation after several promises; v2's word-for-word rule targets it, so the
-switch rule below now counts it. Amended at 05:50, after stage 0 and before any v1-fresh or v2 run.
+switch rule below now counts it. Amended at 04:20, after stage 0 and before any v1-fresh or v2 run.
 
 v1-fresh is also the replication the outside audit asked for: a second blind build of `reference`, so we see how far
 two builds of the same skill differ.

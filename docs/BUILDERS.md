@@ -1,4 +1,4 @@
-# Builder candidates (state at 2026-10-11, 05:00 UTC+3)
+# Builder candidates (state at 2026-10-11, 04:20 UTC+3)
 
 There is one runner. Every candidate below runs the kit's example builder `examples/agent_builder.py` unchanged
 (Claude Agent SDK, model `claude-opus-5-5`) through `builder/kitrun.py`; the candidates differ only in the skill text
