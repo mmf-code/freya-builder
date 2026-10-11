@@ -7,9 +7,9 @@
     }
   ],
   "repo": "https://github.com/mmf-code/freya-builder",
-  "commit": "fedd1752097ad339fc9f1b6ade1b84fe3a7126f6",
-  "run_command": "python3 builder/build.py {case_folder} https://freya-bank-mock-final.atakan-yamana.workers.dev --skill builder/skills/reference-chat-open --label final-open",
-  "workflow": "runs/20261011-213919-final-open/BRIEF.workflow.json",
-  "trace": "runs/20261011-213919-final-open/trace.jsonl",
+  "commit": "1c1ff166e9b0a043aa04c39ed598fcc546de5c96",
+  "run_command": "python3 builder/build.py {case_folder} https://freya-bank-mock-final.atakan-yamana.workers.dev --skill builder/skills/reference-chat-secure --label final-secure",
+  "workflow": "submission/final.workflow.json",
+  "trace": "submission/trace.jsonl",
   "mock_url": "https://freya-bank-mock-final.atakan-yamana.workers.dev"
 }

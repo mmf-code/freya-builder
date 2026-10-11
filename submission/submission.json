@@ -1,0 +1,15 @@
+{
+  "team": "EVRE",
+  "members": [
+    {
+      "name": "Atakan Yaman",
+      "email": "atakan.yamana@gmail.com"
+    }
+  ],
+  "repo": "https://github.com/mmf-code/freya-builder",
+  "commit": "1c1ff166e9b0a043aa04c39ed598fcc546de5c96",
+  "run_command": "python3 builder/build.py {case_folder} https://freya-bank-mock-final.atakan-yamana.workers.dev --skill builder/skills/reference-chat-secure --label final-secure",
+  "workflow": "submission/final.workflow.json",
+  "trace": "submission/trace.jsonl",
+  "mock_url": "https://freya-bank-mock-final.atakan-yamana.workers.dev"
+}
