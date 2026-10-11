@@ -17,9 +17,11 @@ With --skill DIR the given skill replaces the kit's skill in the workspace and t
 tools/lower.py and tools/dryrun.py are added. With --state DIR the run keeps its slot and persona ids there instead of state/, so it can
 neither update another run's workflows nor share its personas.
 After the build every exported workflow is checked statically (builder/workflow_check.py), with the builder's
-out/<slot>.contract.json when it wrote one, against the original tool API and brief files (not the workspace copies).
-A run is accepted only when the builder exited 0 with a successful SDK result, within the time limit counted up to
-the end of the export and checks, with every input file unchanged, and with no check error. Nothing is deleted when a
+out/<slot>.contract.json when it wrote one, against the runner's own copy of the tool API and brief files, taken before
+the build and hash-checked before use (not the workspace copies). The trace is read through the file handle the runner
+opened when agent_builder.py created it. A run is accepted only when the builder exited 0 with a successful SDK result
+as the trace's last record, within the time limit counted up to the end of the export and checks, with every input
+file and the trace unchanged, and with no check error. Nothing is deleted when a
 run is rejected; summary.json and trace.txt give the reasons under "acceptance".
 Exit status: 0 accepted, 1 builder failed, SDK error, timed out or over the limit, 2 a secret was found in the output,
 3 a check failed (static errors, missing export or contract, contract without a terminal tool, changed input).
@@ -114,11 +116,11 @@ def input_manifest(briefs: list[Path], tools: Path) -> dict[str, dict]:
     return m
 
 
-def input_changes(manifest: dict[str, dict], ws: Path) -> list[str]:
-    """Inputs whose workspace copy or original source no longer has the hash taken at the start."""
+def input_changes(manifest: dict[str, dict], ws: Path, sources: bool = True) -> list[str]:
+    """Inputs whose copy under `ws` (or, with `sources`, whose original file) no longer has the hash taken at the start."""
     out = []
     for rel, m in manifest.items():
-        for where, path in (("workspace copy", ws / rel), ("source", Path(m["source"]))):
+        for where, path in (("copy in " + ws.name, ws / rel), *((("source", Path(m["source"])),) if sources else ())):
             if not path.is_file():
                 out.append(f"{rel}: {where} is missing")
             elif sha256(path) != m["sha256"]:
@@ -287,24 +289,53 @@ def make_workspace(run_dir: Path, briefs: list[Path], tools: Path, skill: Path |
     return ws
 
 
+class WatchedTrace:
+    """agent_builder.py's trace file, held open from the moment it appears (the script opens it before the model runs).
+    Reading through this handle gets what agent_builder.py wrote even if the path is later replaced, and `seen` keeps
+    every complete line already read, so a rewrite of earlier lines shows."""
+
+    def __init__(self, path: Path):
+        self.path, self.fh, self.seen = path, open(path, "rb"), bytearray()
+
+    def read_new(self) -> bytes:
+        self.fh.seek(len(self.seen))
+        data = self.fh.read()
+        complete = data[: data.rfind(b"\n") + 1]
+        self.seen += complete
+        return complete
+
+    def finish(self) -> tuple[str, list[str]]:
+        """The whole trace as written to the watched file, and what is wrong with it."""
+        self.fh.seek(0)
+        data = self.fh.read()
+        problems = []
+        if not data.startswith(bytes(self.seen)):
+            problems.append("lines of the trace changed after they were written")
+        try:
+            now, held = os.stat(self.path), os.fstat(self.fh.fileno())
+            if (now.st_ino, now.st_dev) != (held.st_ino, held.st_dev):
+                problems.append(f"traces/{self.path.name} was replaced during the run; the watched file was used")
+        except FileNotFoundError:
+            problems.append(f"traces/{self.path.name} was removed during the run; the watched file was used")
+        self.fh.close()
+        return data.decode(errors="replace"), problems
+
+
 def _tail(path_glob_dir: Path, t0: float, stop: threading.Event, out: list, chosen: list | None = None) -> None:
     """Stamp each trace line with the second it appeared. agent_builder.py flushes after every message.
-    The first trace file to appear is agent_builder.py's own (it opens it before the model runs); `chosen` gets it."""
-    pos, f = 0, None
-    while not stop.is_set() or f is not None:
-        if f is None:
+    The first trace file to appear is agent_builder.py's own; `chosen` gets it as a WatchedTrace."""
+    w = None
+    while not stop.is_set() or w is not None:
+        if w is None:
             found = sorted(path_glob_dir.glob("*.jsonl"))
             if found:
-                f = found[-1]
+                w = WatchedTrace(found[-1])
                 if chosen is not None:
-                    chosen.append(f)
+                    chosen.append(w)
             elif stop.is_set():
                 return
-        if f is not None:
-            data = f.read_bytes()[pos:]
-            complete = data[: data.rfind(b"\n") + 1]
-            pos += len(complete)
-            out.extend([round(time.time() - t0, 1)] * complete.count(b"\n"))
+        if w is not None:
+            out.extend([round(time.time() - t0, 1)] * w.read_new().count(b"\n"))
             if stop.is_set():
                 return
         time.sleep(0.5)
@@ -325,6 +356,9 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     run_dir = ROOT / "runs" / f"{stamp}-{label}"
     run_dir.mkdir(parents=True)
     manifest = input_manifest(briefs, tools)
+    # The runner's own copy of the inputs, taken before the build and hash-checked before use: the oracle for the
+    # contract quotes and the tool API, whatever happens to the workspace copies or the source files.
+    snapshot = pristine_inputs(manifest, Path(tempfile.mkdtemp(prefix="kitrun-inputs-")))
     ws = make_workspace(run_dir, briefs, tools, skill, state)
     state_before = json.loads((state / "freya-agents.json").read_text())
     print(f"state {redact(str(state), {})}: slots {sorted(state_before) or 'none'}, "
@@ -348,7 +382,7 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     watchdog = threading.Timer(minutes * 60, lambda: (timed_out.set(), kill_group(proc)))
     watchdog.start()
     arrivals: list[float] = []
-    chosen: list[Path] = []
+    chosen: list[WatchedTrace] = []
     stop = threading.Event()
     tailer = threading.Thread(target=_tail, args=(ws / "traces", t0, stop, arrivals, chosen), daemon=True)
     tailer.start()
@@ -369,17 +403,16 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
     tailer.join(timeout=5)
     end = datetime.now(timezone.utc)
 
-    trace_file = chosen[0] if chosen else None
+    trace_file, trace_text, trace_problems = (chosen[0].path, *chosen[0].finish()) if chosen else (None, "", [])
     records = []
-    if trace_file is not None and trace_file.is_file():
-        for line in trace_file.read_text().splitlines():
-            try:
-                records.append(json.loads(line))
-            except ValueError:
-                records.append({"type": "unreadable line"})
+    for line in trace_text.splitlines():
+        try:
+            records.append(json.loads(line))
+        except ValueError:
+            records.append({"type": "unreadable line"})
     summary = summarize_trace(records, arrivals if len(arrivals) == len(records) else None, str(ws))
-    if trace_file is not None and trace_file.is_file():
-        (run_dir / "trace.jsonl").write_text(redact(trace_file.read_text(), secrets))
+    if trace_text:
+        (run_dir / "trace.jsonl").write_text(redact(trace_text, secrets))
 
     # What the run created or updated on Freya: slots that are new or whose version moved.
     sys.path.insert(0, str(ws))
@@ -397,10 +430,11 @@ def run(briefs: list[Path], tools: Path, label: str, model: str | None, minutes:
             freya_objects.append({"slot": slot, **s, "created": slot not in state_before, "export": exported,
                                   "export_sha256": sha256(path) if path.is_file() else None})
 
-    with tempfile.TemporaryDirectory() as d:
-        checks = check_exports(run_dir, ws, freya_objects, contract_required=skill is not None, api_path=tools,
-                               evidence_base=pristine_inputs(manifest, Path(d)), evidence_sources=set(manifest))
-    input_problems = input_changes(manifest, ws) + unexpected_traces(ws, trace_file)
+    input_problems = input_changes(manifest, ws) + input_changes(manifest, snapshot, sources=False)
+    input_problems += unexpected_traces(ws, trace_file) + trace_problems
+    checks = check_exports(run_dir, ws, freya_objects, contract_required=skill is not None, api_path=snapshot / "tools" / "openapi.json",
+                           evidence_base=snapshot, evidence_sources=set(manifest))
+    shutil.rmtree(snapshot, ignore_errors=True)
     end_total = datetime.now(timezone.utc)
 
     for sub in ("out", "results"):

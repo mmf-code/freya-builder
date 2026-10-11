@@ -277,7 +277,7 @@ class AcceptanceTest(unittest.TestCase):
             (ws / "briefs" / "b.md").write_text("rule 1, edited")
             api.write_text('{"x": 1}')
             found = input_changes(m, ws)
-            self.assertTrue(any("briefs/b.md: workspace copy changed" in x for x in found))
+            self.assertTrue(any("briefs/b.md: copy in ws changed" in x for x in found))
             self.assertTrue(any("tools/openapi.json: source changed" in x for x in found))
 
     def test_empty_or_wrong_contracts_fail_and_quotes_come_from_the_originals(self):
@@ -379,3 +379,50 @@ class TrustBoundaryTest(unittest.TestCase):
             (ws / "out" / "x.contract.json").write_text(json.dumps({"terminal_tools": "close_call"}))
             errors = check_exports(run_dir, ws, [{"slot": "x"}], contract_required=True)[0]["errors"]
             self.assertTrue(any("not a list of objects" in e for e in errors))
+
+
+class WatchedTraceTest(unittest.TestCase):
+    def test_replaced_trace_path_does_not_change_what_is_read(self):
+        from builder.kitrun import WatchedTrace, final_result
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "run.jsonl"
+            real = path.open("w")                       # agent_builder.py keeps its handle open
+            real.write(json.dumps({"type": "AssistantMessage"}) + "\n")
+            real.flush()
+            w = WatchedTrace(path)
+            self.assertEqual(w.read_new().count(b"\n"), 1)
+            path.unlink()                               # the builder swaps the file for a forged one
+            path.write_text(json.dumps({"type": "ResultMessage", "subtype": "success", "is_error": False}) + "\n")
+            real.write(json.dumps({"type": "ResultMessage", "subtype": "error_max_turns", "is_error": True}) + "\n")
+            real.close()
+            text, problems = w.finish()
+            records = [json.loads(l) for l in text.splitlines()]
+            self.assertEqual(final_result(records)["subtype"], "error_max_turns")
+            self.assertTrue(any("replaced" in p for p in problems))
+
+    def test_rewritten_lines_and_removed_file_are_reported(self):
+        from builder.kitrun import WatchedTrace
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "run.jsonl"
+            path.write_text('{"type": "AssistantMessage"}\n')
+            w = WatchedTrace(path)
+            w.read_new()
+            with path.open("r+") as f:                  # same file, earlier line rewritten in place
+                f.write('{"type": "ResultMessage"}  \n')
+            _, problems = w.finish()
+            self.assertTrue(any("changed after they were written" in p for p in problems))
+            w2 = WatchedTrace(path)
+            path.unlink()
+            self.assertTrue(any("removed" in p for p in w2.finish()[1]))
+
+    def test_snapshot_taken_at_start_is_checked_before_use(self):
+        from builder.kitrun import input_changes, input_manifest, pristine_inputs
+        with tempfile.TemporaryDirectory() as d:
+            brief, api = Path(d) / "b.md", Path(d) / "api.json"
+            brief.write_text("rule 1")
+            api.write_text("{}")
+            m = input_manifest([brief], api)
+            snap = pristine_inputs(m, Path(d) / "snap")
+            self.assertEqual(input_changes(m, snap, sources=False), [])
+            (snap / "tools" / "openapi.json").write_text('{"planted": true}')
+            self.assertTrue(input_changes(m, snap, sources=False))
