@@ -103,6 +103,11 @@ Results:
   (the caller spoke during the opening; after the reading the agent went to the main menu without the offer). E4
   again at 21:57 (78ff03a4): pass, e-mail read, confirmed, sent, "gönderildi" after the service answer. Seen and not
   fixed: E6 offered the e-mail to a caller with no registered address in one extra line. GO.
+  Known limit (security review, 22:00): on the multi-card path the model fills `cardNumber` for `cards.balance`;
+  code checks only that it is masked, not that it is in the caller's own card list, and the chosen card then feeds
+  the week change and the PDF send. The contract gives `cards.balance` and `statement.week.*` no customer number,
+  so the bank side cannot check ownership. Exploiting it needs another customer's masked number. Not fixed: a fix
+  needs a builder change and a new run.
 
 Next candidate: `builder/skills/reference-chat-open` (sha256 37e6f222): reference-chat plus two generic rules: the
 agent speaks first and a chat-route limit never changes the opening, checked with one simulation after the first

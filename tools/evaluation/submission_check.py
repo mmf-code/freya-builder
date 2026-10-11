@@ -53,7 +53,13 @@ def main() -> int:
     check("submission fields", list(sub) == FIELDS, ", ".join(sub))
     check("members", bool(sub["members"]) and all(set(m) == {"name", "email"} and m["email"] for m in sub["members"]))
     commit = sub["commit"]
-    code, full = git(repo, "rev-parse", "--verify", f"{commit}^{{commit}}")
+    # Values from submission.json reach git as arguments: only a hex commit and plain relative paths are accepted.
+    safe = re.fullmatch(r"[0-9a-f]{7,40}", str(commit)) and all(
+        isinstance(sub[k], str) and not sub[k].startswith(("-", "/")) and ".." not in Path(sub[k]).parts for k in ("workflow", "trace"))
+    check("commit and paths are plain values", bool(safe))
+    if not safe:
+        return 1
+    code, full = git(repo, "rev-parse", "--verify", "--end-of-options", f"{commit}^{{commit}}")
     check("commit exists", code == 0, full)
     if code:
         return 1
@@ -77,9 +83,13 @@ def main() -> int:
     check("every workflow URL is under mock_url", not bad, ", ".join(bad[:3]))
     acc = s.get("acceptance") or {}
     print(f"INFO run acceptance: accepted={acc.get('accepted')} exit={acc.get('exit')} seconds={acc.get('seconds_total')}")
-    check("run within 30 minutes", (acc.get("seconds_total") or 1e9) <= 1800 and not s.get("timed_out"), str(acc.get("seconds_total")))
+    secs = acc.get("seconds_total")
+    check("run within 30 minutes", isinstance(secs, (int, float)) and secs <= 1800 and s.get("timed_out") is False, str(secs))
 
     run_commit = s.get("repo_commit", "")
+    if not re.fullmatch(r"[0-9a-f]{40}", run_commit):
+        check("run commit recorded", False, run_commit)
+        return 1
     code, _ = git(repo, "merge-base", "--is-ancestor", run_commit, full)
     check("run commit is an ancestor of the named commit", code == 0, run_commit[:12])
     _, changed = git(repo, "diff", "--name-only", run_commit, full, "--", "builder", "docs/build-the-builder")
