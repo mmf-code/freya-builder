@@ -1,0 +1,10 @@
+{
+  "team": "<team name>",
+  "members": [{"name": "<name>", "email": "<email>"}],
+  "repo": "<repository URL>",
+  "commit": "<commit of the builder run>",
+  "run_command": "python3 builder/build.py {case_folder} {mock_url}",
+  "workflow": "runs/<stamp>-final/<slot>.workflow.json",
+  "trace": "runs/<stamp>-final/trace.txt",
+  "mock_url": "https://<worker>.workers.dev"
+}

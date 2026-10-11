@@ -29,3 +29,5 @@ state/
 runs/*/workspace/
 # Claude Code worktrees of experiment sessions
 .claude/worktrees/
+mock/node_modules/
+case/
