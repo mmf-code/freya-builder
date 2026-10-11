@@ -43,7 +43,7 @@ console.log(`${cases.length - failed}/${cases.length} match`);
 const METHODS = ["get", "put", "post", "delete", "patch"];
 const documented = Object.entries(openapi.paths).flatMap(([p, item]) =>
   METHODS.filter((m) => item[m]).map((m) => `${m.toUpperCase()} ${p}`));
-const own = Object.keys(routes).filter((k) => k !== "GET /health");
+const own = Object.keys(routes).filter((k) => !["GET /health", "POST /oauth2/token"].includes(k));
 for (const k of documented.filter((k) => !routes[k])) console.log(`FAIL in openapi.js, no route: ${k}`);
 for (const k of own.filter((k) => !documented.includes(k))) console.log(`FAIL route not in openapi.js: ${k}`);
 failed += documented.filter((k) => !routes[k]).length + own.filter((k) => !documented.includes(k)).length;

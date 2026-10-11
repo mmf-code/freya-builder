@@ -1,4 +1,6 @@
-// The mock's tool API, from the service contract of 2026-10-01 (sections 2-5). build.py sets `servers` to the mock URL.
+// The mock's tool API: the seven services of the service contract of 2026-10-01 (sections 3-5).
+// The token endpoint (section 2) is left out: the test environment does not check it, so it is no phone agent tool.
+// build.py sets `servers` to the mock URL.
 const str = { type: "string" };
 const int = { type: "integer" };
 const num = { type: "number" };
@@ -45,13 +47,6 @@ export const openapi = {
   openapi: "3.0.3",
   info: { title: "Freya Bank voice statement and debt services (test environment mock)", version: "2026-10-01" },
   paths: {
-    "/oauth2/token": {
-      post: {
-        summary: "Access token (contract section 2). The test environment does not check the token or the headers.",
-        requestBody: { content: { "application/x-www-form-urlencoded": { schema: obj({ grant_type: str, client_id: str, client_secret: str, scope: str }) } } },
-        responses: { 200: { description: "token", content: { "application/json": { schema: obj({ access_token: str, token_type: str, expires_in: int }) } } } },
-      },
-    },
     "/voice/v1/cards.list": op("The customer's cards the assistant may talk about",
       { customerNo: { oneOf: [str, int], description: "8-digit customer number" }, aiFlow: { type: "string", example: "CardOps" } },
       ["customerNo"],
