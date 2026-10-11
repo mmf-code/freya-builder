@@ -1,0 +1,69 @@
+[
+ {
+  "label": "c-v3-h",
+  "id": "V06-r1",
+  "call_id": "648e3c39-b892-4b4d-a31c-65fbc7fff920",
+  "verdict": "pass",
+  "verdict_source": "judge",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": false,
+  "variant": "V06"
+ },
+ {
+  "label": "c-v3-h",
+  "id": "V07-r1",
+  "call_id": "a788ce15-a6af-4e57-bf50-ac86f63ffbce",
+  "verdict": "pass",
+  "verdict_source": "judge",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": true,
+  "variant": "V07"
+ },
+ {
+  "label": "c-v3-h",
+  "id": "V09-r1",
+  "call_id": "5640685f-880e-41a2-ad65-97535b0d01fe",
+  "verdict": "pass",
+  "verdict_source": "judge",
+  "findings": [],
+  "checked": [
+   "ATTEMPTS_OVER",
+   "ATTEMPTS_SHORT",
+   "ITEM_SKIPPED",
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": true,
+  "variant": "V09"
+ }
+]

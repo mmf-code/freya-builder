@@ -51,8 +51,8 @@ Brief A rule 47). The defect is visible in the export. `closing_check.py` reads 
 equals the shorter build. If both builds are independent with that rate, at least one is clean about 3 times in 4.
 On 2026-10-11 it said SPEAKS for v1-fresh (14 terminal steps and 3 transfer steps that pass into one) and the
 rehearsal (17 terminal steps), CLEAN for the reference-v2 and reference-v3 builds; a farewell on the end_call step is
-caught too (synthetic copy). In v1-fresh's official calls `policy_audit` found no goodbye before `close_call` in 26 of
-26 (rounds h1, h2), v2 and v3 in none.
+caught too (synthetic copy). In v1-fresh's official calls `policy_audit` found no goodbye before `close_call` in 39 of
+39 (three rounds), v2 and v3 in none.
 
 - The two runs of a brief run at the same time: a hidden-brief build starts no simulation, and each run has its own
   `--state`, so its own Freya slot (two parallel builds were accepted on 2026-10-11, 12:00). The two final briefs

@@ -28,5 +28,19 @@
  "8df392f1-41bf-48ba-87e5-349768485723|NO_THANKS": "confirmed",
  "586076f6-fc18-4ed9-a80c-6ff20ce0187c|NO_THANKS": "confirmed",
  "84a66457-117c-485f-8efd-b8ffce2ebc79|ATTEMPTS_SHORT": "false_positive",
- "_note": "Read 2026-10-11 17:05 against the stored transcripts (healthy rounds h1, h2). NO_GOODBYE: in every call the goodbye is spoken after close_call started, from the terminal step's on_enter line or, on transfers, from an api_request step that passes into it (calls 48a8a27e, 84a66457, 8df392f1, f086e98f read to the end; the rest from the finding times); the export shows the same structure (closing_check.py). NO_THANKS 8df392f1, 586076f6: 'Thank you, the callback is booked. Goodbye.' after close_call. ATTEMPTS_SHORT 84a66457: false positive, the personal loan got two offers (1320.00, then 'the minimum amount of 153.00'); the detector did not count the second. Not marked: RECORDED_IN_GREETING (judge risk, 'this call is recorded' in every greeting)."
+ "_note": "Read 2026-10-11 17:05 against the stored transcripts (healthy rounds h1, h2). NO_GOODBYE: in every call the goodbye is spoken after close_call started, from the terminal step's on_enter line or, on transfers, from an api_request step that passes into it (calls 48a8a27e, 84a66457, 8df392f1, f086e98f read to the end; the rest from the finding times); the export shows the same structure (closing_check.py). NO_THANKS 8df392f1, 586076f6: 'Thank you, the callback is booked. Goodbye.' after close_call. ATTEMPTS_SHORT 84a66457: false positive, the personal loan got two offers (1320.00, then 'the minimum amount of 153.00'); the detector did not count the second. Not marked: RECORDED_IN_GREETING (judge risk, 'this call is recorded' in every greeting). Round h3 (read 17:20): every NO_GOODBYE the same pattern; NO_THANKS eef66629 is the same callback line after close_call.",
+ "745b4594-19c9-4f8c-bca6-c9545b4cbab4|NO_GOODBYE": "confirmed",
+ "eef66629-3b7e-42b8-bdfb-60ccad203147|NO_GOODBYE": "confirmed",
+ "eef66629-3b7e-42b8-bdfb-60ccad203147|NO_THANKS": "confirmed",
+ "ec4beb34-0586-42f1-8bea-40a6e0178a21|NO_GOODBYE": "confirmed",
+ "9809ae9d-bb57-49cd-9514-ef971b39384f|NO_GOODBYE": "confirmed",
+ "f367e1d6-c5df-4587-9f30-429263e600d2|NO_GOODBYE": "confirmed",
+ "a8fa6d58-3cdb-4d53-9aae-08bdaaf1d41e|NO_GOODBYE": "confirmed",
+ "344a12ce-9644-4162-9cca-45fd0deb16c0|NO_GOODBYE": "confirmed",
+ "f6619ef4-b077-493e-b448-c610a1230ca4|NO_GOODBYE": "confirmed",
+ "ed221bf6-8ad9-469b-9aef-2ac27fc25521|NO_GOODBYE": "confirmed",
+ "09a1b700-aa92-4b08-a253-5a9e1f6f248b|NO_GOODBYE": "confirmed",
+ "db7708af-aede-4014-a41d-80e817dc419b|NO_GOODBYE": "confirmed",
+ "cdc3cea4-02fc-44f9-9984-d708e4cb48da|NO_GOODBYE": "confirmed",
+ "717ab89d-b00e-4017-8f01-bc619f6db134|NO_GOODBYE": "confirmed"
 }

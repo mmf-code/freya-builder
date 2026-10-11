@@ -1,0 +1,37 @@
+c-v1-h V06-r1 judge=pass call=db53172c
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=21.09   Your promise to pay is recorded. You will receive a text message confirming this promise. Thank you for your time, Ms Lin. Goodbye.
+    NO_GOODBYE           violation   confirmed      t=20.9    no goodbye before close_call
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.27    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.
+c-v1-h V07-r1 judge=pass call=69d54b67
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=47.34   You will receive a text message confirming this promise. Thank you for your time, Ms Almeida. Goodbye.
+    NO_GOODBYE           violation   confirmed      t=47.27   no goodbye before close_call
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.24    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.
+c-v1-h V09-r1 judge=fail call=913ee33d
+    SPEECH_AFTER_CLOSE   observation unreviewed     t=80.87   You will receive a text message confirming this promise. Thank you for your time, Mr Bell. Goodbye.
+    NO_GOODBYE           violation   confirmed      t=80.8    no goodbye before close_call
+    RECORDED_IN_GREETING judge risk  unreviewed     t=0.26    Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.
+    ITEM_SKIPPED         violation   confirmed      t=30.82   personal_loan p2: 0 offer(s), band wants 2
+
+Calls with a finding / calls where the check applied, per label (calls in brackets):
+| code | class | c-v1-h (3) |
+|---|---|---|
+| NO_GOODBYE | violation | 3/3 |
+| NO_THANKS | violation | 0/3 |
+| RECORDED_EARLY | violation | 0/3 |
+| SMS_MISSING | violation | 0/3 |
+| TODAY_AGAIN | violation | 0/2 |
+| ORDER | violation | 0/2 |
+| ITEM_SKIPPED | violation | 1/1 |
+| ATTEMPTS_SHORT | violation | 0/1 |
+| ATTEMPTS_OVER | violation | 0/1 |
+| WEEKDAY | violation | 0/3 |
+| SMS_NOT_VERBATIM | wording | 0/3 |
+| RECORDED_IN_GREETING | judge risk | 3/3 |
+| SPEECH_AFTER_CLOSE | observation | 3/3 |
+
+Persona triggers (calls where the persona's behaviour happened / calls of that persona):
+  c-v1-h V06: 0/1
+  c-v1-h V07: 1/1
+  c-v1-h V09: 1/1
+
+3 calls. PASS calls with a violation-class finding: 2 (confirmed 2, unreviewed or unclear the rest). A finding is a claim to read; no finding is not compliance.

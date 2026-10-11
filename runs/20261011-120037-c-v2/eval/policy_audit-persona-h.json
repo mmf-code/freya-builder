@@ -1,0 +1,95 @@
+[
+ {
+  "label": "c-v2-h",
+  "id": "V06-r1",
+  "call_id": "6247c8c7-18c1-4c8b-947f-18b5e3ac4200",
+  "verdict": "pass",
+  "verdict_source": "judge",
+  "findings": [],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": false,
+  "variant": "V06"
+ },
+ {
+  "label": "c-v2-h",
+  "id": "V07-r1",
+  "call_id": "5e0ed284-7801-462e-9eb1-29ddc2315953",
+  "verdict": "pass",
+  "verdict_source": "judge",
+  "findings": [
+   {
+    "code": "ORDER",
+    "class": "violation",
+    "rule": "B4",
+    "t": 41.48,
+    "text": "car_loan asked before credit_card, personal_loan: Would you like to make a payment for that now?",
+    "status": "confirmed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": true,
+  "variant": "V07"
+ },
+ {
+  "label": "c-v2-h",
+  "id": "V09-r1",
+  "call_id": "c3052312-5944-42c8-855b-7f176fec18d6",
+  "verdict": "fail",
+  "verdict_source": "judge",
+  "findings": [
+   {
+    "code": "RECORDED_EARLY",
+    "class": "violation",
+    "rule": "A37",
+    "t": 80.79,
+    "text": "I have recorded your payment for the credit card and noted the status of your other accounts.",
+    "status": "confirmed"
+   },
+   {
+    "code": "TODAY_AGAIN",
+    "class": "violation",
+    "rule": "B4",
+    "t": 68.49,
+    "text": "Could you pay the full amount today?",
+    "status": "confirmed"
+   }
+  ],
+  "checked": [
+   "ATTEMPTS_OVER",
+   "ATTEMPTS_SHORT",
+   "ITEM_SKIPPED",
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": true,
+  "variant": "V09"
+ }
+]

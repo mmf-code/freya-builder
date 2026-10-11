@@ -1,0 +1,23 @@
+c-a-official-h1 PUB-01-r1 kit=fail call=e6cf7f86
+    SMS_MISSING          violation   confirmed      t=16.49   no text-message sentence after the recorded promise
+c-a-official-h1 PUB-10-r1 kit=fail call=4e6c44de
+    SMS_MISSING          violation   confirmed      t=15.99   no text-message sentence after the recorded promise
+
+Calls with a finding / calls where the check applied, per label (calls in brackets):
+| code | class | c-a-official-h1 (10) | c-a-official-h2 (10) | c-b-official-h2 (3) |
+|---|---|---|---|---|
+| NO_GOODBYE | violation | 0/8 | 0/10 | 0/3 |
+| NO_THANKS | violation | 0/8 | 0/10 | 0/3 |
+| RECORDED_EARLY | violation | 0/10 | 0/10 | 0/3 |
+| SMS_MISSING | violation | 2/5 | 0/5 | 0/3 |
+| TODAY_AGAIN | violation | 0/0 | 0/0 | 0/3 |
+| ORDER | violation | 0/0 | 0/0 | 0/3 |
+| ITEM_SKIPPED | violation | 0/0 | 0/0 | 0/1 |
+| ATTEMPTS_SHORT | violation | 0/0 | 0/0 | 0/1 |
+| ATTEMPTS_OVER | violation | 0/0 | 0/0 | 0/1 |
+| WEEKDAY | violation | 0/5 | 0/5 | 0/3 |
+| SMS_NOT_VERBATIM | wording | 0/5 | 0/5 | 0/3 |
+| RECORDED_IN_GREETING | judge risk | 0/10 | 0/10 | 0/3 |
+| SPEECH_AFTER_CLOSE | observation | 0/8 | 0/10 | 0/3 |
+
+23 calls. PASS calls with a violation-class finding: 0 (confirmed 0, unreviewed or unclear the rest). A finding is a claim to read; no finding is not compliance.

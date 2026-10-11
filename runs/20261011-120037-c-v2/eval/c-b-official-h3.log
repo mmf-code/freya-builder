@@ -1,0 +1,10 @@
+PASS PUB-11 medium Multi-product  | verify > verify > get_account > promise > promise > promise > close_call
+FAIL PUB-12 hard   Multi-product  | verify > verify > verify > get_account > promise > add_note > add_note > close_call
+       - conversation: The agent failed to meet the success criteria regarding the number of payment attempts for the car loan. Specifically, the criteria required exactly one attempt for the car loan (early band), but the agent made two attempts: one for the full amou
+FAIL PUB-13 hard   Multi-product  | verify > verify > get_account > promise > promise > close_call
+       - promises [('p1', 300.0, '2026-10-30'), ('p2', 900.0, '2026-10-16')], expected [('p1', 300.0, '2026-10-30'), ('p2', 900.0, '2026-10-23')]
+       - conversation: The evaluation failed because one of the specific success criteria was not met. While the credit card payment was correctly recorded for 30 October, the personal loan was recorded for 16 October instead of the deadline of 23 October as required b
+
+slowest agent turn per call: median 6 s, worst 16 s. Failed calls where the customer hung up: 0.
+
+1 / 3 passed (bank records and conversation checks). Last simulation 9ad10daf-22f3-44a0-a9d2-8a7ffb0c5162, status completed, 83 s.

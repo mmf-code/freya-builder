@@ -1,0 +1,25 @@
+c-b-official-h1 PUB-12-r1 kit=fail call=2afb9f60
+    ATTEMPTS_OVER        violation   confirmed      t=130.14  car_loan p3: 2 offer(s), band wants 1; extra: For your car loan, could you instead pay the instalment of 46 on Friday 16 October 2026?
+c-b-official-h2 PUB-11-r1 kit=pass call=c816dc00
+    RECORDED_EARLY       violation   confirmed      t=202.85  I have recorded your promise to pay the full overdue amounts for all three accounts by this Friday, 16 October 2026.
+c-b-official-h3 PUB-12-r1 kit=fail call=e45a3bdc
+    RECORDED_EARLY       violation   confirmed      t=35.69   I have recorded your payment for the credit card and noted your inability to pay the personal and car loans.
+
+Calls with a finding / calls where the check applied, per label (calls in brackets):
+| code | class | c-a-official-h1 (10) | c-a-official-h2 (10) | c-a-official-h3 (10) | c-b-official-h1 (3) | c-b-official-h2 (3) | c-b-official-h3 (3) |
+|---|---|---|---|---|---|---|---|
+| NO_GOODBYE | violation | 0/10 | 0/10 | 0/10 | 0/2 | 0/2 | 0/3 |
+| NO_THANKS | violation | 0/10 | 0/10 | 0/10 | 0/2 | 0/2 | 0/3 |
+| RECORDED_EARLY | violation | 0/10 | 0/10 | 0/10 | 0/3 | 1/3 | 1/3 |
+| SMS_MISSING | violation | 0/5 | 0/5 | 0/5 | 0/2 | 0/2 | 0/3 |
+| TODAY_AGAIN | violation | 0/0 | 0/0 | 0/0 | 0/2 | 0/3 | 0/3 |
+| ORDER | violation | 0/0 | 0/0 | 0/0 | 0/2 | 0/3 | 0/3 |
+| ITEM_SKIPPED | violation | 0/0 | 0/0 | 0/0 | 0/1 | 0/0 | 0/1 |
+| ATTEMPTS_SHORT | violation | 0/0 | 0/0 | 0/0 | 0/1 | 0/0 | 0/1 |
+| ATTEMPTS_OVER | violation | 0/0 | 0/0 | 0/0 | 1/1 | 0/0 | 0/1 |
+| WEEKDAY | violation | 0/5 | 0/5 | 0/5 | 0/2 | 0/3 | 0/3 |
+| SMS_NOT_VERBATIM | wording | 0/5 | 0/5 | 0/5 | 0/2 | 0/2 | 0/3 |
+| RECORDED_IN_GREETING | judge risk | 0/10 | 0/10 | 0/10 | 0/3 | 0/3 | 0/3 |
+| SPEECH_AFTER_CLOSE | observation | 0/10 | 0/10 | 0/10 | 0/2 | 0/2 | 0/3 |
+
+39 calls. PASS calls with a violation-class finding: 1 (confirmed 1, unreviewed or unclear the rest). A finding is a claim to read; no finding is not compliance.

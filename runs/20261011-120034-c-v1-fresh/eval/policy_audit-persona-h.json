@@ -1,0 +1,152 @@
+[
+ {
+  "label": "c-v1-h",
+  "id": "V06-r1",
+  "call_id": "db53172c-2d36-4556-a7bd-b31dbeb9c671",
+  "verdict": "pass",
+  "verdict_source": "judge",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 21.09,
+    "text": "Your promise to pay is recorded. You will receive a text message confirming this promise. Thank you for your time, Ms Lin. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 20.9,
+    "text": "no goodbye before close_call",
+    "status": "confirmed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.27,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "WEEKDAY"
+  ],
+  "trigger": false,
+  "variant": "V06"
+ },
+ {
+  "label": "c-v1-h",
+  "id": "V07-r1",
+  "call_id": "69d54b67-8ffc-4be3-acd3-44a3c8ceb53b",
+  "verdict": "pass",
+  "verdict_source": "judge",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 47.34,
+    "text": "You will receive a text message confirming this promise. Thank you for your time, Ms Almeida. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 47.27,
+    "text": "no goodbye before close_call",
+    "status": "confirmed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.24,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   }
+  ],
+  "checked": [
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": true,
+  "variant": "V07"
+ },
+ {
+  "label": "c-v1-h",
+  "id": "V09-r1",
+  "call_id": "913ee33d-bfde-4c7b-951a-0e93a9f6f5be",
+  "verdict": "fail",
+  "verdict_source": "judge",
+  "findings": [
+   {
+    "code": "SPEECH_AFTER_CLOSE",
+    "class": "observation",
+    "rule": "(A47)",
+    "t": 80.87,
+    "text": "You will receive a text message confirming this promise. Thank you for your time, Mr Bell. Goodbye.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "NO_GOODBYE",
+    "class": "violation",
+    "rule": "A47",
+    "t": 80.8,
+    "text": "no goodbye before close_call",
+    "status": "confirmed"
+   },
+   {
+    "code": "RECORDED_IN_GREETING",
+    "class": "judge risk",
+    "rule": "A1",
+    "t": 0.26,
+    "text": "Hello, this is the digital assistant calling from Freya Bank, and this call is recorded.",
+    "status": "unreviewed"
+   },
+   {
+    "code": "ITEM_SKIPPED",
+    "class": "violation",
+    "rule": "B4/A30",
+    "t": 30.82,
+    "text": "personal_loan p2: 0 offer(s), band wants 2",
+    "status": "confirmed"
+   }
+  ],
+  "checked": [
+   "ATTEMPTS_OVER",
+   "ATTEMPTS_SHORT",
+   "ITEM_SKIPPED",
+   "NO_GOODBYE",
+   "NO_THANKS",
+   "ORDER",
+   "RECORDED_EARLY",
+   "RECORDED_IN_GREETING",
+   "SMS_MISSING",
+   "SMS_NOT_VERBATIM",
+   "SPEECH_AFTER_CLOSE",
+   "TODAY_AGAIN",
+   "WEEKDAY"
+  ],
+  "trigger": true,
+  "variant": "V09"
+ }
+]
